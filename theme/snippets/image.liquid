@@ -1,0 +1,6 @@
+{%- case type -%}
+  {%- when 'logo' -%}
+    {%- include 'image-style',image: section -%}
+  {%- when 'no-logo' -%}
+    <a href="/">{{shop.name}}</a>
+{%- endcase -%}

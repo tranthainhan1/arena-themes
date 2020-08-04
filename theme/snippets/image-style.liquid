@@ -1,0 +1,60 @@
+{%- unless image == blank -%}
+
+	{%- if image.src contains 'no-image' -%}{%- assign image = 'default-image.jpg' | asset_url -%}{%- endif -%}
+
+	{%- if image_size == blank -%}
+		{%- if image.width < 181 and originQuality-%}{%- assign image_size = image.width | append: 'x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 180  -%}{%- assign image_size = '100x'  -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 180  -%}{%- assign image_size = '180x'  -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 360  -%}{%- assign image_size = '360x'  -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 540  -%}{%- assign image_size = '540x'  -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 720  -%}{%- assign image_size = '720x'  -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 900  -%}{%- assign image_size = '900x'  -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 1080 -%}{%- assign image_size = '1080x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 1296 -%}{%- assign image_size = '1296x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 1512 -%}{%- assign image_size = '1512x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 1728 -%}{%- assign image_size = '1728x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 2048 -%}{%- assign image_size = '2048x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if image.width > 2048 and originQuality-%}{%- assign image_size = image.width | append: 'x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+	{%- endif -%}
+
+		{%- liquid
+			assign _lazyload 	= true
+			assign image_ratio 	= image.aspect_ratio
+			unless enable_pjpg
+				assign image_url   = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.'
+			else
+				assign image_url   = image | img_url: '1x1', format: 'pjpg' | replace: '_1x1.', '_{width}x.'
+			endunless
+
+			assign paddingByRatio 	= 1 | divided_by: image_ratio | times: 100 | append: '%'
+
+			unless disablePadding == true
+				assign imagePadding = imagePadding | default: paddingByRatio
+			endunless
+		-%}
+
+		{%- capture image_width 	  -%}[{{ image_width | remove_first: ',' | remove: 'x' }}]{%- endcapture -%}
+  		{%- capture imageRatio_height -%}{{customClass}}" style="display: block;position: relative;
+  			{%- unless imagePadding == blank -%}padding-top: {{- imagePadding -}};{%- endunless -%}
+  			{%- if setWidth -%}width: {{image.width}}px;{%- endif -%}
+  		{%- endcapture -%}
+  		{%- capture imageRatio_css 	  -%}" style="{%- endcapture -%}
+
+		<span class="image__style{{imageRatio_height}}">
+			{%- if _lazyload -%}
+				<img class="overlay-ui w-100 h-100 lazyload {{ image_class }}{{imageRatio_css}}"
+					data-src="{{ image_url }}"
+					data-widths="{{ image_width}}"
+					data-aspectratio="{{ image_ratio }}"
+					data-sizes="auto"
+					data-expand="30"
+					data-parent-fit="cover"
+					data-tproduct="true"
+					alt="{{ image.alt }}"/>
+				<noscript><img class="overlay-ui w-100 h-100 {{ image_class }}{{imageRatio_css}}" src="{{ image | img_url: image_size }}"/></noscript>
+			{%- else -%}
+				<img class="overlay-ui w-100 h-100 {{ image_class }}" src="{{ image | img_url: image_size }}" alt="{{ image.alt }}"/>
+			{%- endif -%}
+		</span>
+{%- endunless -%}

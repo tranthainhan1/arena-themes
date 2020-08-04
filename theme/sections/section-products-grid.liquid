@@ -1,0 +1,292 @@
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType    = 'featured-product'
+  assign _lazyload      = true
+  assign _total 		    = section.settings.total | times: 1
+  assign _collection 	  = section.settings.collection
+  assign collection 	  = collections[_collection]
+  assign _items_resp 	  = section.settings.items_resp | default: '5,3,2'
+  assign _enable_slider = section.settings.enable_slider
+-%}
+
+{%- capture section_class -%}
+	{{- -}}home-products-grid
+	{{- -}}|section-{{- section.id -}}
+	{{- -}}|layout-{{- _layout -}}
+  {{- -}}|mobile_layout-{{- section.settings.mobile_layout -}}
+  {%- render 'bgset' ,class: 'bg-image' ,image: section.settings.section_bg_image -%}
+{%- endcapture -%}{%- assign section_class = section_class | strip_newlines | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+{%- capture gridClass -%}{%- render 'set-item-per-row', value: _items_resp -%}{%- endcapture -%}
+
+{%- capture content -%}
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+  	<div class="section_content-wrapper">
+
+      {%- unless section.settings.sectionHeading_text_1 == blank and section.settings.sectionHeading_text_2 == blank -%}
+        <div class="section_content-head">
+          {%- include 'snippet-theme', type: 'sectionHeading', section_css: section_css -%}
+        </div>
+     {%- endunless -%}
+
+  		<div class="section_content-body">
+
+  			<div class="row{% if _enable_slider %} slide_ui-element{% endif %}">
+	  			{%- if _collection != blank and collection.all_products_count > 0 -%}
+	  				{%- for product in collection.products limit: _total -%}
+	  					<section class="product-section {{gridClass}}">
+	  						{%- render 'product-item', product: product, catalogMode: section.settings.enable_catalog, showInventory: section.settings.show_inventory -%}
+	  					</section>
+	  				{%- endfor -%}
+	  			{%- else -%}
+            {%- assign _total = _total | minus: 1 -%}
+	  				{%- for i in (0.._total) -%}
+	  					<section class="product-section {{gridClass}}">
+	  						{%- include 'svgset', type: 'empty-product' -%}
+	  					</section>
+	  				{%- endfor -%}
+	  			{%- endif -%}
+  			</div>
+
+        {%- if _enable_slider -%}
+          {%- render 'set-item-per-row', value: _items_resp, type: 'slider', itemClass: 'product-section', loop: section.settings.slide_loop -%}
+        {%- endif -%}
+
+  		</div>
+  	</div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+{%- capture sectionCss -%}
+  {%- liquid
+    echo section_css
+    render 'snippet-theme', type: 'sectionCSS', ID: sectionID
+  -%}
+{%- endcapture -%}{%- assign sectionCss = sectionCss | strip_newlines -%}
+{%- unless sectionCss == blank -%}<style>{{sectionCss}}</style>{%- endunless -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+{% schema %}
+{
+   "name": "Products Grid",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "paragraph",
+         "content": "Created by 'Products grid' section"
+      },
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Section Label [:id]",
+         "default": "Products Grid"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_padding",
+         "label" :"Section Padding",
+         "placeholder": "E.g: 5px 20px 5px 20px",
+         "info": "Order: Top Right Bottom Left"
+      },
+      {
+         "type":"select",
+         "id":"mobile_layout",
+         "label":"Mobile layout",
+         "options":[
+           {
+             "value":"boxed",
+             "label":"Boxed"
+           },
+           {
+             "value":"full",
+             "label":"Wide"
+           },
+           {
+             "value":"full-right",
+             "label":"Only full right"
+           }
+         ],
+         "default": "boxed"
+      },
+      {
+         "type":"color",
+         "id":"section_bg_color",
+         "label":"Background color"
+      },
+      {
+        "type":"image_picker",
+        "id":"section_bg_image",
+        "label":"Background image"
+      },
+      {
+        "type":"select",
+        "id"   :"section_bg_size",
+        "label":"Background Size",
+        "default": "cover",
+        "options":[
+        {"value":"auto","label":"Auto"},
+        {"value":"cover","label":"Cover"},
+        {"value":"contain","label":"Contain"}
+        ]
+      },
+      {
+        "type": "select",
+        "id": "section_bg_repeat",
+        "label": "Background Image Repeat:",
+        "default": "no-repeat",
+        "options": [
+        {"value":"no-repeat","label":"No Repeat"},
+        {"value":"repeat","label":"Repeat"},
+        {"value":"repeat-x","label":"Repeat X"},
+        {"value":"repeat-y","label":"Repeat Y"}
+        ]
+      },
+      {
+        "type": "select",
+        "id": "section_bg_position",
+        "label": "Background Image Position:",
+        "default": "center center",
+        "options": [
+        {"value":"left top","label":"Left Top"},
+        {"value":"center top","label":"Center Top"},
+        {"value":"right top","label":"Right Top"},
+        {"value":"left center","label":"Left Center"},
+        {"value":"center center","label":"Center Center"},
+        {"value":"right center","label":"Right Center"},
+        {"value":"left bottom","label":"Left Bottom"},
+        {"value":"center bottom","label":"Center Bottom"},
+        {"value":"right bottom","label":"Right Bottom"}
+        ]
+      },
+      {
+         "type":"header",
+         "content":"Collection settings"
+      },
+      {
+         "type":"collection",
+         "id":"collection",
+         "label":"Collection"
+      },
+      {
+         "type":"checkbox",
+         "id":"enable_catalog",
+         "label":"Enable Catalog mode",
+         "default": true
+      },
+      {
+         "type":"checkbox",
+         "id":"show_inventory",
+         "label": "Show Low Inventory quantity (<30)"
+      },
+      {
+         "type":"text",
+         "id":"total",
+         "label":"Total items",
+         "default": "10",
+         "placeholder": "E.g: 10"
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of items per row",
+         "default": "5,3,2",
+         "placeholder": "E.g: 4,3,2"
+      },
+      {
+         "type":"header",
+         "content":"Slider settings"
+      },
+      {
+         "type":"checkbox",
+         "id":"enable_slider",
+         "label":"Enable Slider"
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_loop",
+         "label":"Enable Loop",
+         "default": true
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_nav",
+         "label":"Show Nav",
+         "default": true
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_dot",
+         "label":"Show Dot",
+         "default": true
+      },
+      {
+         "type":"header",
+         "content":"Section Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_1",
+         "label":"Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_2",
+         "label":"Subheading"
+      },
+      {
+         "type":"select",
+         "id":"sectionHeading_align",
+         "label":"Alignment",
+         "options":[
+            {"value":"auto","label":"Auto"},
+            {"value":"left","label":"Left"},
+            {"value":"center","label":"Center"},
+            {"value":"right","label":"Right"}
+         ],
+         "default":"auto"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_1",
+         "label":"Heading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_2",
+         "label":"Subheading color",
+         "info": "Blank to inherit"
+      }
+   ],
+   "blocks": [
+   ],
+   "presets": [
+      {
+   		"name": "Products Grid",
+         "category": "Collection",
+         "blocks": []
+      }
+   ]
+}
+{% endschema %}
+
+
+
+{%- comment -%}
+  **
+  * Section Layout Default Style
+  *
+
+{%- endcomment-%}

@@ -1,0 +1,255 @@
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType            = 'featured-product'
+  assign _lazyload              = true
+  assign _total 		            = section.settings.total | times: 1
+  assign _collection 	          = section.settings.collection
+  assign collection             = collections[_collection]
+  assign _items_resp 	          = section.settings.items_resp | default: '5,3,2'
+  assign sectionHeading_align   = section.settings.sectionHeading_align | default: 'auto'
+  assign _heading_spc_item      = section.settings.heading_spc_item
+-%}
+
+{%- capture section_class -%}
+	{{- -}}home-products-grid-v2
+	{{- -}}|section-{{- section.id -}}
+	{{- -}}|layout-{{- _layout -}}
+  {%- render 'bgset' ,class: 'bg-image' ,image: section.settings.section_bg_image -%}
+{%- endcapture -%}{%- assign section_class = section_class | strip_newlines | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+
+{%- capture gridClass -%}{%- render 'set-item-per-row', value: _items_resp -%}{%- endcapture -%}
+{%- capture content -%}
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+  	<div class="section_content-wrapper">
+      {%- comment -%}
+        **
+        * Special Item
+        *
+      {%- endcomment-%}
+      {%- capture specialProduct -%}
+        {%- liquid
+          assign spc_product  = section.settings.spc_product
+          assign _spc_product = all_products[spc_product]
+          assign _spc_border_color  = section.settings.spc_border_color | default: 'rgba(0,0,0,0)'
+        -%}
+        <div class="featured_product-special">
+          {%- unless _heading_spc_item == blank -%}
+            <div class="section_title-wrapper{% unless sectionHeading_align == 'auto' %} text-{{sectionHeading_align}}{% endunless %}">
+              <div class="section_title-text-1">{{ _heading_spc_item }}</div>
+            </div>
+          {%- endunless -%}
+          <section class="featured_product-special-item">
+            {%- unless spc_product == blank -%}
+              {%- render 'product-item', product: _spc_product, catalogMode: section.settings.enable_catalog, showInventory: section.settings.show_inventory -%}
+              {%- unless _spc_border_color == 'rgba(0,0,0,0)' -%}
+                {%- capture block_css -%}{{- sectionID }}.home-products-grid-v2 .featured_product-special-item .featured_product__item{border-color: {{_spc_border_color}};}{%- endcapture -%}
+                {%- assign section_css = section_css | append: block_css -%}
+              {%- endunless -%}
+            {%- else -%}
+              {%- include 'svgset', type: 'empty-product' -%}
+            {%- endunless -%}
+          </section>
+        </div>
+      {%- endcapture -%}
+
+      {%- comment -%}
+        **
+        * Content
+        *
+      {%- endcomment-%}
+  		<div class="section_content-body">
+        <div class="section-content-wrapper d-grid">
+          {{ specialProduct }}
+          <div class="featured_product-group">
+            {%- include 'snippet-theme', type: 'sectionHeading', section_css: section_css -%}
+      			<div class="row">
+    	  			{%- if _collection != blank and collection.all_products_count > 0 -%}
+    	  				{%- for product in collection.products limit: _total -%}
+    	  					<section class="product-section {{gridClass}}">
+    	  						{%- render 'product-item', product: product, catalogMode: section.settings.enable_catalog, showInventory: section.settings.show_inventory -%}
+    	  					</section>
+    	  				{%- endfor -%}
+    	  			{%- else -%}
+                {%- assign _total = _total | minus: 1 -%}
+    	  				{%- for i in (0.._total) -%}
+    	  					<section class="product-section {{gridClass}}">
+    	  						{%- include 'svgset', type: 'empty-product' -%}
+    	  					</section>
+    	  				{%- endfor -%}
+    	  			{%- endif -%}
+      			</div>
+          </div>
+        </div>
+  		</div>
+  	</div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+{%- capture sectionCss -%}
+  {%- liquid
+    echo section_css
+    render 'snippet-theme', type: 'sectionCSS', ID: sectionID
+    render 'css-resp', classID: sectionID, nextClassID: ' .section-content-wrapper', css_value: section.settings.grid_layout, css_property: 'grid-template-columns'
+    render 'css-resp', classID: sectionID, nextClassID: ' .section-content-wrapper', css_value: section.settings.grid_gap, css_property: 'grid-gap'
+  -%}
+{%- endcapture -%}{%- assign sectionCss = sectionCss | strip_newlines -%}
+{%- unless sectionCss == blank -%}<style>{{sectionCss}}</style>{%- endunless -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+   "name": "Products Grid V2",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "paragraph",
+         "content": "Created by 'Products grid V2' section"
+      },
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Section Label [:id]",
+         "default": "Products Grid V2"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_padding",
+         "label" :"Section Padding",
+         "placeholder": "E.g: 5px 20px 5px 20px",
+         "info": "Order: Top Right Bottom Left"
+      },
+      {
+         "type":"header",
+         "content":"Layout content"
+      },
+      {
+         "type":"text",
+         "id":"grid_layout",
+         "label":"Column Grid layout",
+         "default": "25% 70%, 1fr",
+         "placeholder": "E.g: 70% 30% or 100%"
+      },
+      {
+         "type":"text",
+         "id":"grid_gap",
+         "label":"Column Grid spacing",
+         "placeholder": "E.g: 15px"
+      },
+      {
+         "type":"header",
+         "content":"Collection settings"
+      },
+      {
+         "type":"collection",
+         "id":"collection",
+         "label":"Collection"
+      },
+      {
+         "type":"checkbox",
+         "id":"enable_catalog",
+         "label":"Enable Catalog mode",
+         "default": true
+      },
+      {
+         "type":"checkbox",
+         "id":"show_inventory",
+         "label": "Show Low Inventory quantity (<30)"
+      },
+      {
+         "type":"text",
+         "id":"total",
+         "label":"Total items",
+         "default": "8",
+         "placeholder": "E.g: 10"
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of items per row",
+         "default": "4,3,2",
+         "placeholder": "E.g: 4,3,2"
+      },
+      {
+         "type":"header",
+         "content":"Special Item"
+      },
+      {
+         "type":"text",
+         "id":"heading_spc_item",
+         "label":"Heading"
+      },
+      {
+         "type":"product",
+         "id":"spc_product",
+         "label":"Product item"
+      },
+      {
+         "type":"color",
+         "id":"spc_border_color",
+         "label":"Border color",
+         "default": "#ff9923"
+      },
+      {
+         "type":"header",
+         "content":"Section Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_1",
+         "label":"Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_2",
+         "label":"Subheading"
+      },
+      {
+         "type":"select",
+         "id":"sectionHeading_align",
+         "label":"Alignment",
+         "options":[
+            {"value":"auto","label":"Auto"},
+            {"value":"left","label":"Left"},
+            {"value":"center","label":"Center"},
+            {"value":"right","label":"Right"}
+         ],
+         "default":"auto"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_1",
+         "label":"Heading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_2",
+         "label":"Subheading color",
+         "info": "Blank to inherit"
+      }
+   ],
+   "blocks": [
+   ],
+   "presets": [
+      {
+   		"name": "Products Grid V2",
+         "category": "Collection",
+         "blocks": []
+      }
+   ]
+}
+{% endschema %}

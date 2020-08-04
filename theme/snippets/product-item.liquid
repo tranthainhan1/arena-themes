@@ -1,0 +1,102 @@
+{%- liquid
+	assign currentProduct 	= product.selected_or_first_available_variant
+	assign image 			= currentProduct.featured_image | default: product.featured_image
+	assign compare_price 	= currentProduct.compare_at_price
+	assign price         	= currentProduct.price
+-%}
+
+{%- capture productLabel -%}++{{ product.tags | join: '++' | downcase }}++{%- endcapture -%}
+{%- capture form_classes -%}product-form product-form-{{ product.id }}{%- endcapture -%}
+
+<div class="featured_product__item">
+	<div class="featured_product__item-header">
+		<figure class="featured_product__item-image">
+			<a href="{{product.url | within: collection }}">
+				{%- render 'image-style', image: image -%}
+			</a>
+		</figure>
+
+		<div class="featured_product__item-label label_ui-group">
+			{%- if productLabel contains '++label new++' -%}
+				<span class="label_ui label_ui-new">{{- 'products.label.new' | t -}}</span>
+			{%- endif -%}
+			{%- if productLabel contains '++label hot++' -%}
+				<span class="label_ui label_ui-hot">{{- 'products.label.hot' | t -}}</span>
+			{%- endif -%}
+			{%- if compare_price > price -%}
+				<span class="label_ui label_ui-sale">{{- 'products.label.sale' | t -}}</span>
+			{%- endif -%}
+		</div>
+	</div>
+
+	<div class="featured_product__item-info">
+		<small class="featured_product__item-vendor">
+			<a href="{{ product.vendor | url_for_vendor }}">{{ product.vendor }}</a>
+		</small>
+		<p class="featured_product__item-name">
+			<a href="{{product.url | within: collection }}">{{product.title}}</a>
+		</p>
+
+		<p class="product-price">
+			{%- if currentProduct.available -%}
+				{%- if compare_price > price -%}
+					<span class="price-sale">{{ price | money }}</span>
+					<span class="price-compare">{{ compare_price | money }}</span>
+				{%- else -%}
+					<span class="price">{{ price | money }}</span>
+				{%- endif -%}
+			{%- else -%}
+				<span class="price soldout">{{- 'products.product.sold_out' | t -}}</span>
+			{%- endif -%}
+		</p>
+
+		<div class="featured_product__item-review">
+			<svg width="78" height="13" viewBox="0 0 78 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M6.5 0L8.50314 4.28084L13 4.96806L9.75681 8.30396L10.5199 13L6.5 10.7808L2.48008 13L3.24319 8.30396L0 4.96806L4.49685 4.28084L6.5 0Z" fill="#FF9923"/>
+				<path d="M22.75 0L24.7531 4.28084L29.25 4.96806L26.0068 8.30396L26.7699 13L22.75 10.7808L18.7301 13L19.4932 8.30396L16.25 4.96806L20.7469 4.28084L22.75 0Z" fill="#FF9923"/>
+				<path d="M39 0L41.0031 4.28084L45.5 4.96806L42.2568 8.30396L43.0199 13L39 10.7808L34.9801 13L35.7432 8.30396L32.5 4.96806L36.9969 4.28084L39 0Z" fill="#FF9923"/>
+				<path opacity="0.2" d="M55.25 0L57.2531 4.28084L61.75 4.96806L58.5068 8.30396L59.2699 13L55.25 10.7808L51.2301 13L51.9932 8.30396L48.75 4.96806L53.2469 4.28084L55.25 0Z" fill="#103178"/>
+				<path opacity="0.2" d="M71.5 0L73.5031 4.28084L78 4.96806L74.7568 8.30396L75.5199 13L71.5 10.7808L67.4801 13L68.2432 8.30396L65 4.96806L69.4969 4.28084L71.5 0Z" fill="#103178"/>
+			</svg>
+		</div>
+
+		{%- unless catalogMode -%}
+			<div class="featured_product__item-action">
+				{%- form 'product', product, class: form_classes, novalidate: 'novalidate', data-product-form: '' -%}
+					<select name="id" id="ProductSelect-{{ product.id }}" class="featured_product__item-form__variants d-none">
+						{%- for variant in product.variants -%}
+						<option value="{{ variant.id }}"{%- if variant == currentProduct %} selected="selected"{%- endif -%}>
+							{{- variant.title -}}  {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif -%}
+						</option>
+						{%- endfor -%}
+					</select>
+
+					{%- capture ariaLabel -%}"
+						{%- unless currentProduct.available -%}
+						{{- -}}|aria-disabled="true"
+						{{- -}}|aria-label="{{ 'products.product.sold_out' | t }}
+						{%- else -%}
+						{{- -}}|aria-label="{{ 'products.product.add_to_cart' | t }}
+						{%- endunless -%}
+					{%- endcapture -%}
+
+					<button type="submit" name="add" class="btn btn-add-to-cart btn-1{{ariaLabel | strip_newlines | split: '|' | join: ' '}}">
+						{%- unless currentProduct.available -%} {{- 'products.product.sold_out' | t -}}
+						{%- else -%} {{- 'products.product.add_to_cart' | t -}}
+						{%- endunless -%}
+					</button>
+				{%- endform -%}
+			</div>
+		{%- endunless -%}
+
+		{%- assign limitInventory = limitInventory | default: 30 -%}
+		{%- if showInventory and currentProduct.inventory_quantity > 0 and currentProduct.inventory_quantity < limitInventory -%}
+			<div class="featured_product__item-inventory-wrapper">
+				<div class="featured_product__item-inventory-qty">
+					<span class="inventory-label">{{- 'products.product.card_inventory' | t | newline_to_br -}}</span>
+					<span class="inventory-number">{{ currentProduct.inventory_quantity }}</span>
+				</div>
+			</div>
+		{%- endif -%}
+	</div>
+</div>

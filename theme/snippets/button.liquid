@@ -1,0 +1,45 @@
+{%- assign button_class = button_class | default: 'btn' -%}
+{%- case type -%}
+
+	{%- when 'account'  -%}
+		<a href="{{routes.account_url}}" class="{{ button_class }}" aria-label="{{ type | capitalize }}">
+			<span class="svg-element-ui">{%- render 'svg', type: 'account' -%}</span>
+			{%- unless btnContent == blank -%}{{- btnContent -}}{%- endunless -%}
+		</a>
+
+	{%- when 'cart'  -%}
+		<a href="{{routes.cart_url}}" class="{{ button_class }}" aria-label="{{ type | capitalize }}">
+			<span class="svg-element-ui">{%- render 'svg', type: 'cart' -%}</span>
+			{%- unless btnContent == blank -%}{{- btnContent -}}{%- endunless -%}
+
+			{%- if cartCountNumber -%}
+				<span class="number">{{cart.item_count}}</span>
+			{%- endif -%}
+		</a>
+
+	{%- when 'hamburger'  -%}
+		<a href="javascript:void(0);" class="{{ button_class }} hamburger-btn" aria-label="{{ type | capitalize }}">
+			<span class="svg-element-ui">{%- render 'svg', type: 'hamburger' -%}</span>
+			{%- unless btnContent == blank -%}{{- btnContent -}}{%- endunless -%}
+		</a>
+
+	{%- when 'home'  -%}
+		<a href="/" class="{{ button_class }}" aria-label="{{ type | capitalize }}">
+			<span class="svg-element-ui">{%- render 'svg', type: 'home' -%}</span>
+			{%- unless btnContent == blank -%}{{- btnContent -}}{%- endunless -%}
+		</a>
+
+
+	{%- when 'wishlist'  -%}
+		<a href="javascript:void(0);" class="{{ button_class }}" aria-label="{{ type | capitalize }}">
+			<span class="svg-element-ui">{%- render 'svg', type: 'wishlist' -%}</span>
+			{%- unless btnContent == blank -%}{{- btnContent -}}{%- endunless -%}
+		</a>
+
+	{%- when 'custom' -%}
+		<a href="{{url | default: 'javascript:void(0);' }}" class="btn {{ class | handle }}">{{ label }}</a>
+		{%- capture nclass -%}{{sectionID}} .{{ class | handle }}{%- endcapture -%}
+		{%- capture block_css -%}{%- include 'css-resp', classID: nclass, css_values: style -%}{%- endcapture -%}
+		{%- assign nclass = nil -%}
+		{%- assign section_css = section_css | append: block_css -%}
+{%- endcase -%}

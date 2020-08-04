@@ -1,0 +1,26 @@
+{%- liquid
+	assign _header_font_type 	= settings.header_font_type | default: 'shopify'
+	assign _body_font_type 		= settings.body_font_type | default: 'shopify'
+	assign _google_font_url 	= settings.google_font_url
+	assign _type_header_family 	= settings.header_google_font
+	assign _type_base_family 	= settings.body_google_font
+-%}
+
+{%- if _header_font_type == 'google' or _body_font_type == 'google' -%}
+	{%- assign google_font_url = _google_font_url | default: 'https://fonts.googleapis.com/css?family=' -%}
+
+	{%- capture gg_font -%}
+		{%- if _header_font_type == 'google' -%}|{{ _type_header_family	| strip | remove: 'Google_' | replace: ' ', '+' }}{%- endif -%}
+		{%- if _body_font_type == 'google' 	 -%}|{{ _type_base_family 	| strip | remove: 'Google_' | replace: ' ', '+' }}{%- endif -%}
+	{%- endcapture -%}
+
+	{%- capture gg_link -%}
+		{%- if google_font_url contains '/css2' -%}{{- gg_font | strip_newlines | remove_first: '|' | split: '|' | uniq | join: '&family=' -}}
+		{%- else -%}{{- gg_font | strip_newlines | remove_first: '|' | split: '|' | uniq | join: '|' -}}{%- endif -%}
+	{%- endcapture -%}
+	<link rel="preconnect dns-prefetch" href="{{ google_font_url | split: '/css' | first }}">
+	<link rel="preconnect dns-prefetch" href="{{ google_font_url | split: '/css' | first }}">
+	<link rel="preload" as="style" href="{{google_font_url}}{{gg_link}}&display=swap">
+
+	<link href="{{google_font_url}}{{gg_link}}&display=swap" rel="stylesheet" type="text/css"/>
+{%- endif -%}

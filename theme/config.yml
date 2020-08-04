@@ -1,0 +1,7 @@
+development:
+  password: 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
+  theme_id: "107369300119"
+  timeout: 600s
+  store: arena-commerce.myshopify.com
+  ignore_files:
+    - settings_data.json

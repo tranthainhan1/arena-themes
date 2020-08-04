@@ -1,0 +1,29 @@
+.featured-collection{
+	.collection-grid{
+		display: grid;
+		justify-content: center;
+		&.grid-3{
+			grid-template-columns: repeat(3, 32.33%);
+			grid-gap: 1%;
+		}
+		&.grid-4{
+			grid-template-columns: repeat(4, 24%);
+			grid-gap: 1%;
+		}
+		&.grid-5{
+			grid-template-columns: repeat(5, 19%);
+			grid-gap: 1%;
+		}
+		@media(max-width: 767px){
+			&[class*="grid"]{
+				grid-template-columns: repeat(2, 1fr);
+				grid-gap: 1%;
+			}
+		}
+		> div{
+			max-width: 100%;
+			flex: 0 0 100%;
+			overflow: hidden;
+		}
+	}
+}

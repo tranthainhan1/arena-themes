@@ -1,0 +1,28 @@
+<article class="featured_blog__item">
+  <header>
+    <figure class="featured_blog__item-image">
+      <a href="{{ article.url }}">
+        {%- render 'image-style', image: article.image -%}
+      </a>
+    </figure>
+    {%- if article.tags.size > 0 -%}
+      <div class="featured_blog__item-label label_ui-group">
+        {%- for tag in article.tags -%}
+          <span class="label_ui label_ui-tag">{{- tag -}}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </header>
+
+
+  <footer>
+    <p class="featured_blog__item-title h6">
+      <a href="{{ article.url }}">{{ article.title }}</a>
+    </p>
+    <div class="featured_blog__item-info">
+      <span class="featured_blog__item-publish">{{ article.published_at | date: "%B %d, %Y" }}</span>
+      <span class="featured_blog__item-author">{{ article.author }}</span>
+    </div>
+    <div class="featured_blog__item-excerpt">{{ article.excerpt_or_content }}</div>
+  </footer>
+</article>

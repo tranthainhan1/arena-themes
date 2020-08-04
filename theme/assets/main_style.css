@@ -1,0 +1,66 @@
+/*remove_production*/
+:root {
+  --main-color: #222222;
+}
+
+/*end_remove_production*/
+body {
+  font-size: 14px;
+}
+
+.image--style {
+  position: relative;
+  display: block;
+}
+
+.image--style img.img_lazy {
+  position: absolute;
+  -o-object-fit: cover;
+     object-fit: cover;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/*.product-form__variants{display: none;}*/
+.btn {
+  cursor: pointer;
+  padding: 10px 30px;
+}
+
+.featured-collection .collection-grid {
+  display: grid;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.featured-collection .collection-grid.grid-3 {
+  grid-template-columns: repeat(3, 32.33%);
+  grid-gap: 1%;
+}
+
+.featured-collection .collection-grid.grid-4 {
+  grid-template-columns: repeat(4, 24%);
+  grid-gap: 1%;
+}
+
+.featured-collection .collection-grid.grid-5 {
+  grid-template-columns: repeat(5, 19%);
+  grid-gap: 1%;
+}
+
+@media (max-width: 767px) {
+  .featured-collection .collection-grid[class*="grid"] {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1%;
+  }
+}
+
+.featured-collection .collection-grid > div {
+  max-width: 100%;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100%;
+          flex: 0 0 100%;
+  overflow: hidden;
+}

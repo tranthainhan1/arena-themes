@@ -1,0 +1,295 @@
+{%- if section.blocks.size > 0 -%}
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType              = 'header'
+  assign _lazyload                = settings.use_lazyload
+  assign topbar_border_size       = section.settings.border_width
+  assign topbar_border            = section.settings.topbar_border | default: 'rgba(0,0,0,0)'
+  assign topbar_border_opacity    = section.settings.border_color_opacity | times: 0.01
+  assign _border_bw_color         = section.settings.border_bw_color | default: 'rgba(0,0,0,0)'
+  assign _border_bw_color_opacity = section.settings.border_bw_color_opacity | times: 0.01
+
+  if _border_bw_color != 'rgba(0,0,0,0)'
+    assign _border_bw_color = _border_bw_color | color_modify: 'alpha', _border_bw_color_opacity
+  endif 
+
+  if topbar_border_size > 0 and topbar_border != 'rgba(0,0,0,0)'
+    assign hasBorderBottom  = true
+    assign topbar_border    = topbar_border | color_modify: 'alpha', topbar_border_opacity
+  endif
+-%}
+
+{%- capture section_class -%}
+  {{- -}}announcement-bar
+  {{- -}}|section-{{- section.id -}}
+  {{- -}}|layout-{{- _layout -}}
+{%- endcapture -%}{%- assign section_class = section_class | strip_newlines | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+{%- capture content -%}
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+	{%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+
+    <div class="section-content-wrapper d-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'column' or forloop.first and section.blocks[0].type != 'column' -%}
+          
+          {%- liquid
+            assign columnIndex   = forloop.index
+            assign block_ID      = block.id
+            assign flexAlign     = block.settings.align | default: 'center' | replace: 'left', 'flex-start' | replace: 'right', 'flex-end'
+            assign blockVisible  = block.settings.visible | replace: '1', 'null' | replace: '0', 'none'
+
+            if forloop.first and section.blocks[0].type != 'column'
+              assign columnIndex = 0
+              assign block_ID = section.id | sha1 | slice: 0, 13
+            endif
+          -%}
+          {%- capture blockID -%}{{sectionID}} .block-{{- block_ID -}}{%- endcapture -%}
+
+          <div class="annoubar-column block-{{block_ID}}"{{block.shopify_attributes}}>
+
+
+            {%- comment -%}
+              **
+              * Column Items
+              *
+            {%- endcomment-%}
+            {%- for block in section.blocks offset: columnIndex -%}
+              {%- if block.type == 'column' -%}{%- break -%}{%- endif -%}
+
+                {%- liquid
+                   assign blockType    = block.settings.type
+                   assign textContent  = block.settings.text
+                   assign menuContent  = block.settings.menu
+                -%}
+              <div class="annoubar-column-content annoubar-colItem-{{blockType}}"{{block.shopify_attributes}}>
+                {%- case blockType -%}
+                  {%- when 'text'       -%}{{ textContent }}
+                  {%- when 'social'     -%}{%- include 'social-media-icons', type: '' -%}
+                  {%- when 'selectGroup'-%}{%- include 'header-snippets', type: 'selectGroup' -%}
+                  {%- when 'menu'   -%}
+                    <ul class="menu-list">
+                      {%- unless menuContent == blank -%}
+                        {%- for l in linklists[menuContent].links -%}{%- include 'nav-link', l: l -%}{%- endfor -%}
+                      {%- else -%}
+                        {%- for i in (1..3) -%}{%- render 'nav-link', type: 'empty' -%}{%- endfor -%}
+                      {%- endunless -%}
+                    </ul>
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+
+            {%- capture block_css -%}
+              {%- render 'css-resp', classID: blockID, css_value: flexAlign, css_property: 'justify-content' -%}
+              {%- render 'css-resp', classID: blockID, css_value: blockVisible, css_property: 'display' -%}
+            {%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <button id="announcement-bar--close" type="button" aria-label="TopbarClose" class="btn">
+      {%- assign closeColor =  settings.announbar_text_color | default: '#FFC800' -%}
+      <span class="svg-element-ui">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.54 1.22998L1 10.77" stroke="{{ closeColor }}" stroke-width="1.91" stroke-miterlimit="10"/>
+          <path d="M1 1.22998L10.54 10.77" stroke="{{ closeColor }}" stroke-width="1.91" stroke-miterlimit="10"/>
+        </svg>
+      </span>
+    </button>
+
+	{%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+{%- capture sectionCss -%}{{- section_css -}}
+  {{- -}} :root{
+  {{- -}}   --topbar-bg-color: {{ section.settings.announbar_bg_color | default: 'rgba(0,0,0,0)' }};
+  {{- -}}   --topbar-color: {{ section.settings.announbar_text_color | default: 'rgba(0,0,0,0)' }};
+  {{- -}} }
+  {%- if hasBorderBottom -%}{{- sectionID }}{border-bottom: {{topbar_border_size}}px solid {{topbar_border}};}{%- endif -%}
+  {{- -}}.announcement-bar .menu-list > li:not(:last-child),
+  {{- -}}.announcement-bar .annoubar-column > div:not(:last-child),
+  {{- -}}.announcement-bar .select-dropdown-group-ui > div:not(:last-child) {border-color: {{_border_bw_color}};}
+
+  {%- liquid
+    render 'css-resp', classID: sectionID, nextClassID: ' .section-content-wrapper', css_value: section.settings.grid_layout, css_property: 'grid-template-columns'
+    render 'css-resp', classID: sectionID, nextClassID: ' .section-content-wrapper', css_value: section.settings.grid_gap, css_property: 'grid-gap'
+  -%}
+{%- endcapture -%}
+{%- assign sectionCss = sectionCss | strip_newlines -%}
+{%- unless sectionCss == blank -%}<style>{{sectionCss}}</style>{%- endunless -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+{%- endif -%}
+{% schema %}
+{
+   "name":"Announcement Bar",
+   "tag" :"section",
+   "settings":[
+      {
+         "type":"checkbox",
+         "id":"boxed_layout",
+         "label":"Boxed layout",
+         "default":true
+      },
+      {
+         "type":"header",
+         "content":"Layout"
+      },
+      {
+        "type": "color",
+        "id": "announbar_bg_color",
+        "label": "Background color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "announbar_text_color",
+        "label": "Text color",
+        "default": "#5B6C8F"
+      },
+      {
+         "type":"text",
+         "id":"grid_layout",
+         "label":"Column Grid layout",
+         "default": "100%",
+         "placeholder": "E.g: 70% 30% or 100%"
+      },
+      {
+         "type":"text",
+         "id":"grid_gap",
+         "label":"Column Grid spacing",
+         "placeholder": "E.g: 15px"
+      },
+      {
+         "type":"header",
+         "content":"Border settings"
+      },
+      {
+         "type":"paragraph",
+         "content":"+ Between Content"
+      },
+      {
+         "type":"color",
+         "id"   :"border_bw_color",
+         "label":"Border color",
+         "default": "#103178"
+      },
+      {
+        "type": "range",
+        "id": "border_bw_color_opacity",
+        "label": "Border color opacity",
+        "min": 0,
+        "max": 100,
+        "step": 10,
+        "unit": "%",
+        "default": 10
+      },
+      {
+         "type":"paragraph",
+         "content":"+ Bottom"
+      },
+      {
+         "type":"range",
+         "id"   :"border_width",
+         "label": "Border size",
+         "min"   :0,
+         "max"   :10,
+         "step"  :1,
+         "unit"  :"px",
+         "default":0
+      },
+      {
+         "type":"color",
+         "id"   :"topbar_border",
+         "label":"Border color",
+         "default": "#103178"
+      },
+      {
+        "type": "range",
+        "id": "border_color_opacity",
+        "label": "Border color opacity",
+        "min": 0,
+        "max": 100,
+        "step": 10,
+        "unit": "%",
+        "default": 10
+      }
+   ],
+   "blocks": [
+    {
+       "type":"column",
+       "limit": 5,
+       "name":"Column",
+       "settings": [
+          {
+            "type":"text",
+            "id":"title",
+            "label":"Block label",
+            "default": "Column"
+          },
+          {
+            "type"  :"text",
+            "id"    :"align",
+            "label" :"Alignment",
+            "placeholder": "E.g: left or center"
+          },
+          {
+             "type":"text",
+             "id":"visible",
+             "label":"Media query",
+             "placeholder": "E.g: 1,0",
+             "info": "1: Show; 0: Hide"
+          }
+       ]
+    },
+    {
+       "type":"block_items",
+       "name":"[+] Item Content",
+       "settings": [
+         {
+            "type":"text",
+            "id":"title",
+            "label":"Block label"
+         },
+         {
+            "type":"select",
+            "id":"type",
+            "label":"Content type",
+            "options":[
+              {
+                "value":"text",
+                "label":"Text"
+              },
+              {
+                "value":"menu",
+                "label":"Menu"
+              },
+              {
+                "value":"social",
+                "label":"Social media"
+              },
+              {
+                "value":"selectGroup",
+                "label":"Language & Currency"
+              }
+            ],
+            "default":"text"
+         },
+         {
+            "type":"richtext",
+            "id":"text",
+            "label":"Content",
+            "default": "<p><b>100% Secure delivery</b> without contacting the courier</p>"
+         },
+         {
+            "type":"link_list",
+            "id":"menu",
+            "label":"Menu"
+         }
+       ]
+     }
+   ]
+}
+{% endschema %}

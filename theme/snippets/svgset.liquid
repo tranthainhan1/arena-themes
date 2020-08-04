@@ -1,0 +1,72 @@
+{%- case type -%}
+  	{%- when 'empty-product' -%}
+		<div class="card empty_card">
+			<div class="card_header">
+				<div class="card_figure">
+					{%- include 'svgset', type: 'product' -%}
+				</div>
+			</div>
+			<div class="card_body">
+				<h5 class="product-name">Product Name</h5>
+				<div class="product-price"><span class="price">{{ 1999 | money }}</span></div>
+			</div>
+		</div>
+
+  	{%- when 'empty-category' -%}
+		<div class="card empty_card">
+			<div class="card_header">
+				<div class="card_figure">
+					{%- include 'svgset', type: 'collection' -%}
+				</div>
+			</div>
+			<div class="card_body">
+				<h5 class="product-name">Category Name</h5>
+			</div>
+		</div>
+
+  	{%- when 'empty-menu' -%}
+      <div class="menu_list-ui">
+        <div class="menu_list-header">
+          <p>Consectetur</p>
+        </div>
+        <div class="menu_list-body">
+          <ul class="menu_list-wrapper">
+            <li class="menu_list-item"><a href="javascript:void(0);">Lorem ipsum </a></li>
+            <li class="menu_list-item"><a href="javascript:void(0);">At lectus urna</a></li>
+            <li class="menu_list-item"><a href="javascript:void(0);">Ac feugiat</a></li>
+            <li class="menu_list-item"><a href="javascript:void(0);">Vel eros donec ac odio</a></li>
+            <li class="menu_list-item"><a href="javascript:void(0);">Tristique nulla</a></li>
+          </ul>
+        </div>
+      </div>
+
+	{%- when 'empty-article' -%}
+
+	    <article class="featured_blog__item">
+	    	<header>
+	    		<figure class="featured_blog__item-image">
+	    			{%- include 'svgset', type: 'collection', svg_group: svg_group -%}
+	    		</figure>
+	    		<div class="featured_blog__item-label overlay-ui"></div>
+	    	</header>
+	    	<footer>
+	    		<p class="featured_blog__item-title h5">Your post's title</p>
+	    		<div class="featured_blog__item-excerpt">
+	    			Your store hasn’t published any blog posts yet. A blog can be used to talk about new product launches, tips, or other news you want to share with your customers.
+	    		</div>
+	    	</footer>
+	    </article>
+
+	{%- else -%}
+
+		{%- liquid
+		 	assign svg_group = svg_group | default: 'svgGroup01'
+		-%}
+		{%- case type -%}
+		  	{%- when 'product' 		-%}{%- capture current -%}-{%- cycle svg_group: 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+			{%- when 'collection' 	-%}{%- capture current -%}-{%- cycle svg_group: 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+		  	{%- when 'lifestyle' 	-%}{%- capture current -%}-{%- cycle svg_group: 1, 2 -%}{%- endcapture -%}
+		  	{%- else 				-%}{%- capture current -%}{%- endcapture -%}{%- assign type = 'image' -%}
+		{%- endcase -%}
+		<div class="empty-{{type}}" data-svg="{{ type | append: current }}">{{ type | append: current | placeholder_svg_tag: 'placeholder-svg' }}</div>
+{%- endcase -%}

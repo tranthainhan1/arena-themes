@@ -1,0 +1,250 @@
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType      = 'instagram'
+  assign _lazyload        = true
+  assign _insta_app_embed = section.settings.insta_app_embed
+  assign _items_resp 	    = section.settings.items_resp | default: '5,3,2' | replace: ',', ';' | replace: ';', ', 1fr;' | append: ', 1fr'
+  assign _enable_slider = section.settings.enable_slider
+-%}
+
+{%- capture section_class -%}
+	{{- -}}home-instafeed
+	{{- -}}|section-{{- section.id -}}
+	{{- -}}|layout-{{- _layout -}}
+  {{- -}}|mobile_layout-{{- section.settings.mobile_layout -}}
+  {%- render 'bgset' ,class: 'bg-image' ,image: section.settings.section_bg_image -%}
+{%- endcapture -%}{%- assign section_class = section_class | strip_newlines | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+  	<div class="section_content-wrapper">
+
+  		<div class="section_content-head">
+  			{%- include 'snippet-theme', type: 'sectionHeading', section_css: section_css -%}
+  		</div>
+
+  		<div class="section_content-body">
+        {%- unless _insta_app_embed -%}
+          {{ _insta_app_embed }}
+        {%- else -%}
+    			<div class="d-grid{% if _enable_slider %} slide_ui-element{% endif %}">
+  	  			{%- if section.blocks.size > 0 -%}
+  	  				{%- for block in section.blocks -%}
+                {%- liquid
+                  assign _image         = block.settings.image
+                  assign _total_like    = block.settings.total_like
+                  assign _total_comment = block.settings.total_comment
+                -%}
+
+                <div class="card_section-item"{{block.shopify_attributes}}>
+                    <div class="card_section-item-inner">
+                      <a href="javascript:void(0);">
+                        {%- unless _image == blank -%}
+                          {%- render 'image-style' ,image: _image -%}
+                        {%- else -%}
+                          {%- include 'svgset' -%}
+                        {%- endunless -%}
+                      </a>
+                      {% comment %}<div class="instagram-hover">
+                        <div class="insta-comment">
+                          <span><i class="demo-icon icon-uniE908"></i>{{ _total_like }}</span>
+                          <span><i class="demo-icon icon-uniE938"></i>{{ _total_comment }}</span>
+                        </div>
+                      </div>{% endcomment %}
+                    </div>
+                </div>
+
+              {%- endfor -%}
+  	  			{%- else -%}
+  	  				{%- for i in (1..6) -%}
+                <div class="card_section-item">
+                  <div class="card_section-item-inner">
+                   {%- include 'svgset' -%}
+                 </div>
+               </div>
+  	  				{%- endfor -%}
+  	  			{%- endif -%}
+    			</div>
+
+          {%- if _enable_slider -%}
+            {%- render 'set-item-per-row' ,type: 'slider'
+                                          ,value: section.settings.items_resp                                          
+                                          ,itemClass: 'product-section'
+                                          ,loop: section.settings.slide_loop
+                                          ,gutter: section.settings.grid_spc -%}
+          {%- endif -%}
+        {%- endunless -%}
+  		</div>
+  	</div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+{%- capture sectionCss -%}
+  {%- liquid
+    echo section_css 
+    render 'snippet-theme', type: 'sectionCSS', ID: sectionID 
+    render 'css-resp', classID: sectionID, nextClassID: ' .d-grid', css_value: _items_resp, css_property: 'grid-template-columns', css_value_before: 'repeat', css_split: ';' 
+    render 'css-resp', classID: sectionID, nextClassID: ' .d-grid', css_value: section.settings.grid_spc, css_property: 'grid-gap' 
+-%}
+{%- endcapture -%}{%- assign sectionCss = sectionCss | strip_newlines -%}
+{%- unless sectionCss == blank -%}<style>{{sectionCss}}</style>{%- endunless -%}
+
+{% schema %}
+{
+   "name": "Instafeed",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "paragraph",
+         "content": "Created by 'Instagram' section"
+      },
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Section Label [:id]",
+         "default": "Instafeed"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_padding",
+         "label" :"Section Padding",
+         "placeholder": "E.g: 5px 20px 5px 20px",
+         "info": "Order: Top Right Bottom Left"
+      },
+      {
+         "type":"select",
+         "id":"mobile_layout",
+         "label":"Mobile layout",
+         "options":[
+           {
+             "value":"boxed",
+             "label":"Boxed"
+           },
+           {
+             "value":"full",
+             "label":"Wide"
+           },
+           {
+             "value":"full-right",
+             "label":"Only full right"
+           }
+         ],
+         "default": "boxed"
+      },
+      {
+         "type":"header",
+         "content":"Section Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_1",
+         "label":"Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_2",
+         "label":"Subheading"
+      },
+      {
+         "type":"select",
+         "id":"sectionHeading_align",
+         "label":"Alignment",
+         "options":[
+            {"value":"auto","label":"Auto"},
+            {"value":"left","label":"Left"},
+            {"value":"center","label":"Center"},
+            {"value":"right","label":"Right"}
+         ],
+         "default":"auto"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_1",
+         "label":"Heading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_2",
+         "label":"Subheading color",
+         "info": "Blank to inherit"
+      },
+      {
+        "type":"header",
+        "content":"Insta settings"
+      },
+      {
+         "type":"text",
+         "id":"insta_app_embed",
+         "label":"Advanced InstaFeed Embed",
+         "placeholder": "E.g: <div id='XYZ'></div>",
+         "info": "Install [here](https:\/\/social.arenacommerce.com\/install)"
+      },
+      {
+         "type":"paragraph",
+         "content":"All settings below will unavailable when using Advanced InstaFeed Embed"
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of items per row",
+         "default": "6,4,3",
+         "placeholder": "E.g: 6,4,3"
+      },
+      {
+         "type":"text",
+         "id":"grid_spc",
+         "label":"Item spacing",
+         "default": "8px",
+         "placeholder": "E.g: 10px"
+      },
+      {
+         "type":"header",
+         "content":"Slider settings"
+      },
+      {
+         "type":"checkbox",
+         "id":"enable_slider",
+         "label":"Enable Slider"
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_loop",
+         "label":"Enable Loop",
+         "default": true
+      }
+   ],
+   "blocks": [
+      {
+        "type": "content",
+        "name": "Image",
+        "settings": [
+         {
+            "type":"image_picker",
+            "id":"image",
+            "label":"Image"
+         }
+        ]
+      }
+   ],
+   "presets": [
+      {
+   		"name": "Instafeed",
+         "category": "Banner",
+         "blocks": []
+      }
+   ]
+}
+{% endschema %}

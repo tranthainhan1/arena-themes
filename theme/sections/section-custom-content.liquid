@@ -1,0 +1,203 @@
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType    = 'custom-content'
+  assign _lazyload      = true
+  assign _items_resp 	  = section.settings.items_resp | default: '5,3,2'
+-%}
+
+{%- capture section_class -%}
+	{{- -}}home-custom-content
+	{{- -}}|section-{{- section.id -}}
+	{{- -}}|layout-{{- _layout -}}
+  {%- render 'bgset' ,class: 'bg-image' ,image: section.settings.section_bg_image -%}
+{%- endcapture -%}{%- assign section_class = section_class | strip_newlines | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+
+{%- capture content -%}
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+  	<div class="section_content-wrapper">
+
+
+      {%- unless section.settings.sectionHeading_text_1 == blank and section.settings.sectionHeading_text_2 == blank -%}
+        <div class="section_content-head">
+          {%- include 'snippet-theme', type: 'sectionHeading', section_css: section_css -%}
+        </div>
+      {%- endunless -%}
+
+  		<div class="section_content-body">
+	  		{%- if section.blocks.size > 0 -%}
+          <div class="d-grid">
+            {%- for block in section.blocks -%}
+
+              {%- liquid
+              -%}
+
+              <div class="card_section-item"{{block.shopify_attributes}}>
+                <div class="card_section-item-inner">
+                  <div class="card_section-header">
+                  </div>
+                  <div class="card_section-body">
+                  </div>
+                </div>
+              </div>
+
+            {%- endfor -%}
+          </div>
+	  		{%- else -%}
+  				<div class="row">
+            <div class="col-md-6 col-12" style="align-self: center;">
+              <div class="custom-block-text">
+                <h2>Talk about your brand</h2>
+                <p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="custom-block-image">
+                {%- render 'svgset' -%}
+              </div>
+            </div>
+          </div>
+
+  			{%- endif -%}
+  		</div>
+  	</div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+{%- capture sectionCss -%}
+  {%- liquid
+    echo section_css
+    render 'snippet-theme', type: 'sectionCSS', ID: sectionID
+    assign _items_resp = _items_resp | replace: ',', ';' | replace: ';', ', 1fr;' | append: ', 1fr'
+    render 'css-resp', classID: sectionID, nextClassID: ' .d-grid', css_value: _items_resp, css_property: 'grid-template-columns', css_value_before: 'repeat', css_split: ';'
+    render 'css-resp', classID: sectionID, nextClassID: ' .d-grid', css_value: section.settings.grid_spc, css_property: 'grid-gap'
+  -%}
+{%- endcapture -%}{%- assign sectionCss = sectionCss | strip_newlines -%}
+{%- unless sectionCss == blank -%}<style>{{sectionCss}}</style>{%- endunless -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+   "name": "Custom Content",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "paragraph",
+         "content": "Created by 'Custom Content' section"
+      },
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Section Label [:id]",
+         "default": "Custom content"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_padding",
+         "label" :"Section Padding",
+         "placeholder": "E.g: 5px 20px 5px 20px",
+         "info": "Order: Top Right Bottom Left"
+      },
+      {
+         "type":"header",
+         "content":"Section Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_1",
+         "label":"Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_2",
+         "label":"Subheading"
+      },
+      {
+         "type":"select",
+         "id":"sectionHeading_align",
+         "label":"Alignment",
+         "options":[
+            {"value":"auto","label":"Auto"},
+            {"value":"left","label":"Left"},
+            {"value":"center","label":"Center"},
+            {"value":"right","label":"Right"}
+         ],
+         "default":"auto"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_1",
+         "label":"Heading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_2",
+         "label":"Subheading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"header",
+         "content":"Layout content"
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of items per row",
+         "default": "5,3,2",
+         "placeholder": "E.g: 4,3,2"
+      },
+      {
+         "type":"text",
+         "id":"grid_spc",
+         "label":"Item spacing",
+         "placeholder": "E.g: 10px"
+      }
+   ],
+   "blocks": [
+     {
+        "type":"paragraph",
+        "name":"Paragraph",
+        "settings":[
+        ]
+     },
+     {
+        "type":"video",
+        "name":"Video",
+        "settings":[
+        ]
+     },
+     {
+        "type":"html",
+        "name":"HTML",
+        "settings":[
+          {
+             "type":"html",
+             "id":"html",
+             "label":"HTML"
+          }
+        ]
+     }
+   ],
+   "presets": [
+      {
+   		"name": "Custom content",
+         "category": "Advanced layout",
+         "blocks": []
+      }
+   ]
+}
+{% endschema %}

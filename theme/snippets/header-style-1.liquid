@@ -1,0 +1,49 @@
+{% liquid 
+  assign logo = section.settings.logo 
+  assign layout = section.settiongs.layout 
+  assign nav_link = section.settings.nav_link 
+%}
+{%- if layout == 'boxed' -%} <div class="container"> {%- endif -%}
+  <div class="header-desktop ">
+    <div class="header-desktop__inner">
+      <div class="logo">
+        {% if logo != blank %} 
+          {%- include 'image-style', image: logo, disablePadding: true -%}
+        {%- else -%}
+          {%- include 'image', type:'no-logo' -%}
+        {%- endif -%}
+      </div>
+      <div class="horizontal-nav">
+        <ul class="horizontal-nav__content">
+          {%- for link in linklists[nav_link].links -%}
+            <li class="nav-link">
+              <a href="{{link.url}}">{{link.title}}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div class="icon-list">
+        <div class="icon-list__item account">
+          {%- include 'svg', type: 'account' -%}
+          <div class="account-group">
+            {%- if customer -%}
+              <ul>
+                <li><a href="/account">Profile</a></li>
+                <li><a href="/account/logout">Logout</a></li>
+              </ul>
+            {%- else -%}
+              <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/account/register">Register</a></li>
+              </ul>
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="icon-list__item cart">
+          {%- include 'svg', type: 'cart' -%}
+          <div class="number">0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% if layout == 'boxed'  %}</div>{%- endif -%}

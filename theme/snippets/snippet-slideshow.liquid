@@ -1,0 +1,247 @@
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType           = 'slideshow'
+  assign _lazyload             = true
+  assign _generalStyle         = section.blocks | where: 'type', 'style'
+  assign loop 	               = section.settings.loop
+  assign autoplay 	           = section.settings.autoplay | default: '0' | strip | times: 1000
+  assign _slide_height         = section.settings.slide_height
+-%}
+
+{%- capture slideShowConfig -%}
+   {{- -}}|data-loop="{{ loop }}"
+   {{- -}}|data-autoplay="{{autoplay}}"
+
+{%- endcapture -%}{%- assign slideShowConfig = slideShowConfig | strip_newlines | split: '|' | join: ' ' -%}
+
+{%- capture section_class -%}
+  {{- -}}section-{{- section.id -}}
+  {{- -}}|layout-{{- _layout -}}
+  {{- -}}|home-slideshow
+{%- endcapture -%}{%- assign section_class = section_class | strip_newlines | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+{%- render 'snippet-theme', type: 'section_id' -%}
+
+{%- unless _slide_height == blank -%}{%- assign disablePadding = true -%}{%- endunless -%}
+{%- if _generalStyle.size > 0 -%}
+	{%- include 'snippet-slideshow-items', type: 'style', block: _generalStyle[0], sectionID: sectionID, blockID: '' -%}
+{%- endif -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+	  <div class="section-content">
+	  	<input type="hidden" name="slideConfig"{{slideShowConfig}}>
+	  	<div class="slideshow-wrapper">
+	  		{%- for block in section.blocks -%}
+	  			{%- if block.type == 'slide' -%}
+
+	  				{%- comment -%}
+	  					**
+	  					* Slide Item
+	  					*
+	  				{%- endcomment-%}
+	  				{%- liquid
+                  		assign _slideItemCount     	= _slideItemCount | plus: 1
+	  				 	assign _slideImage 			= block.settings.image
+                  		assign _slideImage_URL     	= block.settings.image_url | default: 'javascript:void(0);'
+	  				 	assign _direction_content	= block.settings.direction_content | default: 'vertical'
+	  				 	assign _content_image		= block.settings.content_image
+	  				 	assign _text_1				= block.settings.text_1
+	  				 	assign _text_2				= block.settings.text_2
+	  				 	assign _btn_txt				= block.settings.btn_txt
+	  				 	assign _btn_url				= block.settings.btn_url | default: 'javascript:void(0);'
+	  				 	assign _product_to_sell		= block.settings.product_to_sell
+                  		assign _sale_text          	= block.settings.sale_text
+	  				 	assign _svg_1				= block.settings.svg_1
+	  				 	assign _text_svg_1			= block.settings.text_svg_1
+	  				 	assign _svg_2				= block.settings.svg_2
+	  				 	assign _text_svg_2			= block.settings.text_svg_2
+
+		  				capture slideContentSVGCheck
+		  					echo _svg_1
+		  					echo _text_svg_1
+		  					echo _svg_2
+		  					echo _text_svg_2
+		  				endcapture
+
+		  				capture slideContentCheck
+		  					echo _text_1 | strip_newlines
+		  					echo _text_2 | strip_newlines
+		  					echo _btn_txt | strip_newlines
+		  					echo slideContentSVGCheck | strip_newlines
+		  					echo _product_to_sell
+		  					echo _content_image
+		  				endcapture
+	  				-%}
+	  				{%- capture blockID -%}.slide-{{block.id}}{%- endcapture -%}
+
+	  				<div class="slide-item slide-{{block.id}}" data-index="{% increment slideIndex %}"{{block.shopify_attributes}}>
+	  					<div class="slide-banner">
+		                    <a href="{{_slideImage_URL}}">
+	   	  						{%- unless _slideImage == blank -%}
+	   	  							{%- render 'image-style', image: _slideImage, lazyload: _lazyload, disablePadding: disablePadding -%}
+	                           {%- capture block_css -%}
+	                              {%- render 'css-resp', classID: blockID, nextClassID: ' .slide-banner img', css_value: block.settings.image_position, css_property: 'object-position' -%}
+	                           {%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
+	   	  						{%- else -%}
+	   	  							{%- include 'svgset', type: 'lifestyle' -%}
+	   	  						{%- endunless -%}
+		                    </a>
+	  					</div>
+
+	  					{%- comment -%}
+	  						**
+	  						* Slide Content
+	  						*
+	  					{%- endcomment-%}
+	  					{%- unless slideContentCheck == blank -%}
+		  					<div class="slide-content-wrapper">
+		  						<div class="slide-content-inner overlay-ui content_direction-{{_direction_content}}">
+
+
+									{%- comment -%}
+										**
+										* Heading Image (Section single banner)
+										*
+									{%- endcomment-%}
+									{%- unless _content_image == blank -%}
+										<div class="slide-content-item content-image">
+											{%- render 'image-style', image: _content_image, setWidth: true -%}
+										</div>
+									{%- endunless -%}
+
+
+	  								{%- comment -%}
+	  									**
+	  									* Text content
+	  									*
+	  								{%- endcomment-%}
+			  						{%- unless _text_1 == blank -%}<div class="slide-content-item content-text-1">{{_text_1}}</div>{%- endunless -%}
+			  						{%- unless _text_2 == blank -%}<div class="slide-content-item content-text-2">{{_text_2}}</div>{%- endunless -%}
+
+
+			  						{%- comment -%}
+			  							**
+			  							* Product to sell
+			  							*
+			  						{%- endcomment-%}
+			  						{%- unless _product_to_sell == blank -%}
+				  						{%- liquid
+				  						 	assign _product  = all_products[_product_to_sell].selected_or_first_available_variant
+				  						 	assign priceOri  = _product.price
+				  						 	assign priceCom  = _product.compare_at_price
+				  						 	assign showPrice = block.settings.show_product_price | default: false
+
+				  						 	if _btn_url == 'javascript:void(0);'
+				  								assign _btn_url = _product.url
+				  							endif
+				  						-%}
+				  						{%- if showPrice -%}
+					  						<div class="slide-content-item content-product">
+					  							<p class="product-price">
+					  								<span class="price">{{priceOri | money }}</span>
+					  								{%- if priceCom > priceOri -%}
+					  									<del class="price-compare">{{priceCom | money }}</del>
+					  								{%- endif -%}
+					  							</p>
+					  						</div>
+				  						{%- endif -%}
+				  						{%- if priceCom > priceOri -%}
+					  						{%- capture productSale_Popup -%}
+						  						<div class="slide-content-item content-sale-label overlay-ui" data-id="{{blockID}}">
+		                                       {%- unless _sale_text == blank -%}
+		                                          <div class="sale-label">{{_sale_text}}</div>
+		                                       {%- endunless -%}
+		                                       <div>
+		                                          <span>-{{ _product.compare_at_price | minus: _product.price | times: 100.0 | divided_by: _product.compare_at_price | floor }}%</span>
+		                                       </div>
+						  						</div>
+					  						{%- endcapture -%}
+				  						{%- endif -%}
+			  						{%- endunless -%}
+
+
+			  						{%- comment -%}
+			  							**
+			  							* SVG Custom Content
+			  							*
+			  						{%- endcomment-%}
+			  						{%- unless slideContentSVGCheck == blank -%}
+				  						<div class="slide-content-item content-svg">
+				  							{%- unless _svg_1 == blank or _text_svg_1 == blank -%}
+					  							<div class="slide-content-svg-1">
+					  								{%- unless _svg_1 		== blank -%}<span class="slide-svg-item">{{ _svg_1 }}</span>{%- endunless -%}
+					  								{%- unless _text_svg_1 	== blank -%}<span class="slide-svg-content">{{ _text_svg_1 }}</span>{%- endunless -%}
+					  							</div>
+				  							{%- endunless -%}
+				  							{%- unless _svg_2 == blank or _text_svg_2 == blank -%}
+					  							<div class="slide-content-svg-2">
+					  								{%- unless _svg_2 		== blank -%}<span class="slide-svg-item">{{ _svg_2 }}</span>{%- endunless -%}
+					  								{%- unless _text_svg_2 	== blank -%}<span class="slide-svg-content">{{ _text_svg_2 }}</span>{%- endunless -%}
+					  							</div>
+				  							{%- endunless -%}
+				  						</div>
+			  						{%- endunless -%}
+
+
+			  						{%- comment -%}
+			  							**
+			  							* Slide Button content
+			  							*
+			  						{%- endcomment-%}
+			  						{%- unless _btn_txt == blank -%}
+				  						<div class="slide-content-item content-button">
+				  							<a href="{{_btn_url}}" class="btn btn-slide btn-1">{{_btn_txt}}</a>
+				  						</div>
+			  						{%- endunless -%}
+			  					</div>
+		  					</div>
+		  					{%- liquid
+		  					 	echo productSale_Popup
+		  					 	assign assign productSale_Popup = nil
+		  					-%}
+	  					{%- endunless -%}
+	  				</div>
+	  			{%- endif -%}
+	  		{%- endfor -%}
+	  	</div>
+
+
+	  	{%- comment -%}
+	  		**
+	  		* Slideshow navigation
+	  		*
+	  	{%- endcomment-%}
+
+	  	<div class="slideshow-controls{% unless _slideItemCount > 1 %} d-none{% endunless %}">
+	  		<button class="slideshow-btn-prev">
+	  			<svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+	  				<path d="M4.85 10.373L11 17.999L7.638 20.418L0.257999 10.209L7.638 0L11 2.419L4.85 10.373Z" fill="white"/>
+	  			</svg>
+	  		</button>
+	  		<button class="slideshow-btn-next">
+	  			<svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+	  				<path d="M6.15 10.373L0 17.999L3.362 20.418L10.742 10.209L3.362 0L0 2.419L6.15 10.373Z" fill="white"/>
+	  			</svg>
+	  		</button>
+	  	</div>
+	  </div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+
+{%- comment -%}
+	**
+	* Section Style sheet
+	*
+{%- endcomment-%}
+{%- capture sectionCss -%}
+  	{%- liquid
+      echo section_css
+      render 'css-resp', classID: sectionID, nextClassID: ' .image__style', css_value: _slide_height, css_property: 'padding-top'
+  	-%}
+  	{%- unless _slide_height == blank -%}{{- sectionID }} .image__style img{object-fit: cover;}{%- endunless -%}
+{%- endcapture -%}
+{%- assign sectionCss = sectionCss | strip_newlines -%}
+{%- unless sectionCss == blank -%}<style>{{sectionCss}}</style>{%- endunless -%}

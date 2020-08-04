@@ -1,0 +1,127 @@
+{%- capture _styleID -%}{{sectionID}}{{blockID}}{%- endcapture -%}
+{%- assign styleID = styleID | default: _styleID -%}
+
+{%- case type -%}
+  	{%- when 'style' -%}
+		{%- capture block_css -%}
+	    	{%- liquid
+	    	 	assign gstyle_pos  	 	 = block.settings.position
+	    	 	assign gstyle_hor_align  = block.settings.align | default: 'center' | replace: 'left', 'flex-start' | replace: 'right', 'flex-end'
+	    	 	assign gstyle_ver_align  = block.settings.align
+	    	-%}
+
+			{%- comment -%}
+				**
+				* Slide CSS
+				*
+			{%- endcomment-%}
+			{%- render 'css-resp', classID: styleID, nextClassID: ' .slide-content-inner.overlay-ui', css_value: gstyle_pos, type: 'position' -%}
+			{%- render 'css-resp', classID: styleID, nextClassID: ' .slide-content-wrapper', css_value: gstyle_ver_align, css_property: 'text-align' -%}
+			{%- render 'css-resp', classID: styleID, nextClassID: ' .slide-content-inner.content_direction-horizontal', css_value: gstyle_hor_align, css_property: 'justify-content' -%}
+
+			{%- render 'snippet-slideshow-items', styleID: styleID, block: block, type: 'text' -%}
+			{%- render 'snippet-slideshow-items', styleID: styleID, block: block, type: 'button' -%}
+			{%- render 'snippet-slideshow-items', styleID: styleID, block: block, type: 'svg' -%}
+			{%- render 'snippet-slideshow-items', styleID: styleID, block: block, type: 'product', sectionID: sectionID, blockID: blockID -%}
+
+	    {%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
+
+  	{%- when 'text' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			TEXT			{%- endcomment-%}
+
+		{%- for i in (1..2) -%}
+			{%- liquid
+				assign gstyle_text_fs 		= 'text_fs_' | append: i
+				assign gstyle_text_lh 		= 'text_lh_' | append: i
+				assign gstyle_text_cl 		= 'text_cl_' | append: i
+				assign gstyle_text_fw 		= 'text_fw_' | append: i
+				assign gstyle_text_margin 	= 'text_' | append: i | append: '_margin'
+
+				assign gstyle_text_fs 		= block.settings[gstyle_text_fs]
+				assign gstyle_text_lh 		= block.settings[gstyle_text_lh]
+				assign gstyle_text_cl 		= block.settings[gstyle_text_cl] | default: 'rgba(0,0,0,0)'
+				assign gstyle_text_fw 		= block.settings[gstyle_text_fw]
+				assign gstyle_text_margin 	= block.settings[gstyle_text_margin]
+			-%}
+			{%- capture textID -%}{{styleID}} .content-text-{{i}}{%- endcapture -%}
+
+			{%- render 'css-resp', classID: textID, css_value: gstyle_text_fs, css_property: 'font-size' -%}
+			{%- render 'css-resp', classID: textID, css_value: gstyle_text_margin, css_property: 'margin' -%}
+			{%- render 'css-resp', classID: textID, css_value: gstyle_text_lh, css_property: 'line-height' -%}
+
+
+			{%- capture blockCSS -%}
+				{%- if gstyle_text_fw > 0 -%}font-weight: {{gstyle_text_fw}};{%- endif -%}
+				{%- unless gstyle_text_cl == 'rgba(0,0,0,0)' -%}color: {{gstyle_text_cl}};{%- endunless -%}
+			{%- endcapture -%}{%- render 'css-resp', classID: textID, css_values: blockCSS -%}
+		{%- endfor -%}
+
+  	{%- when 'button' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			BUTTON			{%- endcomment-%}
+
+		{%- liquid
+			assign gstyle_btn_cl 	= block.settings.btn_cl | default: 'rgba(0,0,0,0)'
+			assign gstyle_btn_bg_cl = block.settings.btn_bg_cl | default: 'rgba(0,0,0,0)'
+			assign gstyle_btn_fw 	= block.settings.btn_fw
+		-%}
+
+		{%- capture blockCSS -%}
+			{%- unless gstyle_btn_cl == 'rgba(0,0,0,0)' 	-%}color: {{gstyle_btn_cl}};{%- endunless -%}
+			{%- unless gstyle_btn_bg_cl == 'rgba(0,0,0,0)' 	-%}background-color: {{gstyle_btn_bg_cl}};{%- endunless -%}
+			{%- if gstyle_btn_fw > 0 						-%}font-weight: {{gstyle_btn_fw}};{%- endif -%}
+		{%- endcapture -%}{%- render 'css-resp', classID: styleID, nextClassID: ' .btn-slide', css_values: blockCSS -%}
+
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .btn-slide', css_value: block.settings.btn_padding -%}
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .btn-slide', css_value: block.settings.btn_fs, css_property: 'font-size' -%}
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .btn-slide', css_value: block.settings.btn_radius, css_property: 'border-radius' -%}
+
+  	{%- when 'product' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			PRODUCT			{%- endcomment-%}
+		{%- liquid
+			assign gstyle_price_cl 					= block.settings.price_cl | default: 'rgba(0,0,0,0)'
+			assign gstyle_price_compare_cl 			= block.settings.price_compare_cl | default: 'rgba(0,0,0,0)'
+			assign gstyle_price_fw					= block.settings.price_fw
+			assign gstyle_price_compare_fw			= block.settings.price_compare_fw
+			assign gstyle_sale_bg_color 			= block.settings.sale_bg_color | default: 'rgba(0,0,0,0)'
+			assign gstyle_sale_color 				= block.settings.sale_color | default: 'rgba(0,0,0,0)'
+			assign gstyle_sale_fw					= block.settings.sale_fw
+		-%}
+
+		{%- capture blockCSS -%}
+			{%- unless gstyle_price_cl == 'rgba(0,0,0,0)' -%}color: {{gstyle_price_cl}};{%- endunless -%}
+			{%- if gstyle_price_fw > 0 -%}font-weight: {{gstyle_price_fw}};{%- endif -%}
+		{%- endcapture -%}{%- render 'css-resp', classID: styleID, nextClassID: ' .price', css_values: blockCSS -%}
+
+		{%- capture blockCSS -%}
+			{%- unless gstyle_price_compare_cl == 'rgba(0,0,0,0)' -%}color: {{gstyle_price_compare_cl}};{%- endunless -%}
+			{%- if gstyle_price_compare_fw > 0 -%}font-weight: {{gstyle_price_compare_fw}};{%- endif -%}
+		{%- endcapture -%}{%- render 'css-resp', classID: styleID, nextClassID: ' .price-compare', css_values: blockCSS -%}
+
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .price', css_value: block.settings.price_fs, css_property: 'font-size' -%}
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .price-compare', css_value: block.settings.price_compare_fs, css_property: 'font-size' -%}
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .content-product', css_value: block.settings.product_margin, css_property: 'margin' -%}
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .content-sale-label.overlay-ui', css_value: block.settings.product_label_position, type: 'position' -%}
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .content-sale-label.overlay-ui', css_value: block.settings.sale_size, css_property: 'width' -%}
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .content-sale-label.overlay-ui', css_value: block.settings.sale_size, css_property: 'height' -%}
+
+
+		{%- capture saleID -%}{{sectionID}} .content-sale-label[data-id{% unless blockID == '' %}="{{blockID}}"{% endunless %}]{%- endcapture -%}
+		{%- render 'css-resp', classID: saleID, css_value: block.settings.sale_fs, css_property: 'font-size' -%}
+
+		{%- capture blockCSS -%}
+			{%- if gstyle_sale_fw > 0 -%}font-weight: {{gstyle_sale_fw}};{%- endif -%}
+			{%- unless gstyle_sale_color == 'rgba(0,0,0,0)' 	-%}color: {{gstyle_sale_color}};{%- endunless -%}
+			{%- unless gstyle_sale_bg_color == 'rgba(0,0,0,0)' 	-%}background-color: {{gstyle_sale_bg_color}};{%- endunless -%}
+		{%- endcapture -%}{%- render 'css-resp', classID: saleID, css_values: blockCSS -%}
+
+  	{%- when 'svg' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			SVG			{%- endcomment-%}
+
+		{%- liquid
+			assign gstyle_svg_cl = block.settings.svg_cl | default: 'rgba(0,0,0,0)'
+			assign gstyle_svg_fw = block.settings.svg_fw
+		-%}
+		{%- capture blockCSS -%}
+			{%- unless gstyle_svg_cl == 'rgba(0,0,0,0)' -%}color: {{gstyle_svg_cl}};{%- endunless -%}
+			{%- if gstyle_svg_fw > 0 -%}font-weight: {{gstyle_svg_fw}};{%- endif -%}
+		{%- endcapture -%}{%- render 'css-resp', classID: styleID, nextClassID: ' .content-svg', css_values: blockCSS -%}
+
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .content-svg', css_value: block.settings.svg_fs, css_property: 'font-size' -%}
+		{%- render 'css-resp', classID: styleID, nextClassID: ' .content-svg', css_value: block.settings.svg_margin, css_property: 'margin' -%}
+{%- endcase -%}

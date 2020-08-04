@@ -1,0 +1,141 @@
+{%- case type -%}
+  	{%- when 'section_id' -%}
+	    {%- if section.settings.title contains '[:' -%}
+	      {%- assign __section_id = section.settings.title | split: '[:' | last -%}
+	      {%- capture __section_id -%}{{ __section_id | split: ']' | first | strip }}{%- endcapture -%}
+	      <div id="{{__section_id}}"></div>
+	    {%- endif -%}
+	    
+	{%- when 'sectionHeading' -%}
+
+		{%- liquid
+		 	assign sectionHeading_align = section.settings.sectionHeading_align | default: 'auto'
+		-%}
+
+		<div class="section_title-wrapper{% unless sectionHeading_align == 'auto' %} text-{{sectionHeading_align}}{% endunless %}">
+			{%- for i in (1..2) -%}
+				{%- liquid
+				 	assign sectionHeading_text 				= 'sectionHeading_text_' | append: i
+				 	assign sectionHeading_cl 				= 'sectionHeading_cl_' | append: i
+				 	assign sectionHeading_text 				= section.settings[sectionHeading_text]
+				 	assign sectionHeading_cl 				= section.settings[sectionHeading_cl] | default: 'rgba(0,0,0,0)'
+				-%}
+				{%- capture sectionHeadingID -%}{{- sectionID }} .section_title-text-{{i}}{%- endcapture -%}
+				{%- unless sectionHeading_text == blank -%}
+					<div class="section_title-text-{{i}}">
+						{%- if i == 1 -%}{{- headingIcon -}}{%- endif -%}
+						{{- sectionHeading_text -}}
+					</div>
+					{%- capture block_css -%}
+						{%- unless sectionHeading_cl == 'rgba(0,0,0,0)' -%}{{- sectionHeadingID }}{color: {{sectionHeading_cl}};}{%- endunless -%}
+					{%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
+				{%- endunless -%}
+			{%- endfor -%}
+		</div>
+
+	{%- when 'sectionCSS' -%}
+
+		{%- liquid
+			assign _lazyload 		  = true
+			assign _bg_color          = section.settings.section_bg_color | default: 'rgba(0,0,0,0)'
+		-%}
+
+		{%- capture blockCSS -%}
+			{%- if _bg_color != 'rgba(0,0,0,0)' -%}background-color: {{_bg_color}};{%- endif -%}
+		{%- endcapture -%}
+
+		{%- render 'css-resp', classID: ID, css_values: blockCSS -%}
+		{%- render 'css-resp', classID: ID, css_value: section.settings.section_padding -%}
+
+		{%- unless section.settings.section_bg_image == blank -%}
+			{%- liquid
+				assign _bg_image 			= section.settings.section_bg_image | img_url: 'master'
+				assign _bg_size 			= section.settings.section_bg_size
+				assign _bg_repeat 			= section.settings.section_bg_repeat
+				assign _bg_position 		= section.settings.section_bg_position
+				assign _bg_fixed 			= section.settings.section_bg_fixed
+			-%}
+
+			{%- capture blockCSS -%}
+				{%- if _bg_fixed 				 -%}background-attachment: fixed;{%- endif -%}
+				{%- unless _lazyload 			 -%}background-image: url({{_bg_image}});{%- endunless -%}
+				{%- unless _bg_size 	== blank -%}background-size: {{		_bg_size		}};{%- endunless -%}
+				{%- unless _bg_repeat 	== blank -%}background-repeat: {{	_bg_repeat		}};{%- endunless -%}
+				{%- unless _bg_position == blank -%}background-position: {{	_bg_position	}};{%- endunless -%}
+			{%- endcapture -%}
+			{%- capture ID -%}{{ID}}.bg-image{%- endcapture -%}
+			{%- render 'css-resp', classID: ID, css_values: blockCSS -%}
+		{%- endunless -%}
+
+	{%- when 'themeCSS' -%}
+
+		{%- capture section_css -%}
+
+
+			{%- comment -%}
+				**
+				* Section Heading CSS
+				*
+			{%- endcomment-%}
+			{%- capture blockID -%}.section_title-wrapper{%- endcapture -%}
+			{%- render 'css-resp', classID: blockID, css_value: settings.sectionHeading_margin, css_property: 'margin' -%}
+
+			{%- for i in (1..2) -%}
+				{%- liquid
+				 	assign sectionHeading_text_fs = 'sectionHeading_' | append: i | append: '_fs'
+				 	assign sectionHeading_text_lh = 'sectionHeading_' | append: i | append: '_lh'
+
+				 	assign f_sectionHeading_text_fs = settings[sectionHeading_text_fs] | split: ',' | first
+				 	assign f_sectionHeading_text_lh = settings[sectionHeading_text_lh] | split: ',' | first
+				 	assign sectionHeading_text_fs 	= settings[sectionHeading_text_fs] | replace_first: f_sectionHeading_text_fs, 'null'
+				 	assign sectionHeading_text_lh 	= settings[sectionHeading_text_lh] | replace_first: f_sectionHeading_text_lh, 'null'
+				-%}
+				{%- capture firstValue -%}
+					font-size: {{f_sectionHeading_text_fs}};
+					line-height: {{f_sectionHeading_text_lh}};
+				{%- endcapture -%}
+				
+				{%- capture itemID -%}{{blockID}} .section_title-text-{{i}}{%- endcapture -%}
+
+				{%- render 'css-resp', classID: itemID, css_values: firstValue -%}
+				{%- render 'css-resp', classID: itemID, css_value: sectionHeading_text_fs, css_property: 'font-size' -%}
+				{%- render 'css-resp', classID: itemID, css_value: sectionHeading_text_lh, css_property: 'line-height' -%}
+
+			{%- endfor -%}
+
+
+			{%- comment -%}
+				**
+				* Button 1, 2, 3
+				*
+			{%- endcomment-%}
+			{%- for i in (1..3) -%}
+				{%- capture itemID -%}.btn-{{i}}{%- endcapture -%}
+				{%- liquid
+					assign btnFS 		= 'btn' | append: i | append: '_fs'
+					assign btnRadius 	= 'btn' | append: i | append: '_radius'
+					assign btnPadding 	= 'btn' | append: i | append: '_padding'
+
+					assign f_btnFS		= settings[btnFS] 		| split: ',' | first | strip
+					assign f_btnRadius	= settings[btnRadius] 	| split: ',' | first | strip
+					assign f_btnPadding	= settings[btnPadding] 	| split: ',' | first | strip
+					assign btnFS		= settings[btnFS] 		| replace_first: f_btnFS, 'null'
+					assign btnRadius	= settings[btnRadius] 	| replace_first: f_btnRadius, 'null'
+					assign btnPadding	= settings[btnPadding] 	| replace_first: f_btnPadding, 'null'
+				-%}
+				{%- capture firstValue -%}
+					font-size: {{f_btnFS}};
+					border-radius: {{f_btnRadius}};
+					padding: {{f_btnPadding}};
+				{%- endcapture -%}
+
+				{%- render 'css-resp', classID: itemID, css_values: firstValue -%}
+				{%- render 'css-resp', classID: itemID, css_value: btnPadding -%}
+				{%- render 'css-resp', classID: itemID, css_value: btnFS, css_property: 'font-size' -%}
+				{%- render 'css-resp', classID: itemID, css_value: btnRadius, css_property: 'border-radius' -%}
+			{%- endfor -%}
+
+		{%- endcapture -%}
+		{%- assign section_css = section_css | strip_newlines -%}
+		{%- unless section_css == blank -%}<style>{{- section_css -}}</style>{%- endunless -%}
+{%- endcase -%}

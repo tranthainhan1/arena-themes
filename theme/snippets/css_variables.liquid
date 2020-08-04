@@ -1,0 +1,43 @@
+{%- liquid
+  assign font_body_base_size = settings.body_font_size | times: 0.625
+-%}
+
+<style>
+    :root {
+ 
+        --font-heading: 'Jost', sans-serif;
+        --heading-size-h1: {{ settings.heading_size_1 | divided_by: font_body_base_size }}rem;
+        --heading-size-h2: {{ settings.heading_size_2 | divided_by: font_body_base_size }}rem;
+        --heading-size-h3: {{ settings.heading_size_3 | divided_by: font_body_base_size }}rem;
+        --heading-size-h4: {{ settings.heading_size_4 | divided_by: font_body_base_size }}rem;
+        --heading-size-h5: {{ settings.heading_size_5 | divided_by: font_body_base_size }}rem;
+        --heading-size-h6: {{ settings.heading_size_6 | divided_by: font_body_base_size }}rem;
+        --heading-1-weight: {{ settings.heading_weight_1 }};
+        --heading-2-weight: {{ settings.heading_weight_2 }};
+        --heading-3-weight: {{ settings.heading_weight_3 }};
+        --heading-4-weight: {{ settings.heading_weight_4 }};
+        --heading-5-weight: {{ settings.heading_weight_5 }};
+        --heading-6-weight: {{ settings.heading_weight_6 }};
+
+        --topbar-bg-color: {{ settings.announbar_bg_color }};
+        --topbar-color: {{ settings.announbar_text_color }};
+
+        --header-bg-desk: {{ settings.desk_bg_color }};
+        --header-text-color-desk: {{ settings.desk_text_color }};
+        --header-icons-color-desk: {{ settings.desk_icon_color }};
+        --header-bg-cart-number-desk: {{ settings.desk_bg_cart_number }};
+        --header-text-cart-number-desk: {{ settings.desk_text_cart_number }};
+
+        --header-bg-mobile: {{ settings.mobi_bg_color }};
+        --header-text-color-mobile: {{ settings.mobi_text_color }};
+        --header-icons-color-mobile: {{ settings.mobi_icon_color }};
+        --header-bg-cart-number-mobile: {{ settings.mobi_bg_cart_number }};
+        --header-text-cart-number-mobile: {{ settings.mobi_text_cart_number }};
+  
+        --body-font-family: 'Open Sans', sans-serif;
+        --body-font-size:  {{ font_body_base_size | times: 6.25 }}%;
+        --body-font-weight: {{ settings.body_font_weight }};
+        --main-color: {{ settings.main_color }};
+    }
+
+</style>

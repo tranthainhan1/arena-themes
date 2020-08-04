@@ -1,0 +1,302 @@
+{%- capture borderElement -%}
+	{%- include 'header-snippets', type: 'border' -%}
+{%- endcapture -%}
+
+{%- case style -%}
+
+	{%- comment -%}
+		**
+		* Desktop Style
+		*
+	{%- endcomment-%}
+  	{%- when 'desk_1' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Desk 1		{%- endcomment-%}
+	  	<div class="header-row header-row-1">
+	  		<div class="row">
+	  			<div class="col-3">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: '' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-5">
+	  				<div class="header-col header-col-center">
+	  					{%- render 'search', type: '' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-4">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'selectGroup' -%}
+	  					{%- include 'header-snippets', type: 'iconList' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	{{- borderElement -}}
+	  	<div class="header-row header-row-2">
+	  		<div class="row">
+	  			<div class="col-9">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'header-snippets', type: 'mainMenu' -%}
+	  					{%- include 'header-snippets', type: 'subMenu' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-3">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'customTextInfo' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+  	{%- when 'desk_2' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Desk 2		{%- endcomment-%}
+		<div class="header-row header-row-1">
+	  		<div class="row">
+	  			<div class="col-3">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: '' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-9">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'customTextInfo' -%}
+	  					{%- render 'search', type: '' -%}
+	  					{%- include 'header-snippets', type: 'iconList' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	{{- borderElement -}} 
+	  	<div class="header-row header-row-2">
+	  		<div class="row">
+	  			<div class="col-9">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'header-snippets', type: 'mainMenu' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-3">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'subMenu' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+	{%- when 'desk_3' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Desk 3		{%- endcomment-%}
+		<div class="header-row header-row-1">
+	  		<div class="row">
+	  			<div class="col-3">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: '' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-5">
+	  				<div class="header-col header-col-center">
+	  					<div class="firstNav">{%- include 'header-snippets', type: 'firstMenu' -%}</div>
+	  					{%- render 'search', type: '' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-4">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'selectGroup' -%}
+	  					{%- include 'header-snippets', type: 'iconList' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+	{%- when 'desk_4' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Desk 4		{%- endcomment-%}
+		<div class="header-row header-row-1">
+	  		<div class="row">
+	  			<div class="col-3">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: '' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-5">
+	  				<div class="header-col header-col-center">
+	  					{%- include 'social-media-icons', type: '' -%}
+	  					{%- render 'search', type: '' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-4">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'selectGroup' -%}
+	  					{%- include 'header-snippets', type: 'iconList' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+	{%- when 'desk_5' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Desk 5		{%- endcomment-%}
+		<div class="header-row header-row-1">
+	  		<div class="row">
+	  			<div class="col-3">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: '' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-5">
+	  				<div class="header-col header-col-center">
+	  					{%- include 'header-snippets', type: 'mainMenu' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-4">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'iconList' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+	{%- comment -%}
+		**
+		* Mobile style
+		*
+	{%- endcomment-%}
+  	{%- when 'mobi_1' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Mobi 1		{%- endcomment-%}
+	  	<div class="header-row">
+	  		<div class="row">
+	  			<div class="col-9">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: 'mobile' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-3">
+	  				<div class="header-col header-col-right">
+	  					<div class="header-icons">
+	  						{%- include 'search', type: 'button' -%}
+	  					</div>
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+  	{%- when 'mobi_2' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Mobi 2		{%- endcomment-%}
+	  	<div class="header-row header-row-1">
+	  		<div class="row">
+	  			<div class="col-6">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: 'mobile' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-6">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'selectGroup' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	<div class="header-row header-row-2">
+	  		<div class="row">
+	  			<div class="col-12">
+	  				<div class="header-col header-col-center">
+	  					{%- render 'search', type: '' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+  	{%- when 'mobi_3' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Mobi 3		{%- endcomment-%}
+	  	<div class="header-row header-row-1">
+	  		<div class="row">
+	  			<div class="col-6">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: 'mobile' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-6">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'selectGroup' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	<div class="header-row header-row-2">
+	  		<div class="row">
+	  			<div class="col-12">
+	  				<div class="header-col header-col-center">
+	  					<div class="firstNav">{%- include 'header-snippets', type: 'firstMenu' -%}</div>
+	  					{%- render 'search', type: '' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+  	{%- when 'mobi_4' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Mobi 4		{%- endcomment-%}
+	  	<div class="header-row">
+	  		<div class="row">
+	  			<div class="col-3">
+	  				<div class="header-col header-col-left">
+	  					<div class="header-icons">
+	  						{%- include 'search', type: 'button' -%}
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="col-6">
+	  				<div class="header-col header-col-center">
+	  					{%- include 'logo', type: 'mobile' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-3">
+	  				<div class="header-col header-col-right">
+	  					<div class="header-icons">
+	  						{%- include 'button', type: 'cart', is_onHeader: true -%}
+	  					</div>
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+  	{%- when 'mobi_5' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Mobi 5		{%- endcomment-%}
+	  	<div class="header-row header-row-1">
+	  		<div class="row">
+	  			<div class="col-12">
+	  				<div class="header-col header-col-center">
+	  					{%- include 'header-snippets', type: 'iconList', isHeaderMobile: true -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	{{- borderElement -}}
+	  	<div class="header-row header-row-2">
+	  		<div class="row">
+	  			<div class="col-6">
+	  				<div class="header-col header-col-left">
+	  					{%- include 'logo', type: 'mobile' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-6">
+	  				<div class="header-col header-col-right">
+	  					{%- include 'header-snippets', type: 'selectGroup' -%}
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+  	{%- when 'mobi_6' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *		Mobi 6		{%- endcomment-%}
+	  	<div class="header-row">
+	  		<div class="row">
+	  			<div class="col-3">
+	  				<div class="header-col header-col-left">
+	  					<div class="header-icons">
+	  						{%- include 'button', type: 'hamburger' -%}
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="col-6">
+	  				<div class="header-col header-col-center">
+	  					{%- include 'logo', type: 'mobile' -%}
+	  				</div>
+	  			</div>
+	  			<div class="col-3">
+	  				<div class="header-col header-col-right">
+	  					<div class="header-icons">
+	  						{%- include 'search', type: 'button' -%}
+	  						{%- include 'button', type: 'cart', is_onHeader: true -%}
+	  					</div>
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+{%- endcase -%}
+
+{%- if 'desk_3 desk_4 desk_5' contains 'style' -%}{{- borderElement -}}{%- endif -%}

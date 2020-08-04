@@ -1,0 +1,32 @@
+{%- liquid
+  if l.url == '#'
+    assign l_url = 'javascript:void(0);'
+  else
+    assign l_url = l.url
+  endif
+  assign submenu = l.title | handle
+-%}
+
+{%- if linklists[submenu].links.size > 0 -%}
+
+  <li class="{{class}} dropdown dropdown-submenu" nav-sublink="0">
+    <a href="{{ l_url }}" class="dropdown-link">
+      <span>{{ l.title }}</span>
+    </a>
+
+    <span class="expand"></span>
+
+    <ul class="dropdown-menu">
+      {%- for l in linklists[submenu].links -%}
+        {%- include 'nav-link-sub', l: l, class: class -%}
+      {%- endfor -%}
+    </ul>
+  </li>
+
+{%- else -%}
+  <li nav-sublink="1" class="{{class}}">
+    <a href="{{ l_url }}">
+      <span>{{ l.title }}</span>
+    </a>
+  </li>
+{%- endif -%}

@@ -1,0 +1,26 @@
+{%- case type -%}
+  	{%- when 'button' -%}  		
+  		<button type="button" class="search-ui-btn btn" aria-label="{{ type | capitalize }}">
+  			<span class="svg-element-ui">{%- render 'svg', type: 'search' -%}</span>
+  		</button>
+
+  	{%- else -%}
+		{%- liquid
+		 	assign search_type = search_type | default: 'product'
+		 	assign search_unavailable_result = search_unavailable_result | default: 'last'
+		-%}
+
+		<div class="form-search-ui">
+			<form action="{{ routes.search_url }}" method="get">
+				<input type="hidden" name="type" value="{{search_type}}"/>
+				<input type="hidden" name="options[unavailable_products]" value="{{search_unavailable_result}}" />
+				<input type="hidden" name="options[prefix]" value="last" />
+				<input name="q" type="text" placeholder="{{ 'search.general.search_placeholder' | t }}" autocomplete="off"/>
+				<button type="button" class="search-ui--close btn" aria-label="Close">
+					<span class="svg-element-ui">
+						{%- render 'svg', type: 'search' -%}
+					</span>
+				</button>
+			</form>
+		</div>
+{%- endcase -%}

@@ -1,0 +1,280 @@
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType    = 'featured-slide'
+  assign _lazyload      = true
+  assign _items_resp 	  = section.settings.items_resp | default: '5,3,2'
+  assign _enable_slider = section.settings.enable_slider
+-%}
+
+{%- capture section_class -%}
+	{{- -}}home-categories
+	{{- -}}|section-{{- section.id -}}
+	{{- -}}|layout-{{- _layout -}}
+  {{- -}}|mobile_layout-{{- section.settings.mobile_layout -}}
+  {%- render 'bgset' ,class: 'bg-image' ,image: section.settings.section_bg_image -%}
+{%- endcapture -%}{%- assign section_class = section_class | strip_newlines | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+{%- capture content -%}
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+  	<div class="section_content-wrapper">
+
+      {%- unless section.settings.sectionHeading_text_1 == blank and section.settings.sectionHeading_text_2 == blank -%}
+        <div class="section_content-head">
+          {%- include 'snippet-theme', type: 'sectionHeading', section_css: section_css -%}
+        </div>
+      {%- endunless -%}
+
+  		<div class="section_content-body">
+  			<div class="d-grid{% if _enable_slider %} slide_ui-element{% endif %}">
+	  			{%- if section.blocks.size > 0 -%}
+	  				{%- for block in section.blocks -%}
+              {%- liquid
+                assign _collection    = block.settings.collection
+                assign collection     = collections[_collection]
+                assign _svg           = block.settings.svg
+              -%}
+
+              <div class="card_section-item"{{block.shopify_attributes}}>
+                {%- if _collection == blank -%}
+                  {%- include 'svgset', type: 'empty-category' -%}
+                {%- else -%}
+                  <div class="card_section-item-inner">
+                    <div class="card_section-header">
+                      <div class="card_section-figure">
+                        {%- unless _svg == blank -%}<span class="svg-element-ui">{{ _svg }}</span>
+                        {%- else -%}{%- render 'image-style', image: collection.image -%}
+                        {%- endunless -%}
+                      </div>
+                    </div>
+                    <div class="card_section-body">
+                      <div class="card_section-info">
+                        <p>{{collection.title}}</p>
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+
+            {%- endfor -%}
+	  			{%- else -%}
+	  				{%- for i in (1..5) -%}
+	  					<div class="card_section-item">
+	  						{%- include 'svgset', type: 'empty-category' -%}
+	  					</div>
+	  				{%- endfor -%}
+	  			{%- endif -%}
+  			</div>
+
+        {%- if _enable_slider -%}
+          {%- render 'set-item-per-row', value: _items_resp, type: 'slider', itemClass: '', gutter: section.settings.grid_spc -%}
+        {%- endif -%}
+  		</div>
+
+      {%- liquid
+        assign _section_btn_url     = section.settings.section_btn_url | default: 'javascript:void(0);'
+        assign _section_btn_label   = section.settings.section_btn_label
+        assign _section_btn_class   = section.settings.section_btn_class
+        assign _section_btn_style   = section.settings.section_btn_style
+      -%}
+      {%- unless _section_btn_label == blank -%}
+        <div class="section_content-footer">
+          {%- include 'button', type: 'custom', url: _section_btn_url, label: _section_btn_label, class: _section_btn_class, style: _section_btn_style -%}
+        </div>
+      {%- endunless -%}
+  	</div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+{%- capture sectionCss -%}
+  {%- liquid
+    echo section_css
+    render 'snippet-theme', type: 'sectionCSS', ID: sectionID
+    assign _items_resp = _items_resp | replace: ',', ';' | replace: ';', ', 1fr;' | append: ', 1fr'
+    render 'css-resp', classID: sectionID, nextClassID: ' .d-grid', css_value: _items_resp, css_property: 'grid-template-columns', css_value_before: 'repeat', css_split: ';'
+    render 'css-resp', classID: sectionID, nextClassID: ' .d-grid', css_value: section.settings.grid_spc, css_property: 'grid-gap'
+    render 'css-resp', classID: sectionID, nextClassID: ' .card_section-header', css_value: section.settings.collection_image_max_w, css_property: 'max-width'
+  -%}
+{%- endcapture -%}{%- assign sectionCss = sectionCss | strip_newlines -%}
+{%- unless sectionCss == blank -%}<style>{{sectionCss}}</style>{%- endunless -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+   "name": "Categories",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "paragraph",
+         "content": "Created by 'Categories' section"
+      },
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Section Label [:id]",
+         "default": "Categories"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_padding",
+         "label" :"Section Padding",
+         "placeholder": "E.g: 5px 20px 5px 20px",
+         "info": "Order: Top Right Bottom Left"
+      },
+      {
+         "type":"select",
+         "id":"mobile_layout",
+         "label":"Mobile layout",
+         "options":[
+           {
+             "value":"boxed",
+             "label":"Boxed"
+           },
+           {
+             "value":"full",
+             "label":"Wide"
+           },
+           {
+             "value":"full-right",
+             "label":"Only full right"
+           }
+         ],
+         "default": "boxed"
+      },
+      {
+         "type":"header",
+         "content":"Section Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_1",
+         "label":"Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_2",
+         "label":"Subheading"
+      },
+      {
+         "type":"select",
+         "id":"sectionHeading_align",
+         "label":"Alignment",
+         "options":[
+            {"value":"auto","label":"Auto"},
+            {"value":"left","label":"Left"},
+            {"value":"center","label":"Center"},
+            {"value":"right","label":"Right"}
+         ],
+         "default":"auto"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_1",
+         "label":"Heading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_2",
+         "label":"Subheading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"header",
+         "content":"Section Button"
+      },
+      {
+         "type":"text",
+         "id":"section_btn_label",
+         "label":"Button label"
+      },
+      {
+         "type":"url",
+         "id":"section_btn_url",
+         "label":"Button URL"
+      },
+      {
+         "type":"text",
+         "id":"section_btn_class",
+         "label":"Custom Class",
+         "default": "btn-1"
+      },
+      {
+         "type":"html",
+         "id":"section_btn_style",
+         "label":"Custom Style",
+         "placeholder": "E.g: font-size: 21px;\ncolor: #f00000;.."
+      },
+      {
+         "type":"header",
+         "content":"Layout content"
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of items per row",
+         "default": "5,3,2",
+         "placeholder": "E.g: 4,3,2"
+      },
+      {
+         "type":"text",
+         "id":"grid_spc",
+         "label":"Item spacing",
+         "placeholder": "E.g: 10px"
+      },
+      {
+         "type":"text",
+         "id":"collection_image_max_w",
+         "label":"Collection Image max width",
+         "placeholder": "E.g: 140px"
+      },
+      {
+         "type":"header",
+         "content":"Slider settings"
+      },
+      {
+         "type":"checkbox",
+         "id":"enable_slider",
+         "label":"Enable Slider"
+      }
+   ],
+   "blocks": [
+     {
+        "type":"collection",
+        "name":"Collection",
+        "limit": 7,
+        "settings":[
+          {
+             "type":"collection",
+             "id":"collection",
+             "label":"Collection"
+          },
+          {
+             "type":"text",
+             "id":"svg",
+             "label":"Collectiom SVG"
+          }
+        ]
+     }
+   ],
+   "presets": [
+      {
+   		"name": "Categories",
+         "category": "Collection",
+         "blocks": []
+      }
+   ]
+}
+{% endschema %}

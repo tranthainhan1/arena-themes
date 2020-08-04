@@ -1,0 +1,32 @@
+{
+  "general": {},
+  "search": {
+    "general": {
+      "search_placeholder": "Search for products...",
+      "no_result": "No result found for your search."
+    }
+  },
+  "products": {
+    "product": {
+      "sold_out": "Sold out",
+      "add_to_cart": "Add to cart",
+      "card_inventory": "No of pcs \n available"
+    },
+    "label": {
+      "new": "New",
+      "hot": "Hot",
+      "sale": "Sale"
+    }
+  },
+  "contact": {
+    "form": {
+      "email": "Email",
+      "subscrible": "Subscrible",
+      "placeholder": "Your e-mail address",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "message": "Message",
+      "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
+    }
+  }
+}

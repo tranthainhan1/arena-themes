@@ -1,0 +1,75 @@
+<ul class="widget-social-icons list-inline">
+  {%- if type == 'block' -%}
+    {% for i in (1..16) %}
+      {%- assign _type = 'social_icon_type_' | append: i -%}
+      {%- unless block.settings[_type] == 'none' -%}
+        {%- liquid
+          assign _font_icon = 'social_font_icon_'  | append: i
+          assign _image     = 'social_icon_'       | append: i
+          assign _title     = 'social_icon_title_' | append: i
+          assign _link      = 'social_icon_link_'  | append: i
+        -%}
+        <li>
+          <a target="_blank" rel="noopener" href="{{ block.settings[_link] }}" title="{{ block.settings[_title] }}">
+            {%- if block.settings[_type] == 'font-icon' -%}
+              {%- if block.settings[_font_icon] contains '<svg' -%}
+                {{- block.settings[_font_icon] -}}
+              {%- else -%}
+                <i class="{{ block.settings[_font_icon] }}"></i>
+              {%- endif -%}
+            {%- else -%}
+              <img src="{{ block.settings[_image] | img_url: '20x' }}" alt="Social" />
+            {%- endif -%}
+            {%- if footer_type == 'style-02' -%}<span>{{block.settings[_title]}}</span>{%- endif -%}
+          </a>
+        </li>
+      {%- endunless -%}
+    {% endfor %}
+
+  {%- else -%}
+    {%- liquid
+      capture social_m_default
+        echo 'https://www.facebook.com/arenasupport'
+        echo ',https://twitter.com/arenacommerce'
+        echo ',https://www.instagram.com/arenacommerce'
+        echo ',https://www.pinterest.com/arenacommerce'
+        echo ',https://www.youtube.com/c/arenacommerce'
+      endcapture
+      assign social_m_default = social_m_default | strip_newlines | split: ','
+
+      capture defaultSocial_SVG
+        echo 'facebook,instagram,youtube,pinterest,twitter'
+      endcapture
+      assign defaultSocial_SVG = defaultSocial_SVG | split: ','
+
+    -%}
+
+    {% for i in (1..6) %}
+      {%- assign _type = 'social_icon_type_' | append: i -%}
+      {%- unless settings[_type] == 'none' -%}
+        {%- liquid
+          assign _font_icon = 'social_font_icon_'  | append: i
+          assign _image     = 'social_icon_'       | append: i
+          assign _title     = 'social_icon_title_' | append: i
+          assign _link      = 'social_icon_link_'  | append: i
+          assign j          = i | minus: 1
+          assign _default_l = social_m_default[j] | strip
+        -%}
+        <li>
+          <a target="_blank" rel="noopener" href="{{ settings[_link] | default: _default_l }}" title="{{ settings[_title] }}">
+            {%- if settings[_type] == 'font-icon' -%}
+              
+              {%- if settings[_font_icon] == blank -%}{%- include 'svg', type: defaultSocial_SVG[j] -%} <!--===== {{ defaultSocial_SVG[j] }} ===== -->
+              {%- elsif settings[_font_icon] contains '<svg' -%}{{- settings[_font_icon] -}} <!--===== 2 ===== -->
+              {%- else -%}<i class="{{settings[_font_icon]}}"></i> <!--===== 3 ===== -->
+              {%- endif -%}
+
+            {%- else -%}
+              <img src="{{ settings[_image] | img_url: '20x' }}" alt="{{ settings[_image].alt }}"/> 
+            {%- endif -%}            
+          </a>
+        </li>
+      {%- endunless -%}
+    {% endfor %}
+  {%- endif -%}
+</ul>
