@@ -10,7 +10,7 @@
         {% if logo != blank %} 
           {%- include 'image-style', image: logo, disablePadding: true -%}
         {%- else -%}
-          {%- include 'image', type:'no-logo' -%}
+          <a href="/">{{shop.name}}</a>
         {%- endif -%}
       </div>
       <div class="horizontal-nav">

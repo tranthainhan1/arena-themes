@@ -5,3 +5,4 @@ development:
   store: arena-commerce.myshopify.com
   ignore_files:
     - settings_data.json
+    - main_style.css

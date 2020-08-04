@@ -1,0 +1,178 @@
+{%- include 'hero-banner-snippets' -%}
+
+{% liquid 
+  assign bg_color                 = section.settings.bg_color
+  assign align_text_horizontally  = section.settings.align_text_horizontally
+  assign align_text_vertically    = section.settings.align_text_vertically
+  assign align_image_horizontally = section.settings.align_image_horizontally
+  assign align_image_vertically   = section.settings.align_image_vertically
+  assign image_width              = section.settings.image_width
+  assign image_height             = section.settings.image_height
+%}
+<style>
+  .hero-banner .hero-banner__wrapper .text-box{
+    left: {{align_text_horizontally}}%;
+    top: {{align_text_vertically}}%;
+    transform: translate(-{{align_text_horizontally}}%,-{{align_text_vertically}}%) 
+  }
+  .hero-banner .hero-banner__wrapper .image-box{
+    left: {{align_image_horizontally}}%;
+    top: {{align_image_vertically}}%;
+    transform: translate(-{{align_image_horizontally}}%,-{{align_image_vertically}}%) 
+  }
+  {% if bg_color != blank -%}
+    .hero-banner .hero-banner__wrapper{
+      background-color: {{bg_color}};
+    }
+  {%- endif %}
+  {%- if image_width != blank  -%}
+    .hero-banner .hero-banner__wrapper .image-box{
+      width: {{image_width}}px;
+    }
+  {%- endif -%} 
+</style>
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Text box"
+      },
+      {
+        "type": "text",
+        "id": "textbox_width",
+        "label": "Text box width"
+      },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text align",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "range",
+        "id": "align_text_horizontally",
+        "label": "Align text horizontally",
+        "step": 1,
+        "min": 0,
+        "max": 100,
+        "unit": "%",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "align_text_vertically",
+        "label": "Align text vertically",
+        "step": 1,
+        "min": 0,
+        "max": 100,
+        "unit": "%",
+        "default": 50
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Your One-Stop Shopify Companion"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "Proud be a Shopify Expert, we have always been a companion for market leaders worldwide since 2015"
+      },
+      {
+        "type": "text",
+        "id": "btn_label",
+        "label": "Button label",
+        "default": "Learn more"
+      },
+      {
+        "type": "url",
+        "id": "btn_url",
+        "label": "Button label"
+      },
+      {
+        "type": "header",
+        "content": "Image settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "image_width",
+        "label": "Image width",
+        "placeholder": "E.g: 220 or 500",
+        "info": "Set width auto if empty."
+      },
+      {
+        "type": "range",
+        "id": "align_image_horizontally",
+        "label": "Align image horizontally",
+        "step": 1,
+        "min": 0,
+        "max": 100,
+        "unit": "%",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "align_image_vertically",
+        "label": "Align image vertically",
+        "step": 1,
+        "min": 0,
+        "max": 100,
+        "unit": "%",
+        "default": 50
+      }
+    ],
+    "presets": [
+      {
+        "name": "Hero Banner",
+        "category": "Banner"
+      }
+    ]
+  }
+{% endschema %}

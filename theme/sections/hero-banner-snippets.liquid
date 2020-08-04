@@ -1,0 +1,38 @@
+{% liquid 
+  assign layout        = section.settings.layout
+  assign banner_type   = section.settings.banner_type
+  assign heading       = section.settings.heading
+  assign subheading    = section.settings.subheading
+  assign btn_label     = section.settings.btn_label
+  assign btn_url       = section.settings.btn_url
+  assign text_align    = section.settings.text_align
+  assign section_image = section.settings.image
+%}
+
+<div class="hero-banner" data-section-id="{{section.id}}" data-section-type="hero-banner">
+  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+    <div class="hero-banner__wrapper">
+      <div class="text-box text-{{text_align}}">
+        <div class="text-box__heading">
+          <span class="content">{{heading}}</span>
+        </div>
+        <div class="text-box__subheading">
+          <span class="content">{{subheading}}</span>
+        </div>
+        {%- if btn_label != blank -%}
+          <div class="text-box__button">
+            <div class="btn">
+              <a href="{{btn_url}}">{{btn_label}}</a>
+              {%- include 'svg', type: 'arrowRight' -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if section_image != blank -%}
+        <div class="image-box">
+          {%- include 'image-style', image: section_image, disablePadding: true -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {% if layout == 'boxed' %} </div> {%- endif -%}
+</div>
