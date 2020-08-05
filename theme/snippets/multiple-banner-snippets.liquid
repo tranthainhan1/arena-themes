@@ -1,0 +1,35 @@
+{% liquid 
+  assign layout = section.settings.layout 
+  assign block_count = section.blocks.size 
+%}
+
+{%- capture blockCss -%}
+  {{- ' ' -}}col-{{ 12 | divided_by: block_count}}
+{%- endcapture -%}
+
+<div class="multiple-banner" data-section-id="{{section.id}}" data-section-type="multiple-banner">
+  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+    <div class="multiple-banner__wrapper">
+      <div class="row">
+        {%- for block in section.blocks -%}
+          {% liquid 
+            assign heading = block.settings.heading 
+            assign subheading = block.settings.subheading 
+          %}
+          <div class="{{ blockCss | strip_newlines | strip}}">
+            <div class="multiple-banner__item">
+              <div class="text-box">
+                <div class="heading">
+                  <span class="content">{{heading}}</span>
+                </div>
+                <div class="subheading">
+                  <span class="content">{{subheading}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {% if layout == 'boxed' %} </div> {%- endif -%}
+</div>

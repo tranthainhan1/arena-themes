@@ -43,7 +43,7 @@
 
 		<span class="image__style{{imageRatio_height}}">
 			{%- if _lazyload -%}
-				<img class="overlay-ui w-100 h-100 lazyload {{ image_class }}{{imageRatio_css}}"
+				<img class=" w-100 h-100 lazyload {{ image_class }}{{imageRatio_css}}"
 					data-src="{{ image_url }}"
 					data-widths="{{ image_width}}"
 					data-aspectratio="{{ image_ratio }}"
@@ -52,9 +52,9 @@
 					data-parent-fit="cover"
 					data-tproduct="true"
 					alt="{{ image.alt }}"/>
-				<noscript><img class="overlay-ui w-100 h-100 {{ image_class }}{{imageRatio_css}}" src="{{ image | img_url: image_size }}"/></noscript>
+				<noscript><img class=" w-100 h-100 {{ image_class }}{{imageRatio_css}}" src="{{ image | img_url: image_size }}"/></noscript>
 			{%- else -%}
-				<img class="overlay-ui w-100 h-100 {{ image_class }}" src="{{ image | img_url: image_size }}" alt="{{ image.alt }}"/>
+				<img class=" w-100 h-100 {{ image_class }}" src="{{ image | img_url: image_size }}" alt="{{ image.alt }}"/>
 			{%- endif -%}
 		</span>
 {%- endunless -%}

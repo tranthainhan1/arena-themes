@@ -1,0 +1,65 @@
+{%- include 'multiple-banner-snippets' -%}
+
+{% schema %}
+  {
+    "name": "Multiple Banner",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Created by section \"Multiple Banner\""
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "banner_item",
+        "name": "Banner Item",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Text box"
+          },
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Shopify Themes"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Build your brand and increase sales with a premium ecommerce experience."
+          },
+          {
+            "type": "header",
+            "content": "Image settings"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Banner",
+        "name": "Multiple Banner"
+      }
+    ]
+  }
+{% endschema %}

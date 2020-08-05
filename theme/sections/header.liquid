@@ -1,102 +1,108 @@
 {% liquid 
-	assign logo_max_width = section.settings.logo_max_width
+  assign logo_max_width = section.settings.logo_max_width
 %}
 
 <div class="header">
-	{%- case section.settings.header_style -%}
-		{%- when '1' -%}
-			{%- include 'header-style-1' -%}
-	{%- endcase -%}
+  {%- case section.settings.header_style -%}
+    {%- when '1' -%}
+      {%- include 'header-style-1' -%}
+  {%- endcase -%}
 </div>
 
 <style>
-	{%- if logo_max_width != blank -%}
-		.header .header-desktop .header-desktop__inner .logo img{
-			max-width: {{logo_max_width}}px;
-		}
-	{%- endif -%}
+  {%- if logo_max_width != blank -%}
+    .header .header-desktop .header-desktop__inner .logo img{
+      max-width: {{logo_max_width}}px;
+    }
+  {%- endif -%}
 </style>
 {% schema %}
 {
    "name": "Header",
    "tag": "section",
    "settings": [
-	   {
-	   	"type": "checkbox",
-	   	"id": "boxed_layout",
-	   	"label": "Boxed layout",
-	   	"default": true
-	   },
-	   {
-	      "type":"select",
-	      "id":"header_style",
-	      "label":"Desktop Style",
-	      "options":[
-	      	{"value":"1","label":"Style 1"}
-	      ]
-	   },
-	   {
-	      "type":"select",
-	      "id":"mobi_header_style",
-	      "label":"Mobile Style",
-	      "options":[
-	      	{"value":"1","label":"Style 1"}
-	      ]
-	   },
-	   {
-	      "type":"header",
-	      "content":"Logo"
-	   },
-	   {
-	      "type":"image_picker",
-	      "id":"logo",
-	      "label":"Desktop: Logo"
-	   },
-	   {
-	      "type":"text",
-	      "id":"logo_max_width",
-	      "label":"Desktop: Logo max width",
-	      "default": "220",
-	      "placeholder":"E.g: 220"
-	   },
-	   {
-	      "type":"image_picker",
-	      "id":"logo_mobi",
-	      "label":"Mobile Logo (Optional)"
-	   },
-	   {
-	      "type":"text",
-	      "id":"logo_mobi_max_width",
-	      "label":"Mobile Logo max width",
-	      "default": "110",
-	      "placeholder":"E.g: 110"
-	   },
-	   {
-	      "type":"header",
-	      "content":"Menu settings"
-	   },
-	   {
-	   	"type": "link_list",
-	   	"id": "nav_link",
-	   	"label": "Main menu",
-	   	"default": "main-menu"
-	   },
-	   {
-	      "type":"text",
-	      "id":"navFirst_label",
-	      "label":"First Menu",
-	      "default": "Products"
-	   },
-	   {
-	      "type":"url",
-	      "id":"navFirst_url",
-	      "label":"First Menu URL"
-	   },
-	   {
-	   	"type": "link_list",
-	   	"id": "nav_link_second",
-	   	"label": "Second menu"
-	   }
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      },
+     {
+        "type":"select",
+        "id":"header_style",
+        "label":"Desktop Style",
+        "options":[
+          {"value":"1","label":"Style 1"}
+        ]
+     },
+     {
+        "type":"select",
+        "id":"mobi_header_style",
+        "label":"Mobile Style",
+        "options":[
+          {"value":"1","label":"Style 1"}
+        ]
+     },
+     {
+        "type":"header",
+        "content":"Logo"
+     },
+     {
+        "type":"image_picker",
+        "id":"logo",
+        "label":"Desktop: Logo"
+     },
+     {
+        "type":"text",
+        "id":"logo_max_width",
+        "label":"Desktop: Logo max width",
+        "default": "220",
+        "placeholder":"E.g: 220"
+     },
+     {
+        "type":"image_picker",
+        "id":"logo_mobi",
+        "label":"Mobile Logo (Optional)"
+     },
+     {
+        "type":"text",
+        "id":"logo_mobi_max_width",
+        "label":"Mobile Logo max width",
+        "default": "110",
+        "placeholder":"E.g: 110"
+     },
+     {
+        "type":"header",
+        "content":"Menu settings"
+     },
+     {
+       "type": "link_list",
+       "id": "nav_link",
+       "label": "Main menu",
+       "default": "main-menu"
+     },
+     {
+        "type":"text",
+        "id":"navFirst_label",
+        "label":"First Menu",
+        "default": "Products"
+     },
+     {
+        "type":"url",
+        "id":"navFirst_url",
+        "label":"First Menu URL"
+     },
+     {
+       "type": "link_list",
+       "id": "nav_link_second",
+       "label": "Second menu"
+     }
    ],
    "blocks": []
 }
