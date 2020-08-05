@@ -10,7 +10,7 @@ const { argv } = require("yargs");
 const $ = gulpLoadPlugins();
 const server = browserSync.create();
 
-const port = argv.port || 9001;
+const port = argv.port || 9000;
 const npmRun = require("npm-run");
 
 /**

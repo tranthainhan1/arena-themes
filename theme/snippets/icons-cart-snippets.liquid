@@ -1,0 +1,57 @@
+{% liquid 
+  assign layout     = section.settings.layout
+  assign heading    = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign btn_title  = section.settings.btn_title
+  assign btn_url    = section.settings.btn_url
+%}
+
+<div class="icons-cart" data-section-id="{{section.id}}" data-section-type="icons-cart">
+  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+    <div class="icons-cart__wrapper">
+      <div class="icons-cart__heading">
+        <div class="heading">
+          <span class="content">{{heading}}</span>
+        </div>
+        <div class="subheading">
+          <span class="content">{{subheading}}</span>
+        </div>
+      </div>
+      <div class="icons-cart__list">
+        {%- for block in section.blocks -%}
+          {% liquid 
+            assign title = block.settings.block_title
+            assign icon  = block.settings.icon
+          %}
+          <div class="icons-cart__item">
+            <div class="icon_box">
+              {%- case icon -%}
+                {%- when '1' -%}
+                  {%- include 'svg', type: 'icons-1' -%}
+                {%- when '2' -%}
+                  {%- include 'svg', type: 'icons-2' -%}
+                {%- when '3' -%}
+                  {%- include 'svg', type: 'icons-3' -%}
+                {%- when '4' -%}
+                  {%- include 'svg', type: 'icons-4' -%}
+                {%- when '5' -%}
+                  {%- include 'svg', type: 'icons-5' -%}
+              {%- endcase -%}
+            </div>
+            <div class="title">
+              <span class="content">{{title}}</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      {%- if btn_title != blank -%}
+        <div class="icons-cart__button">
+          <a href="{{btn_url | default : 'javascript:void(0)'}}" class="btn">
+            <span>{{btn_title}}</span>
+            {%- include 'svg', type: 'arrowRight' -%}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  {% if layout == 'boxed' %} </div> {%- endif -%}
+</div>

@@ -29,35 +29,33 @@
   		<div class="section_content-body">
   			<div class="d-grid{% if _enable_slider %} slide_ui-element{% endif %}">
 	  			{%- if section.blocks.size > 0 -%}
-	  				{%- for block in section.blocks -%}
-              {%- liquid
-                assign _collection    = block.settings.collection
-                assign collection     = collections[_collection]
-                assign _svg           = block.settings.svg
-              -%}
-
-              <div class="card_section-item"{{block.shopify_attributes}}>
-                {%- if _collection == blank -%}
-                  {%- include 'svgset', type: 'empty-category' -%}
-                {%- else -%}
-                  <div class="card_section-item-inner">
-                    <div class="card_section-header">
-                      <div class="card_section-figure">
-                        {%- unless _svg == blank -%}<span class="svg-element-ui">{{ _svg }}</span>
-                        {%- else -%}{%- render 'image-style', image: collection.image -%}
-                        {%- endunless -%}
-                      </div>
-                    </div>
-                    <div class="card_section-body">
-                      <div class="card_section-info">
-                        <p>{{collection.title}}</p>
-                      </div>
-                    </div>
+               {%- for block in section.blocks -%}
+                  {%- liquid
+                     assign _collection    = block.settings.collection
+                     assign collection     = collections[_collection]
+                     assign _svg           = block.settings.svg
+                  -%}
+                  <div class="card_section-item"{{block.shopify_attributes}}>
+                     {%- if _collection == blank -%}
+                        {%- include 'svgset', type: 'empty-category' -%}
+                     {%- else -%}
+                        <div class="card_section-item-inner">
+                        <div class="card_section-header">
+                           <div class="card_section-figure">
+                              {%- unless _svg == blank -%}<span class="svg-element-ui">{{ _svg }}</span>
+                              {%- else -%}{%- render 'image-style', image: collection.image, disablePadding: true -%}
+                              {%- endunless -%}
+                           </div>
+                        </div>
+                        <div class="card_section-body">
+                           <div class="card_section-info">
+                              <p>{{collection.title }}</p>
+                           </div>
+                        </div>
+                        </div>
+                     {%- endif -%}
                   </div>
-                {%- endif -%}
-              </div>
-
-            {%- endfor -%}
+               {%- endfor -%}
 	  			{%- else -%}
 	  				{%- for i in (1..5) -%}
 	  					<div class="card_section-item">

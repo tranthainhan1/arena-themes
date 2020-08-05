@@ -1,0 +1,99 @@
+{%- include 'icons-cart-snippets' -%}
+
+{% schema %}
+  {
+    "name": "Icons Cart",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      },
+      {
+        "type": "header",
+        "content": "Text box"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Let Us Setup Your Shopify Store"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "Unlock your store’s full potential"
+      },
+      {
+        "type": "header",
+        "content": "Button"
+      },
+      {
+        "type": "text",
+        "id": "btn_title",
+        "label": "Button label",
+        "default": "View All Service We Offer"
+      },
+      {
+        "type": "url",
+        "id": "btn_url",
+        "label": "Button link"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "icon_item",
+        "name": "Icon item",
+        "settings": [
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "Icon",
+            "options": [
+              {
+                "value": "1",
+                "label": "1"
+              },
+              {
+                "value": "2",
+                "label": "2"
+              },
+              {
+                "value": "3",
+                "label": "3"
+              },
+              {
+                "value": "4",
+                "label": "4"
+              },
+              {
+                "value": "5",
+                "label": "5"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "block_title",
+            "label": "Title"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Icons",
+        "name": "Icons Cart"
+      }
+    ]
+  }
+{% endschema %}
