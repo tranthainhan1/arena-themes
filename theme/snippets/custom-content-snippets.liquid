@@ -1,0 +1,25 @@
+{% liquid 
+  assign layout = section.settings.layout 
+%}
+
+{%- capture classResp -%}
+  {{- ' ' -}}col-6
+{%- endcapture -%}
+
+<div class="custom-content" data-section-id="{{section.id}}" data-section-type="custom-content">
+  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+    <div class="custom-content__wrapper">
+      <div class="custom-content__content">
+        <div class="row">
+          {%- for block in section.blocks -%}
+          <div class="{{classResp | strip_newlines | strip}}">
+            <div class="custom-content__item">
+              {%- include 'custom-content-item-snippets', type: block.type -%}
+            </div>
+          </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {% if layout == 'boxed' %} </div> {%- endif -%}
+</div>

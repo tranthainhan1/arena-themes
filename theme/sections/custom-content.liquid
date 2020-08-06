@@ -1,0 +1,148 @@
+{%- include 'custom-content-snippets' -%}
+
+{% liquid 
+  assign bg_color = section.settings.bg_color 
+%}
+
+<style>
+   {%- if bg_color != blank -%}
+   .custom-content .custom-content__wrapper{
+      background-color: {{bg_color}};
+   }
+   {%- endif -%}
+</style>
+
+{% schema %}
+{
+   "name": "Custom Content",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "paragraph",
+         "content": "Created by 'Custom Content' section"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      }, 
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      },
+      {
+         "type": "color",
+         "id": "bg_color",
+         "label": "Background color"
+      },
+      {
+         "type":"header",
+         "content":"Section Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_1",
+         "label":"Heading"
+      },
+      {
+         "type":"text",
+         "id":"sectionHeading_text_2",
+         "label":"Subheading"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_1",
+         "label":"Heading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"color",
+         "id":"sectionHeading_cl_2",
+         "label":"Subheading color",
+         "info": "Blank to inherit"
+      },
+      {
+         "type":"header",
+         "content":"Layout content"
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of items per row",
+         "default": "5,3,2",
+         "placeholder": "E.g: 4,3,2"
+      },
+      {
+         "type":"text",
+         "id":"grid_spc",
+         "label":"Item spacing",
+         "placeholder": "E.g: 10px"
+      }
+   ],
+   "blocks": [
+     {
+        "type":"text_box",
+        "name":"Text box",
+        "settings":[
+           {
+              "type": "header",
+              "content": "Text box content"
+           },
+           {
+              "type": "text",
+              "id": "heading",
+              "label": "Heading",
+              "default": "Your One-Stop Shopify Companion"
+           },
+           {
+              "type": "text",
+              "id": "subheading",
+              "label": "Subheading",
+              "default": "Proud be a Shopify Expert, we have always been a companion for market leaders worldwide since 2015."
+           },
+           {
+              "type": "text",
+              "id": "btn_title",
+              "label": "Button title",
+              "default": "Learn more"
+           },
+           {
+             "type": "url",
+             "id": "btn_url",
+             "label": "Button URL"
+           }
+        ]
+     },
+     {
+       "type": "image",
+       "name": "Image",
+       "settings": [
+         {
+          "type": "image_picker",
+           "id": "image",
+           "label": "Image"
+         },
+         {
+           "type": "url",
+           "id": "img_url",
+           "label": "Image URL"
+         }
+       ]
+     }
+   ],
+   "presets": [
+      {
+   		"name": "Custom content",
+         "category": "Advanced layout",
+         "blocks": []
+      }
+   ]
+}
+{% endschema %}

@@ -1,10 +1,25 @@
-{%- include 'icons-cart-snippets' -%} 
+{%- include 'icons-box-snippets' -%} 
 
+{% liquid 
+  assign bg_color = section.settings.bg_color 
+%}
+
+<style>
+  {%- if bg_color != blank -%}
+    .icons-cart .icons-cart__wrapper{
+      background: {{bg_color}};
+    }
+  {%- endif -%}
+</style>
 {% schema %}
   {
-    "name": "Icons Cart",
+    "name": "Icons Box",
     "tag": "section",
     "settings": [
+      {
+        "type": "paragraph",
+        "content": "Created by section \"Icons Box\""
+      },
       {
         "type": "select",
         "id": "layout",
@@ -18,8 +33,13 @@
         "default": "boxed"
       },
       {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background color"
+      },
+      {
         "type": "header",
-        "content": "Text box"
+        "content": "Section Heading"
       },
       {
         "type": "text",
@@ -55,31 +75,9 @@
         "name": "Icon item",
         "settings": [
           {
-            "type": "select",
+            "type": "html",
             "id": "icon",
-            "label": "Icon",
-            "options": [
-              {
-                "value": "1",
-                "label": "1"
-              },
-              {
-                "value": "2",
-                "label": "2"
-              },
-              {
-                "value": "3",
-                "label": "3"
-              },
-              {
-                "value": "4",
-                "label": "4"
-              },
-              {
-                "value": "5",
-                "label": "5"
-              }
-            ]
+            "label": "Icon"
           },
           {
             "type": "text",
@@ -91,8 +89,8 @@
     ],
     "presets": [
       {
-        "category": "Icons",
-        "name": "Icons Cart"
+        "category": "Banner",
+        "name": "Icons Box"
       }
     ]
   }

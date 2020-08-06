@@ -35,7 +35,20 @@
         {{- 'arn-aif.js' | asset_url | script_tag -}}
     {%- endunless -%} 
     {{ content_for_header }}
-    {{ 'main_style.css' | asset_url | stylesheet_tag }}
+
+    
+
+
+
+
+
+
+  
+
+
+
+{{ 'main_style.css' | asset_url | stylesheet_tag }}
+{% include 'css_variables' %}
 </head>
 
 {%- capture themeClass -%}template{{ template | split: '.' | first | camelize -}}
@@ -59,6 +72,25 @@
     </div>
 
     <script src="{{ 'app.js' | asset_url }}"></script>
-    <script src="{{ 'custom.js' | asset_url }}"></script>    
+<script src="{{ 'custom.js' | asset_url }}"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 </body>
 </html>

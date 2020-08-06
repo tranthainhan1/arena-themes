@@ -1,0 +1,55 @@
+{% liquid 
+  assign layout     = section.settings.layout
+  assign heading    = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign btn_title  = section.settings.btn_title
+  assign btn_url    = section.settings.btn_url
+%}
+
+{%- capture classResp -%}
+  {{- ' ' -}}col-5th
+{%- endcapture -%}
+
+<div class="icons-cart" data-section-id="{{section.id}}" data-section-type="icons-cart">
+  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}  
+    <div class="icons-cart__wrapper">
+      <div class="icons-cart__heading section_title-wrapper">
+        <div class="heading section_title-text-1">
+          <span class="content">{{heading}}</span>
+        </div>
+        <div class="subheading section_title-text-2">
+          <span class="content">{{subheading}}</span>
+        </div>
+      </div>
+      <div class = "icons-cart__list">
+      <div class = "row">
+          {%- for block in section.blocks -%}
+            {% liquid 
+              assign title     = block.settings.block_title
+              assign icon_html = block.settings.icon
+
+            %}
+            <div class="{{classResp | strip_newlines | strip}}">
+              <div class="icons-cart__item">
+                <div class="icon_box">
+                  {{icon_html}}
+                </div>
+                <div class="title">
+                  <span class=" content ">{{title}}</span>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+      {%- if btn_title != blank -%}
+        <div class="icons-cart__button">
+          <a href="{{btn_url | default : 'javascript:void(0)'}}" class="btn btn-1">
+            <span>{{btn_title}}</span>
+            {%- include 'svg', type: 'arrowRight' -%}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  {% if layout == 'boxed' %} </div> {%- endif -%}
+</div>

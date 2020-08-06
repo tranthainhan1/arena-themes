@@ -1,5 +1,9 @@
 {
-  "general": {},
+  "general": {
+    "card": {
+      "label_for_all_product_of_collection": "styles"
+    }
+  },
   "search": {
     "general": {
       "search_placeholder": "Search for products...",

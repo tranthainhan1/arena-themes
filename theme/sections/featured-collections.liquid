@@ -1,0 +1,122 @@
+{%- include 'featured-collections-snippets' -%}
+
+{% schema %}
+  {
+    "name": "Featured Collections",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Created by \"Featured Collections\" section."
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      },
+      {
+        "type": "header",
+        "content": "Section Heading"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Shopify Themes"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "Here are a few of the most popular themes we build"
+      },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text align:",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "header",
+        "content": "Section Text under"
+      },
+      {
+        "type": "text",
+        "id": "linking_words",
+        "label": "Linking words",
+        "default": "or"
+      },
+      {
+        "type": "text",
+        "id": "text_under_content",
+        "label": "Text link",
+        "default": "explore our catalogue of 330+ demos for your ideal Shopify theme..."
+      },
+      {
+        "type": "url",
+        "id": "text_under_url",
+        "label": "Text URL"
+      },
+      {
+        "type": "select",
+        "id": "text_under_align",
+        "label": "Text align:",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "block_item",
+        "name": "Collection Item",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection_name",
+            "label": "Collection:"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Collection",  
+        "name": "Featured Collections"
+      }
+    ]
+  }
+{% endschema %}

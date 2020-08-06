@@ -30,7 +30,7 @@
       </div>
       {%- if section_image != blank -%}
         <div class="image-box">
-          {%- include 'image-style', image: section_image, disablePadding: true -%}
+          {%- render 'image-style', image: section_image -%}
         </div>
       {%- endif -%}
     </div>

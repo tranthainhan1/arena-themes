@@ -1,0 +1,49 @@
+{% liquid 
+  assign layout             = section.settings.layout
+  assign heading            = section.settings.heading
+  assign subheading         = section.settings.subheading
+  assign text_align         = section.settings.text_align
+  assign linking_words      = section.settings.linking_words
+  assign text_under_content = section.settings.text_under_content
+  assign text_under_url     = section.settings.text_under_url
+  assign text_under_align   = section.settings.text_under_align
+%}
+
+{%- capture classResp -%}
+  {{- ' ' -}}col-5th
+{%- endcapture -%}
+
+<div class="featured-collections" data-section-id="{{section.id}}" data-section-type="featured-collections">
+  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+    <div class="featured-collections__wrap">
+      <div class="featured-collections__title text-{{text_align}} section_title-wrapper">
+        <div class="heading section_title-text-1">
+          <span class="content">{{heading}}</span>
+        </div>
+        <div class="subheading section_title-text-2">
+          <span class="content">{{subheading}}</span>
+        </div>
+      </div>
+      <div class="featured-collections__content">
+        <div class="row">
+          {%- for block in section.blocks -%}
+            {% liquid 
+              assign collection_name =  block.settings.collection_name
+            %}
+            <div class="{{classResp | strip_newlines | strip}}" {{block.shopify_attributes}}>
+              <div class="featured-collections__item">
+                {%- include 'card-template', type: 'collection', collection_name: collection_name -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+      {%- if text_under_content != blank -%}
+        <div class="featured-collections__text-under text-{{text_under_align}}">
+          <span>{{linking_words}}</span>
+          <a href="{{text_under_url | default: 'javascript:void(0)'}}">{{text_under_content}}</a>
+        </div>
+      {%- endif -%}
+    </div>
+  {% if layout == 'boxed' %} </div> {%- endif -%}
+</div>
