@@ -1,0 +1,36 @@
+<div class="separator separator-{{section.id}}" data-section-id="{{section.id}}" data-section-type="separator">
+  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+    <div class="separator__content"></div>
+  {% if layout == 'boxed' %} </div> {%- endif -%}
+</div>
+
+{% schema %}
+  {
+    "name": "Separator",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "'Separator' section use to create spacing between sections. "
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      }
+    ],
+    "presets": [
+      {
+        "category": "Separator",
+        "name": "Separator"
+      }
+    ]
+  }
+{% endschema %}
