@@ -1,7 +1,9 @@
 {
   "general": {
     "card": {
-      "label_for_all_product_of_collection": "styles"
+      "product": {
+        "label_variants": "styles"
+      }
     }
   },
   "search": {

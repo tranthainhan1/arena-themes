@@ -1,12 +1,12 @@
 {%- include 'custom-content-snippets' -%}
 
 {% liquid 
-  assign bg_color = section.settings.bg_color 
+  assign bg_color   = section.settings.bg_color
 %}
 
 <style>
    {%- if bg_color != blank -%}
-   .custom-content .custom-content__wrapper{
+   .custom-content[data-section-id="{{section.id}}"] .custom-content__wrapper{
       background-color: {{bg_color}};
    }
    {%- endif -%}
@@ -44,32 +44,6 @@
       },
       {
          "type":"header",
-         "content":"Section Heading"
-      },
-      {
-         "type":"text",
-         "id":"sectionHeading_text_1",
-         "label":"Heading"
-      },
-      {
-         "type":"text",
-         "id":"sectionHeading_text_2",
-         "label":"Subheading"
-      },
-      {
-         "type":"color",
-         "id":"sectionHeading_cl_1",
-         "label":"Heading color",
-         "info": "Blank to inherit"
-      },
-      {
-         "type":"color",
-         "id":"sectionHeading_cl_2",
-         "label":"Subheading color",
-         "info": "Blank to inherit"
-      },
-      {
-         "type":"header",
          "content":"Layout content"
       },
       {
@@ -78,12 +52,6 @@
          "label":"Max number of items per row",
          "default": "5,3,2",
          "placeholder": "E.g: 4,3,2"
-      },
-      {
-         "type":"text",
-         "id":"grid_spc",
-         "label":"Item spacing",
-         "placeholder": "E.g: 10px"
       }
    ],
    "blocks": [
@@ -98,25 +66,31 @@
            {
               "type": "text",
               "id": "heading",
-              "label": "Heading",
-              "default": "Your One-Stop Shopify Companion"
+              "label": "Heading"
            },
            {
               "type": "text",
               "id": "subheading",
-              "label": "Subheading",
-              "default": "Proud be a Shopify Expert, we have always been a companion for market leaders worldwide since 2015."
+              "label": "Subheading"
            },
            {
               "type": "text",
               "id": "btn_title",
-              "label": "Button title",
-              "default": "Learn more"
+              "label": "Button title"
            },
            {
              "type": "url",
              "id": "btn_url",
              "label": "Button URL"
+           },
+           {
+              "type": "header",
+              "content": "Add Custom HTML"
+           },
+           {
+              "type": "html",
+              "id": "custom_html",
+              "label": "Custom HTML"
            }
         ]
      },

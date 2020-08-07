@@ -1,22 +1,22 @@
 {%- case type -%}
-  {%- when 'collection' -%}
+  {%- when 'product' -%}
     {% liquid 
-      assign collection = collections[collection_name]
-      assign image = collection.image
+      assign image = product.featured_image
     %}
-      <div class="card">
-        <div class="card-body">
-          <a href="collections/{{collection.handle}}">
-            {%- render 'image-style', image: image -%}
+      <div class="card card-product">
+        <div class="card-img-top">
+          <a href="{{product.url}}">
+            {%- render 'image-style', image: image, originQuality: true -%}
           </a>
         </div>
-        <div class="card-footer">
-          <div class="card-footer__name">
-            <span>{{collection.title}}</span>
+        <div class="card-body">
+          <div class="card-body__tile">
+            <span class="title">{{product.title}}</span>
+            <span class="price">{{product.price | money }}</span>
           </div>
-          <div class="card-footer__total-product">
-            <span>{{collection.all_products_count}}</span>
-            <span>{{ 'general.card.label_for_all_product_of_collection' | t }}</span>
+          <div class="card-body__variants-label">
+            <span>{{product.metafields.c_f.total_variant | default: 0}}</span>
+            <span>{{ 'general.card.product.label_variants' | t }}</span>
           </div>
         </div>
       </div>

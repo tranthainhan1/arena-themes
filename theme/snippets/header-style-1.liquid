@@ -3,17 +3,18 @@
   assign layout = section.settings.layout 
   assign nav_link = section.settings.nav_link 
 %}
+
 {%- if layout == 'boxed' -%} <div class="container"> {%- endif -%}
-  <div class="header-desktop ">
+  <div class="header-desktop style-01">
     <div class="header-desktop__inner">
       <div class="logo">
         {% if logo != blank %} 
-          {%- render 'image-style', image: logo -%}
+          <img src="{{logo | img_url: 'master'}}" alt="">
         {%- else -%}
           <a href="/">{{shop.name}}</a>
         {%- endif -%}
       </div>
-      <div class="horizontal-nav">
+      <div class="horizontal-nav d-none d-md-flex">
         <ul class="horizontal-nav__content">
           {%- for link in linklists[nav_link].links -%}
             <li class="nav-link">
@@ -38,6 +39,11 @@
         <div class="icon-list__item cart">
           {%- include 'svg', type: 'cart' -%}
           <div class="number">0</div>
+        </div>
+        <div class="d-sm-none icon-list__item menu">
+          <a href="javascript:void(0)" class="js-handle-nav-mobile">
+            {%- include 'svg', type: 'icon-menu' -%}
+          </a>
         </div>
       </div>
     </div>

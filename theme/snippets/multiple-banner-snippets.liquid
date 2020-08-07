@@ -5,7 +5,8 @@
 %}
 
 {%- capture blockCss -%}
-  {{- ' ' -}}col-{{ 12 | divided_by: block_count}}
+  {{- ' ' -}}col-sm-{{ 12 | divided_by: block_count -}}
+  {{- ' ' -}}col-12
 {%- endcapture -%}
 
 <div class="multiple-banner" data-section-id="{{section.id}}" data-section-type="multiple-banner">

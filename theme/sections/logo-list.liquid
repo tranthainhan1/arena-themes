@@ -1,12 +1,113 @@
+{% liquid 
+  assign layout     = section.settings.layout
+  assign heading    = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign align_text = section.settings.align_text
+%}
+
+{%- capture classResp -%}
+  {{- ' ' -}}
+{%- endcapture -%}
+<div class="logo-list" data-section-id="{{section.id}}" data-section-type="logo-list">
+  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+    <div class="logo-list__wrapper">
+      <div class="logo-list__title section_title-wrapper text-{{align_text}}">
+        <div class="heading section_title-text-1">
+          <span class="content">{{heading}}</span>
+        </div>
+      </div>
+      <div class="logo-list__content">
+        <div class="row">
+          {%- for block in section.blocks -%}
+            {% liquid 
+              assign image = block.settings.image 
+            %}
+            <div class="{{classResp | strip_newlines | strip}}" style="width: 12.5%;">
+              <div class="logo-list__image">
+                {%- render 'image-style', image: image, originQuality: true -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {% if layout == 'boxed' %} </div> {%- endif -%}
+</div>
 
 {% schema %}
   {
     "name": "Logo List",
     "tag": "section",
-    "presets": [
+    "settings": [
       {
-        "category": "",
+        "type": "paragraph",
+        "content": "Created by 'Logo list' section."
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      },
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "html",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading"
+      },
+      {
+        "type": "select",
+        "id": "align_text",
+        "label": "Text align",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
       }
     ],
+    "blocks": [
+      {
+        "type": "block_item",
+        "name": "Block Item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Banner",
+        "name": "Logo list"
+      }
+    ]
   }
 {% endschema %}

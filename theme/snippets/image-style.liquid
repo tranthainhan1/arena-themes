@@ -15,7 +15,7 @@
 		{%- if image.width > 1512 -%}{%- assign image_size = '1512x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
 		{%- if image.width > 1728 -%}{%- assign image_size = '1728x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
 		{%- if image.width > 2048 -%}{%- assign image_size = '2048x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
-		{%- if image.width > 2048 and originQuality-%}{%- assign image_size = image.width | append: 'x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- if originQuality-%}{%- assign image_size = image.width | append: 'x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
 	{%- endif -%}
 
 		{%- liquid
@@ -40,7 +40,6 @@
   			{%- if setWidth -%}width: {{image.width}}px;{%- endif -%}
   		{%- endcapture -%}
   		{%- capture imageRatio_css 	  -%}" style="{%- endcapture -%}
-			
 		<span class="image__style{{imageRatio_height}}">
 			{%- if _lazyload -%}
 				<img class="overlay-ui w-100 h-100 lazyload {{ image_class }}{{imageRatio_css}}"

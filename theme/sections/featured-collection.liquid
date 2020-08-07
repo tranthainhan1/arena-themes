@@ -1,8 +1,8 @@
-{%- include 'featured-collections-snippets' -%}
+{%- include 'featured-collection-snippets' -%}
 
 {% schema %}
   {
-    "name": "Featured Collections",
+    "name": "Featured Collection",
     "tag": "section",
     "settings": [
       {
@@ -23,10 +23,19 @@
       },
       {
         "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "header",
         "content": "Section Heading"
       },
       {
-        "type": "text",
+        "type": "html",
         "id": "heading",
         "label": "Heading",
         "default": "Shopify Themes"
@@ -99,23 +108,10 @@
         "default": "left"
       }
     ],
-    "blocks": [
-      {
-        "type": "block_item",
-        "name": "Collection Item",
-        "settings": [
-          {
-            "type": "collection",
-            "id": "collection_name",
-            "label": "Collection:"
-          }
-        ]
-      }
-    ],
     "presets": [
       {
         "category": "Collection",  
-        "name": "Featured Collections"
+        "name": "Featured Collection"
       }
     ]
   }
