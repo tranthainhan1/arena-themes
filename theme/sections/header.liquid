@@ -1,7 +1,8 @@
 {% liquid 
   assign logo_max_width       = section.settings.logo_max_width
   assign header_desktop_style = section.settings.header_desktop_style
-  assign header_mobile_style = section.settings.header_mobile_style
+  assign header_mobile_style  = section.settings.header_mobile_style
+  assign logo_mobi_max_width  = section.settings.logo_mobi_max_width
 %}
 
 <div class="header">
@@ -17,6 +18,13 @@
   {%- if logo_max_width != blank -%}
     .header .header-desktop .header-desktop__inner .logo img{
       max-width: {{logo_max_width}}px;
+    }
+  {%- endif -%}
+  {% if logo_mobi_max_width != blank %}
+    @media  screen and (max-width: 991.9px){
+      .header .header-desktop .header-desktop__inner .logo img{
+        max-width: {{logo_mobi_max_width}}px;
+      }
     }
   {%- endif -%}
 </style>

@@ -1,37 +1,63 @@
 {%- case type -%}
   {%- when 'text_box' -%}
     {% liquid 
-      assign heading    = block.settings.heading
-      assign subheading = block.settings.subheading
-      assign btn_url    = block.settings.btn_url
-      assign btn_title  = block.settings.btn_title
+      assign heading      = block.settings.heading
+      assign subheading   = block.settings.subheading
+      assign btn_url      = block.settings.btn_url
+      assign btn_title    = block.settings.btn_title
+      assign image_mobile = block.settings.image_mobile
+      assign text_color     = block.settings.text_color
+      assign custom_html     = block.settings.custom_html
     %}
-    <div class="custom-content__item__text-box">
+    <div class="custom-content__item__text-box" data-block-id="{{block.id}}">
       <div class="text-box-group">
         <div class="title">
           <div class="heading">
             <span class="content">{{heading}}</span>
           </div>
+          {%- if image_mobile != blank -%}
+            <div class="d-md-none image">
+              {% render 'image-style', image: image_mobile, originQuality: true  %}
+            </div>
+          {%- endif -%}
           <div class="subheading">
             <span class="content">{{subheading}}</span>
           </div>
+          <div class="custom-html">
+            {{custom_html}}
+          </div>
         </div>
-        <div class="button">
-          <a href="{{btn_url}}" class="btn btn-1">
-            <span>{{btn_title}}</span>
-            {%- include 'svg', type: 'arrowRight' -%}
-          </a>
-        </div>
+        {%- if btn_title != blank -%}
+          <div class="button">
+            <a href="{{btn_url}}" class="btn btn-1">
+              <span>{{btn_title}}</span>
+              {%- include 'svg', type: 'arrowRight' -%}
+            </a>
+          </div>
+        {%- endif -%}
       </div>
     </div>
+    <style>
+      {%- if text_color != blank -%}
+        .custom-content[data-section-id="{{section.id}}"] .custom-content__item .custom-content__item__text-box[data-block-id="{{block.id}}"] .title{
+          color: {{text_color}};
+        }
+      {%- endif -%}
+    </style>
   {%- when 'image' -%}
     {% liquid 
-      assign image =  block.settings.image
-      assign img_url = block.settings.img_url 
+      assign image          = block.settings.image
+      assign align_vertical = block.settings.align_vertical
     %}
     <div class="custom-content__item__image">
-      <a href="{{img_url}}">
+      <div class="image-position">
         {%- render 'image-style', image: image -%}
-      </a>
+      </div>
     </div>
+    <style>
+      .custom-content .custom-content__item__image  {
+        top: {{align_vertical}}%;
+        transform: translateY(-{{align_vertical}}%);
+      }
+    </style>
 {%- endcase -%}

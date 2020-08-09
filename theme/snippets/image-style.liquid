@@ -42,7 +42,7 @@
   		{%- capture imageRatio_css 	  -%}" style="{%- endcapture -%}
 		<span class="image__style{{imageRatio_height}}">
 			{%- if _lazyload -%}
-				<img class="overlay-ui w-100 h-100 lazyload {{ image_class }}{{imageRatio_css}}"
+				<img class="overlay-ui w-100 h-100 lazyload blur-up {{ image_class }}{{imageRatio_css}}"
 					data-src="{{ image_url }}"
 					data-widths="{{ image_width}}"
 					data-aspectratio="{{ image_ratio }}"

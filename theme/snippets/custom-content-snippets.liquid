@@ -1,23 +1,26 @@
 {% liquid 
   assign layout = section.settings.layout
-  assign items_resp = section.settings.items_resp 
 %}
 
-{%- capture classResp -%}
-  {{- ' ' -}}col-6
-{%- endcapture -%}
 
 <div class="custom-content" data-section-id="{{section.id}}" data-section-type="custom-content">
   {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
     <div class="custom-content__wrapper">
       <div class="custom-content__content">
         <div class="row">
+
           {%- for block in section.blocks -%}
-          <div class="{{classResp | strip_newlines | strip}}">
-            <div class="custom-content__item">
-              {%- include 'custom-content-item-snippets', type: block.type -%}
+            {% liquid 
+              assign items_resp = block.settings.items_resp 
+            %}
+            {%- capture classResp -%}
+              {% render 'set-item-per-row' value: items_resp %}
+            {%- endcapture -%}
+            <div class="{{classResp | strip_newlines | strip}}">
+              <div class="custom-content__item">
+                {%- include 'custom-content-item-snippets', type: block.type -%}
+              </div>
             </div>
-          </div>
           {%- endfor -%}
         </div>
       </div>

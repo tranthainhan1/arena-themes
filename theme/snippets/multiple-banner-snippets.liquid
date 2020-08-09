@@ -15,28 +15,36 @@
       <div class="row">
         {%- for block in section.blocks -%}
           {% liquid 
-            assign heading    = block.settings.heading
-            assign subheading = block.settings.subheading
-            assign image      = block.settings.image
-            assign text_color = block.settings.text_color
+            assign heading        = block.settings.heading
+            assign subheading     = block.settings.subheading
+            assign image          = block.settings.image
+            assign text_color     = block.settings.text_color
+            assign block_bg_color = block.settings.block_bg_color
           %}
           <div class="{{ blockCss | strip_newlines | strip}}">
             <div class="multiple-banner__item block-{{block.id}}" {{block.shopify_attributes}}>
-              <div class="title section_title-wrapper">
-                <div class="heading section_title-text-1">
-                  <span class="content">{{heading}}</span>
+              <div class="multiple-banner__item__content">
+                <div class="title section_title-wrapper">
+                  <div class="heading section_title-text-1">
+                    <span class="content">{{heading}}</span>
+                  </div>
+                  <div class="subheading section_title-text-2">
+                    <span class="content">{{subheading}}</span>
+                  </div>
                 </div>
-                <div class="subheading section_title-text-2">
-                  <span class="content">{{subheading}}</span>
+                <div class="image">
+                  {%- render 'image-style', image: image -%}
                 </div>
-              </div>
-              <div class="multiple-banner__item__image-box">
-                {%- render 'image-style', image: image -%}
               </div>
               <style>
                 {%- if block.settings.text_color != blank -%}
                   .multiple-banner .multiple-banner__item.block-{{block.id}} .title >div{
                     color: {{text_color}};
+                  }
+                {%- endif -%}
+                {%- if block_bg_color != blank -%}
+                  .multiple-banner .multiple-banner__item.block-{{block.id}} {
+                    background-color: {{text_color}};
                   }
                 {%- endif -%}
               </style>

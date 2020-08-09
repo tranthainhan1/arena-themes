@@ -9,7 +9,6 @@ import "lazysizes/plugins/video-embed/ls.video-embed";
 import * as shopifyCart from "@shopify/theme-cart";
 import * as section from "@shopify/theme-sections";
 import { tns } from "tiny-slider/src/tiny-slider";
-import { AT_Main } from "./_arn";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;

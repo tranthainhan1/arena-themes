@@ -3,10 +3,11 @@
   assign heading    = section.settings.heading
   assign subheading = section.settings.subheading
   assign align_text = section.settings.align_text
+  assign items_resp = section.settings.items_resp
 %}
 
 {%- capture classResp -%}
-  {{- ' ' -}}
+  {%- include 'set-item-per-row', value: items_resp  -%}
 {%- endcapture -%}
 <div class="logo-list" data-section-id="{{section.id}}" data-section-type="logo-list">
   {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
@@ -22,7 +23,7 @@
             {% liquid 
               assign image = block.settings.image 
             %}
-            <div class="{{classResp | strip_newlines | strip}}" style="width: 12.5%;">
+            <div class="{{classResp | strip_newlines | strip}}" >
               <div class="logo-list__image">
                 {%- render 'image-style', image: image, originQuality: true -%}
               </div>
@@ -57,7 +58,7 @@
       },
       {
         "type": "header",
-        "content": "General settings"
+        "content": "Section Heading"
       },
       {
         "type": "html",
@@ -88,6 +89,17 @@
           }
         ],
         "default": "center"
+      },
+      {
+        "type": "header",
+        "content": "Layout settings"
+      },
+      {
+        "type": "text",
+        "id": "items_resp",
+        "label": "Max number of items per row",
+        "info": "E.g: 2,1,1",
+        "default": "3,1"
       }
     ],
     "blocks": [
