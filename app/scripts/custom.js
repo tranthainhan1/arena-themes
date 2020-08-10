@@ -7,13 +7,13 @@ import "lazysizes/plugins/respimg/ls.respimg";
 import "lazysizes/plugins/rias/ls.rias";
 import "lazysizes/plugins/video-embed/ls.video-embed";
 import * as shopifyCart from "@shopify/theme-cart";
-import * as section from "@shopify/theme-sections";
-import { tns } from "tiny-slider/src/tiny-slider";
-import AT_main from "./_arn";
+import { register, load } from "@shopify/theme-sections";
+import { IconsBox } from "./objects";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 
 window.addEventListener("DOMContentLoaded", () => {
-  AT_main.initTinySlider();
+  register("icons-cart", IconsBox);
+  load("*");
 });
