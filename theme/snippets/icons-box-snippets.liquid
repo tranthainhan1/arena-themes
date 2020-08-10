@@ -7,7 +7,6 @@
 %}
 
 {%- capture classResp -%}
-  {{- ' ' -}}col-5th
 {%- endcapture -%}
 
 <div class="icons-cart" data-section-id="{{section.id}}" data-section-type="icons-cart">
@@ -21,26 +20,34 @@
           <span class="content">{{subheading}}</span>
         </div>
       </div>
-      <div class = "icons-cart__list">
-      <div class = "row">
+      <div class ="icons-cart__list">
+        <div class ="js-tns">
           {%- for block in section.blocks -%}
             {% liquid 
               assign title     = block.settings.block_title
               assign icon_html = block.settings.icon
 
             %}
-            <div class="{{classResp | strip_newlines | strip}}">
-              <div class="icons-cart__item">
+            <div class="icons-cart__item">
+              <div class="wrapper">
                 <div class="icon_box">
                   {{icon_html}}
                 </div>
                 <div class="title">
-                  <span class=" content ">{{title}}</span>
+                  <span class=" content ">{{title}}</span> 
                 </div>
               </div>
             </div>
           {%- endfor -%}
         </div>
+      <div class="js-tns-controls section-{{section.id}} d-none">
+        <div class="btn-prev">
+          {% render 'svg', type: 'arrowLeft'  %}
+        </div>
+        <div class="btn-next">
+           {% render 'svg', type: 'arrowRight'  %}
+        </div>
+      </div>
       </div>
       {%- if btn_title != blank -%}
         <div class="icons-cart__button">

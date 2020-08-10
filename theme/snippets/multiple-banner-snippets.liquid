@@ -5,7 +5,7 @@
 %}
 
 {%- capture blockCss -%}
-  {{- ' ' -}}col-sm-{{ 12 | divided_by: block_count -}}
+  {{- ' ' -}}col-lg-{{ 12 | divided_by: block_count -}}
   {{- ' ' -}}col-12
 {%- endcapture -%}
 
@@ -24,16 +24,17 @@
           <div class="{{ blockCss | strip_newlines | strip}}">
             <div class="multiple-banner__item block-{{block.id}}" {{block.shopify_attributes}}>
               <div class="multiple-banner__item__content">
-                <div class="title section_title-wrapper">
-                  <div class="heading section_title-text-1">
+                <div class="title">
+                  <div class="heading">
                     <span class="content">{{heading}}</span>
                   </div>
-                  <div class="subheading section_title-text-2">
+                  <div class="subheading">
                     <span class="content">{{subheading}}</span>
                   </div>
                 </div>
-                <div class="image">
-                  {%- render 'image-style', image: image -%}
+                <div class="image" style="max-width: {{image.width}}px; margin:auto;">
+                  {%- assign image_height = image.height | append: 'px' -%}
+                  {%- render 'image-style', image: image, imagePadding: image_height, originQuality: true -%}
                 </div>
               </div>
               <style>
@@ -44,7 +45,7 @@
                 {%- endif -%}
                 {%- if block_bg_color != blank -%}
                   .multiple-banner .multiple-banner__item.block-{{block.id}} {
-                    background-color: {{text_color}};
+                    background-color: {{block_bg_color}};
                   }
                 {%- endif -%}
               </style>

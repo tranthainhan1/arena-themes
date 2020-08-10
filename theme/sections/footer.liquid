@@ -1,0 +1,30 @@
+<div class="footer">
+  <div class="container">
+  <div class="footer__widget"></div>
+  /</div>
+</div>
+
+{% schema %}
+  {
+    "name" : "Footer",
+    "tag" : "footer",
+    "settings" : [
+      {
+        "type": "select",
+        "id" : "layout",
+        "label" : "Layout",
+        "options" : [
+          {
+            "value" : "boxed",
+            "label" : "Boxed" 
+          },
+          {
+            "value" : "wide",
+            "label" : "Wide"
+          }
+        ],
+        "default" : "boxed"
+      }
+    ]
+  }
+{% endschema %}

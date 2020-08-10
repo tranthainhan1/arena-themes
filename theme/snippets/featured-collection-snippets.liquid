@@ -12,7 +12,6 @@
 %}
 
 {%- capture classResp -%}
-  {{- ' ' -}}col-5th
 {%- endcapture -%}
 
 <div class="featured-collection" data-section-id="{{section.id}}" data-section-type="featured-collection">
@@ -27,14 +26,20 @@
         </div>
       </div>
       <div class="featured-collection__content">
-        <div class="row">
+        <div class="js-tns">
           {%- for product in collection.products -%}
-            <div class="{{classResp | strip_newlines | strip}}" >
               <div class="featured-collection__item">
                 {%- render 'card-template', type: 'product', product: product -%}
               </div>
-            </div>
           {%- endfor -%}
+        </div>
+        <div class="js-tns-controls section-{{section.id}} d-none">
+          <div class="btn-prev">
+            {% render 'svg', type: 'arrowLeft'  %}
+          </div>
+          <div class="btn-next">
+            {% render 'svg', type: 'arrowRight'  %}
+          </div>
         </div>
       </div>
       {%- if text_under_content != blank -%}

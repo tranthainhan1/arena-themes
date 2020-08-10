@@ -65,6 +65,7 @@
             {{ content_for_layout }}
         </main>
         <footer>
+            {% section 'footer' %}
         </footer>
 
         {%- if settings.enable_mobilebar -%}{%- section 'mobile-bar' -%}{%- endif -%}
@@ -73,6 +74,17 @@
 
     <script src="{{ 'app.js' | asset_url }}"></script>
 <script src="{{ 'custom.js' | asset_url }}"></script>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

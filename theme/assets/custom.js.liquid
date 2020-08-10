@@ -6501,7 +6501,28 @@ var tns = function(options) {
   };
 };
 
+// CONCATENATED MODULE: ./app/scripts/_arn.js
+
+var AT_main = {
+  initTinySlider: function initTinySlider() {
+    var container_list = document.querySelectorAll(".js-tns");
+    container_list.forEach(function (item) {
+      var controlsContainer = item.nextElementSibling;
+      var slider = tns({
+        container: item,
+        autoWidth: true,
+        gutter: 30,
+        nav: false,
+        edgePadding: 16,
+        loop: false,
+        controlsContainer: controlsContainer
+      });
+    });
+  }
+};
+/* harmony default export */ var _arn = (AT_main);
 // CONCATENATED MODULE: ./app/scripts/custom.js
+
 
 
 
@@ -6515,6 +6536,9 @@ var tns = function(options) {
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
+window.addEventListener("DOMContentLoaded", function () {
+  _arn.initTinySlider();
+});
 
 /***/ })
 /******/ ]);

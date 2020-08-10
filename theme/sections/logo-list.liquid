@@ -18,17 +18,17 @@
         </div>
       </div>
       <div class="logo-list__content">
-        <div class="row">
-          {%- for block in section.blocks -%}
-            {% liquid 
-              assign image = block.settings.image 
-            %}
-            <div class="{{classResp | strip_newlines | strip}}" >
-              <div class="logo-list__image">
+        <div class="logo-list__list">
+          <div class="js-tns">
+            {%- for block in section.blocks -%}
+              {% liquid 
+                assign image = block.settings.image 
+              %}
+              <div class="logo-list__item">
                 {%- render 'image-style', image: image, originQuality: true -%}
               </div>
-            </div>
-          {%- endfor -%}
+            {%- endfor -%}
+          </div>
         </div>
       </div>
     </div>
