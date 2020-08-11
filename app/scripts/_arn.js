@@ -6,43 +6,45 @@ var AT_main = {
     let controlsContainer = sliderContainer.nextElementSibling;
     return tns({
       container: sliderContainer,
-      loop: true,
-      edgePadding: 16,
+      autoWidth: true,
+      loop: false,
       nav: false,
+      // items: 5,
+      // gutter: 30,
       controlsContainer: controlsContainer,
       mouseDrag: true,
       preventScrollOnTouch: "auto",
       slideBy: "page",
       swipeAngle: false,
-      responsive: {
-        1: {
-          items: 1,
-          gutter: 25,
-        },
-        375: {
-          items: 1.5,
-        },
-        479: {
-          items: 2,
-        },
-        576: {
-          items: 2.5,
-        },
-        768: {
-          items: 3,
-        },
-        992: {
-          items: 3.5,
-          gutter: 30,
-        },
-        1052: {
-          items: 4,
-          gutter: 30,
-        },
-        1440: {
-          items: 5,
-        },
-      },
+      // responsive: {
+      //   1: {
+      //     items: 1,
+      //     gutter: 25,
+      //   },
+      //   375: {
+      //     items: 1.5,
+      //   },
+      //   479: {
+      //     items: 2,
+      //   },
+      //   576: {
+      //     items: 2.5,
+      //   },
+      //   768: {
+      //     items: 3,
+      //   },
+      //   992: {
+      //     items: 3.5,
+      //     gutter: 30,
+      //   },
+      //   1052: {
+      //     items: 4,
+      //     gutter: 30,
+      //   },
+      //   1440: {
+      //     items: 5,
+      //   },
+      // },
     });
   },
 };

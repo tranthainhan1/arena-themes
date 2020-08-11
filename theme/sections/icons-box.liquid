@@ -10,6 +10,28 @@
       background: {{bg_color}};
     }
   {%- endif -%}
+  .tns-autowidth{
+    display: block!important;
+  }
+  .icons-cart .icons-cart__list .icons-cart__item .wrapper{
+    width: 250px;
+    height: 300px;
+  }
+  .icons-cart .icons-cart__list{
+    max-width: 1400px;
+  }
+  .js-tns .icons-cart__item{
+    padding-right: 30px;
+  }
+  .tns-inner{
+    padding-left: 15px;
+  }
+  .js-tns:not(.tns-carousel) > div:not(:last-child){
+    margin: 0;
+  }
+  .blur-up {
+  transition: filter 50ms, -webkit-filter 50ms;
+}
 </style>
 {% schema %}
   {
