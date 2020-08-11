@@ -1,0 +1,30 @@
+{%- case type -%}
+  {%- when 'infomation' -%}
+    {% liquid 
+      assign logo_type = block.settings.logo_type 
+      case logo_type
+        when 'image'
+          assign logo =  block.settings.logo_image
+        when 'svg'
+          assign logo =  block.settings.logo_svg
+      endcase
+      assign desc    = block.settings.desc
+      assign payment = block.settings.payment
+    %}
+    <div class="footer__infomation">
+      <div class="logo">
+        {%- case logo_type -%}
+          {%- when 'image' -%}
+            {% render 'image-style' , image: logo, originQuality: true %}
+          {%- when 'svg' -%}
+            {{logo}}
+        {%- endcase -%}
+      </div>
+      <div class="description">
+        <span class="content">{{desc}}</span>
+      </div>
+      <div class="payment">
+        {% render 'image-style' , image: payment, originQuality: true %}
+      </div>
+    </div>
+{%- endcase -%}

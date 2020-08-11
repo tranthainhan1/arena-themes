@@ -1,8 +1,56 @@
+{% liquid 
+  assign bg_color = section.settings.bg_color
+  assign nav_link =  
+%}
+
 <div class="footer">
   <div class="container">
-  <div class="footer__widget"></div>
-  /</div>
+    <div class="footer__wrapper">
+      <div class="footer-top">
+        <div class="row">
+          {%- for block in section.blocks -%}
+            {% liquid 
+              assign items_resp =  block.settings.items_resp
+            %}
+            {%- capture classResp -%}
+              {%- render 'set-item-per-row', value: items_resp  -%}
+            {%- endcapture -%}
+            <div class="{{classResp}}">
+              {%- include 'footer-top-snippets', type: block.type -%}
+            </div>
+          {%- endfor -%}
+        </div>    
+      </div>
+      <div class="footer-bottom">
+        <div class="row">
+          <div class="col-12 col-lg-6 footer-bottom__left">
+            <span class="content">Copyright © 2020 ArenaCommerce. All rights reserved.</span>
+          </div>
+          <div class="col-12 col-lg-6 footer-bottom__right">
+            <div class="nav-link">
+              <div class="nav-link__item">
+                <a href="{{nav_link_url_1}}">{{nav_link_lb_1}}</a>
+              </div>
+              <div class="nav-link__item">
+                <a href="{{nav_link_url_2}}">{{nav_link_lb_2}}</a>
+              </div>
+            </div>
+            <div class="translate-language">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<style> 
+{%- if bg_color != blank -%}
+  .footer .footer__wrapper{
+    background-color: {{bg_color}};
+  }
+{%- endif -%}
+</style>
 
 {% schema %}
   {
@@ -10,20 +58,88 @@
     "tag" : "footer",
     "settings" : [
       {
-        "type": "select",
-        "id" : "layout",
-        "label" : "Layout",
-        "options" : [
+        "type" : "color",
+        "id" : "bg_color",
+        "label" : "Background color"
+      },
+      {
+        "type" : "header",
+        "content" : "Footer bottom settings"
+      },
+      {
+        "type" : "text",
+        "id" : "nav_link_lb_1",
+        "label" : "Label of link 1"
+      },
+      {
+        "type" : "text",
+        "id" : "nav_link_url_1",
+        "label" : "URL of link 1"
+      },
+      {
+        "type" : "text",
+        "id" : "nav_link_lb_2",
+        "label" : "Label of link 2"
+      },
+      {
+        "type" : "text",
+        "id" : "nav_link_url_1",
+        "label" : "URL of link 2"
+      },
+    ],
+    "blocks" : [
+      {
+        "type" : "infomation",
+        "name" : "Infomation",
+        "settings" : [
           {
-            "value" : "boxed",
-            "label" : "Boxed" 
+            "type" : "header",
+            "content" : "Logo settings"
           },
           {
-            "value" : "wide",
-            "label" : "Wide"
+            "type" : "select",
+            "id" : "logo_type",
+            "label" : "Logo type",
+            "options" : [
+              {
+                "value" : "image",
+                "label" : "Image" 
+              },
+              {
+                "value" : "svg",
+                "label" : "SVG"
+              }
+            ],
+            "default" : "image" 
+          },
+          {
+            "type": "image_picker",
+            "id" : "logo_image",
+            "label" : "Logo"
+          },
+          {
+            "type" : "html",
+            "id" : "logo_svg",
+            "label" : "Logo SVG",
+            "info" : "Use when 'Logo type' choose 'SVG'"
+          },
+          {
+            "type" : "html",
+            "id" : "desc",
+            "label" : "Description"
+          },
+          {
+            "type" : "image_picker",
+            "id" : "payment", 
+            "label" : "Payment"
+          },
+          {
+            "type" : "text",
+            "id" : "items_resp",
+            "label": "Width (1-12)",
+            "info": "0 to hide. E.g: 4,6,12"
           }
-        ],
-        "default" : "boxed"
+        ]
       }
     ]
   }

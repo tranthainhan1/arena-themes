@@ -2,20 +2,47 @@ import { tns } from "tiny-slider/src/tiny-slider";
 
 var AT_main = {
   initTinySlider: (container) => {
-    console.log(container);
-    let container_list = document.querySelectorAll(".js-tns");
-    container_list.forEach((item) => {
-      let controlsContainer = item.nextElementSibling;
-      return tns({
-        container: item,
-        autoWidth: true,
-        gutter: 30,
-        nav: false,
-        edgePadding: 30,
-        loop: true,
-        controlsContainer: controlsContainer,
-        mouseDrag: true,
-      });
+    let sliderContainer = container.querySelector(".js-tns");
+    let controlsContainer = sliderContainer.nextElementSibling;
+    return tns({
+      container: sliderContainer,
+      loop: true,
+      edgePadding: 16,
+      nav: false,
+      controlsContainer: controlsContainer,
+      mouseDrag: true,
+      preventScrollOnTouch: "auto",
+      slideBy: "page",
+      swipeAngle: false,
+      responsive: {
+        1: {
+          items: 1,
+          gutter: 25,
+        },
+        375: {
+          items: 1.5,
+        },
+        479: {
+          items: 2,
+        },
+        576: {
+          items: 2.5,
+        },
+        768: {
+          items: 3,
+        },
+        992: {
+          items: 3.5,
+          gutter: 30,
+        },
+        1052: {
+          items: 4,
+          gutter: 30,
+        },
+        1440: {
+          items: 5,
+        },
+      },
     });
   },
 };

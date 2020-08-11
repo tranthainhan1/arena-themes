@@ -29,6 +29,14 @@
               </div>
             {%- endfor -%}
           </div>
+          <div class="js-tns-controls section-{{section.id}} d-none">
+            <div class="btn-prev">
+              {% render 'svg', type: 'arrowLeft'  %}
+            </div>
+            <div class="btn-next">
+              {% render 'svg', type: 'arrowRight'  %}
+            </div>
+          </div>
         </div>
       </div>
     </div>

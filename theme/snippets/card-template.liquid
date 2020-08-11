@@ -14,10 +14,18 @@
             <span class="title">{{product.title}}</span>
             <span class="price">{{product.price | money }}</span>
           </div>
-          <div class="card-body__variants-label">
-            <span>{{product.metafields.c_f.total_variant | default: 0}}</span>
-            <span>{{ 'general.card.product.label_variants' | t }}</span>
+          <div class="card-body__variants">
+            <div class="card-body__variants-label">
+              <span>{{product.metafields.c_f.total_variant | default: 0}}</span>
+              <span>{{ 'general.card.product.label_variants' | t }}</span>
+            </div>
+            <div class="card-body__variants-link">
+              <a href="#">
+                {% render 'svg', type: 'arrowRight_v2'  %}
+              </a>
+            </div>
           </div>
+
         </div>
       </div>
 {%- endcase -%}

@@ -6505,20 +6505,47 @@ var tns = function(options) {
 
 var AT_main = {
   initTinySlider: function initTinySlider(container) {
-    console.log(container);
-    var container_list = document.querySelectorAll(".js-tns");
-    container_list.forEach(function (item) {
-      var controlsContainer = item.nextElementSibling;
-      return tns({
-        container: item,
-        autoWidth: true,
-        gutter: 30,
-        nav: false,
-        edgePadding: 30,
-        loop: true,
-        controlsContainer: controlsContainer,
-        mouseDrag: true
-      });
+    var sliderContainer = container.querySelector(".js-tns");
+    var controlsContainer = sliderContainer.nextElementSibling;
+    return tns({
+      container: sliderContainer,
+      loop: true,
+      edgePadding: 16,
+      nav: false,
+      controlsContainer: controlsContainer,
+      mouseDrag: true,
+      preventScrollOnTouch: "auto",
+      slideBy: "page",
+      swipeAngle: false,
+      responsive: {
+        1: {
+          items: 1,
+          gutter: 25
+        },
+        375: {
+          items: 1.5
+        },
+        479: {
+          items: 2
+        },
+        576: {
+          items: 2.5
+        },
+        768: {
+          items: 3
+        },
+        992: {
+          items: 3.5,
+          gutter: 30
+        },
+        1052: {
+          items: 4,
+          gutter: 30
+        },
+        1440: {
+          items: 5
+        }
+      }
     });
   }
 };
@@ -6528,7 +6555,16 @@ var AT_main = {
 var IconsBox = {
   onLoad: function onLoad() {
     this.tns = _arn.initTinySlider(this.container);
-    console.log(this);
+  }
+};
+var FeaturedCollection = {
+  onLoad: function onLoad() {
+    this.tns = _arn.initTinySlider(this.container);
+  }
+};
+var LogoList = {
+  onLoad: function onLoad() {
+    this.tns = _arn.initTinySlider(this.container);
   }
 };
 
@@ -6548,6 +6584,8 @@ window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 window.addEventListener("DOMContentLoaded", function () {
   register("icons-cart", IconsBox);
+  register("featured-collection", FeaturedCollection);
+  register("logo-list", LogoList);
   load("*");
 });
 

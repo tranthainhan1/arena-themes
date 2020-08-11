@@ -27,6 +27,8 @@
     	render 'css-variables-local'
     	render 'fb-open-graph'
     -%}
+    {{ 'main_style.css' | asset_url | stylesheet_tag }}
+    {% include 'css_variables' %} 
     {%- capture arnAIFContent -%}{{ shop.metafields.arn_aif.script }}{%- endcapture -%}
     {%- unless arnAIFContent == blank -%}
         {%- comment -%} Call ARN-AIF metafield, css & js {%- endcomment-%}
@@ -35,20 +37,6 @@
         {{- 'arn-aif.js' | asset_url | script_tag -}}
     {%- endunless -%} 
     {{ content_for_header }}
-
-    
-
-
-
-
-
-
-  
-
-
-
-{{ 'main_style.css' | asset_url | stylesheet_tag }}
-{% include 'css_variables' %}
 </head>
 
 {%- capture themeClass -%}template{{ template | split: '.' | first | camelize -}}

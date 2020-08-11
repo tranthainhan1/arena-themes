@@ -19,8 +19,6 @@
 		{%- else -%}{{- gg_font | strip_newlines | remove_first: '|' | split: '|' | uniq | join: '|' -}}{%- endif -%}
 	{%- endcapture -%}
 	<link rel="preconnect dns-prefetch" href="{{ google_font_url | split: '/css' | first }}">
-	<link rel="preconnect dns-prefetch" href="{{ google_font_url | split: '/css' | first }}">
-	<link rel="preload" as="style" href="{{google_font_url}}{{gg_link}}&display=swap">
 
-	<link href="{{google_font_url}}{{gg_link}}&display=swap" rel="stylesheet" type="text/css"/>
+	<link rel="preload" href="{{google_font_url}}{{gg_link}}&display=swap" as="style"  crossorigin>
 {%- endif -%}

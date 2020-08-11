@@ -12,11 +12,11 @@
 <div class="icons-cart" data-section-id="{{section.id}}" data-section-type="icons-cart">
   {% if layout == 'boxed' %} <div class="container"> {%- endif -%}  
     <div class="icons-cart__wrapper">
-      <div class="icons-cart__heading section_title-wrapper">
-        <div class="heading section_title-text-1">
+      <div class="icons-cart__heading">
+        <div class="heading">
           <span class="content">{{heading}}</span>
         </div>
-        <div class="subheading section_title-text-2">
+        <div class="subheading">
           <span class="content">{{subheading}}</span>
         </div>
       </div>
@@ -26,28 +26,30 @@
             {% liquid 
               assign title     = block.settings.block_title
               assign icon_html = block.settings.icon
-
+              assign block_url = block.settings.block_url | default: 'javascript:void(0)'
             %}
             <div class="icons-cart__item">
-              <div class="wrapper">
-                <div class="icon_box">
-                  {{icon_html}}
+              <a href="{{block_url}}">
+                <div class="wrapper">
+                  <div class="icon_box">
+                    {{icon_html}}
+                  </div>
+                  <div class="title">
+                    <span class="content">{{title}}</span> 
+                  </div>
                 </div>
-                <div class="title">
-                  <span class=" content ">{{title}}</span> 
-                </div>
-              </div>
+              </a>
             </div>
           {%- endfor -%}
         </div>
-      <div class="js-tns-controls section-{{section.id}} d-none">
-        <div class="btn-prev">
-          {% render 'svg', type: 'arrowLeft'  %}
+        <div class="js-tns-controls section-{{section.id}} d-none">
+          <div class="btn-prev">
+            {% render 'svg', type: 'arrowLeft'  %}
+          </div>
+          <div class="btn-next">
+            {% render 'svg', type: 'arrowRight'  %}
+          </div>
         </div>
-        <div class="btn-next">
-           {% render 'svg', type: 'arrowRight'  %}
-        </div>
-      </div>
       </div>
       {%- if btn_title != blank -%}
         <div class="icons-cart__button">
