@@ -6518,6 +6518,28 @@ var AT_main = {
 /* harmony default export */ var _arn = (AT_main);
 // CONCATENATED MODULE: ./app/scripts/objects.js
 
+var Header = {
+  onLoad: function onLoad() {
+    var $container = this.container;
+    this.selector = {
+      btnMenu: ".js-handle-nav-mobile",
+      sidebarMenu: ".js-sidebar-menu"
+    };
+    this.elements = {
+      btnMenu: $container.querySelector(this.selector.btnMenu),
+      sidebarMenu: $container.querySelector(this.selector.sidebarMenu)
+    };
+    this.handleMenuMobile();
+  },
+  handleMenuMobile: function handleMenuMobile() {
+    var _this$elements = this.elements,
+        btnMenu = _this$elements.btnMenu,
+        sidebarMenu = _this$elements.sidebarMenu;
+    btnMenu.addEventListener("click", function () {
+      sidebarMenu.classList.toggle("open");
+    });
+  }
+};
 var IconsBox = {
   onLoad: function onLoad() {
     this.tns = _arn.initTinySlider(this.container);
@@ -6552,6 +6574,7 @@ window.addEventListener("DOMContentLoaded", function () {
   register("icons-cart", IconsBox);
   register("featured-collection", FeaturedCollection);
   register("logo-list", LogoList);
+  register("header", Header);
   load("*");
 });
 

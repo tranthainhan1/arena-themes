@@ -8,7 +8,7 @@ import "lazysizes/plugins/rias/ls.rias";
 import "lazysizes/plugins/video-embed/ls.video-embed";
 import * as shopifyCart from "@shopify/theme-cart";
 import { register, load } from "@shopify/theme-sections";
-import { IconsBox, FeaturedCollection, LogoList } from "./objects";
+import { IconsBox, FeaturedCollection, LogoList, Header } from "./objects";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
@@ -17,6 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
   register("icons-cart", IconsBox);
   register("featured-collection", FeaturedCollection);
   register("logo-list", LogoList);
+  register("header", Header);
 
   load("*");
 });

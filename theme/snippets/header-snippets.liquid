@@ -1,154 +1,43 @@
 {%- case type -%}
-	{%- when 'colorStyle' -%}
-		{%- assign styleHeader = section.blocks | where: 'type', 'style' -%}
-		{%- if styleHeader.size > 0 -%}
-			{%- liquid
-				assign styleHeader_bg_color                 = styleHeader[0].settings.header_bg_color | default: 'rgba(0,0,0,0)'
-				assign styleHeader_text_color               = styleHeader[0].settings.header_text_color
-				assign styleHeader_icon_color               = styleHeader[0].settings.header_icon_color
-				assign styleHeader_bg_cart_number           = styleHeader[0].settings.header_bg_cart_number
-				assign styleHeader_text_cart_number         = styleHeader[0].settings.header_text_cart_number
-				assign styleHeader_border_color             = styleHeader[0].settings.header_border_color | default: 'rgba(0,0,0,0)'
-				assign styleHeader_border_color_opacity     = styleHeader[0].settings.header_border_color_opacity
-				assign styleHeader_nav_size					= styleHeader[0].settings.nav_size
-				assign styleHeader_nav_weight				= styleHeader[0].settings.nav_weight
-				assign styleHeader_nav_link_color			= styleHeader[0].settings.nav_link_color
-				assign styleHeader_nav_hover_color			= styleHeader[0].settings.nav_hover_color
-			-%}
-
-
-	        {%- capture block_css -%}
-		        :root {
-			        --header-bg-desk: {{ 				styleHeader_bg_color }};
-			        --header-text-color-desk: {{ 		styleHeader_text_color }};
-			        --header-icons-color-desk: {{ 		styleHeader_icon_color }};
-			        --header-bg-cart-number-desk: {{ 	styleHeader_bg_cart_number }};
-			        --header-text-cart-number-desk: {{ 	styleHeader_text_cart_number }};
-
-			        --nav-weight: {{ 	 styleHeader_nav_weight }};
-			        --nav-link-color: {{ styleHeader_nav_link_color }};
-			        --nav-link-hover: {{ styleHeader_nav_hover_color }};
-			    }
-			    {%- render 'css-resp', classID: '#header-style .main-menu > li > a', css_value: styleHeader_nav_size, css_property: 'font-size' -%}
-
-	        {%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
-		{%- endif -%}
-
-  	{%- when 'iconList' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			Icon List			{%- endcomment-%}
-	  	<div class="header-icons">
-	  		{%- if isHeaderMobile -%}{%- include 'button', type: 'hamburger' -%}{%- endif -%}
-	  		{%- if _header_style == '5' or isHeaderMobile -%}{%- include 'search', type: 'button' -%}{%- endif -%}
-	  		{%- include 'button', type: 'account' -%}
-	  		{%- include 'button', type: 'wishlist' -%}
-	  		{%- include 'button', type: 'cart', cartCountNumber: true -%}
-	  	</div>
-
-	{%- when 'mainMenu' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			Main Menu			{%- endcomment-%}
-	 	{%- liquid
-	 	 	assign _nav_link = section.settings.nav_link
-	 	-%}
-	 	{%- unless _nav_link == blank -%}
-			 <nav class="horizontal-menu main-menu-wrapper main-nav" aria-label="Main">			 	
-			 	<ul class="main-menu main-nav__list">
-			 		<li class="main-nav__item firstNav">{%- include 'header-snippets', type: 'firstMenu' -%}</li>
-			 		{%- for l in linklists[_nav_link].links -%}{%- include 'nav-link', l: l, class: 'main-nav__item' -%}{%- endfor -%}
-			 	</ul>
-			 </nav>
-	 	{%- endunless -%}
-
-	{%- when 'subMenu' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			Second Menu			{%- endcomment-%}
-	 	{%- liquid
-	 	 	assign _nav_link = section.settings.nav_link_second
-	 	-%}
-	 	{%- unless _nav_link == blank -%}
-			 <div class="horizontal-menu sub-menu-wrapper">
-			 	<ul class="sub-menu">
-			 		{%- for l in linklists[_nav_link].links -%}{%- include 'nav-link', l: l -%}{%- endfor -%}
-			 	</ul>
-			 </div>
-	 	{%- endunless -%}
-
-
-	{%- when 'firstMenu' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			First Menu			{%- endcomment-%}
-		{%- liquid
-	 	 	assign _navFirst_label 		= section.settings.navFirst_label
-	 	 	assign _navFirst_url 		= section.settings.navFirst_url | default: 'javascript:void(0);'
-	 	-%}
-	 	{%- unless _navFirst_label == blank -%}
-		 	<a href="{{ _navFirst_url }}" class="f-menu-item">
-		 		{%- unless isMobile -%}<span class="svg-element-ui">{%- render 'svg', type: 'nav' -%}</span>{%- endunless -%}
-		 		<span>{{_navFirst_label}}</span>
-		 	</a>
-		{%- endunless -%}
-
-	{%- when 'selectGroup' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * * * *			Select Group			{%- endcomment-%}
-	 		<div class="select-dropdown-group-ui">
-	 			<div class="select-dropdown-element-ui language-dropdown">
-	 				<a href="javascript:void(0);" class="select-dropdown---label">
-	 					<span>{{ request.locale.name }}</span>
-	 					<span class="svg-element-ui">{%- render 'svg', type: 'arrowDown' -%}</span>
-	 				</a>
-	 			</div>
-	 			<div class="select-dropdown-element-ui currency-dropdown">
-	 				<a href="javascript:void(0);" class="select-dropdown---label">
-	 					<span>{{ cart.currency.iso_code }}</span>
-	 					<span class="svg-element-ui">{%- render 'svg', type: 'arrowDown' -%}</span>
-	 				</a>
-	 			</div>
-	 		</div>
-
-	{%- when 'customTextInfo' -%}{%- comment -%}	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * * *	* * 		Custom Information			{%- endcomment-%}
-		{%- liquid
-		 	assign csCustomTextInfo = section.blocks | where: 'type', 'customText'
-			assign csContent 		= csCustomTextInfo[0].settings.content
-			assign csClass 			= csCustomTextInfo[0].settings.class
-			assign csCustom_css 	= csCustomTextInfo[0].settings.custom_css
-		-%}
-		{%- if csCustomTextInfo.size > 0 -%}
-			<div class="header-custom-text-info">
-				<div class="{{csClass}}">{{ csContent }}</div>
-			</div>
-
-			{%- unless csCustom_css == blank -%}
-				{%- capture block_css -%}{{- csCustom_css | strip_newlines -}}{%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
-			{%- endunless -%}
-		{%- endif -%}
-
-	{%- when 'border' -%}
-		<div class="header-border-wrapper">
-			<div class="header-border-item f-break"></div>
-		</div>
-
-	{%- when 'menuMobile' -%}
-		{%- liquid
-	 	 	assign _nav_link = section.settings.nav_link
-	 	-%}
-
-		<div id="menuMobile" class="mobile-version d-lg-none">
-			<div class="mobile-layer">
-				<div class="header-row header-row-1">
-					<div class="mobile-menu-wrapper">
-						<ul class="menu-mobile">
-							{%- unless _nav_link == blank -%}
-								{%- unless style == 'mobi_3' -%}
-									<li class="firstNav">{%- include 'header-snippets', type: 'firstMenu', isMobile: true -%}</li>
-								{%- endunless -%}
-								{%- for l in linklists[_nav_link].links -%}{%- include 'nav-link', l: l -%}{%- endfor -%}
-							{%- else -%}
-								{%- for i in (1..5) -%}
-									{%- render 'nav-link', type: 'empty' -%}
-								{%- endfor -%}
-							{%- endunless -%}
-						</ul>
-					</div>
-				</div>
-				<div class="header-row header-row-2">
-					{%- include 'search' -%}
-				</div>
-				<div class="header-row header-row-3">
-					{%- include 'header-snippets', type: 'selectGroup' -%}
-				</div>
-			</div>
-		</div>
-
+	{%- when 'icon-list' -%}
+		<div class="icon-list">
+      <div class="icon-list__item account">
+        {%- capture account_url -%}
+          {%- if customer -%}
+            /account
+          {%- else -%}
+            /account/login
+          {%- endif -%}
+        {%- endcapture -%}
+        <a href="{{account_url}}">
+          {%- include 'svg', type: 'user' -%}
+        </a>
+      </div>
+      <div class="icon-list__item cart">
+        {%- include 'svg', type: 'cart' -%}
+        <div class="number">0</div>
+      </div>
+    </div>
+  {%- when 'horizontal-nav' -%}
+    <div class="horizontal-nav d-none d-lg-flex">
+      <ul class="horizontal-nav__content">
+        {%- for link in linklists[nav_link].links -%}
+          <li class="nav-link">
+            <a href="{{link.url}}">{{link.title}}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- when 'logo' -%}
+    <div class="logo">
+      <a href="/">
+        {% render 'svg' ,type: 'logo' %}
+      </a>
+    </div>
+  {%- when 'icon-menu' -%}
+    <div class="d-lg-none icon-list__item menu">
+      <a href="javascript:void(0)" class="js-handle-nav-mobile">
+        {%- include 'svg', type: 'icon-menu' -%}
+      </a>
+    </div>
 {%- endcase -%}

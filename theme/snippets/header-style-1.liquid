@@ -7,43 +7,11 @@
 {%- if layout == 'boxed' -%} <div class="container"> {%- endif -%}
   <div class="header-desktop header-desktop-01">
     <div class="header-desktop__inner">
-      <div class="d-lg-none icon-list__item menu">
-        <a href="javascript:void(0)" class="js-handle-nav-mobile">
-          {%- include 'svg', type: 'icon-menu' -%}
-        </a>
-      </div>
-      <div class="logo">
-        <a href="/">
-          {% render 'svg' ,type: 'logo' %}
-        </a>
-      </div>
-      <div class="horizontal-nav d-none d-lg-flex">
-        <ul class="horizontal-nav__content">
-          {%- for link in linklists[nav_link].links -%}
-            <li class="nav-link">
-              <a href="{{link.url}}">{{link.title}}</a>
-            </li>
-          {%- endfor -%}
-        </ul>
-      </div>
-      <div class="icon-list">
-        <div class="icon-list__item account">
-          {%- capture account_url -%}
-            {%- if customer -%}
-              /account
-            {%- else -%}
-              /account/login
-            {%- endif -%}
-          {%- endcapture -%}
-          <a href="{{account_url}}">
-            {%- include 'svg', type: 'account' -%}
-          </a>
-        </div>
-        <div class="icon-list__item cart">
-          {%- include 'svg', type: 'cart' -%}
-          <div class="number">0</div>
-        </div>
-      </div>
+      
+      {%- include 'header-snippets', type: 'icon-menu' -%}
+      {%- include 'header-snippets', type: 'logo' -%}
+      {%- include 'header-snippets', type: 'horizontal-nav' -%}
+      {%- include 'header-snippets', type: 'icon-list' -%}
     </div>
   </div>
 {% if layout == 'boxed'  %}</div>{%- endif -%}

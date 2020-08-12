@@ -5,7 +5,7 @@
   assign logo_mobi_max_width  = section.settings.logo_mobi_max_width
 %}
 
-<div class="header">
+<div class="header" data-section-id="{{section.id}}" data-section-type="header">
   {%- case header_desktop_style -%}
     {%- when '1' -%}
       {%- include 'header-style-1' -%}
