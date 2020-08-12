@@ -6505,50 +6505,14 @@ var tns = function(options) {
 
 var AT_main = {
   initTinySlider: function initTinySlider(container) {
+    var config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
     var sliderContainer = container.querySelector(".js-tns");
     var controlsContainer = sliderContainer.nextElementSibling;
-    return tns({
+    config = Object.assign(config, {
       container: sliderContainer,
-      autoWidth: true,
-      loop: false,
-      nav: false,
-      // items: 5,
-      // gutter: 30,
-      controlsContainer: controlsContainer,
-      mouseDrag: true,
-      preventScrollOnTouch: "auto",
-      slideBy: "page",
-      swipeAngle: false // responsive: {
-      //   1: {
-      //     items: 1,
-      //     gutter: 25,
-      //   },
-      //   375: {
-      //     items: 1.5,
-      //   },
-      //   479: {
-      //     items: 2,
-      //   },
-      //   576: {
-      //     items: 2.5,
-      //   },
-      //   768: {
-      //     items: 3,
-      //   },
-      //   992: {
-      //     items: 3.5,
-      //     gutter: 30,
-      //   },
-      //   1052: {
-      //     items: 4,
-      //     gutter: 30,
-      //   },
-      //   1440: {
-      //     items: 5,
-      //   },
-      // },
-
+      controlsContainer: controlsContainer
     });
+    return tns(config);
   }
 };
 /* harmony default export */ var _arn = (AT_main);

@@ -1,9 +1,13 @@
 {% liquid 
   assign bg_color = section.settings.bg_color
-  assign nav_link =  
+  assign nav_link_lb_1 = section.settings.nav_link_lb_1 
+  assign nav_link_url_1 = section.settings.nav_link_url_1 
+  
+  assign nav_link_lb_2 = section.settings.nav_link_lb_2 
+  assign nav_link_url_2 = section.settings.nav_link_url_2 
 %}
 
-<div class="footer">
+<div class="footer" style="color: white;">
   <div class="container">
     <div class="footer__wrapper">
       <div class="footer-top">
@@ -16,17 +20,19 @@
               {%- render 'set-item-per-row', value: items_resp  -%}
             {%- endcapture -%}
             <div class="{{classResp}}">
-              {%- include 'footer-top-snippets', type: block.type -%}
+              {%- include 'footer-snippets', type: block.type -%} 
             </div>
           {%- endfor -%}
         </div>    
       </div>
       <div class="footer-bottom">
         <div class="row">
-          <div class="col-12 col-lg-6 footer-bottom__left">
-            <span class="content">Copyright © 2020 ArenaCommerce. All rights reserved.</span>
-          </div>
           <div class="col-12 col-lg-6 footer-bottom__right">
+            {% comment %} <div class="translate-language">
+              <ul>
+                <li></li>
+              </ul>
+            </div> {% endcomment %}
             <div class="nav-link">
               <div class="nav-link__item">
                 <a href="{{nav_link_url_1}}">{{nav_link_lb_1}}</a>
@@ -35,9 +41,11 @@
                 <a href="{{nav_link_url_2}}">{{nav_link_lb_2}}</a>
               </div>
             </div>
-            <div class="translate-language">
-            </div>
           </div>
+          <div class="col-12 col-lg-6 footer-bottom__left">
+            <span class="content">Copyright © 2020 ArenaCommerce. All rights reserved.</span>
+          </div>
+          
         </div>
       </div>
     </div>
@@ -83,46 +91,15 @@
       },
       {
         "type" : "text",
-        "id" : "nav_link_url_1",
+        "id" : "nav_link_url_2",
         "label" : "URL of link 2"
-      },
+      }
     ],
     "blocks" : [
       {
         "type" : "infomation",
         "name" : "Infomation",
         "settings" : [
-          {
-            "type" : "header",
-            "content" : "Logo settings"
-          },
-          {
-            "type" : "select",
-            "id" : "logo_type",
-            "label" : "Logo type",
-            "options" : [
-              {
-                "value" : "image",
-                "label" : "Image" 
-              },
-              {
-                "value" : "svg",
-                "label" : "SVG"
-              }
-            ],
-            "default" : "image" 
-          },
-          {
-            "type": "image_picker",
-            "id" : "logo_image",
-            "label" : "Logo"
-          },
-          {
-            "type" : "html",
-            "id" : "logo_svg",
-            "label" : "Logo SVG",
-            "info" : "Use when 'Logo type' choose 'SVG'"
-          },
           {
             "type" : "html",
             "id" : "desc",
@@ -137,7 +114,35 @@
             "type" : "text",
             "id" : "items_resp",
             "label": "Width (1-12)",
-            "info": "0 to hide. E.g: 4,6,12"
+            "info": "E.g: 4,6,12"
+          }
+        ]
+      },
+      {
+        "type" : "menu_item",
+        "name" : "Menu item",
+        "settings" : [
+         {
+           "type": "header",
+           "content": "General settings"
+         },
+         {
+           "type": "text",
+           "id": "title",
+           "label": "Title",
+           "default" : "Menu title",
+           "info" : "Default 'Menu title'"
+         },
+         {
+           "type": "link_list",
+           "id": "menu",
+           "label": "Menu"
+         },
+          {
+            "type" : "text",
+            "id" : "items_resp",
+            "label": "Width (1-12)",
+            "info": "E.g: 4,6,12"
           }
         ]
       }

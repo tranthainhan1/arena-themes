@@ -7,13 +7,15 @@
 {%- if layout == 'boxed' -%} <div class="container"> {%- endif -%}
   <div class="header-desktop header-desktop-01">
     <div class="header-desktop__inner">
+      <div class="d-lg-none icon-list__item menu">
+        <a href="javascript:void(0)" class="js-handle-nav-mobile">
+          {%- include 'svg', type: 'icon-menu' -%}
+        </a>
+      </div>
       <div class="logo">
-        {% if logo != blank %} 
-          {% comment %} {% render 'image-style', image: logo , originQuality: true %} {% endcomment %}
-          <img src="{{logo | img_url: 'master'}}" alt="ArenaCommerce">
-        {%- else -%}
-          <a href="/">{{shop.name}}</a>
-        {%- endif -%}
+        <a href="/">
+          {% render 'svg' ,type: 'logo' %}
+        </a>
       </div>
       <div class="horizontal-nav d-none d-lg-flex">
         <ul class="horizontal-nav__content">
@@ -40,11 +42,6 @@
         <div class="icon-list__item cart">
           {%- include 'svg', type: 'cart' -%}
           <div class="number">0</div>
-        </div>
-        <div class="d-lg-none icon-list__item menu">
-          <a href="javascript:void(0)" class="js-handle-nav-mobile">
-            {%- include 'svg', type: 'icon-menu' -%}
-          </a>
         </div>
       </div>
     </div>

@@ -1,0 +1,37 @@
+{%- case type -%}
+  {%- when 'infomation' -%} 
+    {% liquid 
+      assign desc    = block.settings.desc
+      assign payment = block.settings.payment
+      assign max_width_logo_desktop = block.settings.max_width_logo_desktop
+      assign max_width_logo_mobile = block.settings.max_width_logo_mobile
+    %}
+    <div class="footer-top__item infomation">
+      <div class="logo">
+        <a href="/">
+          {% render 'svg' ,type: 'logo_footer' %}
+        </a>
+      </div>
+      <div class="description">
+        <span class="content">{{desc}}</span>
+      </div>
+      <div class="payment">
+        {% render 'image-style' , image: payment, originQuality: true %}
+      </div>
+    </div>
+    {% comment %} Style block Infomation {% endcomment %}
+    <style></style>
+  {%- when 'menu_item' -%}
+    {% liquid 
+      assign title = block.settings.title 
+      assign menu = block.settings.menu 
+    %}
+    <div class="footer-top__item menu-item">
+      <div class="title">{{title}}</div>
+      <ul class="menu-list">
+        {%- for link in linklists[menu].links -%}
+          <li class="menu-list__item"><a href="{{link.url}}">{{link.title}}</a></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+{%- endcase -%}

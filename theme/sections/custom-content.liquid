@@ -41,16 +41,26 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background color"
+    },
+    {
+      "type" : "checkbox",
+      "id" : "align_top",
+      "label" : "Align top"
     }
   ],
   "blocks": [
     {
       "type": "text_box",
-      "name": "Text box",
+      "name": "Text box with Image",
       "settings": [
         {
           "type": "header",
           "content": "Text box content"
+        },
+        {
+          "type" : "image_picker",
+          "id" : "image_main",
+          "label" : "Image main"
         },
         {
           "type": "text",
@@ -126,16 +136,6 @@
           "id": "items_resp",
           "label": "Width (1-12)",
           "info": "0 to hide. E.g: 4,6,12"
-        },
-        {
-          "type": "range", 
-          "id": "align_vertical",
-          "label": "Align vertical",
-          "step": 1,
-          "min": 0,
-          "max": 100,
-          "unit": "%",
-          "default": 50
         }
       ]
     }

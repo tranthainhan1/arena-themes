@@ -16,14 +16,14 @@
 
 <style>
   {%- if logo_max_width != blank -%}
-    .header .header-desktop .header-desktop__inner .logo img{
-      max-width: {{logo_max_width}}px;
+    .header .header-desktop .header-desktop__inner .logo svg{
+      width: {{logo_max_width}}px;
     }
   {%- endif -%}
   {% if logo_mobi_max_width != blank %}
     @media  screen and (max-width: 991.9px){
-      .header .header-desktop .header-desktop__inner .logo img{
-        max-width: {{logo_mobi_max_width}}px;
+      .header .header-desktop .header-desktop__inner .logo svg{
+        width: {{logo_mobi_max_width}}px;
       }
     }
   {%- endif -%}
@@ -65,6 +65,21 @@
      {
         "type":"header",
         "content":"Logo"
+     },
+     {
+       "type" : "select",
+       "id" : "logo_type",
+       "label" : "Logo type",
+       "options" : [
+         {
+           "value" : "image",
+           "label" : "Image" 
+         },
+         {
+           "value" : "svg",
+           "label" : "SVG"
+         }
+       ]
      },
      {
         "type":"image_picker",
