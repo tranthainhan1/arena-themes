@@ -14,6 +14,19 @@ var AT_main = {
 
     return tns(config);
   },
+  debounce: (func, wait) => {
+    let timeout;
+
+    return function (...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  },
 };
 
 export default AT_main;

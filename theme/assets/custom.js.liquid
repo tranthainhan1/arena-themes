@@ -5849,6 +5849,22 @@ var AT_main = {
       controlsContainer: controlsContainer
     });
     return tns(config);
+  },
+  debounce: function debounce(func, wait) {
+    var timeout;
+    return function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      var later = function later() {
+        clearTimeout(timeout);
+        func.apply(void 0, args);
+      };
+
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
   }
 };
 /* harmony default export */ var _arn = (AT_main);
@@ -5888,23 +5904,47 @@ var Footer = {
     this.elements = {
       blocks: $container.querySelectorAll(".footer-top__item.menu-item")
     };
-    this.init();
+    this.handleCollapse();
   },
-  init: function init() {
+  handleCollapse: function handleCollapse() {
+    var first = true,
+        isComplte = false;
     this.elements.blocks.forEach(function (item) {
       var elmMenuList = item.querySelector(".menu-list");
       var children = elmMenuList.children;
-      var height = Object.values(children).reduce(function (accu, currentValue) {
-        return accu + currentValue.offsetHeight;
-      }, 0); // elmMenuList.style.height = `${height}px`;
-
-      var elmExpand = item.querySelector(".expand");
+      var elmExpand = item.querySelector(".js-handle-collapse");
       elmExpand.addEventListener("click", function (e) {
-        var elmParent = e.target.closest(".footer-top__item.menu-item");
-        elmParent.classList.toggle("show");
-        elmMenuList.style.height = "0px";
-        elmMenuList.style.height = "".concat(height, "px");
-        elmMenuList.style.height = "";
+        if (first || isComplte) {
+          first = false;
+          isComplte = false;
+          var elmParent = e.target.closest(".footer-top__item.menu-item");
+
+          if (elmParent.classList.contains("show")) {
+            var height = elmMenuList.offsetHeight;
+            elmMenuList.style.height = "".concat(height, "px");
+            _arn.debounce(function () {
+              elmMenuList.style.height = "0px";
+            }, 1)();
+            _arn.debounce(function () {
+              elmParent.classList.remove("show");
+              elmMenuList.style.height = "";
+              isComplte = true;
+            }, 200)();
+          } else {
+            elmParent.classList.add("show");
+            elmMenuList.style.height = "0px";
+
+            var _height = Object.values(children).reduce(function (accu, currentValue) {
+              return accu + currentValue.offsetHeight;
+            }, 0);
+
+            elmMenuList.style.height = "".concat(_height, "px");
+            _arn.debounce(function () {
+              elmMenuList.style.height = "";
+              isComplte = true;
+            }, 200)();
+          }
+        }
       });
     });
   }
