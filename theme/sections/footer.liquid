@@ -7,7 +7,7 @@
   assign nav_link_url_2 = section.settings.nav_link_url_2 
 %}
 
-<div class="footer" style="color: white;">
+<div class="footer" data-section-id="{{section.id}}" data-section-type="footer">
   <div class="container">
     <div class="footer__wrapper">
       <div class="footer-top">
@@ -27,6 +27,9 @@
       </div>
       <div class="footer-bottom">
         <div class="row">
+          <div class="col-12 col-lg-6 footer-bottom__left">
+            <span class="content">Copyright © 2020 ArenaCommerce. All rights reserved.</span>
+          </div>
           <div class="col-12 col-lg-6 footer-bottom__right">
             {% comment %} <div class="translate-language">
               <ul>
@@ -42,14 +45,10 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-lg-6 footer-bottom__left">
-            <span class="content">Copyright © 2020 ArenaCommerce. All rights reserved.</span>
-          </div>
-          
         </div>
       </div>
     </div>
-  </div>
+  </div>    
 </div>
 
 <style> 

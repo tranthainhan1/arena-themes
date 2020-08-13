@@ -1,0 +1,18 @@
+<div class="cart-template__empty text-center">
+  <div class="cart-template__image">
+    {% render 'svg' type: 'cart-empty'  %}
+  </div>
+  <div class="cart-template__title">
+    <div class="title h3">
+      <span>{{'cart.empty.title' | t}}</span>
+    </div>
+    <div class="subtitle">
+      <h5>{{'cart.empty.subtitle' | t}}</h5>
+    </div>
+  </div>
+  <div class="cart-template__btn">
+    <a href="/collections" class="btn">
+      {{'cart.empty.label_btn' | t}}
+    </a>
+  </div>
+</div>

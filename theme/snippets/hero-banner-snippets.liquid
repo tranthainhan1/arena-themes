@@ -1,38 +1,35 @@
 {% liquid 
-  assign layout        = section.settings.layout
-  assign banner_type   = section.settings.banner_type
+  assign image_desktop = section.settings.image_desktop
+  assign image_mobile  = section.settings.image_mobile
   assign heading       = section.settings.heading
-  assign subheading    = section.settings.subheading
-  assign btn_label     = section.settings.btn_label
-  assign btn_url       = section.settings.btn_url
-  assign text_align    = section.settings.text_align
-  assign section_image = section.settings.image
+  assign paragraph_1   = section.settings.paragraph_1
+  assign paragraph_2   = section.settings.paragraph_2
 %}
 
 <div class="hero-banner" data-section-id="{{section.id}}" data-section-type="hero-banner">
-  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+  <div class="container">
     <div class="hero-banner__wrapper">
-      <div class="text-box text-{{text_align}}">
-        <div class="text-box__heading">
-          <span class="content">{{heading}}</span>
-        </div>
-        <div class="text-box__subheading">
-          <span class="content">{{subheading}}</span>
-        </div>
-        {%- if btn_label != blank -%}
-          <div class="text-box__button">
-            <div class="btn">
-              <a href="{{btn_url}}">{{btn_label}}</a>
-              {%- include 'svg', type: 'arrowRight' -%}
-            </div>
+      <div class="d-flex">
+        <div class="d-none d-lg-block hero-banner__image-desktop">
+          <div class="image">
+            {% render 'image-style' image: image_desktop  %}
           </div>
-        {%- endif -%}
-      </div>
-      {%- if section_image != blank -%}
-        <div class="image-box">
-          {%- render 'image-style', image: section_image -%}
         </div>
-      {%- endif -%}
+        <div class="hero-banner__text-box">
+          <div class="heading">
+            <h3>{{heading}}</h3>
+          </div>
+          <div class="d-lg-none image">
+            {% render 'image-style'  image: image_mobile %}
+          </div>
+          <div class="paragraph-1">
+            <span>{{paragraph_1}}</span>
+          </div>
+          <div class="paragraph-2">
+            <span>{{paragraph_2}}</span>
+          </div>
+        </div>
+      </div>
     </div>
-  {% if layout == 'boxed' %} </div> {%- endif -%}
+  </div> 
 </div>

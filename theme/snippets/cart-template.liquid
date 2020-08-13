@@ -1,0 +1,10 @@
+<div class="cart-template">
+  <div class="container">
+    {%- if cart.item_count == 0 -%}
+      {%- render 'cart-template-empty' section: section -%}
+    {%- else -%}
+      <div class="cart-template__title">{{'cart.title' | t}}</div>
+      
+    {%- endif -%}
+  </div>
+</div>

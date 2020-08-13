@@ -1,7 +1,12 @@
 {%- case type -%}
 	{%- when 'icon-list' -%}
 		<div class="icon-list">
-      <div class="icon-list__item account">
+      <div class="icon-list__item search">
+        <a href="javascript:void(0)" class="js-handle-search">
+          {% render 'svg' , type: 'search' %}
+        </a> 
+      </div>
+      <div class="d-none d-lg-block icon-list__item account">
         {%- capture account_url -%}
           {%- if customer -%}
             /account
@@ -13,10 +18,10 @@
           {%- include 'svg', type: 'user' -%}
         </a>
       </div>
-      <div class="icon-list__item cart">
+      <a href="/cart" class="icon-list__item cart">
         {%- include 'svg', type: 'cart' -%}
         <div class="number">0</div>
-      </div>
+      </a>
     </div>
   {%- when 'horizontal-nav' -%}
     <div class="horizontal-nav d-none d-lg-flex">
@@ -34,10 +39,10 @@
         {% render 'svg' ,type: 'logo' %}
       </a>
     </div>
-  {%- when 'icon-menu' -%}
+  {%- when 'menu' -%}
     <div class="d-lg-none icon-list__item menu">
       <a href="javascript:void(0)" class="js-handle-nav-mobile">
-        {%- include 'svg', type: 'icon-menu' -%}
+        {%- include 'svg', type: 'menu' -%}
       </a>
     </div>
 {%- endcase -%}

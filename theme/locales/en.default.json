@@ -24,6 +24,17 @@
       "sale": "Sale"
     }
   },
+  "cart": {
+    "empty": {
+      "title": "Your shopping cart is empty",
+      "subtitle": "Discover the most popular items available or browse our hottest new items.",
+      "label_btn": "Continue Shopping"
+    },
+    "title": "Shopping Cart",
+    "subtotal": "Subtotal",
+    "label_btn_checkout": "Process to Checkout",
+    "continue_shopping": "Continue Shopping"
+  },
   "contact": {
     "form": {
       "email": "Email",

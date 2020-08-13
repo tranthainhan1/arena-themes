@@ -6,29 +6,39 @@
       assign max_width_logo_desktop = block.settings.max_width_logo_desktop
       assign max_width_logo_mobile = block.settings.max_width_logo_mobile
     %}
-    <div class="footer-top__item infomation">
+    <div class="footer-top__item infomation" data-block-id="{{block-id}}" {{block.shopify_attributes}}>
       <div class="logo">
         <a href="/">
-          {% render 'svg' ,type: 'logo_footer' %}
+          {% render 'svg' ,type: 'logo-footer' %}
         </a>
       </div>
       <div class="description">
         <span class="content">{{desc}}</span>
       </div>
       <div class="payment">
-        {% render 'image-style' , image: payment, originQuality: true %}
+        {% render 'svg' type: "payment-paypal" %}
+        {% render 'svg' type: "payment-visa" %}
+        {% render 'svg' type: "payment-american-express" %}
+        {% render 'svg' type: "payment-master-card" %}
+        {% render 'svg' type: "payment-discover" %}
       </div>
     </div>
     {% comment %} Style block Infomation {% endcomment %}
-    <style></style>
+    <style></style> 
   {%- when 'menu_item' -%}
-    {% liquid 
+    {% liquid  
       assign title = block.settings.title 
       assign menu = block.settings.menu 
     %}
-    <div class="footer-top__item menu-item">
-      <div class="title">{{title}}</div>
-      <ul class="menu-list">
+    <div class="footer-top__item menu-item collapse" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+      <div class="title">
+        <span class="content">{{title}}</span>
+        <span class="js-handle-collapse expand d-md-none">
+          {% render 'svg' type: 'angle-up' %}
+          {% render 'svg' type: 'angle-down' %}
+        </span>
+      </div>
+      <ul class="menu-list ">
         {%- for link in linklists[menu].links -%}
           <li class="menu-list__item"><a href="{{link.url}}">{{link.title}}</a></li>
         {%- endfor -%}

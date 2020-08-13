@@ -16,7 +16,7 @@ const npmRun = require("npm-run");
 /**
  *------------------------ NEED TO DECLARE OPTION HERE ------------------------------------------
  */
-const shopifyHost = "arena-commerce.myshopify.com";
+const shopifyHost = "https://arena-commerce.myshopify.com";
 const themeId = "107369300119";
 const apiKey = "b0a6c73733f01a8e1b00fd5a2b23c3a8";
 const pwd = "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";
@@ -52,6 +52,7 @@ function styles() {
 
 /**==============================================================================  SCRIPT FUNCTION */
 async function scripts(minify) {
+  changeFlag = "js";
   //const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
   const MinifyPlugin = require("babel-minify-webpack-plugin");
   const webpack = require("webpack");
@@ -603,6 +604,10 @@ function testReload() {
       server.reload("*.css");
     } else if (changeFlag === "js") {
       changeFlag = "";
+      setTimeout(() => {
+        server.reload();
+      }, 1000);
+    } else {
       setTimeout(() => {
         server.reload();
       }, 1000);
