@@ -18,10 +18,12 @@
           {%- include 'svg', type: 'user' -%}
         </a>
       </div>
-      <a href="/cart" class="icon-list__item cart">
-        {%- include 'svg', type: 'cart' -%}
-        <div class="number">0</div>
-      </a>
+      <div class="icon-list__item cart">
+        <a href="/cart">
+          {%- include 'svg', type: 'cart' -%}
+          <div class="number">0</div>
+        </a>
+      </div>
     </div>
   {%- when 'horizontal-nav' -%}
     <div class="horizontal-nav d-none d-lg-flex">
@@ -29,7 +31,25 @@
         {%- for link in linklists[nav_link].links -%}
           <li class="nav-link">
             <a href="{{link.url}}">{{link.title}}</a>
-          </li>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'trigger' -%}
+                {% liquid 
+                  assign title = block.settings.title
+                  assign title_dropdown =  block.settings.title_dropdown
+                  assign two_column = block.settings.two_column 
+                %}
+                {%- if title == link.title -%}
+                  <ul class="dropdown-menu {% if two_column %}two-column{%- endif -%}">
+                    {% if title_dropdown != blank %}
+                      <a href="javascript:void(0)" class="dropdown-menu__title">{{title_dropdown}}</a>
+                    {%- endif -%}
+
+                    {% render 'header-dropdown-menu-snippets' index: forloop.index , section: section  %} 
+                  </ul>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </li>   
         {%- endfor -%}
       </ul>
     </div>
@@ -39,10 +59,11 @@
         {% render 'svg' ,type: 'logo' %}
       </a>
     </div>
-  {%- when 'menu' -%}
+  {%- when 'icon-menu' -%}
     <div class="d-lg-none icon-list__item menu">
       <a href="javascript:void(0)" class="js-handle-nav-mobile">
-        {%- include 'svg', type: 'menu' -%}
+        {%- include 'svg', type: 'hamburger' -%}
+        {%- include 'svg', type: 'close' -%}
       </a>
     </div>
 {%- endcase -%}

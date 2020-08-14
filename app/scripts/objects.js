@@ -6,13 +6,26 @@ let Header = {
 
     this.elements = {
       btnMenu: $container.querySelector(".js-handle-nav-mobile"),
+      menuMobileContainer: $container.querySelector(".js-nav-mobile"),
     };
+
     this.handleMenuMobile();
   },
   handleMenuMobile: function () {
-    let { btnMenu } = this.elements;
-
-    btnMenu.addEventListener("click", function () {});
+    let first = true,
+      isComplte = false;
+    this.elements.btnMenu.addEventListener("click", (e) => {
+      let { btnMenu, menuMobileContainer } = this.elements;
+      // if (first || isComplete) {
+      if (btnMenu.classList.contains("show")) {
+        btnMenu.classList.remove("show");
+        menuMobileContainer.classList.remove("show");
+      } else {
+        btnMenu.classList.add("show");
+        menuMobileContainer.classList.add("show");
+      }
+      // }
+    });
   },
 };
 

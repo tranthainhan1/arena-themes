@@ -247,11 +247,11 @@
         "default": "#ffffff"
       },
       {
-         "type":"text",
-         "id":"border_radius",
-         "label":"Border Radius",
-         "default": "42px",
-         "placeholder": "E.g: 42px"
+        "type": "text",
+        "id": "border_radius",
+        "label": "Border Radius",
+        "default": "42px",
+        "placeholder": "E.g: 42px"
       },
       {
         "type": "header",
@@ -687,37 +687,6 @@
         "id": "mobi_text_cart_number",
         "label": "Cart Icon number",
         "default": "#FFFFFF"
-      },
-      {
-        "type": "header",
-        "content": "Navigation"
-      },
-      {
-        "type": "text",
-        "id": "nav_size",
-        "label": "Link font size",
-        "default": "17px"
-      },
-      {
-        "type": "range",
-        "id": "nav_weight",
-        "label": "Link weight",
-        "min": 100,
-        "max": 900,
-        "step": 100,
-        "default": 500
-      },
-      {
-        "type": "color",
-        "id": "nav_link_color",
-        "label": "Link Color",
-        "default": "#103178"
-      },
-      {
-        "type": "color",
-        "id": "nav_hover_color",
-        "label": "Hover: Link Color",
-        "default": "#103178"
       }
     ]
   },

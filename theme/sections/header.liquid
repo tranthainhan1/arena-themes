@@ -11,7 +11,7 @@
       {%- include 'header-style-1' -%}
   {%- endcase -%}
 
-  {%- include 'nav-mobile', header_mobile_style: header_mobile_style-%}
+  {%- include 'header-nav-mobile-snippets' header_mobile_style: header_mobile_style -%}
 </div>
 
 <style>
@@ -27,95 +27,138 @@
       }
     }
   {%- endif -%}
+
 </style>
 
 {% schema %}
 {
-   "name": "Header",
-   "tag": "section",
-   "settings": [
-      {
-        "type": "select",
-        "id": "layout",
-        "label": "Layout",
-        "options": [
-          {
-            "value": "boxed",
-            "label": "Boxed"
-          }
-        ],
-        "default": "boxed"
-      },
-     {
-        "type":"select",
-        "id":"header_desktop_style",
-        "label":"Desktop Style",
-        "options":[
-          {"value":"1","label":"Style 1"}
-        ]
-     },
-     {
-        "type":"select",
-        "id":"header_mobile_style",
-        "label":"Mobile Style",
-        "options":[
-          {"value":"1","label":"Style 1"}
-        ]
-     },
-     {
-        "type":"header",
-        "content":"Logo"
-     },
-     {
-       "type" : "select",
-       "id" : "logo_type",
-       "label" : "Logo type",
-       "options" : [
-         {
-           "value" : "image",
-           "label" : "Image" 
-         },
-         {
-           "value" : "svg",
-           "label" : "SVG"
-         }
-       ]
-     },
-     {
-        "type":"image_picker",
-        "id":"logo",
-        "label":"Desktop: Logo"
-     },
-     {
-        "type":"text",
-        "id":"logo_max_width",
-        "label":"Desktop: Logo max width",
-        "default": "220",
-        "placeholder":"E.g: 220"
-     },
-     {
-        "type":"image_picker",
-        "id":"logo_mobi",
-        "label":"Mobile Logo (Optional)"
-     },
-     {
-        "type":"text",
-        "id":"logo_mobi_max_width",
-        "label":"Mobile Logo max width",
-        "default": "110",
-        "placeholder":"E.g: 110"
-     },
-     {
-        "type":"header",
-        "content":"Menu settings"
-     },
-     {
-       "type": "link_list",
-       "id": "nav_link",
-       "label": "Main menu",
-       "default": "main-menu"
-     }
-   ],
-   "blocks": []
+  "name": "Header",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "header_desktop_style",
+      "label": "Desktop Style",
+      "options": [
+        {
+          "value": "1",
+          "label": "Style 1"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_mobile_style",
+      "label": "Mobile Style",
+      "options": [
+        {
+          "value": "1",
+          "label": "Style 1"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "select",
+      "id": "logo_type",
+      "label": "Logo type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "svg",
+          "label": "SVG"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Desktop: Logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_max_width",
+      "label": "Desktop: Logo max width",
+      "default": "220",
+      "placeholder": "E.g: 220"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_mobi",
+      "label": "Mobile Logo (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "logo_mobi_max_width",
+      "label": "Mobile Logo max width",
+      "default": "110",
+      "placeholder": "E.g: 110"
+    },
+    {
+      "type": "header",
+      "content": "Menu settings"
+    },
+    {
+      "type": "link_list",
+      "id": "nav_link",
+      "label": "Main menu",
+      "default": "main-menu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trigger",
+      "name": "Trigger",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "title_dropdown",
+          "label": "Title dropdown"
+        },
+        {
+          "type" : "checkbox",
+          "id" : "two_column",
+          "label" : "Two Column"
+        }
+      ]
+    },
+    {
+      "type": "nav_link_item",
+      "name": "Navigation item",
+      "settings": [
+        {
+          "type": "url",
+          "id": "nav_link",
+          "label": "URL"
+        },
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "nav_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

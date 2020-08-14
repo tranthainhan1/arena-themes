@@ -1,0 +1,24 @@
+{%- for block in section.blocks offset: index  -%}
+  {%- case block.type -%}
+    {%- when 'nav_link_item' -%}
+      {% liquid 
+        assign url       = block.settings.url | default: "javascript:void(0)"
+        assign icon      = block.settings.icon
+        assign nav_title = block.settings.nav_title
+        assign subtitle  = block.settings.subtitle
+      %}
+      <li class="dropdown-menu__nav-link">
+        <a href="{{url}}" class="nav-link">
+          <span class="icon">
+            {{icon}}
+          </span>
+          <span class="text-box">
+            <span class="title">{{nav_title}}</span>
+            <span class="subtitle">{{subtitle}}</span>
+          </span>
+        </a>  
+      </li>
+    {%- when 'trigger' -%}
+      {%- break -%}
+  {%- endcase -%}        
+{%- endfor -%}

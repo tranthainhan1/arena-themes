@@ -1,280 +1,74 @@
-{%- liquid
-	assign _lazyload            = settings.use_lazyload
-	assign _section_bg_color  	= section.settings.section_bg_color 	| default: 'rgba(0,0,0,0)'
-	assign _section_height 		= section.settings.section_height 		| default: '30px'
-	assign _section_padding		= section.settings.section_padding 		| default: '0'
-	assign _block_title_fs 		= section.settings.block_title_fs 		| default: '13px'
-	assign _block_title_cl 		= section.settings.block_title_cl 		| default: 'rgba(0,0,0,0)'
-	assign _block_icon_cl  		= section.settings.block_ic_cl 	 		| default: 'rgba(0,0,0,0)'
+ 
+{% liquid 
+  assign icon = section.settings.icon
+  assign label = section.settings.label  
+  assign url = section.settings.url  | default: 'javascript:void(0)'
+%}
 
--%}
-<div id="mobile-bar" class="d-lg-none section-show-{{section.id}}" data-section-id="{{ section.id }}" data-section-type="mobile-bar">
-	<div class="mobile-bar-content">
-		{%- for block in section.blocks -%}
-
-			{%- liquid
-            assign _buttonDefault   = block.settings.default_button
-				assign _block_link 	   = block.settings.link | default: 'javascript:void(0);'
-				assign _block_text 	   = block.settings.block_text
-				assign _icon_size  	   = block.settings.block_ic_fs | default: '22px'
-				assign _block_ic_cl     = block.settings.block_ic_cl | default: 'rgba(0,0,0,0)'
-			-%}
-
-			{%- capture blockID -%}#mobile-bar .mobile-block_{{block.id}}{%- endcapture -%}
-
-			{%- capture _block_icon -%}
-				{%- case block.settings.icon_type -%}
-
-					{%- when 'icon' -%}
-						{%- include 'svg' ,type: 'custom' ,name: block.settings.block_icon -%}
-
-                  {%- capture block_css -%}
-                     {%- if block.settings.block_icon contains '<svg' -%}
-                        {{- blockID}} .mobile-bar_icon svg{width: {{_icon_size}};height: {{_icon_size}};{%- unless _block_ic_cl == 'rgba(0,0,0,0)' -%}fill: {{_block_ic_cl}};{%- endunless -%}}
-                     {%- else -%}
-                        {{- blockID }} .mobile-bar_icon{font-size: {{_icon_size}};{%- unless _block_ic_cl == 'rgba(0,0,0,0)' -%}color: {{_block_ic_cl}};{%- endunless -%}}
-                     {%- endif -%}
-                  {%- endcapture -%}
-
-					{%- else -%}
-						{% comment %}{%- include 'image-style' ,image: block.settings.block_image , image_width: '[50, 150, 200]' ,_type: 'no-padding' -%}{% endcomment %}
-						{%- capture block_css -%}{{- blockID}} .image--style{margin: 0 auto;width: {{_icon_size}};height: {{_icon_size}};}{%- endcapture -%}
-				{%- endcase -%}
-
-				{%- assign section_css = section_css | append: block_css -%}
-
-            {%- if _buttonDefault != 'none' -%}{{_buttonDefault}}{%- endif -%}
-			{%- endcapture -%}
-
-			{%- if _block_icon == blank and _block_text == blank-%}{%- continue -%}{%- endif -%}
-
-         {%- capture btnContent -%}
-            {%- unless _block_text == blank -%}<span class="d-block mobile-bar_text">{{_block_text}}</span>{%- endunless -%}
-         {%- endcapture -%}
-
-			<div class="mobile-bar--block mobile-block_{{block.id}} mobile-block_{{block.type}}"{{block.shopify_attributes}}>
-
-
-            {%- if _buttonDefault != 'none' -%}
-               {%- render 'button', type: _buttonDefault
-                                    ,button_class: 'mobile-bar--block_target text-center'
-                                    ,cartCountNumber: true
-                                    ,btnContent: btnContent -%}
-
-            {%- else -%}
-   				<a href="{{ _block_link }}" class="mobile-bar--block_target text-center">
-   					<span class="d-block mobile-bar_icon">{{_block_icon}}</span>
-                  {{- btnContent -}}
-   				</a>
-            {%- endif -%}
-			</div>
-		{%- endfor -%}
-	</div>
+<div class="d-lg-none position-fixed mobile-bar">
+    <div class="mobile-bar__item comments">
+      <a href="">
+        <span class="icon">
+          {% render 'svg' type: 'comments' %}
+        </span>
+        <span class="label">
+          {{label}}
+        </span>
+      </a>
+    </div>
+    <div class="mobile-bar__item envelope">
+      <a href="{{url}}">
+        <span class="icon">
+          {% render 'svg' type: 'envelope' %}
+        </span>
+        <span class="label">
+          {{label}}
+        </span>
+      </a>
+    </div>
+    <div class="mobile-bar__item calendar">
+      <a href="{{url}}">
+        <span class="icon">
+          {% render 'svg' type: 'calendar' %}
+        </span>
+        <span class="label">
+          {{label}}
+        </span>
+      </a>
+    </div>
+    <div class="mobile-bar__item user">
+      <a href="{{url}}">
+        <span class="icon">
+         {% render 'svg' type: 'user' %}
+        </span>
+        <span class="label">
+          {{label}}
+        </span>
+      </a>
+    </div>
 </div>
-
-{%- liquid
-   assign __show = true
-
-   if template contains 'collection'
-      assign __show = false
-   endif
-   if template contains 'list-collection'
-      assign __show = true
-   endif
--%}
-<style>
-	{%- capture section_css -%}
-  @media (max-width: 991px) {
-    {{- section_css -}}
-    #mobile-bar{
-      position: fixed;
-      left: 0;
-      z-index: 99992;
-      width: 100%;
-      transition: all .3s ease-in-out;
-      box-shadow: 2px 0px 12px 0px rgba(0,0,0,.15);
-      bottom: {%- if __show -%}0{%- else -%}-100%{%- endif -%};
-      background: {{_section_bg_color}};
-      padding: {{_section_padding}};
-    }
-    {{- -}}#mobile-bar.mobile-bar--hidden,
-    {{- -}}.cart-opened #mobile-bar,
-    {{- -}}.popup-is-showing #mobile-bar{bottom: -100%;}
-    {{- -}}#mobile-bar.mobile-bar--active{bottom: 0!important;}
-
-    #mobile-bar .mobile-bar--block_target{
-      height: 100%;
-      display: flex;
-      flex-flow: column;
-      justify-content: space-between;
-    }
-    #mobile-bar .mobile-bar-content{display: grid;align-items: stretch;
-      {%- if section.blocks.size > 0 -%}grid-template-columns: repeat({{section.blocks.size}},1fr);min-height: {{_section_height}};{%- endif -%}
-    }
-    #mobile-bar .mobile-bar_text{padding: 5px 0 0;font-size:{{_block_title_fs}};color:{{_block_title_cl}};}
-    #mobile-bar .mobile-bar_icon{color:{{_block_icon_cl}};fill:{{_block_icon_cl}};}
-
-    #mobile-bar .mobile-bar--block-menu-content{
-      position: fixed;
-      width: 100%;
-      left: 0;
-      top: 0;
-      z-index: -1;
-      opacity: 0;
-      visibility: hidden;
-    }
-  }
-	{%- endcapture -%}
-	{{- section_css | strip_newlines |replace: '   ','   ' | remove: '	' -}}
-</style>
-
 
 {% schema %}
 {
-   "name": "Mobile bar",
-   "tag": "section",
-   "max_blocks": 5,
-   "settings": [
-      {
-         "type": "color",
-         "id": "section_bg_color",
-         "label": "Background color",
-         "default": "#ffffff"
-      },
-      {
-         "type"  :"text",
-         "id"    :"section_padding",
-         "label" :"Section Padding",
-         "placeholder": "E.g: 5px 20px 5px 20px",
-         "info": "Order: Top Right Bottom Left"
-      },
-      {
-         "type": "text",
-         "id": "section_height",
-         "label": "Section Height",
-         "default": "30px",
-         "placeholder": "E.g: 30px"
-      },
-      {
-      	"type": "header",
-      	"content": "Block settings"
-      },
-      {
-         "type": "text",
-         "id": "block_title_fs",
-         "label": "Title font size",
-         "default": "13px",
-         "placeholder": "E.g: 13px"
-      },
-      {
-         "type": "color",
-         "id": "block_title_cl",
-         "label": "Title color",
-         "default": "#222222"
-      },
-      {
-         "type": "color",
-         "id": "block_ic_cl",
-         "label": "Icon color",
-         "default": "#222222"
-      }
-   ],
-   "blocks": [
-      {
-         "type": "content",
-         "name": "Block content",
-         "settings": [
-            {
-               "type":"text",
-               "id":"title",
-               "label":"Block label"
-            },
-            {
-               "type":"select",
-               "id":"default_button",
-               "label":"Default Button",
-               "options":[
-                  {
-                    "value":"none",
-                    "label":"None"
-                  },
-                  {
-                    "value":"hamburger",
-                    "label":"Hamburger"
-                  },
-                  {
-                    "value":"account",
-                    "label":"Account"
-                  },
-                  {
-                    "value":"home",
-                    "label":"Home"
-                  },
-                  {
-                    "value":"wishlist",
-                    "label":"Wishlist"
-                  },
-                  {
-                    "value":"cart",
-                    "label":"Cart"
-                  }
-               ]
-               ,"default":"none"
-            },
-            {
-               "type": "text",
-               "id": "block_text",
-               "label": "Title",
-               "default": "Title"
-            },
-            {
-               "type": "url",
-               "id": "link",
-               "label": "Link"
-            },
-            {
-               "type": "select",
-               "id": "icon_type",
-               "label": "Icon type",
-               "options": [
-                  {
-                     "value": "icon",
-                     "label": "Font icon/ SVG"
-                  },
-                  {
-                     "value": "image",
-                     "label": "Image"
-                  }
-               ]
-            },
-            {
-               "type": "text",
-               "id": "block_icon",
-               "label": "Font icon name/ SVG content"
-            },
-            {
-               "type": "image_picker",
-               "id": "block_image",
-               "label": "Image"
-            },
-            {
-               "type": "header",
-               "content": "Advanced settings"
-            },
-            {
-               "type": "text",
-               "id": "block_ic_fs",
-               "label": "Icon size/ Image size",
-               "default": "22px",
-               "placeholder": "E.g: 22px"
-            },
-            {
-            	"type": "color",
-            	"id": "block_ic_cl",
-            	"label": "Icon color"
-            }
-         ]
-      }
-   ]
+  "name": "Mobile bar",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "icon_box",
+      "name": "Icon box",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type" : "url",
+          "id" : "url",
+          "label" : "URL" 
+        }
+      ]
+    }
+  ]
 }
-{% endschema %}
+{% endschema %} 

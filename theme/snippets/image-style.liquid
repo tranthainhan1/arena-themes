@@ -15,7 +15,7 @@
 		{%- if image.width > 1512 -%}{%- assign image_size = '1512x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
 		{%- if image.width > 1728 -%}{%- assign image_size = '1728x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
 		{%- if image.width > 2048 -%}{%- assign image_size = '2048x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
-		{%- if originQuality-%}{%- assign image_size = image.width | append: 'x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}{%- endif -%}
+		{%- assign image_size = image.width | append: 'x' -%}{%- assign image_width = image_width | append: ',' | append: image_size -%}
 	{%- endif -%}
 
 		{%- liquid

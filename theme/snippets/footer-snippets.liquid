@@ -38,7 +38,7 @@
           {% render 'svg' type: 'angle-down' %}
         </span>
       </div>
-      <ul class="menu-list ">
+      <ul class="d-md-block menu-list">
         {%- for link in linklists[menu].links -%}
           <li class="menu-list__item"><a href="{{link.url}}">{{link.title}}</a></li>
         {%- endfor -%}

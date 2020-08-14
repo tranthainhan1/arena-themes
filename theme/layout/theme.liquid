@@ -1,94 +1,60 @@
 <!doctype html>
 <html lang="{{ shop.locale }}">
 <head>
-    {%- if settings.favicon != nil -%}
-    <link rel="shortcut icon" type="image/x-icon" href="{{ settings.favicon | img_url: '32x32' }}">
-    {%- else -%}
-    <link rel="shortcut icon" type="image/x-icon" href="{{ 'favicon.png' | asset_url }}">
-    {%- endif -%}
-    <meta charset="utf-8">
-    <meta name="viewport" content="viewport-fit=cover, width=device-width,initial-scale=1, user-scalable=0"/>
-    <meta name="google" content="notranslate">
-    <meta name='HandheldFriendly' content='True'>
-    <meta name='MobileOptimized' content='360'>
-    <meta http-equiv="cleartype" content="on">
-    <meta name="theme-color" content="{{ settings.main_color }}">
-    <title>{{ page_title }}{%- if current_tags -%}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
-    {%- if page_description -%}
-    <meta name="description" content="{{ page_description | escape }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags | escape }}.{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}.{% endif %}" />
-    {%- endif -%}
-    <link rel="preconnect dns-prefetch" href="https://fonts.shopifycdn.com">
-    <link rel="preconnect dns-prefetch" href="https://cdn.shopify.com">
-    <link rel="preconnect dns-prefetch" href="https://v.shopify.com">
-    <link rel="preconnect dns-prefetch" href="https://cdn.shopifycloud.com">
-    <link rel="preconnect dns-prefetch" href="{{ shop.url }}">
-    {%- liquid
-    	render 'google-font'
-    	render 'css-variables-local'
-    	render 'fb-open-graph'
-    -%}
-    {{ 'main_style.css' | asset_url | stylesheet_tag }}
-    {% include 'css_variables' %} 
-    {%- capture arnAIFContent -%}{{ shop.metafields.arn_aif.script }}{%- endcapture -%}
-    {%- unless arnAIFContent == blank -%}
-        {%- comment -%} Call ARN-AIF metafield, css & js {%- endcomment-%}
-        {{- arnAIFContent -}}
-        {{- 'arn-aif.css' | asset_url | stylesheet_tag -}}
-        {{- 'arn-aif.js' | asset_url | script_tag -}}
-    {%- endunless -%} 
-    {{ content_for_header }}
+  {%- if settings.favicon != nil -%}
+  <link rel="shortcut icon" type="image/x-icon" href="{{ settings.favicon | img_url: '32x32' }}">
+  {%- else -%}
+  <link rel="shortcut icon" type="image/x-icon" href="{{ 'favicon.png' | asset_url }}">
+  {%- endif -%}
+  <meta charset="utf-8">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width,initial-scale=1, user-scalable=0"/>
+  <meta name="google" content="notranslate">
+  <meta name='HandheldFriendly' content='True'>
+  <meta name='MobileOptimized' content='360'>
+  <meta http-equiv="cleartype" content="on">
+  <meta name="theme-color" content="{{ settings.main_color }}">
+  <title>{{ page_title }}{%- if current_tags -%}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  {%- if page_description -%}
+  <meta name="description" content="{{ page_description | escape }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags | escape }}.{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}.{% endif %}" />
+  {%- endif -%}
+  <link rel="preconnect dns-prefetch" href="https://fonts.shopifycdn.com">
+  <link rel="preconnect dns-prefetch" href="https://cdn.shopify.com">
+  <link rel="preconnect dns-prefetch" href="https://v.shopify.com">
+  <link rel="preconnect dns-prefetch" href="https://cdn.shopifycloud.com">
+  <link rel="preconnect dns-prefetch" href="{{ shop.url }}">
+  {%- liquid
+    render 'google-font'
+    render 'css-variables-local'
+    render 'fb-open-graph'
+  -%}
+  {{ 'main_style.css' | asset_url | stylesheet_tag }}
+  {% include 'css_variables' %} 
+  {%- capture arnAIFContent -%}{{ shop.metafields.arn_aif.script }}{%- endcapture -%}
+  {%- unless arnAIFContent == blank -%}
+      {%- comment -%} Call ARN-AIF metafield, css & js {%- endcomment-%}
+      {{- arnAIFContent -}}
+      {{- 'arn-aif.css' | asset_url | stylesheet_tag -}}
+      {{- 'arn-aif.js' | asset_url | script_tag -}}
+  {%- endunless -%} 
+  {{ content_for_header }}
 </head>
 
-{%- capture themeClass -%}template{{ template | split: '.' | first | camelize -}}
-{%- endcapture -%}{%- assign themeClass = themeClass | strip_newlines | split: '|' | join: ' ' -%}
+{%- capture themeClass -%}template-{{ template | split: '.' | join: '-' -}}{%- endcapture -%}
 
 <body class="{{ themeClass }}">
-    {%- render 'snippet-theme', type: 'themeCSS' -%}
-    <div class="boxed-wapper">
-        <header>
-            {%- if settings.enable_announbar -%}{%- section 'announcement-bar' -%}{%- endif -%}
-            {%- section 'header' -%}
-        </header>
-        <main id="main-content">
-            {{ content_for_layout }}
-        </main>
-            {% section 'footer' %}
-
-        {%- if settings.enable_mobilebar -%}{%- section 'mobile-bar' -%}{%- endif -%}
-        {%- if settings.enable_customCss -%}{%- endif -%}
-    </div>
-
-    <script src="{{ 'app.js' | asset_url }}"></script>
-<script src="{{ 'custom.js' | asset_url }}"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+  {%- render 'snippet-theme', type: 'themeCSS' -%}
+  <div class="boxed-wapper">
+    <header>
+        {%- if settings.enable_announbar -%}{%- section 'announcement-bar' -%}{%- endif -%}
+        {%- section 'header' -%}
+    </header>
+    <main id="main-content">
+        {{ content_for_layout }}
+    </main>
+    {% section 'footer' %}
+    {% comment %} {% section 'mobile-bar' %} {% endcomment %}
+  </div>
+  <script src="{{ 'app.js' | asset_url }}"></script>
+  <script src="{{ 'custom.js' | asset_url }}"></script>
 </body>
 </html>

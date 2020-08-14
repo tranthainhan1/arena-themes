@@ -1,17 +1,16 @@
 {% liquid 
   assign logo = section.settings.logo 
-  assign layout = section.settings.layout 
   assign nav_link = section.settings.nav_link 
 %}
 
-{%- if layout == 'boxed' -%} <div class="container"> {%- endif -%}
-  <div class="header-desktop header-desktop-01">
+<div class="header-desktop header-desktop-01">  
+  <div class="container">
     <div class="header-desktop__inner">
       
-      {%- include 'header-snippets', type: 'menu' -%}
+      {%- include 'header-snippets', type: 'icon-menu' -%}
       {%- include 'header-snippets', type: 'logo' -%}
       {%- include 'header-snippets', type: 'horizontal-nav' -%}
       {%- include 'header-snippets', type: 'icon-list' -%}
     </div>
   </div>
-{% if layout == 'boxed'  %}</div>{%- endif -%}
+</div>
