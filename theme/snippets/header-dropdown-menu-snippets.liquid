@@ -2,7 +2,7 @@
   {%- case block.type -%}
     {%- when 'nav_link_item' -%}
       {% liquid 
-        assign url       = block.settings.url | default: "javascript:void(0)"
+        assign url       = block.settings.nav_link | default: "javascript:void(0)"
         assign icon      = block.settings.icon
         assign nav_title = block.settings.nav_title
         assign subtitle  = block.settings.subtitle

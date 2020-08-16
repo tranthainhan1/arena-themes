@@ -5,70 +5,61 @@
   assign url = section.settings.url  | default: 'javascript:void(0)'
 %}
 
-<div class="d-lg-none position-fixed mobile-bar">
+<div class="d-lg-none mobile-bar">
     <div class="mobile-bar__item comments">
-      <a href="">
+      <a href="/pages/support">
         <span class="icon">
           {% render 'svg' type: 'comments' %}
         </span>
         <span class="label">
-          {{label}}
+          {{'mobile_bar.support' | t}}
         </span>
       </a>
     </div>
     <div class="mobile-bar__item envelope">
-      <a href="{{url}}">
+      <a href="/pages/contact-us">
         <span class="icon">
           {% render 'svg' type: 'envelope' %}
         </span>
         <span class="label">
-          {{label}}
+          {{'mobile_bar.contact' | t}}
         </span>
       </a>
     </div>
     <div class="mobile-bar__item calendar">
-      <a href="{{url}}">
+      <a href="/pages/book-appointment">
         <span class="icon">
           {% render 'svg' type: 'calendar' %}
         </span>
         <span class="label">
-          {{label}}
+          {{'mobile_bar.appointment' | t}}
         </span>
       </a>
     </div>
     <div class="mobile-bar__item user">
-      <a href="{{url}}">
+      <a href="{% if customer %} /account {%- else -%} /account/login {%- endif -%}">
         <span class="icon">
-         {% render 'svg' type: 'user' %}
+          {% render 'svg' type: 'user' %}
         </span>
         <span class="label">
-          {{label}}
+          {% if customer %}  {{'mobile_bar.account.profile' | t}} {%- else -%}  {{'mobile_bar.account.sign_in' | t}} {%- endif -%}
         </span>
       </a>
     </div>
 </div>
 
+<style>
+  .mobile-bar {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+</style>
+
 {% schema %}
 {
   "name": "Mobile bar",
-  "tag": "section",
-  "blocks": [
-    {
-      "type": "icon_box",
-      "name": "Icon box",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label"
-        },
-        {
-          "type" : "url",
-          "id" : "url",
-          "label" : "URL" 
-        }
-      ]
-    }
-  ]
+  "tag": "section"
 }
 {% endschema %} 

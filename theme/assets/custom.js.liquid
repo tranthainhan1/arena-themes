@@ -5311,7 +5311,7 @@ var tns = function(options) {
 
 // CONCATENATED MODULE: ./app/scripts/_arn.js
 
-var AT_main = {
+var AT = {
   initTinySlider: function initTinySlider(container) {
     var config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
     var sliderContainer = container.querySelector(".js-tns");
@@ -5337,80 +5337,101 @@ var AT_main = {
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
     };
-  },
-  handleCollapse: function handleCollapse() {
-    var first = true,
-        isComplte = false;
-    this.elements.blocks.forEach(function (item) {
-      var elmMenuList = item.querySelector(".menu-list");
-      var children = elmMenuList.children;
-      var elmExpand = item.querySelector(".js-handle-collapse");
-      elmExpand.addEventListener("click", function (e) {
-        if (first || isComplte) {
-          first = false;
-          isComplte = false;
-          var elmParent = e.target.closest(".footer-top__item.menu-item");
-
-          if (elmParent.classList.contains("show")) {
-            var height = elmMenuList.offsetHeight;
-            elmMenuList.style.height = "".concat(height, "px");
-            AT_main.debounce(function () {
-              elmMenuList.style.height = "0px";
-            }, 1)();
-            AT_main.debounce(function () {
-              elmParent.classList.remove("show");
-              elmMenuList.style.height = "";
-              isComplte = true;
-            }, 200)();
-          } else {
-            elmParent.classList.add("show");
-            elmMenuList.style.height = "0px";
-
-            var _height = Object.values(children).reduce(function (accu, currentValue) {
-              return accu + currentValue.offsetHeight;
-            }, 0);
-
-            elmMenuList.style.height = "".concat(_height, "px");
-            AT_main.debounce(function () {
-              elmMenuList.style.height = "";
-              isComplte = true;
-            }, 200)();
-          }
-        }
-      });
-    });
   }
 };
-/* harmony default export */ var _arn = (AT_main);
-// CONCATENATED MODULE: ./app/scripts/objects.js
+/* harmony default export */ var _arn = (AT);
+// CONCATENATED MODULE: ./app/scripts/AT_section.js
 
 var Header = {
   onLoad: function onLoad() {
     var $container = this.container;
     this.elements = {
       btnMenu: $container.querySelector(".js-handle-nav-mobile"),
-      menuMobileContainer: $container.querySelector(".js-nav-mobile")
+      menuMobileContainer: $container.querySelector(".js-nav-mobile"),
+      elmTriggerCollapse: $container.querySelectorAll(".js-trigger-collapse"),
+      overlayMenuMobile: $container.querySelector(".header .overlay-menu-mobile")
     };
     this.handleMenuMobile();
+    this.handleCollapse();
   },
   handleMenuMobile: function handleMenuMobile() {
-    var _this = this;
-
     var first = true,
-        isComplte = false;
-    this.elements.btnMenu.addEventListener("click", function (e) {
-      var _this$elements = _this.elements,
-          btnMenu = _this$elements.btnMenu,
-          menuMobileContainer = _this$elements.menuMobileContainer; // if (first || isComplete) {
+        isComplete = false,
+        _this$elements = this.elements,
+        btnMenu = _this$elements.btnMenu,
+        overlayMenuMobile = _this$elements.overlayMenuMobile,
+        menuMobileContainer = _this$elements.menuMobileContainer;
+    btnMenu.addEventListener("click", function (e) {
+      if (first || isComplete) {
+        first = false;
+        isComplete = false;
 
-      if (btnMenu.classList.contains("show")) {
-        btnMenu.classList.remove("show");
-        menuMobileContainer.classList.remove("show");
-      } else {
-        btnMenu.classList.add("show");
-        menuMobileContainer.classList.add("show");
-      } // }
+        if (btnMenu.classList.contains("show")) {
+          document.body.classList.remove("sidebar-mobile-show");
+          btnMenu.classList.remove("show");
+          menuMobileContainer.classList.remove("show");
+          isComplete = true;
+        } else {
+          document.body.classList.add("sidebar-mobile-show");
+          btnMenu.classList.add("show");
+          menuMobileContainer.classList.add("show");
+          isComplete = true;
+        }
+      }
+    });
+    overlayMenuMobile.addEventListener("click", function () {
+      document.body.classList.remove("sidebar-mobile-show");
+      btnMenu.classList.remove("show");
+      menuMobileContainer.classList.remove("show");
+      console.log(menuMobileContainer);
+    });
+  },
+  handleCollapse: function handleCollapse() {
+    var first = true,
+        isComplete = false;
+    var elmTriggerCollapse = this.elements.elmTriggerCollapse;
+    elmTriggerCollapse.forEach(function (item) {
+      var parent = item.closest(".link-list__item");
+      var collapseContainer = parent.querySelector(".dropdown-menu-mobile");
+      var childCollapseContainer = collapseContainer.children;
+      item.addEventListener("click", function () {
+        var _this = this;
 
+        if (first || isComplete) {
+          first = false;
+          isComplete = false;
+
+          if (this.classList.contains("show")) {
+            var height = collapseContainer.offsetHeight;
+            collapseContainer.style.height = "".concat(height, "px");
+            _arn.debounce(function () {
+              collapseContainer.style.height = "0px";
+            }, 1)();
+            _arn.debounce(function () {
+              collapseContainer.style.height = "";
+
+              _this.classList.remove("show");
+
+              collapseContainer.classList.remove("show");
+              isComplete = true;
+            }, 200)();
+          } else {
+            this.classList.add("show");
+            collapseContainer.classList.add("show");
+            collapseContainer.style.height = "0px";
+
+            var _height = Object.values(childCollapseContainer).reduce(function (accu, currentValue) {
+              return accu + currentValue.offsetHeight;
+            }, 0);
+
+            collapseContainer.style.height = "".concat(_height, "px");
+            _arn.debounce(function () {
+              collapseContainer.style.height = "";
+              isComplete = true;
+            }, 200)();
+          }
+        }
+      });
     });
   }
 };
@@ -5439,15 +5460,15 @@ var Footer = {
   },
   handleCollapse: function handleCollapse() {
     var first = true,
-        isComplte = false;
+        isComplete = false;
     this.elements.blocks.forEach(function (item) {
-      var elmMenuList = item.querySelector(".menu-list");
+      var elmMenuList = item.querySelector(".js-collapse");
       var children = elmMenuList.children;
-      var elmExpand = item.querySelector(".js-handle-collapse");
+      var elmExpand = item.querySelector(".js-trigger-collapse");
       elmExpand.addEventListener("click", function (e) {
-        if (first || isComplte) {
+        if (first || isComplete) {
           first = false;
-          isComplte = false;
+          isComplete = false;
           var elmParent = e.target.closest(".footer-top__item.menu-item");
 
           if (elmParent.classList.contains("show")) {
@@ -5459,20 +5480,20 @@ var Footer = {
             _arn.debounce(function () {
               elmParent.classList.remove("show");
               elmMenuList.style.height = "";
-              isComplte = true;
+              isComplete = true;
             }, 200)();
           } else {
             elmParent.classList.add("show");
             elmMenuList.style.height = "0px";
 
-            var _height = Object.values(children).reduce(function (accu, currentValue) {
+            var _height2 = Object.values(children).reduce(function (accu, currentValue) {
               return accu + currentValue.offsetHeight;
             }, 0);
 
-            elmMenuList.style.height = "".concat(_height, "px");
+            elmMenuList.style.height = "".concat(_height2, "px");
             _arn.debounce(function () {
               elmMenuList.style.height = "";
-              isComplte = true;
+              isComplete = true;
             }, 200)();
           }
         }

@@ -14,7 +14,7 @@
             {%- for block in section.blocks -%}
               {%- if block.type == 'trigger' -%}
                 {%- if block.settings.title == link.title -%}
-                  <span class="icon">
+                  <span class="js-trigger-collapse icon">
                     {% render 'svg' type: 'angle-down' %}
                     {% render 'svg' type: 'angle-up' %}
                   </span>
@@ -27,7 +27,7 @@
                   assign title = block.settings.title
                 %}
                 {%- if title == link.title -%}
-                  <ul class="dropdown-menu-mobile">
+                  <ul class="js-collapse dropdown-menu-mobile">
                     {%- for block in section.blocks offset: forloop.index-%}
                       {%- case block.type -%}
                         {%- when 'nav_link_item' -%}

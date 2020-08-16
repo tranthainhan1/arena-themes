@@ -12,6 +12,7 @@
   {%- endcase -%}
 
   {%- include 'header-nav-mobile-snippets' header_mobile_style: header_mobile_style -%}
+  <div class="js-close-menu-mobile overlay-menu-mobile"></div>
 </div>
 
 <style>
@@ -27,7 +28,18 @@
       }
     }
   {%- endif -%}
-
+body.sidebar-mobile-show .header .overlay-menu-mobile {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 100;
+    opacity: 0.4;
+}
+body.sidebar-mobile-show{
+  overflow: hidden;
+}
 </style>
 
 {% schema %}

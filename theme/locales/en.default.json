@@ -45,5 +45,26 @@
       "message": "Message",
       "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
     }
+  },
+  "mobile_bar": {
+    "support": "Support 24/7",
+    "contact": "Contact us",
+    "appointment": "Book Appointment",
+    "account": {
+      "sign_in": "Sign in",
+      "profile": "Profile"
+    }
+  },
+  "page": {
+    "help_center": {
+      "title": "Submit your request and get a free quote",
+      "label_email": "Your email address",
+      "placeholder_email": "ex: julie@example.com",
+      "label_request": "Name your request",
+      "placeholder_request": "Give it a concise title.",
+      "label_quesion": "How can we help you?",
+      "placeholder_quesion": "Describe your task or list of tasks for us.",
+      "label_btn": "Submit Your Request"
+    }
   }
 }

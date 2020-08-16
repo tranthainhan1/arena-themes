@@ -14,7 +14,7 @@ import {
   LogoList,
   Header,
   Footer,
-} from "./objects";
+} from "./AT_section";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
