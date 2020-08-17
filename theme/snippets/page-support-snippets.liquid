@@ -6,7 +6,7 @@
       assign btn_url = block.settings.btn_url 
       assign btn_label = block.settings.btn_label 
     %}
-    <div class="banner-text">
+    <div class="banner-text" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
       <div class="banner-text_-wrapper">
         <div class="title">
           <span class="content">{{title}}</span>
@@ -28,10 +28,10 @@
       assign btn_title  = block.settings.btn_title
       assign image      = block.settings.image
     %}
-    <div class="custom-content" data-section-id="{{block.id}}" data-section-type="custom-content">
+    <div class="custom-content" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
       <div class="custom-content__wrapper {% if align_top %}align-top{%- endif -%}">
         <div class="custom-content__content">
-          <div class="custom-content__item__text-box" data-block-id="{{block.id}}">
+          <div class="custom-content__item__text-box">
             <div class="text-box-group">
               <div class="title">
                 <div class="heading">
@@ -45,7 +45,6 @@
                 <div class="button">
                   <a href="{{btn_url}}" class="btn btn-1">
                     <span>{{btn_title}}</span>
-                    {%- render 'svg', type: 'angle-right' -%}
                   </a>
                 </div>
               {%- endif -%}
@@ -62,15 +61,16 @@
   {% comment %} end {% endcomment %}
   {%- when 'custom_content' -%}
     {% liquid 
-      assign image_desktop = block.settings.image_desktop
-      assign image_mobile  = block.settings.image_mobile
-      assign heading       = block.settings.heading
-      assign paragraph_1   = block.settings.paragraph_1
-      assign paragraph_2   = block.settings.paragraph_2
-      assign reserve_order = block.settings.reserve_order
+      assign image_desktop  = block.settings.image_desktop
+      assign image_mobile   = block.settings.image_mobile
+      assign heading        = block.settings.heading
+      assign paragraph_1    = block.settings.paragraph_1
+      assign paragraph_2    = block.settings.paragraph_2
+      assign reserve_order  = block.settings.reserve_order
+      assign textbox_margin = block.settings.textbox_margin
     %}
 
-    <div class="hero-banner">
+    <div class="hero-banner" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
       <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{%- endif -%}">
         <div class="d-flex">
           <div class="d-none d-lg-block hero-banner__image-desktop">
@@ -95,19 +95,13 @@
         </div>
       </div>
     </div>
+
+    <style>
+      {%- if textbox_margin != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          margin: {{textbox_margin}};
+        }
+      {%- endif -%}
+    </style>
   {% comment %} end {% endcomment %}
-  {%- when 'plan' -%}
-    {% liquid 
-      assign title    = block.settings.title
-      assign subtitle = block.settings.subtitle
-    %}
-    <div class="plan">
-      <div class="plan_top">
-        <div class="title">{{title}}</div>
-        <div class="subtitle">{{subtitle}}</div>
-      </div>
-      <div class="plan_body">
-        
-      </div>
-    </div>
 {%- endcase -%} 
