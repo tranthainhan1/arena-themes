@@ -1,0 +1,62 @@
+{%- case type -%}
+  {%- when 'support' -%}
+    <div class="mobile-bar__item support">
+      <a href="/pages/support">
+        <span class="icon">
+          {% render 'svg' type: 'comments' %}
+        </span>
+        <span class="label">
+          {{'mobile_bar.support' | t}}
+        </span>
+      </a>
+    </div>
+  {%- when 'contact' -%}
+    <div class="mobile-bar__item contact">
+      <a href="/pages/contact-us">
+        <span class="icon">
+          {% render 'svg' type: 'envelope' %}
+        </span>
+        <span class="label">
+          {{'mobile_bar.contact' | t}}
+        </span>
+      </a>
+    </div>
+  {%- when 'appointment' -%}
+    <div class="mobile-bar__item appointment">
+      <a href="/pages/book-appointment">
+        <span class="icon">
+          {% render 'svg' type: 'calendar' %}
+        </span>
+        <span class="label">
+          {{'mobile_bar.appointment' | t}}
+        </span>
+      </a>
+    </div>
+  {%- when 'account' -%}
+    <div class="mobile-bar__item account">
+      <a href="{% if customer %} /account {%- else -%} /account/login {%- endif -%}">
+        <span class="icon">
+          {% render 'svg' type: 'user' %}
+        </span>
+        <span class="label">
+          {% if customer %}  {{'mobile_bar.account.profile' | t}} {%- else -%}  {{'mobile_bar.account.sign_in' | t}} {%- endif -%}
+        </span>
+      </a>
+    </div>
+  {%- when 'custom' -%}
+  {% liquid 
+    assign url = block.settings.url | default: 'javascript:void(0)'
+    assign icon = block.settings.icon
+    assign label = block.settings.label   
+  %}
+    <div class="mobile-bar__item custom">
+      <a href="{{url}}">
+        <span class="icon">
+          {{icon}}
+        </span>
+        <span class="label">
+          {{label}}
+        </span>
+      </a>
+    </div>
+{%- endcase -%}

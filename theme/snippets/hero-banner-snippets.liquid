@@ -4,11 +4,12 @@
   assign heading       = section.settings.heading
   assign paragraph_1   = section.settings.paragraph_1
   assign paragraph_2   = section.settings.paragraph_2
+  assign reserve_order = section.settings.reserve_order
 %}
 
 <div class="hero-banner" data-section-id="{{section.id}}" data-section-type="hero-banner">
   <div class="container">
-    <div class="hero-banner__wrapper">
+    <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{%- endif -%}">
       <div class="d-flex">
         <div class="d-none d-lg-block hero-banner__image-desktop">
           <div class="image">

@@ -115,8 +115,10 @@ let Footer = {
 
     this.elements = {
       blocks: $container.querySelectorAll(".footer-top__item.menu-item"),
+      footerWrapper: $container.querySelector(".footer .footer__wrapper"),
     };
     this.handleCollapse();
+    this.handlePaddingFooter();
   },
   handleCollapse: function () {
     let first = true,
@@ -161,6 +163,28 @@ let Footer = {
         }
       });
     });
+  },
+  handlePaddingFooter: function () {
+    let { footerWrapper } = this.elements,
+      style = getComputedStyle(footerWrapper),
+      mobileBar = document.querySelector(".mobile-bar"),
+      paddingBottomFooterWrapper = parseInt(style.paddingBottom);
+
+    if (window.innerWidth < 992) {
+      setPaddingFooter();
+    }
+
+    window.onresize = function () {
+      setPaddingFooter();
+    };
+
+    function setPaddingFooter() {
+      let heightMobileBar = mobileBar.offsetHeight;
+
+      footerWrapper.style.paddingBottom = `${
+        heightMobileBar + paddingBottomFooterWrapper
+      }px`;
+    }
   },
 };
 

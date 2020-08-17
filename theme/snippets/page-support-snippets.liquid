@@ -1,0 +1,113 @@
+{%- case type -%}
+  {%- when 'banner_text' -%}
+    {% liquid 
+      assign title = block.settings.block_title 
+      assign subtitle = block.settings.subtitle 
+      assign btn_url = block.settings.btn_url 
+      assign btn_label = block.settings.btn_label 
+    %}
+    <div class="banner-text">
+      <div class="banner-text_-wrapper">
+        <div class="title">
+          <span class="content">{{title}}</span>
+        </div>
+        <div class="subtitle">
+          <span class="content">{{subtitle}}</span>
+        </div>
+        <div class="btn btn-1">
+          <a href="{{btn_url}}">{{btn_label}}</a>
+        </div>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'hero_banner' -%}
+    {% liquid 
+      assign heading    = block.settings.heading
+      assign subheading = block.settings.subheading
+      assign btn_url    = block.settings.btn_url
+      assign btn_title  = block.settings.btn_title
+      assign image      = block.settings.image
+    %}
+    <div class="custom-content" data-section-id="{{block.id}}" data-section-type="custom-content">
+      <div class="custom-content__wrapper {% if align_top %}align-top{%- endif -%}">
+        <div class="custom-content__content">
+          <div class="custom-content__item__text-box" data-block-id="{{block.id}}">
+            <div class="text-box-group">
+              <div class="title">
+                <div class="heading">
+                  <span class="content">{{heading}}</span>
+                </div>
+                <div class="subheading">
+                  <span class="content">{{subheading}}</span>
+                </div>
+              </div>
+              {%- if btn_title != blank -%}
+                <div class="button">
+                  <a href="{{btn_url}}" class="btn btn-1">
+                    <span>{{btn_title}}</span>
+                    {%- render 'svg', type: 'angle-right' -%}
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="custom-content__item__image">
+            <div class="image-position">
+              {%- render 'image-style', image: image -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'custom_content' -%}
+    {% liquid 
+      assign image_desktop = block.settings.image_desktop
+      assign image_mobile  = block.settings.image_mobile
+      assign heading       = block.settings.heading
+      assign paragraph_1   = block.settings.paragraph_1
+      assign paragraph_2   = block.settings.paragraph_2
+      assign reserve_order = block.settings.reserve_order
+    %}
+
+    <div class="hero-banner">
+      <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{%- endif -%}">
+        <div class="d-flex">
+          <div class="d-none d-lg-block hero-banner__image-desktop">
+            <div class="image">
+              {% render 'image-style' image: image_desktop  %}
+            </div>
+          </div>
+          <div class="hero-banner__text-box">
+            <div class="heading">
+              <h3>{{heading}}</h3>
+            </div>
+            <div class="d-lg-none image">
+              {% render 'image-style'  image: image_mobile %}
+            </div>
+            <div class="paragraph-1">
+              <span>{{paragraph_1}}</span>
+            </div>
+            <div class="paragraph-2">
+              <span>{{paragraph_2}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'plan' -%}
+    {% liquid 
+      assign title    = block.settings.title
+      assign subtitle = block.settings.subtitle
+    %}
+    <div class="plan">
+      <div class="plan_top">
+        <div class="title">{{title}}</div>
+        <div class="subtitle">{{subtitle}}</div>
+      </div>
+      <div class="plan_body">
+        
+      </div>
+    </div>
+{%- endcase -%} 

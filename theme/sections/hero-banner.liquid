@@ -1,4 +1,4 @@
-{%- include 'hero-banner-snippets' -%}
+{%- include 'hero-banner-snippets'  -%}
 
 {% liquid 
   assign bg_color = section.settings.bg_color  
@@ -23,6 +23,11 @@
       "type" : "color",
       "id" : "bg_color",
       "label" : "Background color"
+    },
+    {
+      "type" : "checkbox",
+      "id" : "reserve_order",
+      "label" : "Reserve order"
     },
     {
       "type": "header",

@@ -1,11 +1,24 @@
 <div class="help-center">
   <div class="help-center__wrapper">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 col-12 m-auto help-center__form">
-
+    <div class="help-center__form">
+      <div class="title">{{'page.help_center.title' | t}}</div>
+      {%- form 'contact' -%}
+        <div class="form__email">
+          <label for="email">{{'page.help_center.label_email' | t}}</label>
+          <input type="text" name='contact[email]' id='email' placeholder="{{'page.help_center.placeholder_email' | t}}">
         </div>
-      </div>
+        <div class="form__request">
+          <label for="request">{{'page.help_center.label_request' | t}}</label>
+          <input type="text" name='contact[request]' id='request' placeholder="{{'page.help_center.placeholder_request' | t}}">
+        </div>
+        <div class="form__question">
+          <label for="question">{{'page.help_center.label_quesion' | t}}</label>
+          <textarea type="text" name='contact[question]' id='question' placeholder="{{'page.help_center.placeholder_quesion' | t}}"></textarea>
+        </div>
+        <div class="form__submit">
+          <button class="btn btn-2">{{'page.help_center.label_btn' | t}}</button>
+        </div>
+      {%- endform -%}
     </div>
   </div>
 </div>

@@ -5454,9 +5454,11 @@ var Footer = {
   onLoad: function onLoad() {
     var $container = this.container;
     this.elements = {
-      blocks: $container.querySelectorAll(".footer-top__item.menu-item")
+      blocks: $container.querySelectorAll(".footer-top__item.menu-item"),
+      footerWrapper: $container.querySelector(".footer .footer__wrapper")
     };
     this.handleCollapse();
+    this.handlePaddingFooter();
   },
   handleCollapse: function handleCollapse() {
     var first = true,
@@ -5499,6 +5501,25 @@ var Footer = {
         }
       });
     });
+  },
+  handlePaddingFooter: function handlePaddingFooter() {
+    var footerWrapper = this.elements.footerWrapper,
+        style = getComputedStyle(footerWrapper),
+        mobileBar = document.querySelector(".mobile-bar"),
+        paddingBottomFooterWrapper = parseInt(style.paddingBottom);
+
+    if (window.innerWidth < 992) {
+      setPaddingFooter();
+    }
+
+    window.onresize = function () {
+      setPaddingFooter();
+    };
+
+    function setPaddingFooter() {
+      var heightMobileBar = mobileBar.offsetHeight;
+      footerWrapper.style.paddingBottom = "".concat(heightMobileBar + paddingBottomFooterWrapper, "px");
+    }
   }
 };
 

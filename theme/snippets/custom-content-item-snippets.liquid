@@ -5,25 +5,15 @@
       assign subheading   = block.settings.subheading
       assign btn_url      = block.settings.btn_url
       assign btn_title    = block.settings.btn_title
-      assign image_mobile = block.settings.image_mobile
       assign text_color   = block.settings.text_color
       assign custom_html  = block.settings.custom_html
-      assign image_main   = block.settings.image_main
     %}
     <div class="custom-content__item__text-box" data-block-id="{{block.id}}">
-      {% comment %} <div class="image">
-        {% render 'image-style' , image: image_main %}
-      </div> {% endcomment %}
       <div class="text-box-group">
         <div class="title">
           <div class="heading">
             <span class="content">{{heading}}</span>
           </div>
-          {%- if image_mobile != blank -%}
-            <div class="d-md-none image">
-              {% render 'image-style', image: image_mobile, originQuality: true  %}
-            </div>
-          {%- endif -%}
           <div class="subheading">
             <span class="content">{{subheading}}</span>
           </div>
@@ -57,10 +47,4 @@
         {%- render 'image-style', image: image -%}
       </div>
     </div>
-    {% comment %} <style>
-      .custom-content .custom-content__item__image  {
-        top: {{align_vertical}}%;
-        transform: translateY(-{{align_vertical}}%);
-      }
-    </style> {% endcomment %}
 {%- endcase -%}
