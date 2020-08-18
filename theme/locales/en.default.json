@@ -71,19 +71,37 @@
     "customer": {
       "login": {
         "title": "Login to your account",
-        "subtitle": "Do not have an account? {{link}}",
+        "subtitle_html": "Do not have an account? {{link}}",
         "create": "Create an account",
         "forgot_password": "Forgot password?",
         "remember": "Remember me",
-        "button_label": "Login"
+        "button_label": "Login",
+        "login_with_fb": "Login with Facebook",
+        "login_with_gg": "Login with Google"
+      },
+      "register": {
+        "title": "Create your account",
+        "subtitle_html": "Already have an account? {{link}}",
+        "login_link": "Login here",
+        "register_with_gg": "Sign up with Google",
+        "register_with_fb": "Sign up with Facebook",
+        "placeholder_full_name": "Julie Sample",
+        "button_label": "Sign up",
+        "full_name": "Full name",
+        "condition_password": "*Minimun 8 characters, should contain an uppercase letter, and a special symbol.",
+        "terms_vs_conditions": "Terms & Conditions",
+        "note_html": "By signing up, you agree to our {{link}}"
+      },
+      "reset_password": {
+        "title": "Forgot your password",
+        "subtitle": "That’s ok.../nPlease enter your registered email to reset password."
       }
     },
     "linking_words": "OR",
-    "login_with_fb": "Login with Facebook",
-    "login_with_gg": "Login with Google",
     "placeholder_email": "ex: julie@example.com",
     "placeholder_password": "Password",
-    "email_label": "Your email address "
+    "email_label": "Your email address ",
+    "password_label": "Password"
   },
   "button": {
     "view_more": "View more"

@@ -1,41 +1,54 @@
-{% layout settings.customer_layout %}
+{% layout 'customer' %}
 
-<div id="template">
-  <div id="customer">
-	  <!-- Create Customer -->
-	  <div id="create-customer">
-	    <div class="template_header">
-	      <h2 class="title">Create Account</h2>
-	    </div>
-
-	    {% form 'create_customer' %}
-	      {{ form.errors | default_errors }}
-
-	      <div class="clearfix large_form">
-	        <label for="first_name" class="login">First Name</label>
-	        <input type="text" value="" name="customer[first_name]" id="first_name" class="large" size="30" />
-	      </div>
-
-	      <div class="clearfix large_form">
-	        <label for="last_name" class="login">Last Name</label>
-	        <input type="text" value="" name="customer[last_name]" id="last_name" class="large" size="30" />
-	      </div>
-
-	      <div class="clearfix large_form">
-	        <label for="email" class="login">Email Address</label>
-	        <input type="email" value="" name="customer[email]" id="email" class="large" size="30" />
-	      </div>
-
-	      <div class="clearfix large_form">
-	        <label for="password" class="login">Password</label>
-	        <input type="password" value="" name="customer[password]" id="password" class="large password" size="30" />
-	      </div>
-
-	      <div class="action_bottom">
-	        <input class="btn" type="submit" value="Create" />
-	        <span class="note">or <a href="{{ shop.url }}">Return to Store</a></span>
-	      </div>
-	    {% endform %}
-	  </div><!-- /#create-customer -->
+<div class="register">
+  <div class="register__top">
+    <div class="title">{{'layout.customer.register.title' | t}}</div>
+    <div class="subtitle">
+      {%- capture link -%} <a href="/account/register">{{'layout.customer.register.login_link' | t}}</a> {%- endcapture-%}
+      <span>{{ 'layout.customer.register.subtitle_html' | t: link: link}}</span>
+    </div>
+    <div class="register-other">
+      <div class="register-fb">
+        <a href="javascript:void(0)" class="btn" id="btn-register-fb">
+          {% render 'svg' type:'icon-fb' %}
+          <span>{{'layout.customer.register.register_with_fb' | t}}</span>
+        </a>
+      </div>
+      <div class="register-gg">
+        <a href="javascript:void(0)" class="btn" id="btn-register-gg">
+          {% render 'svg' type:'icon-gg' %}
+          <span>{{'layout.customer.register.register_with_fb' | t}}</span>
+        </a>
+      </div>
+    </div>
+    <div class="linking-words">
+      <span>{{'layout.linking_words' | t}}</span>
+    </div>
+  </div>
+  <div class="register__body">
+    {%- form 'create_customer' -%}
+      <div class="form-group">
+        <label for="customer_full_name">{{'layout.customer.register.full_name' | t}}</label>
+        <input type="text" id="customer_full_name" class="form-control" name="customer[full_name]" placeholder="{{'layout.customer.register.placeholder_full_name' | t}}">
+      </div>	
+      <div class="form-group">
+        <label for="customer_email">{{'layout.email_label' | t}}</label>
+        <input type="text" id="customer_email" class="form-control" name="customer[email]" placeholder="{{'layout.placeholder_email' | t}}">
+      </div>
+      <div class="form-group">
+        <label for="customer_password">{{'layout.password_label' | t}}</label>
+        <div class="input-group">
+          <input type="text" id="customer_password" class="form-control" name="customer[password]" placeholder="{{'layout.placeholder_password' | t}}">
+          {% render 'svg' type: 'eye-on' %}
+          {% render 'svg' type: 'eye-off' %}
+          <span class="form-text">{{'layout.customer.register.condition_password' | t}}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit">{{'layout.customer.register.button_label' | t}}</button>
+        {%- capture link_note -%} <a href="#">{{'layout.customer.register.terms_vs_conditions' | t}}</a> {%- endcapture-%}
+        <span class="form-text">{{'layout.customer.register.note_html' | t : link: link_note}}</span>
+      </div>
+    {%- endform -%}
   </div>
 </div>
