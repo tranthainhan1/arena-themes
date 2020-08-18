@@ -230,7 +230,39 @@ let SupportTemplate = {
       let btnTrigger = elmHeroBanner.getElementsByClassName(
         "js-trigger-paragraph"
       )[0];
-      console.log(btnTrigger);
+      let first = true,
+        isComplete = false;
+      btnTrigger.addEventListener("click", function () {
+        if (first || isComplete) {
+          first = false;
+          isComplete = false;
+
+          if (collapseWrapper.classList.contains("show")) {
+            let height = collapseWrapper.offsetHeight;
+            collapseWrapper.style.height = `${height}px`;
+            AT.debounce(function () {
+              collapseWrapper.style.height = "0px";
+            }, 1)();
+            AT.debounce(function () {
+              collapseWrapper.style.height = "";
+              collapseWrapper.classList.remove("show");
+              isComplete = true;
+            }, 200)();
+          } else {
+            collapseWrapper.classList.add("show");
+            collapseWrapper.style.height = "0px";
+            let height = [...collapseWrapper.children].reduce(
+              (accu, currentValue) => accu + currentValue.offsetHeight,
+              0
+            );
+            collapseWrapper.style.height = `${height}px`;
+            AT.debounce(function () {
+              collapseWrapper.style.height = "";
+              isComplete = true;
+            }, 200)();
+          }
+        }
+      });
     });
   },
 };

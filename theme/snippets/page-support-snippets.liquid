@@ -73,7 +73,7 @@
       assign paragraph_2_on_mobile = block.settings.paragraph_2_on_mobile
     %}
 
-    <div class="hero-banner {% if align_top %}align-top{%- endif -%}" data-block-id="{{block.id}}" data-setting="{{paragraph_2_on_mobile}}" {{block.shopify_attributes}}>
+    <div class="hero-banner{% if align_top %} align-top{%- endif -%}" data-block-id="{{block.id}}" data-setting="{{paragraph_2_on_mobile}}" {{block.shopify_attributes}}>
       <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{% endif %}">
         <div class="d-flex">
           <div class="d-none d-lg-block hero-banner__image-desktop">
@@ -115,7 +115,14 @@
           background: {{bg_color}};
         }
       {%- endif -%}
-      
+      .hero-banner .collapse {
+          display: none;
+          transition: all 0.2s;
+          overflow:hidden;
+        }
+        .hero-banner .collapse.show {
+          display: block;
+        }
     </style>
   {% comment %} end {% endcomment %}
   {%- when 'separator' -%}

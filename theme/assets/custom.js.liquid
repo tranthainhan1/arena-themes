@@ -5649,7 +5649,40 @@ var SupportTemplate = {
 
       elmParagraph2.appendChild(collapseWrapper);
       var btnTrigger = elmHeroBanner.getElementsByClassName("js-trigger-paragraph")[0];
-      console.log(btnTrigger);
+      var first = true,
+          isComplete = false;
+      btnTrigger.addEventListener("click", function () {
+        if (first || isComplete) {
+          first = false;
+          isComplete = false;
+
+          if (collapseWrapper.classList.contains("show")) {
+            var height = collapseWrapper.offsetHeight;
+            collapseWrapper.style.height = "".concat(height, "px");
+            _arn.debounce(function () {
+              collapseWrapper.style.height = "0px";
+            }, 1)();
+            _arn.debounce(function () {
+              collapseWrapper.style.height = "";
+              collapseWrapper.classList.remove("show");
+              isComplete = true;
+            }, 200)();
+          } else {
+            collapseWrapper.classList.add("show");
+            collapseWrapper.style.height = "0px";
+
+            var _height3 = toConsumableArray_default()(collapseWrapper.children).reduce(function (accu, currentValue) {
+              return accu + currentValue.offsetHeight;
+            }, 0);
+
+            collapseWrapper.style.height = "".concat(_height3, "px");
+            _arn.debounce(function () {
+              collapseWrapper.style.height = "";
+              isComplete = true;
+            }, 200)();
+          }
+        }
+      });
     });
   }
 };
