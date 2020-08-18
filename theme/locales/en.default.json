@@ -66,5 +66,26 @@
       "placeholder_quesion": "Describe your task or list of tasks for us.",
       "label_btn": "Submit Your Request"
     }
+  },
+  "layout": {
+    "customer": {
+      "login": {
+        "title": "Login to your account",
+        "subtitle": "Do not have an account? {{link}}",
+        "create": "Create an account",
+        "forgot_password": "Forgot password?",
+        "remember": "Remember me",
+        "button_label": "Login"
+      }
+    },
+    "linking_words": "OR",
+    "login_with_fb": "Login with Facebook",
+    "login_with_gg": "Login with Google",
+    "placeholder_email": "ex: julie@example.com",
+    "placeholder_password": "Password",
+    "email_label": "Your email address "
+  },
+  "button": {
+    "view_more": "View more"
   }
 }

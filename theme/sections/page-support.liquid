@@ -1,4 +1,4 @@
-<div class="support-template">
+<div class="support-template" data-section-id="{{section.id}}" data-section-type="support-template">
   <div class="container">
     <div class="support-template__wrapper">
       {%- for block in section.blocks -%}
@@ -24,6 +24,20 @@
           "content": "Created by 'Hero Banner' section"
         },
         {
+          "type": "header",
+          "content": "Block settings"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background"
+        },
+        {
+          "type": "checkbox",
+          "id": "align_top",
+          "label": "Align top"
+        },
+        {
           "type": "checkbox",
           "id": "reserve_order",
           "label": "Reserve order"
@@ -39,9 +53,9 @@
         },
         {
           "type": "text",
-          "id": "textbox_margin",
+          "id": "image_margin",
           "label": "Margin",
-          "placeholder" : "E.g: 0px 5px 10px 20px"
+          "placeholder": "E.g: 0px 5px 10px 20px"
         },
         {
           "type": "image_picker",
@@ -66,13 +80,19 @@
           "type": "html",
           "id": "paragraph_2",
           "label": "Paragraph 2"
+        },
+        {
+          "type": "text",
+          "id": "paragraph_2_on_mobile",
+          "label": "Show on mobile",
+          "info": "Use for 'Paragraph 2'"
         }
       ]
     },
     {
-      "type" : "banner_text",
-      "name" : "Banner text",
-      "settings" : [
+      "type": "banner_text",
+      "name": "Banner text",
+      "settings": [
         {
           "type": "text",
           "id": "block_title",
@@ -89,16 +109,16 @@
           "label": "Label button"
         },
         {
-          "type" : "url",
-          "id" : "btn_url",
-          "label" : "Link of button"
+          "type": "url",
+          "id": "btn_url",
+          "label": "Link of button"
         }
       ]
     },
     {
-      "type" : "hero_banner",
-      "name" : "Hero banner",
-      "settings" : [
+      "type": "hero_banner",
+      "name": "Hero banner",
+      "settings": [
         {
           "type": "text",
           "id": "heading",
@@ -115,9 +135,9 @@
           "label": "Button title"
         },
         {
-          "type" : "url",
-          "id" : "btn_url",
-          "label" : "Button URL"
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button URL"
         },
         {
           "type": "image_picker",
@@ -125,8 +145,29 @@
           "label": "Image"
         }
       ]
+    },
+    {
+      "type": "separator",
+      "name": "Separator",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Seperator Section use to create spacing between sections"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section Label"
+        },
+        {
+          "type": "text",
+          "id": "height",
+          "label": "Height",
+          "placeholder": "E.g: 30px, 15px, 10px",
+          "default": "30px, 15px"
+        }
+      ]
     }
-    
   ]
 }
 {% endschema %}

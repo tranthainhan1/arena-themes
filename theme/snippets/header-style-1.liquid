@@ -9,8 +9,10 @@
       <div class="header-desktop__inner">
         {%- include 'header-snippets', type: 'icon-menu' -%}
         {%- include 'header-snippets', type: 'logo' -%}
-        {%- include 'header-snippets', type: 'horizontal-nav' -%}
-        {%- include 'header-snippets', type: 'icon-list' -%}
+        <div class="header-desktop__nav-vs-icon">
+          {%- include 'header-snippets', type: 'horizontal-nav' -%}
+          {%- include 'header-snippets', type: 'icon-list' -%}
+        </div>
       </div>
     </div>
   </div>

@@ -39,20 +39,23 @@
   {{ content_for_header }}
 </head>
 
-{%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | join: '-' -}}{%- endcapture -%}
+{%- capture themeClass -%}template-{{ template | replace: '.', ' '| replace: '/', ' ' | split: ' ' | join: '-' -}}{%- endcapture -%}
 
 <body class="{{ themeClass }}">
-  {%- render 'snippet-theme', type: 'themeCSS' -%}
-  <div class="boxed-wapper">
-    <header>
-        {% comment %} {%- if settings.enable_announbar -%}{%- section 'announcement-bar' -%}{%- endif -%} {% endcomment %}
-        {%- section 'header' -%}
-    </header>
-    <main id="main-content">
-        {{ content_for_layout }}
-    </main>
-    {% section 'footer' %}
-    {% section 'mobile-bar' %}
+  {% comment %} {%- render 'snippet-theme', type: 'themeCSS' -%} {% endcomment %}
+  <div class="customer">
+    <div class="customer__wrapper">
+      <div class="customer__top">
+        <div class="logo">
+          <a href="/">
+            {% render 'svg' type: logo %}
+          </a>
+        </div>
+      </div>
+      <div class="customer__body">
+        {{content_for_layout}}
+      </div>
+    </div>
   </div>
   <script src="{{ 'app.js' | asset_url }}"></script>
   <script src="{{ 'custom.js' | asset_url }}"></script>

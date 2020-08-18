@@ -41,10 +41,12 @@
   {%- when 'image' -%}
     {% liquid 
       assign image = block.settings.image
+      
     %}
     <div class="custom-content__item__image">
       <div class="image-position">
         {%- render 'image-style', image: image -%}
       </div>
     </div>
+    
 {%- endcase -%}

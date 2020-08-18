@@ -11,10 +11,13 @@ let Header = {
       overlayMenuMobile: $container.querySelector(
         ".header .overlay-menu-mobile"
       ),
+      btnSearch: document.getElementById("js-handle-search"),
+      headerDesktop: $container.getElementsByClassName("header-desktop")[0],
     };
 
     this.handleMenuMobile();
     this.handleCollapse();
+    this.handleSearch();
   },
   handleMenuMobile: function () {
     let first = true,
@@ -87,6 +90,19 @@ let Header = {
           }
         }
       });
+    });
+  },
+  handleSearch: function () {
+    let { btnSearch, headerDesktop } = this.elements;
+
+    btnSearch.addEventListener("click", function () {
+      if (window.innerWidth > 992) {
+        if (headerDesktop.classList.contains("search-show")) {
+          headerDesktop.classList.remove("search-show");
+        } else {
+          headerDesktop.classList.add("search-show");
+        }
+      }
     });
   },
 };
@@ -174,9 +190,9 @@ let Footer = {
       setPaddingFooter();
     }
 
-    window.onresize = function () {
+    window.addEventListener("resize", function () {
       setPaddingFooter();
-    };
+    });
 
     function setPaddingFooter() {
       let heightMobileBar = mobileBar.offsetHeight;
@@ -188,4 +204,42 @@ let Footer = {
   },
 };
 
-export { Header, IconsBox, FeaturedCollection, LogoList, Footer };
+let SupportTemplate = {
+  onLoad: function () {
+    let $container = this.container;
+    let elmHeroBannerList = $container.getElementsByClassName("hero-banner");
+
+    [...elmHeroBannerList].forEach((elmHeroBanner) => {
+      let dataSetting = elmHeroBanner.getAttribute("data-setting");
+
+      let collapseWrapper = document.createElement("li");
+      collapseWrapper.classList.add("collapse");
+      collapseWrapper.style.listStyle = "none";
+      collapseWrapper.style.padding = "0px";
+
+      let elmParagraph2 = elmHeroBanner.querySelector(".paragraph-2 ul");
+      let elmLiList = elmParagraph2.children;
+
+      [...elmLiList].forEach((li, index) => {
+        if (index > dataSetting - 1) {
+          collapseWrapper.appendChild(li);
+        }
+      });
+      elmParagraph2.appendChild(collapseWrapper);
+
+      let btnTrigger = elmHeroBanner.getElementsByClassName(
+        "js-trigger-paragraph"
+      )[0];
+      console.log(btnTrigger);
+    });
+  },
+};
+
+export {
+  Header,
+  IconsBox,
+  FeaturedCollection,
+  LogoList,
+  Footer,
+  SupportTemplate,
+};

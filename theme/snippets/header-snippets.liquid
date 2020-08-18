@@ -2,9 +2,13 @@
 	{%- when 'icon-list' -%}
 		<div class="icon-list">
       <div class="icon-list__item search">
-        <a href="javascript:void(0)" class="js-handle-search">
+        <a href="javascript:void(0)" id="js-handle-search">
           {% render 'svg' , type: 'search' %}
-        </a> 
+        </a>
+        <form id="search" method="get" action="/search">
+           {% render 'svg' , type: 'search' %}
+          <input type="text" name="q" />
+        </form>
       </div>
       <div class="d-none d-lg-block icon-list__item account">
         {%- capture account_url -%}

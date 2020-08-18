@@ -14,6 +14,7 @@ import {
   LogoList,
   Header,
   Footer,
+  SupportTemplate,
 } from "./AT_section";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
@@ -25,6 +26,7 @@ window.addEventListener("DOMContentLoaded", () => {
   register("logo-list", LogoList);
   register("header", Header);
   register("footer", Footer);
+  register("support-template", SupportTemplate);
 
   load("*");
 });

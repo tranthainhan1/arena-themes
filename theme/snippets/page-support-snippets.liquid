@@ -61,17 +61,20 @@
   {% comment %} end {% endcomment %}
   {%- when 'custom_content' -%}
     {% liquid 
-      assign image_desktop  = block.settings.image_desktop
-      assign image_mobile   = block.settings.image_mobile
-      assign heading        = block.settings.heading
-      assign paragraph_1    = block.settings.paragraph_1
-      assign paragraph_2    = block.settings.paragraph_2
-      assign reserve_order  = block.settings.reserve_order
-      assign textbox_margin = block.settings.textbox_margin
+      assign image_desktop         = block.settings.image_desktop
+      assign image_mobile          = block.settings.image_mobile
+      assign heading               = block.settings.heading
+      assign paragraph_1           = block.settings.paragraph_1
+      assign paragraph_2           = block.settings.paragraph_2
+      assign reserve_order         = block.settings.reserve_order
+      assign bg_color              = block.settings.bg_color
+      assign image_margin          = block.settings.image_margin
+      assign align_top             = block.settings.align_top
+      assign paragraph_2_on_mobile = block.settings.paragraph_2_on_mobile
     %}
 
-    <div class="hero-banner" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
-      <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{%- endif -%}">
+    <div class="hero-banner {% if align_top %}align-top{%- endif -%}" data-block-id="{{block.id}}" data-setting="{{paragraph_2_on_mobile}}" {{block.shopify_attributes}}>
+      <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{% endif %}">
         <div class="d-flex">
           <div class="d-none d-lg-block hero-banner__image-desktop">
             <div class="image">
@@ -88,8 +91,13 @@
             <div class="paragraph-1">
               <span>{{paragraph_1}}</span>
             </div>
-            <div class="paragraph-2">
-              <span>{{paragraph_2}}</span>
+            <div class="js-paragraph paragraph-2">
+              {{paragraph_2}}
+            </div>
+            <div class="d-sm-none js-trigger-paragraph btn-view-more">
+              <span>{{'button.view_more' | t}}</span>
+              {% render 'svg' type: 'angle-down' %}
+              {% render 'svg' type: 'angle-up' %}
             </div>
           </div>
         </div>
@@ -97,11 +105,36 @@
     </div>
 
     <style>
-      {%- if textbox_margin != blank -%}
+      {%- if image_margin != blank -%}
         .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
-          margin: {{textbox_margin}};
+          margin: {{image_margin}};
         }
       {%- endif -%}
+      {%- if bg_color != blank  -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper {
+          background: {{bg_color}};
+        }
+      {%- endif -%}
+      
     </style>
+  {% comment %} end {% endcomment %}
+  {%- when 'separator' -%}
+      {%- liquid
+        assign _bg_color = section.settings.bg_color | default: 'rgba(0,0,0,0)'
+      -%}
+      {%- capture content -%}
+      <div class="block-separator block-separator-{{ block.id }} block-{{block.id}} layout-{{_layout }}">
+        <div class="container">
+
+          {%- capture separatorID -%}.block-{{block.id}} .spacing-{{block.id}}{%- endcapture -%}
+          <div class="separator spacing-{{block.id}}"{{block.shopify_attributes}}>
+            {%- capture block_css -%}{%- render 'css-resp', classID: separatorID, css_value: block.settings.height, css_property: 'height' -%}{%- endcapture -%}
+            {%- assign block_css = block_css | append: block_css -%}
+          </div>
+        </div>
+      </div>
+    <style>.block-{{block.id}}{background-color:{{_bg_color}};}{{block_css}}</style>
+    {%- endcapture -%}
+    {%- render 'compress', content: content -%}
   {% comment %} end {% endcomment %}
 {%- endcase -%} 
