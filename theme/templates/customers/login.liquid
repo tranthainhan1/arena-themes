@@ -1,14 +1,14 @@
 {% layout 'customer' %}
 
 
-<div class="login">
-  <div class="login__top">
+<div id="login" class="login">
+  <div class="acc__top">
     <div class="title">{{'layout.customer.login.title' | t}}</div>
     <div class="subtitle">
-      {%- capture link -%} <a href="/account/register">{{'layout.customer.login.create' | t}}</a> {%- endcapture-%}
+      {%- capture link -%} <a href="javascript:void(0)" id="switch_form_register">{{'layout.customer.login.create' | t}}</a> {%- endcapture-%}
       <span>{{ 'layout.customer.login.subtitle_html' | t: link: link}}</span>
     </div>
-    <div class="login-other">
+    <div class="acc-other">
       <div class="login-fb">
         <a href="javascript:void(0)" class="btn" id="btn-login-fb">
           {% render 'svg' type:'icon-fb' %}
@@ -26,7 +26,7 @@
       <span>{{'layout.linking_words' | t}}</span>
     </div>
   </div>
-  <div class="login__body">
+  <div class="acc__body">
     {%- form 'customer_login' -%}
       <div class="form-group">
         <label for="customer_email">{{'layout.email_label' | t}}</label>
@@ -35,19 +35,110 @@
       <div class="form-group">
         <div class="label-group"> 
           <label for="customer_password">{{'layout.password_label' | t}}</label>
-          <a href="/account/login#recover">{{'layout.customer.login.forgot_password' | t}}</a>
+          <a href="javascript:void(0)" id="switch_form_recover">{{'layout.customer.login.forgot_password' | t}}</a>
         </div>
         <div class="input-group">
-          <input type="text" class="form-control" name="customer[password]" placeholder="{{'layout.placeholder_password' | t}}">
-          {% render 'svg' type: 'eye-on' %}
-          {% render 'svg' type: 'eye-off' %}
+          <input type="password" class="form-control" name="customer[password]" placeholder="{{'layout.placeholder_password' | t}}">
+          <a href="javascript:void(0)" class="password-toggle">
+            {% render 'svg' type: 'eye-on' %}
+            {% render 'svg' type: 'eye-off' %}
+          </a>
         </div>
       </div>
       <div class="form-group">
         <input type="checkbox" class="form-check" id="remember">
         <label for="remember">{{ 'layout.customer.login.remember' | t}}</label>
       </div>
-      <button type="submit">{{'layout.customer.login.button_label' | t}}</button>
+      <button type="submit" class="btn btn-2">{{'layout.customer.login.button_label' | t}}</button>
     {%- endform -%}
   </div>
+</div>
+
+<div id="register" class="register">
+  <div class="acc__top">
+    <div class="title">{{'layout.customer.register.title' | t}}</div>
+    <div class="subtitle">
+      {%- capture link -%} <a href="javascript:void(0)" id="switch_form_login">{{'layout.customer.register.login_link' | t}}</a> {%- endcapture-%}
+      <span>{{ 'layout.customer.register.subtitle_html' | t: link: link}}</span>
+    </div>
+    <div class="acc-other">
+      <div class="register-fb">
+        <a href="javascript:void(0)" class="btn" id="btn-register-fb">
+          {% render 'svg' type:'icon-fb' %}
+          <span>{{'layout.customer.register.register_with_fb' | t}}</span>
+        </a>
+      </div>
+      <div class="register-gg">
+        <a href="javascript:void(0)" class="btn" id="btn-register-gg">
+          {% render 'svg' type:'icon-gg' %}
+          <span>{{'layout.customer.register.register_with_fb' | t}}</span>
+        </a>
+      </div>
+    </div>
+    <div class="linking-words">
+      <span>{{'layout.linking_words' | t}}</span>
+    </div>
+  </div>
+  <div class="acc__body">
+    {%- form 'create_customer' -%}
+      <div class="form-group">
+        <label for="customer_full_name">{{'layout.customer.register.full_name' | t}}</label>
+        <input type="text" id="customer_full_name" class="form-control" name="customer[full_name]" placeholder="{{'layout.customer.register.placeholder_full_name' | t}}">
+      </div>	
+      <div class="form-group">
+        <label for="customer_email">{{'layout.email_label' | t}}</label>
+        <input type="text" id="customer_email" class="form-control" name="customer[email]" placeholder="{{'layout.placeholder_email' | t}}">
+      </div>
+      <div class="form-group">
+        <label for="customer_password">{{'layout.password_label' | t}}</label>
+        <div class="input-group">
+          <input type="password" id="customer_password" class="form-control" name="customer[password]" placeholder="{{'layout.placeholder_password' | t}}">
+          <a href="javascript:void(0)" class="password-toggle">
+            {% render 'svg' type: 'eye-on' %}
+            {% render 'svg' type: 'eye-off' %}
+          </a>
+        </div>
+        <span class="form-text">{{'layout.customer.register.condition_password' | t}}</span>
+      </div>
+      <button type="submit" class="btn btn-2">{{'layout.customer.register.button_label' | t}}</button>
+      {%- capture link_note -%} <a href="#">{{'layout.customer.register.terms_vs_conditions' | t}}</a> {%- endcapture-%}
+      <span class="text-note">{{'layout.customer.register.note_html' | t : link: link_note}}</span>
+    {%- endform -%}
+  </div>
+</div>
+
+<div id="recover_password" class="recover-password">
+  <div class="acc__top">
+    <div class="title">
+      <span>{{'layout.customer.login.recover_title' | t}}</span>
+    </div>
+    <div class="subtitle">
+      <span>{{'layout.customer.login.recover_subtitle' | t}}</span>
+    </div>
+  </div>
+  <div class="acc__body">
+    {%- form 'recover_customer_password' -%}
+      <div class="form-group">
+        <label for="recover_email">{{ 'layout.email_label' | t}}</label>
+        <input type="text" id="recover_email" class="form-control" name="customer[email]" placeholder="{{ 'layout.placeholder_email' | t}}">
+      </div> 
+      <button type="submit" class="btn btn-2">{{ 'layout.customer.login.recover_button_label' | t}}</button>
+    {%- endform -%}
+  </div>
+  <div class="back">
+    <a href="javascript:void(0)" id="back" class="btn">{{ 'layout.back' | t}}</a>
+  </div>
+</div>
+
+<div id="check-email" class="check-email">
+  <div class="icon">
+    {% render 'svg' type: 'mailbox'%}
+  </div>
+  <div class="title">
+    <span>{{ 'layout.customer.login.check_email_title' | t}}</span>
+  </div>
+  <div class="subtitle">
+    <span>{{ 'layout.customer.login.check_email_subtitle' | t}}</span>
+  </div>
+  <button class="btn btn-2">{{ 'layout.customer.login.check_email_button' | t}}</button>
 </div>

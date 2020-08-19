@@ -1,0 +1,193 @@
+<div class="about-us">
+  <div class="container">
+    <div class="about-us__wrapper">
+      {%- for block in section.blocks -%}
+        <div class="about-us__block">
+          {% render 'page-about-snippets' block: block %}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page About Us",
+  "tag": "div",
+  "blocks": [
+    {
+      "type": "hero_banner",
+      "name": "Hero Banner",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Create by 'Hero Banner' block."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "intro",
+          "label": "Intro"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Backgrond Image"
+        }
+      ]
+    },
+    {
+      "type": "banner_text",
+      "name": "Banner text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Label button"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Link of button"
+        }
+      ]
+    },
+    {
+      "type": "separator",
+      "name": "Separator",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Seperator Section use to create spacing between sections"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section Label"
+        },
+        {
+          "type": "text",
+          "id": "height",
+          "label": "Height",
+          "placeholder": "E.g: 30px, 15px, 10px",
+          "default": "30px, 15px"
+        }
+      ]
+    },
+    {
+      "type": "custom_content",
+      "name": "Custom content",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Created by 'Hero Banner' section"
+        },
+        {
+          "type": "header",
+          "content": "Block settings"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background"
+        },
+        {
+          "type": "checkbox",
+          "id": "align_top",
+          "label": "Align top"
+        },
+        {
+          "type": "checkbox",
+          "id": "reserve_order",
+          "label": "Reserve order"
+        },
+        {
+          "type": "header",
+          "content": "Image settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Image Desktop"
+        },
+        {
+          "type": "text",
+          "id": "image_max_width",
+          "label": "Image max width"
+        },
+        {
+          "type": "text",
+          "id": "image_margin",
+          "label": "Margin",
+          "placeholder": "E.g: 0px 5px 10px 20px"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image Mobile"
+        },
+        {
+          "type": "header",
+          "content": "Text box settings"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "paragraph_1",
+          "label": "Paragraph 1"
+        },
+        {
+          "type": "html",
+          "id": "paragraph_list",
+          "label": "Paragraph list",
+          "info" : "Use ul li tag. With li tag is an item."
+        },
+        {
+          "type" : "checkbox",
+          "id" : "two_column",
+          "label" : "Two_column"
+        },
+        {
+          "type": "select",
+          "id": "list_type",
+          "label" : "List type",
+          "options": [
+            {
+              "value" : "none",
+              "label" : "None"
+            },
+            {
+              "value" : "default",
+              "label" : "Default"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "item_on_mobile",
+          "label": "Show item on mobile",
+          "info": "Use for 'Paragraph list'"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

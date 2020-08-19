@@ -1,0 +1,172 @@
+{%- case block.type -%}
+  {%- when 'hero_banner' -%}
+    {% liquid 
+      assign bg_image = block.settings.bg_image 
+      assign title = block.settings.title 
+      assign intro = block.settings.intro 
+    %}
+    <div class="about-us__hero-banner">
+      <div class="intro">
+        <div class="title">
+          <span class="h1">{{title}}</span>
+        </div>
+        <div class="intro_content">
+          <span>{{intro}}</span>
+        </div>
+      </div>
+      <div class="image">
+        {% render 'image-style' image: bg_image, originQuality: true  %}
+        <div class="overlay-image"></div>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'banner_text' -%}
+    {% liquid 
+      assign title = block.settings.block_title 
+      assign subtitle = block.settings.subtitle 
+      assign btn_url = block.settings.btn_url 
+      assign btn_label = block.settings.btn_label 
+    %}
+    <div class="banner-text" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+      <div class="banner-text__wrapper">
+        <div class="title">
+          <span class="content">{{title}}</span>
+        </div>
+        <div class="subtitle">
+          <span class="content">{{subtitle}}</span>
+        </div>
+        <a href="{{btn_url}}" class="btn btn-1">
+          <span>{{btn_label}}</span>
+          {% render 'svg' type: 'angle-right' %}
+        </a>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'separator' -%}
+      {%- liquid
+        assign _bg_color = section.settings.bg_color | default: 'rgba(0,0,0,0)'
+      -%}
+      {%- capture content -%}
+      <div class="block-separator block-separator-{{ block.id }} block-{{block.id}} layout-{{_layout }}">
+        <div class="container">
+
+          {%- capture separatorID -%}.block-{{block.id}} .spacing-{{block.id}}{%- endcapture -%}
+          <div class="separator spacing-{{block.id}}"{{block.shopify_attributes}}>
+            {%- capture block_css -%}{%- render 'css-resp', classID: separatorID, css_value: block.settings.height, css_property: 'height' -%}{%- endcapture -%}
+            {%- assign block_css = block_css | append: block_css -%}
+          </div>
+        </div>
+      </div>
+    <style>.block-{{block.id}}{background-color:{{_bg_color}};}{{block_css}}</style>
+    {%- endcapture -%}
+    {%- render 'compress', content: content -%}
+  {% comment %} end {% endcomment %}
+  {%- when 'custom_content' -%}
+    {% liquid 
+      assign image_desktop   = block.settings.image_desktop
+      assign image_mobile    = block.settings.image_mobile
+      assign heading         = block.settings.heading
+      assign paragraph_1     = block.settings.paragraph_1
+      assign paragraph_list  = block.settings.paragraph_list
+      assign reserve_order   = block.settings.reserve_order
+      assign bg_color        = block.settings.bg_color
+      assign image_margin    = block.settings.image_margin
+      assign align_top       = block.settings.align_top
+      assign item_on_mobile  = block.settings.item_on_mobile
+      assign image_max_width = block.settings.image_max_width
+      assign list_type       = block.settings.list_type
+      assign two_column       = block.settings.two_column
+    %}
+
+    <div class="hero-banner{% if align_top %} align-top{%- endif -%}" data-block-id="{{block.id}}" data-setting="{{item_on_mobile}}" {{block.shopify_attributes}}>
+      <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{% endif %}">
+        <div class="d-flex">
+          <div class="d-none d-lg-block hero-banner__image-desktop">
+            <div class="image">
+              {% render 'image-style' image: image_desktop  %}
+            </div>
+          </div>
+          <div class="hero-banner__text-box">
+            <div class="heading">
+              <h3>{{heading}}</h3>
+            </div>
+            <div class="d-lg-none image">
+              {% render 'image-style'  image: image_mobile %}
+            </div>
+            <div class="paragraph-1">
+              <span>{{paragraph_1}}</span>
+            </div>
+            <div class="js-paragraph paragraph-2 {% if two_column %}two-column{%- endif -%}">
+              {{paragraph_list}}
+            </div>
+            <div class="{%- if item_on_mobile != blank -%} d-sm-none {%- else -%} d-none {% endif %} js-trigger-paragraph btn-view-more">
+              <span>{{'button.view_more' | t}}</span>
+              {% render 'svg' type: 'angle-down' %}
+              {% render 'svg' type: 'angle-up' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      {%- if image_margin != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          margin: {{image_margin}};
+        }
+      {%- endif -%}
+      {%- if image_max_width != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          max-width: {{image_max_width}};
+        }
+      {%- endif -%}
+      {%- if bg_color != blank  -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper {
+          background: {{bg_color}};
+        }
+      {%- endif -%}
+      {%- if list_type != 'default' -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__text-box .paragraph-2 li{
+          list-style: none;
+        }
+      {%- endif -%}
+    </style>
+  {% comment %} end {% endcomment %}
+  {%- when 'icons-box' -%}
+    {% liquid 
+      assign heading = block.settings.heading 
+      assign subheading = block.settings.subheading 
+    %}
+    <div class="icons-cart" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+      <div class="icons-cart__wrapper">
+        <div class="icons-cart__heading">
+          <div class="heading">
+            <span class="content">{{heading}}</span>
+          </div>
+          <div class="subheading">
+            <span class="content">{{subheading}}</span>
+          </div>
+        </div>
+        <div class ="icons-cart__list">
+          {%- for i in (1..4) -%}
+            {% liquid 
+              assign _title     = 'block_title_' | append: i
+              assign _icon_html = 'icon_' | append: i
+            %}
+            <div class="icons-cart__item">
+              <a href="{{block_url}}">
+                <div class="wrapper">
+                  <div class="icon_box">
+                    {{block.settings[_icon_html]}}
+                  </div>
+                  <div class="title">
+                    <span class="content">{{block.settings[_title]}}</span> 
+                  </div>
+                </div>
+              </a>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+{%- endcase -%}

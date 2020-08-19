@@ -15,6 +15,7 @@ import {
   Header,
   Footer,
   SupportTemplate,
+  HeroBanner,
 } from "./AT_section";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
@@ -27,6 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
   register("header", Header);
   register("footer", Footer);
   register("support-template", SupportTemplate);
+  register("hero-banner", HeroBanner);
 
   load("*");
 });

@@ -7,7 +7,7 @@
       assign btn_label = block.settings.btn_label 
     %}
     <div class="banner-text" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
-      <div class="banner-text_-wrapper">
+      <div class="banner-text__wrapper">
         <div class="title">
           <span class="content">{{title}}</span>
         </div>
@@ -115,14 +115,7 @@
           background: {{bg_color}};
         }
       {%- endif -%}
-      .hero-banner .collapse {
-          display: none;
-          transition: all 0.2s;
-          overflow:hidden;
-        }
-        .hero-banner .collapse.show {
-          display: block;
-        }
+      
     </style>
   {% comment %} end {% endcomment %}
   {%- when 'separator' -%}
@@ -145,3 +138,4 @@
     {%- render 'compress', content: content -%}
   {% comment %} end {% endcomment %}
 {%- endcase -%} 
+   

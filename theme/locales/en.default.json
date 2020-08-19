@@ -8,8 +8,11 @@
   },
   "search": {
     "general": {
-      "search_placeholder": "Search for products...",
-      "no_result": "No result found for your search."
+      "search_placeholder": "What are you looking for ?",
+      "no_result": {
+        "title": "No results for",
+        "subtitle": "Sorry, we couldn’t find any matches."
+      }
     }
   },
   "products": {
@@ -77,7 +80,13 @@
         "remember": "Remember me",
         "button_label": "Login",
         "login_with_fb": "Login with Facebook",
-        "login_with_gg": "Login with Google"
+        "login_with_gg": "Login with Google",
+        "recover_title": "Forgot your password",
+        "recover_subtitle": "That’s ok... Please enter your registered email to reset password.",
+        "recover_button_label": "Send Email",
+        "check_email_title": "Check your email",
+        "check_email_subtitle": "We have sent you a reset password link on your registered email address.",
+        "check_email_button": "OK"
       },
       "register": {
         "title": "Create your account",
@@ -101,7 +110,8 @@
     "placeholder_email": "ex: julie@example.com",
     "placeholder_password": "Password",
     "email_label": "Your email address ",
-    "password_label": "Password"
+    "password_label": "Password",
+    "back": "Back"
   },
   "button": {
     "view_more": "View more"

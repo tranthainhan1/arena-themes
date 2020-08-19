@@ -1,12 +1,16 @@
 {%- include 'hero-banner-snippets'  -%}
 
 {% liquid 
-  assign bg_color = section.settings.bg_color  
+  assign bg_color     = section.settings.bg_color
+  assign image_margin = section.settings.image_margin
 %}
 
 <style>
   .hero-banner[data-section-id="{{section.id}}"] .hero-banner__wrapper{
     background-color: {{bg_color}};
+  }
+  .hero-banner[data-section-id="{{section.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+    margin: {{image_margin}};
   }
 </style>
 
@@ -39,6 +43,12 @@
       "label": "Image Desktop"
     },
     {
+      "type": "text",
+      "id": "image_margin",
+      "label": "Margin",
+      "placeholder": "E.g: 0px 5px 10px 20px"
+    },
+    {
       "type": "image_picker",
       "id": "image_mobile",
       "label": "Image Mobile"
@@ -59,8 +69,14 @@
     },
     {
       "type": "html",
-      "id": "paragraph_2",
-      "label": "Paragraph 2"
+      "id": "paragraph_list",
+      "label": "Paragraph List"
+    },
+    {
+      "type": "text",
+      "id": "item_on_mobile",
+      "label": "Show item on mobile",
+      "info": "Use for 'Paragraph list'"
     }
   ],
   "presets": [

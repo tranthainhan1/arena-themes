@@ -5,10 +5,25 @@
         <a href="javascript:void(0)" id="js-handle-search">
           {% render 'svg' , type: 'search' %}
         </a>
-        <form id="search" method="get" action="/search">
-           {% render 'svg' , type: 'search' %}
-          <input type="text" name="q" />
-        </form>
+        <div class="search-group">
+          <form id="search" method="get" action="/search">
+            {% render 'svg' , type: 'search' %}
+             <a href="javascript:void(0)" id="js-close-search" class="close-search">
+              {% render 'svg' , type: 'close' %}
+            </a>
+            <input type="text" name="q" />
+          </form>
+          <div class="search-result">
+            <div class="no-result">
+              <div class="title">
+                <span>{{ 'search.general.no_result.title' | t}}</span>
+              </div>
+              <div class="subtitle">
+                <span>{{ 'search.general.no_result.subtitle' | t}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="d-none d-lg-block icon-list__item account">
         {%- capture account_url -%}

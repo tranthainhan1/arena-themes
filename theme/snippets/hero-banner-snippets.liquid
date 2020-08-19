@@ -1,13 +1,15 @@
 {% liquid 
-  assign image_desktop = section.settings.image_desktop
-  assign image_mobile  = section.settings.image_mobile
-  assign heading       = section.settings.heading
-  assign paragraph_1   = section.settings.paragraph_1
-  assign paragraph_2   = section.settings.paragraph_2
-  assign reserve_order = section.settings.reserve_order
+  assign image_desktop  = section.settings.image_desktop
+  assign image_mobile   = section.settings.image_mobile
+  assign heading        = section.settings.heading
+  assign paragraph_1    = section.settings.paragraph_1
+  assign paragraph_list    = section.settings.paragraph_list
+  assign reserve_order  = section.settings.reserve_order
+  assign item_on_mobile = section.settings.item_on_mobile
+  
 %}
 
-<div class="hero-banner" data-section-id="{{section.id}}" data-section-type="hero-banner">
+<div class="hero-banner" data-section-id="{{section.id}}" data-section-type="hero-banner" data-setting="{{item_on_mobile}}">
   <div class="container">
     <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{%- endif -%}">
       <div class="d-flex">
@@ -27,7 +29,12 @@
             <span>{{paragraph_1}}</span>
           </div>
           <div class="paragraph-2">
-            <span>{{paragraph_2}}</span>
+            <span>{{paragraph_list}}</span>
+          </div>
+          <div class="{% if item_on_mobile != blank %}d-sm-none{%- else -%}d-none{% endif %} js-trigger-paragraph btn-view-more">
+            <span>{{'button.view_more' | t}}</span>
+            {% render 'svg' type: 'angle-down' %}
+            {% render 'svg' type: 'angle-up' %}
           </div>
         </div>
       </div>

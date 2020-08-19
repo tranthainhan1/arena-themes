@@ -12,7 +12,11 @@ let Header = {
         ".header .overlay-menu-mobile"
       ),
       btnSearch: document.getElementById("js-handle-search"),
+      btnCloseSearch: document.getElementById("js-close-search"),
       headerDesktop: $container.getElementsByClassName("header-desktop")[0],
+      elmSearch: document.getElementById("search"),
+      elmSearchMobile: document.getElementById("search-mobile"),
+      btnCloseSearchMobile: document.getElementById("close_search_mobile"),
     };
 
     this.handleMenuMobile();
@@ -44,7 +48,6 @@ let Header = {
       document.body.classList.remove("sidebar-mobile-show");
       btnMenu.classList.remove("show");
       menuMobileContainer.classList.remove("show");
-      console.log(menuMobileContainer);
     });
   },
   handleCollapse: function () {
@@ -93,16 +96,36 @@ let Header = {
     });
   },
   handleSearch: function () {
-    let { btnSearch, headerDesktop } = this.elements;
+    let {
+      btnSearch,
+      headerDesktop,
+      btnCloseSearch,
+      elmSearch,
+      elmSearchMobile,
+      btnCloseSearchMobile,
+    } = this.elements;
 
     btnSearch.addEventListener("click", function () {
-      if (window.innerWidth > 992) {
+      if (window.innerWidth > 991) {
         if (headerDesktop.classList.contains("search-show")) {
           headerDesktop.classList.remove("search-show");
         } else {
           headerDesktop.classList.add("search-show");
+          elmSearch.getElementsByTagName("input")[0].focus();
+        }
+      } else {
+        if (elmSearchMobile.classList.contains("show")) {
+          elmSearchMobile.classList.remove("show");
+        } else {
+          elmSearchMobile.classList.add("show");
         }
       }
+    });
+    btnCloseSearch.addEventListener("click", function () {
+      headerDesktop.classList.remove("search-show");
+    });
+    btnCloseSearchMobile.addEventListener("click", function () {
+      elmSearchMobile.classList.remove("show");
     });
   },
 };
@@ -243,9 +266,10 @@ let SupportTemplate = {
             AT.debounce(function () {
               collapseWrapper.style.height = "0px";
             }, 1)();
-            AT.debounce(function () {
+            AT.debounce(() => {
               collapseWrapper.style.height = "";
               collapseWrapper.classList.remove("show");
+              this.classList.remove("show");
               isComplete = true;
             }, 200)();
           } else {
@@ -256,13 +280,75 @@ let SupportTemplate = {
               0
             );
             collapseWrapper.style.height = `${height}px`;
-            AT.debounce(function () {
+            AT.debounce(() => {
               collapseWrapper.style.height = "";
+              this.classList.add("show");
               isComplete = true;
             }, 200)();
           }
         }
       });
+    });
+  },
+};
+
+let HeroBanner = {
+  onLoad: function () {
+    let $container = this.container;
+    let dataSetting = $container.getAttribute("data-setting");
+
+    let collapseWrapper = document.createElement("li");
+    collapseWrapper.classList.add("collapse");
+    collapseWrapper.style.listStyle = "none";
+    collapseWrapper.style.padding = "0px";
+
+    let elmParagraph2 = $container.querySelector(".paragraph-2 ul");
+    let elmLiList = elmParagraph2.children;
+
+    [...elmLiList].forEach((li, index) => {
+      if (index > dataSetting - 1) {
+        collapseWrapper.appendChild(li);
+      }
+    });
+    elmParagraph2.appendChild(collapseWrapper);
+
+    let btnTrigger = $container.getElementsByClassName(
+      "js-trigger-paragraph"
+    )[0];
+    let first = true,
+      isComplete = false;
+    btnTrigger.addEventListener("click", function () {
+      if (first || isComplete) {
+        first = false;
+        isComplete = false;
+
+        if (collapseWrapper.classList.contains("show")) {
+          let height = collapseWrapper.offsetHeight;
+          collapseWrapper.style.height = `${height}px`;
+          AT.debounce(function () {
+            collapseWrapper.style.height = "0px";
+          }, 1)();
+          AT.debounce(() => {
+            collapseWrapper.style.height = "";
+            collapseWrapper.classList.remove("show");
+            this.classList.remove("show");
+            isComplete = true;
+          }, 200)();
+        } else {
+          collapseWrapper.classList.add("show");
+          collapseWrapper.style.height = "0px";
+          let height = [...collapseWrapper.children].reduce(
+            (accu, currentValue) => accu + currentValue.offsetHeight,
+            0
+          );
+          collapseWrapper.style.height = `${height}px`;
+          AT.debounce(() => {
+            collapseWrapper.style.height = "";
+            this.classList.add("show");
+            isComplete = true;
+          }, 200)();
+        }
+      }
     });
   },
 };
@@ -274,4 +360,5 @@ export {
   LogoList,
   Footer,
   SupportTemplate,
+  HeroBanner,
 };

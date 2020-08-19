@@ -5439,7 +5439,11 @@ var Header = {
       elmTriggerCollapse: $container.querySelectorAll(".js-trigger-collapse"),
       overlayMenuMobile: $container.querySelector(".header .overlay-menu-mobile"),
       btnSearch: document.getElementById("js-handle-search"),
-      headerDesktop: $container.getElementsByClassName("header-desktop")[0]
+      btnCloseSearch: document.getElementById("js-close-search"),
+      headerDesktop: $container.getElementsByClassName("header-desktop")[0],
+      elmSearch: document.getElementById("search"),
+      elmSearchMobile: document.getElementById("search-mobile"),
+      btnCloseSearchMobile: document.getElementById("close_search_mobile")
     };
     this.handleMenuMobile();
     this.handleCollapse();
@@ -5474,7 +5478,6 @@ var Header = {
       document.body.classList.remove("sidebar-mobile-show");
       btnMenu.classList.remove("show");
       menuMobileContainer.classList.remove("show");
-      console.log(menuMobileContainer);
     });
   },
   handleCollapse: function handleCollapse() {
@@ -5528,15 +5531,32 @@ var Header = {
   handleSearch: function handleSearch() {
     var _this$elements2 = this.elements,
         btnSearch = _this$elements2.btnSearch,
-        headerDesktop = _this$elements2.headerDesktop;
+        headerDesktop = _this$elements2.headerDesktop,
+        btnCloseSearch = _this$elements2.btnCloseSearch,
+        elmSearch = _this$elements2.elmSearch,
+        elmSearchMobile = _this$elements2.elmSearchMobile,
+        btnCloseSearchMobile = _this$elements2.btnCloseSearchMobile;
     btnSearch.addEventListener("click", function () {
-      if (window.innerWidth > 992) {
+      if (window.innerWidth > 991) {
         if (headerDesktop.classList.contains("search-show")) {
           headerDesktop.classList.remove("search-show");
         } else {
           headerDesktop.classList.add("search-show");
+          elmSearch.getElementsByTagName("input")[0].focus();
+        }
+      } else {
+        if (elmSearchMobile.classList.contains("show")) {
+          elmSearchMobile.classList.remove("show");
+        } else {
+          elmSearchMobile.classList.add("show");
         }
       }
+    });
+    btnCloseSearch.addEventListener("click", function () {
+      headerDesktop.classList.remove("search-show");
+    });
+    btnCloseSearchMobile.addEventListener("click", function () {
+      elmSearchMobile.classList.remove("show");
     });
   }
 };
@@ -5652,6 +5672,8 @@ var SupportTemplate = {
       var first = true,
           isComplete = false;
       btnTrigger.addEventListener("click", function () {
+        var _this2 = this;
+
         if (first || isComplete) {
           first = false;
           isComplete = false;
@@ -5665,6 +5687,9 @@ var SupportTemplate = {
             _arn.debounce(function () {
               collapseWrapper.style.height = "";
               collapseWrapper.classList.remove("show");
+
+              _this2.classList.remove("show");
+
               isComplete = true;
             }, 200)();
           } else {
@@ -5678,11 +5703,77 @@ var SupportTemplate = {
             collapseWrapper.style.height = "".concat(_height3, "px");
             _arn.debounce(function () {
               collapseWrapper.style.height = "";
+
+              _this2.classList.add("show");
+
               isComplete = true;
             }, 200)();
           }
         }
       });
+    });
+  }
+};
+var HeroBanner = {
+  onLoad: function onLoad() {
+    var $container = this.container;
+    var dataSetting = $container.getAttribute("data-setting");
+    var collapseWrapper = document.createElement("li");
+    collapseWrapper.classList.add("collapse");
+    collapseWrapper.style.listStyle = "none";
+    collapseWrapper.style.padding = "0px";
+    var elmParagraph2 = $container.querySelector(".paragraph-2 ul");
+    var elmLiList = elmParagraph2.children;
+
+    toConsumableArray_default()(elmLiList).forEach(function (li, index) {
+      if (index > dataSetting - 1) {
+        collapseWrapper.appendChild(li);
+      }
+    });
+
+    elmParagraph2.appendChild(collapseWrapper);
+    var btnTrigger = $container.getElementsByClassName("js-trigger-paragraph")[0];
+    var first = true,
+        isComplete = false;
+    btnTrigger.addEventListener("click", function () {
+      var _this3 = this;
+
+      if (first || isComplete) {
+        first = false;
+        isComplete = false;
+
+        if (collapseWrapper.classList.contains("show")) {
+          var height = collapseWrapper.offsetHeight;
+          collapseWrapper.style.height = "".concat(height, "px");
+          _arn.debounce(function () {
+            collapseWrapper.style.height = "0px";
+          }, 1)();
+          _arn.debounce(function () {
+            collapseWrapper.style.height = "";
+            collapseWrapper.classList.remove("show");
+
+            _this3.classList.remove("show");
+
+            isComplete = true;
+          }, 200)();
+        } else {
+          collapseWrapper.classList.add("show");
+          collapseWrapper.style.height = "0px";
+
+          var _height4 = toConsumableArray_default()(collapseWrapper.children).reduce(function (accu, currentValue) {
+            return accu + currentValue.offsetHeight;
+          }, 0);
+
+          collapseWrapper.style.height = "".concat(_height4, "px");
+          _arn.debounce(function () {
+            collapseWrapper.style.height = "";
+
+            _this3.classList.add("show");
+
+            isComplete = true;
+          }, 200)();
+        }
+      }
     });
   }
 };
@@ -5708,6 +5799,7 @@ window.addEventListener("DOMContentLoaded", function () {
   register("header", Header);
   register("footer", Footer);
   register("support-template", SupportTemplate);
+  register("hero-banner", HeroBanner);
   load("*");
 });
 
