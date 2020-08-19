@@ -17,6 +17,7 @@ let Header = {
       elmSearch: document.getElementById("search"),
       elmSearchMobile: document.getElementById("search-mobile"),
       btnCloseSearchMobile: document.getElementById("close_search_mobile"),
+      inputSearchMobile: document.getElementById("input_search_mobile"),
     };
 
     this.handleMenuMobile();
@@ -103,6 +104,7 @@ let Header = {
       elmSearch,
       elmSearchMobile,
       btnCloseSearchMobile,
+      inputSearchMobile,
     } = this.elements;
 
     btnSearch.addEventListener("click", function () {
@@ -118,6 +120,7 @@ let Header = {
           elmSearchMobile.classList.remove("show");
         } else {
           elmSearchMobile.classList.add("show");
+          inputSearchMobile.focus();
         }
       }
     });
@@ -160,12 +163,12 @@ let Footer = {
     this.handlePaddingFooter();
   },
   handleCollapse: function () {
-    let first = true,
-      isComplete = false;
     this.elements.blocks.forEach((item) => {
-      let elmMenuList = item.querySelector(".js-collapse");
+      let first = true,
+        isComplete = false;
+      let elmMenuList = item.getElementsByClassName("js-collapse")[0];
       let children = elmMenuList.children;
-      let elmExpand = item.querySelector(".js-trigger-collapse");
+      let elmExpand = item.getElementsByClassName("js-trigger-collapse")[0];
 
       elmExpand.addEventListener("click", function (e) {
         if (first || isComplete) {
@@ -253,41 +256,8 @@ let SupportTemplate = {
       let btnTrigger = elmHeroBanner.getElementsByClassName(
         "js-trigger-paragraph"
       )[0];
-      let first = true,
-        isComplete = false;
-      btnTrigger.addEventListener("click", function () {
-        if (first || isComplete) {
-          first = false;
-          isComplete = false;
 
-          if (collapseWrapper.classList.contains("show")) {
-            let height = collapseWrapper.offsetHeight;
-            collapseWrapper.style.height = `${height}px`;
-            AT.debounce(function () {
-              collapseWrapper.style.height = "0px";
-            }, 1)();
-            AT.debounce(() => {
-              collapseWrapper.style.height = "";
-              collapseWrapper.classList.remove("show");
-              this.classList.remove("show");
-              isComplete = true;
-            }, 200)();
-          } else {
-            collapseWrapper.classList.add("show");
-            collapseWrapper.style.height = "0px";
-            let height = [...collapseWrapper.children].reduce(
-              (accu, currentValue) => accu + currentValue.offsetHeight,
-              0
-            );
-            collapseWrapper.style.height = `${height}px`;
-            AT.debounce(() => {
-              collapseWrapper.style.height = "";
-              this.classList.add("show");
-              isComplete = true;
-            }, 200)();
-          }
-        }
-      });
+      AT.handleCollapse(btnTrigger, collapseWrapper);
     });
   },
 };
@@ -315,41 +285,8 @@ let HeroBanner = {
     let btnTrigger = $container.getElementsByClassName(
       "js-trigger-paragraph"
     )[0];
-    let first = true,
-      isComplete = false;
-    btnTrigger.addEventListener("click", function () {
-      if (first || isComplete) {
-        first = false;
-        isComplete = false;
 
-        if (collapseWrapper.classList.contains("show")) {
-          let height = collapseWrapper.offsetHeight;
-          collapseWrapper.style.height = `${height}px`;
-          AT.debounce(function () {
-            collapseWrapper.style.height = "0px";
-          }, 1)();
-          AT.debounce(() => {
-            collapseWrapper.style.height = "";
-            collapseWrapper.classList.remove("show");
-            this.classList.remove("show");
-            isComplete = true;
-          }, 200)();
-        } else {
-          collapseWrapper.classList.add("show");
-          collapseWrapper.style.height = "0px";
-          let height = [...collapseWrapper.children].reduce(
-            (accu, currentValue) => accu + currentValue.offsetHeight,
-            0
-          );
-          collapseWrapper.style.height = `${height}px`;
-          AT.debounce(() => {
-            collapseWrapper.style.height = "";
-            this.classList.add("show");
-            isComplete = true;
-          }, 200)();
-        }
-      }
-    });
+    AT.handleCollapse(btnTrigger, collapseWrapper);
   },
 };
 

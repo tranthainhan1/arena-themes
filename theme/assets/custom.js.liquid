@@ -5398,6 +5398,7 @@ var tns = function(options) {
 
 // CONCATENATED MODULE: ./app/scripts/_arn.js
 
+
 var AT = {
   initTinySlider: function initTinySlider(container) {
     var config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
@@ -5424,6 +5425,50 @@ var AT = {
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
     };
+  },
+  handleCollapse: function handleCollapse(btnTrigger, collapseContainer) {
+    var first = true,
+        isComplete = false;
+    btnTrigger.addEventListener("click", function () {
+      var _this = this;
+
+      if (first || isComplete) {
+        first = false;
+        isComplete = false;
+
+        if (collapseContainer.classList.contains("show")) {
+          var height = collapseContainer.offsetHeight;
+          collapseContainer.style.height = "".concat(height, "px");
+          AT.debounce(function () {
+            collapseContainer.style.height = "0px";
+          }, 1)();
+          AT.debounce(function () {
+            collapseContainer.style.height = "";
+            collapseContainer.classList.remove("show");
+
+            _this.classList.remove("show");
+
+            isComplete = true;
+          }, 200)();
+        } else {
+          collapseContainer.classList.add("show");
+          collapseContainer.style.height = "0px";
+
+          var _height = toConsumableArray_default()(collapseContainer.children).reduce(function (accu, currentValue) {
+            return accu + currentValue.offsetHeight;
+          }, 0);
+
+          collapseContainer.style.height = "".concat(_height, "px");
+          AT.debounce(function () {
+            collapseContainer.style.height = "";
+
+            _this.classList.add("show");
+
+            isComplete = true;
+          }, 200)();
+        }
+      }
+    });
   }
 };
 /* harmony default export */ var _arn = (AT);
@@ -5443,7 +5488,8 @@ var Header = {
       headerDesktop: $container.getElementsByClassName("header-desktop")[0],
       elmSearch: document.getElementById("search"),
       elmSearchMobile: document.getElementById("search-mobile"),
-      btnCloseSearchMobile: document.getElementById("close_search_mobile")
+      btnCloseSearchMobile: document.getElementById("close_search_mobile"),
+      inputSearchMobile: document.getElementById("input_search_mobile")
     };
     this.handleMenuMobile();
     this.handleCollapse();
@@ -5535,7 +5581,8 @@ var Header = {
         btnCloseSearch = _this$elements2.btnCloseSearch,
         elmSearch = _this$elements2.elmSearch,
         elmSearchMobile = _this$elements2.elmSearchMobile,
-        btnCloseSearchMobile = _this$elements2.btnCloseSearchMobile;
+        btnCloseSearchMobile = _this$elements2.btnCloseSearchMobile,
+        inputSearchMobile = _this$elements2.inputSearchMobile;
     btnSearch.addEventListener("click", function () {
       if (window.innerWidth > 991) {
         if (headerDesktop.classList.contains("search-show")) {
@@ -5549,6 +5596,7 @@ var Header = {
           elmSearchMobile.classList.remove("show");
         } else {
           elmSearchMobile.classList.add("show");
+          inputSearchMobile.focus();
         }
       }
     });
@@ -5586,12 +5634,12 @@ var Footer = {
     this.handlePaddingFooter();
   },
   handleCollapse: function handleCollapse() {
-    var first = true,
-        isComplete = false;
     this.elements.blocks.forEach(function (item) {
-      var elmMenuList = item.querySelector(".js-collapse");
+      var first = true,
+          isComplete = false;
+      var elmMenuList = item.getElementsByClassName("js-collapse")[0];
       var children = elmMenuList.children;
-      var elmExpand = item.querySelector(".js-trigger-collapse");
+      var elmExpand = item.getElementsByClassName("js-trigger-collapse")[0];
       elmExpand.addEventListener("click", function (e) {
         if (first || isComplete) {
           first = false;
@@ -5669,48 +5717,7 @@ var SupportTemplate = {
 
       elmParagraph2.appendChild(collapseWrapper);
       var btnTrigger = elmHeroBanner.getElementsByClassName("js-trigger-paragraph")[0];
-      var first = true,
-          isComplete = false;
-      btnTrigger.addEventListener("click", function () {
-        var _this2 = this;
-
-        if (first || isComplete) {
-          first = false;
-          isComplete = false;
-
-          if (collapseWrapper.classList.contains("show")) {
-            var height = collapseWrapper.offsetHeight;
-            collapseWrapper.style.height = "".concat(height, "px");
-            _arn.debounce(function () {
-              collapseWrapper.style.height = "0px";
-            }, 1)();
-            _arn.debounce(function () {
-              collapseWrapper.style.height = "";
-              collapseWrapper.classList.remove("show");
-
-              _this2.classList.remove("show");
-
-              isComplete = true;
-            }, 200)();
-          } else {
-            collapseWrapper.classList.add("show");
-            collapseWrapper.style.height = "0px";
-
-            var _height3 = toConsumableArray_default()(collapseWrapper.children).reduce(function (accu, currentValue) {
-              return accu + currentValue.offsetHeight;
-            }, 0);
-
-            collapseWrapper.style.height = "".concat(_height3, "px");
-            _arn.debounce(function () {
-              collapseWrapper.style.height = "";
-
-              _this2.classList.add("show");
-
-              isComplete = true;
-            }, 200)();
-          }
-        }
-      });
+      _arn.handleCollapse(btnTrigger, collapseWrapper);
     });
   }
 };
@@ -5733,48 +5740,7 @@ var HeroBanner = {
 
     elmParagraph2.appendChild(collapseWrapper);
     var btnTrigger = $container.getElementsByClassName("js-trigger-paragraph")[0];
-    var first = true,
-        isComplete = false;
-    btnTrigger.addEventListener("click", function () {
-      var _this3 = this;
-
-      if (first || isComplete) {
-        first = false;
-        isComplete = false;
-
-        if (collapseWrapper.classList.contains("show")) {
-          var height = collapseWrapper.offsetHeight;
-          collapseWrapper.style.height = "".concat(height, "px");
-          _arn.debounce(function () {
-            collapseWrapper.style.height = "0px";
-          }, 1)();
-          _arn.debounce(function () {
-            collapseWrapper.style.height = "";
-            collapseWrapper.classList.remove("show");
-
-            _this3.classList.remove("show");
-
-            isComplete = true;
-          }, 200)();
-        } else {
-          collapseWrapper.classList.add("show");
-          collapseWrapper.style.height = "0px";
-
-          var _height4 = toConsumableArray_default()(collapseWrapper.children).reduce(function (accu, currentValue) {
-            return accu + currentValue.offsetHeight;
-          }, 0);
-
-          collapseWrapper.style.height = "".concat(_height4, "px");
-          _arn.debounce(function () {
-            collapseWrapper.style.height = "";
-
-            _this3.classList.add("show");
-
-            isComplete = true;
-          }, 200)();
-        }
-      }
-    });
+    _arn.handleCollapse(btnTrigger, collapseWrapper);
   }
 };
 
