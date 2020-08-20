@@ -174,7 +174,7 @@
                   </div>
                 </div>
 
-                <div class="js-collapse-container col-12 col-md-6  paragraph-list__wrapper">
+                <div class="js-collapse col-12 col-md-6  paragraph-list__wrapper">
                   <div class="d-sm-none paragraph-list__item">
                     <div class="title">
                       <p>{{block.settings.item_title_3}}</p>
@@ -231,6 +231,14 @@
           max-width: {{image_max_width}};
         }
       {%- endif -%}
+      .hero-banner-v2 .paragraph-list__wrapper:last-child{
+        display:  none;
+        overflow: hidden;
+        transition: all 0.2s;
+      }
+      .hero-banner-v2 .paragraph-list__wrapper:last-child.show{
+        display: block;
+      }
     </style>
   {% comment %} end {% endcomment %}
   {%- when 'icons_box' -%}

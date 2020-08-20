@@ -5749,11 +5749,18 @@ var HeroBanner = {
 var AboutTemplate = {
   onLoad: function onLoad() {
     var $container = this.container,
-        elmImageGallery = $container.getElementsByClassName("image-gallery")[0];
+        blockImageGallery = $container.getElementsByClassName("image-gallery")[0],
+        blockHerobanner = $container.getElementsByClassName("hero-banner-v2")[0];
 
     (function () {
-      var btnCollapse = elmImageGallery.getElementsByClassName("js-btn-collapse")[0],
-          collapseContainer = elmImageGallery.getElementsByClassName("js-collapse")[0];
+      var btnCollapse = blockImageGallery.getElementsByClassName("js-btn-collapse")[0],
+          collapseContainer = blockImageGallery.getElementsByClassName("js-collapse")[0];
+      _arn.handleCollapse(btnCollapse, collapseContainer);
+    })();
+
+    (function () {
+      var btnCollapse = blockHerobanner.getElementsByClassName("js-btn-collapse")[0],
+          collapseContainer = blockHerobanner.getElementsByClassName("js-collapse")[0];
       _arn.handleCollapse(btnCollapse, collapseContainer);
     })();
   }

@@ -295,13 +295,24 @@ let HeroBanner = {
 let AboutTemplate = {
   onLoad: function () {
     let $container = this.container,
-      elmImageGallery = $container.getElementsByClassName("image-gallery")[0];
+      blockImageGallery = $container.getElementsByClassName("image-gallery")[0],
+      blockHerobanner = $container.getElementsByClassName("hero-banner-v2")[0];
 
     (function () {
-      let btnCollapse = elmImageGallery.getElementsByClassName(
+      let btnCollapse = blockImageGallery.getElementsByClassName(
           "js-btn-collapse"
         )[0],
-        collapseContainer = elmImageGallery.getElementsByClassName(
+        collapseContainer = blockImageGallery.getElementsByClassName(
+          "js-collapse"
+        )[0];
+      AT.handleCollapse(btnCollapse, collapseContainer);
+    })();
+
+    (function () {
+      let btnCollapse = blockHerobanner.getElementsByClassName(
+          "js-btn-collapse"
+        )[0],
+        collapseContainer = blockHerobanner.getElementsByClassName(
           "js-collapse"
         )[0];
       AT.handleCollapse(btnCollapse, collapseContainer);
