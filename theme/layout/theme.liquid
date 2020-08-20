@@ -44,10 +44,7 @@
 <body class="{{ themeClass }}">
   {%- render 'snippet-theme', type: 'themeCSS' -%}
   <div class="boxed-wapper">
-    <header>
-        {% comment %} {%- if settings.enable_announbar -%}{%- section 'announcement-bar' -%}{%- endif -%} {% endcomment %}
-        {%- section 'header' -%}
-    </header>
+    {%- section 'header' -%}
     <main id="main-content">
         {{ content_for_layout }}
     </main>

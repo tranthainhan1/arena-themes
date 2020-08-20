@@ -267,26 +267,45 @@ let HeroBanner = {
     let $container = this.container;
     let dataSetting = $container.getAttribute("data-setting");
 
-    let collapseWrapper = document.createElement("li");
-    collapseWrapper.classList.add("collapse");
-    collapseWrapper.style.listStyle = "none";
-    collapseWrapper.style.padding = "0px";
+    if (dataSetting) {
+      let collapseWrapper = document.createElement("li");
+      collapseWrapper.classList.add("collapse");
+      collapseWrapper.style.listStyle = "none";
+      collapseWrapper.style.padding = "0px";
 
-    let elmParagraph2 = $container.querySelector(".paragraph-2 ul");
-    let elmLiList = elmParagraph2.children;
+      let elmParagraph2 = $container.querySelector(".paragraph-2 ul");
+      let elmLiList = elmParagraph2.children;
 
-    [...elmLiList].forEach((li, index) => {
-      if (index > dataSetting - 1) {
-        collapseWrapper.appendChild(li);
-      }
-    });
-    elmParagraph2.appendChild(collapseWrapper);
+      [...elmLiList].forEach((li, index) => {
+        if (index > dataSetting - 1) {
+          collapseWrapper.appendChild(li);
+        }
+      });
+      elmParagraph2.appendChild(collapseWrapper);
 
-    let btnTrigger = $container.getElementsByClassName(
-      "js-trigger-paragraph"
-    )[0];
+      let btnTrigger = $container.getElementsByClassName(
+        "js-trigger-paragraph"
+      )[0];
 
-    AT.handleCollapse(btnTrigger, collapseWrapper);
+      AT.handleCollapse(btnTrigger, collapseWrapper);
+    }
+  },
+};
+
+let AboutTemplate = {
+  onLoad: function () {
+    let $container = this.container,
+      elmImageGallery = $container.getElementsByClassName("image-gallery")[0];
+
+    (function () {
+      let btnCollapse = elmImageGallery.getElementsByClassName(
+          "js-btn-collapse"
+        )[0],
+        collapseContainer = elmImageGallery.getElementsByClassName(
+          "js-collapse"
+        )[0];
+      AT.handleCollapse(btnCollapse, collapseContainer);
+    })();
   },
 };
 
@@ -298,4 +317,5 @@ export {
   Footer,
   SupportTemplate,
   HeroBanner,
+  AboutTemplate,
 };

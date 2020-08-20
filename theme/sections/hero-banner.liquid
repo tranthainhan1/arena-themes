@@ -9,8 +9,10 @@
   .hero-banner[data-section-id="{{section.id}}"] .hero-banner__wrapper{
     background-color: {{bg_color}};
   }
-  .hero-banner[data-section-id="{{section.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
-    margin: {{image_margin}};
+  @media screen and (min-width: 1441px){
+    .hero-banner[data-section-id="{{section.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+      margin: {{image_margin}};
+    }
   }
 </style>
 

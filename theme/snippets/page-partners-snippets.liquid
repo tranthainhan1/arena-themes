@@ -1,0 +1,95 @@
+{%- case block.type -%}
+  {%- when 'separator' -%}
+      {%- liquid
+        assign _bg_color = section.settings.bg_color | default: 'rgba(0,0,0,0)'
+      -%}
+      {%- capture content -%}
+      <div class="block-separator block-separator-{{ block.id }} block-{{block.id}} layout-{{_layout }}">
+        <div class="container">
+
+          {%- capture separatorID -%}.block-{{block.id}} .spacing-{{block.id}}{%- endcapture -%}
+          <div class="separator spacing-{{block.id}}"{{block.shopify_attributes}}>
+            {%- capture block_css -%}{%- render 'css-resp', classID: separatorID, css_value: block.settings.height, css_property: 'height' -%}{%- endcapture -%}
+            {%- assign block_css = block_css | append: block_css -%}
+          </div>
+        </div>
+      </div>
+    <style>.block-{{block.id}}{background-color:{{_bg_color}};}{{block_css}}</style>
+    {%- endcapture -%}
+    {%- render 'compress', content: content -%}
+  {% comment %} end {% endcomment %}
+  {%- when 'banner_text' -%}
+    {% liquid 
+      assign title = block.settings.block_title 
+      assign subtitle = block.settings.subtitle 
+    %}
+    <div class="banner-text text-center" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+      <div class="banner-text__wrapper">
+        <div class="title">
+          <h1>{{title}}</h1>
+        </div>
+        <div class="subtitle">
+          <p>{{subtitle}}</p>
+        </div>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'custom_content' -%}
+    {% liquid 
+      assign image_desktop   = block.settings.image_desktop
+      assign image_mobile    = block.settings.image_mobile
+      assign heading         = block.settings.heading
+      assign paragraph     = block.settings.paragraph
+      assign paragraph_2     = block.settings.paragraph_2
+      assign reverse_order   = block.settings.reverse_order
+      assign image_margin    = block.settings.image_margin
+      assign image_max_width = block.settings.image_max_width
+    %}
+
+    <div class="hero-banner" data-block-id="{{block.id}}"  {{block.shopify_attributes}}>
+      <div class="hero-banner__wrapper {% if reverse_order %}reserve-order{% endif %}">
+        <div class="d-flex">
+          <div class="d-none d-lg-block hero-banner__image-desktop">
+            <div class="image">
+              {% render 'image-style' image: image_desktop  %}
+            </div>
+          </div>
+          <div class="hero-banner__text-box">
+            <div class="heading">
+              <h2>{{heading}}</h2>
+            </div>
+            <div class="paragraph-1">
+              <span>{{paragraph}}</span>
+            </div>
+            <div class="d-lg-none image">
+              {% render 'image-style'  image: image_mobile %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      {%- if image_margin != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          margin: {{image_margin}};
+        }
+      {%- endif -%}
+      {%- if image_max_width != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          max-width: {{image_max_width}};
+        }
+      {%- endif -%}
+      {%- if bg_color != blank  -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper {
+          background: {{bg_color}};
+        }
+      {%- endif -%}
+      {%- if list_type != 'default' -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__text-box .paragraph-2 li{
+          list-style: none;
+        }
+      {%- endif -%}
+    </style>
+  {% comment %} end {% endcomment %}
+{%- endcase -%}

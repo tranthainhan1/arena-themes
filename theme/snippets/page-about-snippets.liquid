@@ -5,7 +5,7 @@
       assign title = block.settings.title 
       assign intro = block.settings.intro 
     %}
-    <div class="about-us__hero-banner">
+    <div class="about-us__hero-banner text-center" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
       <div class="intro">
         <div class="title">
           <span class="h1">{{title}}</span>
@@ -27,7 +27,7 @@
       assign btn_url = block.settings.btn_url 
       assign btn_label = block.settings.btn_label 
     %}
-    <div class="banner-text" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+    <div class="banner-text text-center" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
       <div class="banner-text__wrapper">
         <div class="title">
           <span class="content">{{title}}</span>
@@ -47,7 +47,7 @@
         assign _bg_color = section.settings.bg_color | default: 'rgba(0,0,0,0)'
       -%}
       {%- capture content -%}
-      <div class="block-separator block-separator-{{ block.id }} block-{{block.id}} layout-{{_layout }}">
+      <div class="block-separator block-separator-{{ block.id }} block-{{block.id}}" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
         <div class="container">
 
           {%- capture separatorID -%}.block-{{block.id}} .spacing-{{block.id}}{%- endcapture -%}
@@ -67,20 +67,69 @@
       assign image_mobile    = block.settings.image_mobile
       assign heading         = block.settings.heading
       assign paragraph_1     = block.settings.paragraph_1
-      assign paragraph_list  = block.settings.paragraph_list
-      assign reserve_order   = block.settings.reserve_order
+      assign paragraph_2  = block.settings.paragraph_2
       assign bg_color        = block.settings.bg_color
       assign image_margin    = block.settings.image_margin
       assign align_top       = block.settings.align_top
       assign item_on_mobile  = block.settings.item_on_mobile
       assign image_max_width = block.settings.image_max_width
       assign list_type       = block.settings.list_type
-      assign two_column       = block.settings.two_column
+      assign two_column      = block.settings.two_column
+      assign align_middle      = block.settings.align_middle
     %}
 
-    <div class="hero-banner{% if align_top %} align-top{%- endif -%}" data-block-id="{{block.id}}" data-setting="{{item_on_mobile}}" {{block.shopify_attributes}}>
-      <div class="hero-banner__wrapper {% if reserve_order %}reserve-order{% endif %}">
-        <div class="d-flex">
+    <div class="hero-banner" data-block-id="{{block.id}}"  {{block.shopify_attributes}}>
+      <div class="hero-banner__wrapper">
+        <div class="d-flex hero-banner__content">
+          <div class="hero-banner__text-box">
+            <div class="heading">
+              <h3>{{heading}}</h3>
+            </div>
+            <div class="d-lg-none image">
+              {% render 'image-style'  image: image_mobile %}
+            </div>
+            <div class="paragraph-1">
+              <span>{{paragraph_1}}</span>
+            </div>
+            <div class="paragraph-2">
+              {{paragraph_2}}
+            </div>
+          </div>
+          <div class="d-none d-lg-block hero-banner__image-desktop">
+            <div class="image">
+              {% render 'image-style' image: image_desktop  %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      {%- if image_margin != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          margin: {{image_margin}};
+        }
+      {%- endif -%}
+      {%- if image_max_width != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          max-width: {{image_max_width}};
+        }
+      {%- endif -%}
+    </style>
+  {% comment %} end {% endcomment %}
+  {%- when 'custom_content_v2' -%}
+    {% liquid 
+      assign image_desktop   = block.settings.image_desktop
+      assign image_mobile    = block.settings.image_mobile
+      assign heading         = block.settings.heading
+      assign desc             = block.settings.desc
+      assign image_margin    = block.settings.image_margin
+      assign image_max_width = block.settings.image_max_width
+    %}
+    
+    <div class="hero-banner-v2 " data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+      <div class="hero-banner__wrapper">
+        <div class="d-flex hero-banner__content">
           <div class="d-none d-lg-block hero-banner__image-desktop">
             <div class="image">
               {% render 'image-style' image: image_desktop  %}
@@ -94,12 +143,74 @@
               {% render 'image-style'  image: image_mobile %}
             </div>
             <div class="paragraph-1">
-              <span>{{paragraph_1}}</span>
+              <span>{{desc}}</span>
             </div>
-            <div class="js-paragraph paragraph-2 {% if two_column %}two-column{%- endif -%}">
-              {{paragraph_list}}
+            <div class="paragraph-list">
+              <div class="row">
+                <div class="col-12 col-md-6 paragraph-list__wrapper">
+                  <div class="paragraph-list__item">
+                    <div class="title">
+                      <p>{{block.settings.item_title_1}}</p>
+                    </div>
+                    <div class="content">
+                      <p>{{block.settings.item_content_1}}</p>
+                    </div>
+                  </div>
+                  <div class="paragraph-list__item">
+                    <div class="title">
+                      <p>{{block.settings.item_title_2}}</p>
+                    </div>
+                    <div class="content">
+                      <p>{{block.settings.item_content_2}}</p>
+                    </div>
+                  </div>
+                  <div class="d-none d-sm-block paragraph-list__item">
+                    <div class="title">
+                      <p>{{block.settings.item_title_3}}</p>
+                    </div>
+                    <div class="content">
+                      <p>{{block.settings.item_content_3}}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="js-collapse-container col-12 col-md-6  paragraph-list__wrapper">
+                  <div class="d-sm-none paragraph-list__item">
+                    <div class="title">
+                      <p>{{block.settings.item_title_3}}</p>
+                    </div>
+                    <div class="content">
+                      <p>{{block.settings.item_content_3}}</p>
+                    </div>
+                  </div>
+                  <div class="paragraph-list__item">
+                    <div class="title">
+                      <p>{{block.settings.item_title_4}}</p>
+                    </div>
+                    <div class="content">
+                      <p>{{block.settings.item_content_4}}</p>
+                    </div>
+                  </div>
+                  <div class="paragraph-list__item">
+                    <div class="title">
+                      <p>{{block.settings.item_title_5}}</p>
+                    </div>
+                    <div class="content">
+                      <p>{{block.settings.item_content_5}}</p>
+                    </div>
+                  </div>
+                  <div class="paragraph-list__item">
+                    <div class="title">
+                      <p>{{block.settings.item_title_6}}</p>
+                    </div>
+                    <div class="content">
+                      <p>{{block.settings.item_content_6}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="{%- if item_on_mobile != blank -%} d-sm-none {%- else -%} d-none {% endif %} js-trigger-paragraph btn-view-more">
+            <div class="d-sm-none js-btn-collapse btn-view-more">
               <span>{{'button.view_more' | t}}</span>
               {% render 'svg' type: 'angle-down' %}
               {% render 'svg' type: 'angle-up' %}
@@ -120,16 +231,6 @@
           max-width: {{image_max_width}};
         }
       {%- endif -%}
-      {%- if bg_color != blank  -%}
-        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper {
-          background: {{bg_color}};
-        }
-      {%- endif -%}
-      {%- if list_type != 'default' -%}
-        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__text-box .paragraph-2 li{
-          list-style: none;
-        }
-      {%- endif -%}
     </style>
   {% comment %} end {% endcomment %}
   {%- when 'icons_box' -%}
@@ -139,12 +240,12 @@
     %}
     <div class="icons-cart" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
       <div class="icons-cart__wrapper">
-        <div class="icons-cart__heading">
-          <div class="heading">
-            <span class="content">{{title}}</span>
+        <div class="heading text-center">
+          <div class="title">
+            <h3>{{title}}</h3>
           </div>
-          <div class="subheading">
-            <span class="content">{{subtitle}}</span>
+          <div class="subtitle">
+            <p>{{subtitle}}</p>
           </div>
         </div>
         <div class ="icons-cart__list">
@@ -174,5 +275,101 @@
       </div>
     </div>
   {% comment %} end {% endcomment %}
-    
+  {%- when 'image_gallery' -%}
+    {% liquid 
+      assign title               = block.settings.title
+      assign subtitle            = block.settings.subtitle
+      assign show_item_on_mobile = block.settings.show_item_on_mobile
+    %}
+    {%- if show_item_on_mobile != blank -%}
+      {%- assign show_item_on_mobile = show_item_on_mobile | plus: 0 -%}
+    {%- endif -%}
+    <div class="image-gallery" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+      <div class="image-gallery__wrapper">
+        <div class="heading text-center">
+          <div class="title">
+            <h3>{{title}}</h3>
+          </div>
+          <div class="subtitle">
+            <p>{{subtitle}}</p>
+          </div>
+        </div>
+        <div class="image-gallery__content">
+          <div class="row">
+            {%- for i in (1..12) -%}
+              {% liquid 
+                assign isShow = 'show_' | append: i
+                assign image = 'image_'  | append: i
+                assign block_title = 'block_title_'  | append: i
+                assign block_subtitle = 'block_subtitle_'  | append: i
+              %}
+              {%- if block.settings[isShow] -%}
+                <div class="col-6 col-md-4 col-lg-3 {% if i > show_item_on_mobile and show_item_on_mobile != blank%}d-none d-sm-block{%- endif -%}">
+                  <div class="image-gallery__item text-center">
+                    <div class="image">
+                      {% render 'image-style' image: block.settings[image], originQuality: true %}
+                    </div>
+                    <div class="info">
+                      <div class="title">
+                        <h5>{{block.settings[block_title]}}</h5>
+                      </div>
+                      <div class="subtitle">
+                        <p>{{block.settings[block_subtitle]}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>    
+              {%- endif -%}
+            {%- endfor -%}
+
+            <div class="d-sm-none js-collapse collapse-container">
+              <div class="row">
+                {%- assign show_item_on_mobile = show_item_on_mobile | plus: 1 -%}
+                {%- for i in (show_item_on_mobile..12) -%}
+                  {% liquid 
+                    assign isShow = 'show_' | append: i
+                    assign image = 'image_'  | append: i
+                    assign block_title = 'block_title_'  | append: i
+                    assign block_subtitle = 'block_subtitle_'  | append: i
+                  %}
+                  {%- if block.settings[isShow] -%}
+                    <div class="col-6 col-md-4 col-lg-3">
+                      <div class="image-gallery__item text-center">
+                        <div class="image">
+                          {% render 'image-style' image: block.settings[image], originQuality: true %}
+                        </div>
+                        <div class="info">
+                          <div class="title">
+                            <h5>{{block.settings[block_title]}}</h5>
+                          </div>
+                          <div class="subtitle">
+                            <p>{{block.settings[block_subtitle]}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>    
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+          <div class="{%- if show_item_on_mobile != blank -%} d-sm-none {%- else -%} d-none {% endif %} js-btn-collapse text-center btn-view-more">
+            <span>{{'button.view_more' | t}}</span>
+            {% render 'svg' type: 'angle-down' %}
+            {% render 'svg' type: 'angle-up' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+      .collapse-container{
+        overflow: hidden;
+        display: none;
+        transition: all 0.2s;
+      }
+      .collapse-container.show{
+        display: block;
+      }
+    </style>
+  {% comment %} end {% endcomment %}
 {%- endcase -%}

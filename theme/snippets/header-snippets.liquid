@@ -54,15 +54,10 @@
               {%- if block.type == 'trigger' -%}
                 {% liquid 
                   assign title = block.settings.title
-                  assign title_dropdown =  block.settings.title_dropdown
                   assign two_column = block.settings.two_column 
                 %}
                 {%- if title == link.title -%}
                   <ul class="dropdown-menu {% if two_column %}two-column{%- endif -%}">
-                    {% if title_dropdown != blank %}
-                      <a href="javascript:void(0)" class="dropdown-menu__title">{{title_dropdown}}</a>
-                    {%- endif -%}
-
                     {% render 'header-dropdown-menu-snippets' index: forloop.index , section: section  %} 
                   </ul>
                 {%- endif -%}

@@ -5725,22 +5725,37 @@ var HeroBanner = {
   onLoad: function onLoad() {
     var $container = this.container;
     var dataSetting = $container.getAttribute("data-setting");
-    var collapseWrapper = document.createElement("li");
-    collapseWrapper.classList.add("collapse");
-    collapseWrapper.style.listStyle = "none";
-    collapseWrapper.style.padding = "0px";
-    var elmParagraph2 = $container.querySelector(".paragraph-2 ul");
-    var elmLiList = elmParagraph2.children;
 
-    toConsumableArray_default()(elmLiList).forEach(function (li, index) {
-      if (index > dataSetting - 1) {
-        collapseWrapper.appendChild(li);
-      }
-    });
+    if (dataSetting) {
+      var collapseWrapper = document.createElement("li");
+      collapseWrapper.classList.add("collapse");
+      collapseWrapper.style.listStyle = "none";
+      collapseWrapper.style.padding = "0px";
+      var elmParagraph2 = $container.querySelector(".paragraph-2 ul");
+      var elmLiList = elmParagraph2.children;
 
-    elmParagraph2.appendChild(collapseWrapper);
-    var btnTrigger = $container.getElementsByClassName("js-trigger-paragraph")[0];
-    _arn.handleCollapse(btnTrigger, collapseWrapper);
+      toConsumableArray_default()(elmLiList).forEach(function (li, index) {
+        if (index > dataSetting - 1) {
+          collapseWrapper.appendChild(li);
+        }
+      });
+
+      elmParagraph2.appendChild(collapseWrapper);
+      var btnTrigger = $container.getElementsByClassName("js-trigger-paragraph")[0];
+      _arn.handleCollapse(btnTrigger, collapseWrapper);
+    }
+  }
+};
+var AboutTemplate = {
+  onLoad: function onLoad() {
+    var $container = this.container,
+        elmImageGallery = $container.getElementsByClassName("image-gallery")[0];
+
+    (function () {
+      var btnCollapse = elmImageGallery.getElementsByClassName("js-btn-collapse")[0],
+          collapseContainer = elmImageGallery.getElementsByClassName("js-collapse")[0];
+      _arn.handleCollapse(btnCollapse, collapseContainer);
+    })();
   }
 };
 
@@ -5766,6 +5781,7 @@ window.addEventListener("DOMContentLoaded", function () {
   register("footer", Footer);
   register("support-template", SupportTemplate);
   register("hero-banner", HeroBanner);
+  register("about-template", AboutTemplate);
   load("*");
 });
 
