@@ -5765,6 +5765,50 @@ var AboutTemplate = {
     })();
   }
 };
+var PartnersTemplate = {
+  onLoad: function onLoad() {
+    var $container = this.container;
+    this.elements = {
+      btnCollapse: $container.getElementsByClassName("js-btn-collapse"),
+      collapseContainer: $container.getElementsByClassName("js-collapse")
+    };
+    this.handleFAQCollapse();
+  },
+  handleFAQCollapse: function handleFAQCollapse() {
+    var _this$elements3 = this.elements,
+        btnCollapse = _this$elements3.btnCollapse,
+        collapseContainer = _this$elements3.collapseContainer;
+
+    toConsumableArray_default()(btnCollapse).forEach(function (item, index) {
+      _arn.handleCollapse(item, collapseContainer[index]);
+    });
+  }
+};
+
+var CustomerLayout = function () {
+  function customerLayout() {
+    var container = document.getElementsByClassName("customer")[0];
+    document.getElementById("switch_form_register").addEventListener("click", function (e) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("register").style.display = "block";
+    });
+    document.getElementById("switch_form_login").addEventListener("click", function (e) {
+      document.getElementById("login").style.display = "block";
+      document.getElementById("register").style.display = "none";
+    });
+    document.getElementById("switch_form_recover").addEventListener("click", function (e) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("recover_password").style.display = "block";
+    });
+    document.getElementById("back_form_login").addEventListener("click", function (e) {
+      document.getElementById("login").style.display = "block";
+      document.getElementById("recover_password").style.display = "none";
+    });
+  }
+
+  return customerLayout;
+}();
+
 
 // CONCATENATED MODULE: ./app/scripts/custom.js
 // import "lazysizes/plugins/unveilhooks/ls.unveilhooks";
@@ -5789,7 +5833,9 @@ window.addEventListener("DOMContentLoaded", function () {
   register("support-template", SupportTemplate);
   register("hero-banner", HeroBanner);
   register("about-template", AboutTemplate);
+  register("partners-template", PartnersTemplate);
   load("*");
+  CustomerLayout();
 });
 
 /***/ })

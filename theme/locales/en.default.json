@@ -94,9 +94,11 @@
         "login_link": "Login here",
         "register_with_gg": "Sign up with Google",
         "register_with_fb": "Sign up with Facebook",
-        "placeholder_full_name": "Julie Sample",
+        "placeholder_first_name": "Julie",
+        "placeholder_last_name": "Sample",
         "button_label": "Sign up",
-        "full_name": "Full name",
+        "first_name": "First name",
+        "last_name": "Last name",
         "condition_password": "*Minimun 8 characters, should contain an uppercase letter, and a special symbol.",
         "terms_vs_conditions": "Terms & Conditions",
         "note_html": "By signing up, you agree to our {{link}}"
@@ -115,5 +117,24 @@
   },
   "button": {
     "view_more": "View more"
+  },
+  "form": {
+    "full_name": "Full name",
+    "full_name_placeholder": "ex: Julie Sample",
+    "email": "Your email address",
+    "email_placeholder": "ex: julie@example.com",
+    "company": "Company name",
+    "company_placeholder": "ex: ArenaCommerce",
+    "skype": "Skype ID",
+    "skype_placeholder": "ex: Arena_Commerce",
+    "country": "Country",
+    "terms_and_conditions_html": "I agree to the {{link}}",
+    "terms_and_conditions_link": "Terms of Use and Privacy Policy",
+    "message": "Message",
+    "message_placeholder": "Write your message here",
+    "btn": {
+      "appointment": "Send Appointment",
+      "contact": "Send Message"
+    }
   }
 }

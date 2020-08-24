@@ -231,14 +231,6 @@
           max-width: {{image_max_width}};
         }
       {%- endif -%}
-      .hero-banner-v2 .paragraph-list__wrapper:last-child{
-        display:  none;
-        overflow: hidden;
-        transition: all 0.2s;
-      }
-      .hero-banner-v2 .paragraph-list__wrapper:last-child.show{
-        display: block;
-      }
     </style>
   {% comment %} end {% endcomment %}
   {%- when 'icons_box' -%}
@@ -263,7 +255,7 @@
                 assign title = 'icon_label_' | append: i
                 assign icon  = 'icon_' | append: i
               %}
-              <div class="col-6 col-md-4 col-lg-3">
+              <div class="col-6 col-md-6 col-lg-3">
                 <div class="icons-cart__item">
                   <a href="{{block_url}}">
                     <div class="wrapper">
@@ -369,15 +361,5 @@
         </div>
       </div>
     </div>
-    <style>
-      .collapse-container{
-        overflow: hidden;
-        display: none;
-        transition: all 0.2s;
-      }
-      .collapse-container.show{
-        display: block;
-      }
-    </style>
   {% comment %} end {% endcomment %}
 {%- endcase -%}

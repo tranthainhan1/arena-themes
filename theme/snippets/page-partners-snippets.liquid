@@ -47,13 +47,8 @@
     %}
 
     <div class="hero-banner" data-block-id="{{block.id}}"  {{block.shopify_attributes}}>
-      <div class="hero-banner__wrapper {% if reverse_order %}reserve-order{% endif %}">
-        <div class="d-flex">
-          <div class="d-none d-lg-block hero-banner__image-desktop">
-            <div class="image">
-              {% render 'image-style' image: image_desktop  %}
-            </div>
-          </div>
+      <div class="hero-banner__wrapper">
+        <div class="d-flex align-items-center">
           <div class="hero-banner__text-box">
             <div class="heading">
               <h2>{{heading}}</h2>
@@ -63,6 +58,11 @@
             </div>
             <div class="d-lg-none image">
               {% render 'image-style'  image: image_mobile %}
+            </div>
+          </div>
+          <div class="d-none d-lg-block hero-banner__image-desktop">
+            <div class="image">
+              {% render 'image-style' image: image_desktop  %}
             </div>
           </div>
         </div>
@@ -92,4 +92,97 @@
       {%- endif -%}
     </style>
   {% comment %} end {% endcomment %}
+  {%- when 'FAQ' -%}
+    {% liquid 
+      assign image = block.settings.image
+      assign title = block.settings.title
+    %}
+    <div class="faq" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+      <div class="faq__wrapper">
+        <div class="d-none d-lg-block image">
+          {% render 'image-style' image: image  %}
+        </div>
+        <div class="faq__content">
+          <div class="title">
+            <span>{{title}}</span>
+          </div>
+          {%- for i in (1..3) -%}
+            {% liquid 
+              assign question = 'question_' | append: i 
+              assign answer = 'answer_' | append: i 
+            %}
+            <div class="faq__item">
+              <div class="js-btn-collapse question {% if forloop.first %}show{%- endif -%}">
+                <div class="title"><span>{{block.settings[question]}}</span></div>
+                {% render 'svg' type: 'angle-down' %}
+                {% render 'svg' type: 'angle-up' %}
+              </div>
+              <div class="js-collapse answer {% if forloop.first %}show{%- endif -%}">
+                <span>{{block.settings[answer]}}</span>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'appointment' -%}
+    {% liquid 
+      assign image = block.settings.image
+      assign title = block.settings.title
+      assign subtitle = block.settings.subtitle
+    %}
+
+    <div class="appointment">
+      <div class="appointment__wrapper">
+        <div class="appointment__form">
+          {%- form 'contact' -%}
+            <div class="heading">
+              <div class="title">
+                <span>{{title}}</span>
+              </div>
+              <div class="subtitle">
+                <span>{{subtitle}}</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="fullname">{{ 'form.full_name' | t}}</label>
+              <input type="text" name="contact[full-name]" class="form-control" placeholder="{{ 'form.full_name_placeholder' | t}}">
+            </div>
+            
+            <div class="form-group">
+              <label for="email">{{ 'form.email' | t}}</label>
+              <input type="text" name="contact[email]" class="form-control" placeholder="{{ 'form.email_placeholder' | t}}">
+            </div>
+
+            <div class="form-group">
+              <label for="company">{{ 'form.company' | t}}</label>
+              <input type="text" name="contact[company]" class="form-control" placeholder="{{ 'form.company_placeholder' | t}}">
+            </div>
+
+            <div class="form-group">
+              <label for="skype">{{ 'form.skype' | t}}</label>
+              <div class="input-group">
+                {% render 'svg' type: 'skype' %}
+                <input type="text" name="contact[skype]" class="form-control" placeholder="{{ 'form.skype_placeholder' | t}}">
+              </div>
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" required>
+              {%- capture link -%}
+                <a href="#">{{ 'form.terms_and_conditions_link' | t}}</a>
+              {%- endcapture -%}
+              <label for="form-text" class="form-check-label">{{ 'form.terms_and_conditions_html' | t: link: link}}</label>
+            </div>
+
+            <button class="w-100 btn btn-2" type="submit">{{ 'form.btn.appointment' | t}}</button>
+          {%- endform -%}
+        </div>
+        <div class="image">
+          {% render 'image-style' image: image %}
+        </div>
+      </div>
+    </div>
+    {% comment %} end {% endcomment %}
 {%- endcase -%}

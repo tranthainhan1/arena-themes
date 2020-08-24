@@ -30,7 +30,7 @@
     {%- form 'customer_login' -%}
       <div class="form-group">
         <label for="customer_email">{{'layout.email_label' | t}}</label>
-        <input type="text" class="form-control" name="customer[email]" placeholder="{{'layout.placeholder_email' | t}}">
+        <input type="email" class="form-control" name="customer[email]" placeholder="{{'layout.placeholder_email' | t}}">
       </div>
       <div class="form-group">
         <div class="label-group"> 
@@ -44,10 +44,6 @@
             {% render 'svg' type: 'eye-off' %}
           </a>
         </div>
-      </div>
-      <div class="form-group">
-        <input type="checkbox" class="form-check" id="remember">
-        <label for="remember">{{ 'layout.customer.login.remember' | t}}</label>
       </div>
       <button type="submit" class="btn btn-2">{{'layout.customer.login.button_label' | t}}</button>
     {%- endform -%}
@@ -81,13 +77,24 @@
   </div>
   <div class="acc__body">
     {%- form 'create_customer' -%}
-      <div class="form-group">
-        <label for="customer_full_name">{{'layout.customer.register.full_name' | t}}</label>
-        <input type="text" id="customer_full_name" class="form-control" name="customer[full_name]" placeholder="{{'layout.customer.register.placeholder_full_name' | t}}">
-      </div>	
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="customer_last_name">{{'layout.customer.register.first_name' | t}}</label>
+            <input type="text" id="customer_last_name" class="form-control" name="customer[last_name]" placeholder="{{'layout.customer.register.placeholder_first_name' | t}}">
+          </div>	
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="customer_first_name">{{'layout.customer.register.last_name' | t}}</label>
+            <input type="text" id="customer_first_name" class="form-control" name="customer[first_name]" placeholder="{{'layout.customer.register.placeholder_last_name' | t}}">
+          </div>	
+        </div>
+      </div>
+     
       <div class="form-group">
         <label for="customer_email">{{'layout.email_label' | t}}</label>
-        <input type="text" id="customer_email" class="form-control" name="customer[email]" placeholder="{{'layout.placeholder_email' | t}}">
+        <input type="email" id="customer_email" class="form-control" name="customer[email]" placeholder="{{'layout.placeholder_email' | t}}">
       </div>
       <div class="form-group">
         <label for="customer_password">{{'layout.password_label' | t}}</label>
@@ -120,13 +127,13 @@
     {%- form 'recover_customer_password' -%}
       <div class="form-group">
         <label for="recover_email">{{ 'layout.email_label' | t}}</label>
-        <input type="text" id="recover_email" class="form-control" name="customer[email]" placeholder="{{ 'layout.placeholder_email' | t}}">
+        <input type="email" id="recover_email" class="form-control" name="email" placeholder="{{ 'layout.placeholder_email' | t}}">
       </div> 
       <button type="submit" class="btn btn-2">{{ 'layout.customer.login.recover_button_label' | t}}</button>
     {%- endform -%}
   </div>
   <div class="back">
-    <a href="javascript:void(0)" id="back" class="btn">{{ 'layout.back' | t}}</a>
+    <a href="javascript:void(0)" id="back_form_login" class="btn">{{ 'layout.back' | t}}</a>
   </div>
 </div>
 

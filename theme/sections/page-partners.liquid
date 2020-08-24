@@ -1,4 +1,4 @@
-<div class="partners">
+<div class="partners" data-section-id="{{section.id}}" data-section-type="partners-template">
   <div class="container">
     <div class="partners__wrapper">
       {%- for block in section.blocks -%}
@@ -111,6 +111,85 @@
           "type": "html",
           "id": "paragraph",
           "label": "Paragraph"
+        }
+      ]
+    },
+    {
+      "type" : "FAQ",
+      "name" : "FAQ",
+      "settings" : [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"  
+        },
+        {
+          "type": "header",
+          "content": "FAQs 1"
+        },
+        {
+          "type": "text",
+          "id": "question_1",
+          "label": "Question"
+        },
+        {
+          "type": "html",
+          "id": "answer_1",
+          "label": "Answer"
+        },
+        {
+          "type": "header",
+          "content": "FAQs 2"
+        },
+        {
+          "type": "text",
+          "id": "question_2",
+          "label": "Question"
+        },
+        {
+          "type": "html",
+          "id": "answer_2",
+          "label": "Answer"
+        },
+        {
+          "type": "header",
+          "content": "FAQs 3"
+        },
+        {
+          "type": "text",
+          "id": "question_3",
+          "label": "Question"
+        },
+        {
+          "type": "html",
+          "id": "answer_3",
+          "label": "Answer"
+        }
+      ]
+    },
+    {
+      "type" : "appointment",
+      "name" : "Appointment Form",
+      "settings" : [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
         }
       ]
     }

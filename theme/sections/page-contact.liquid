@@ -1,0 +1,170 @@
+{% liquid 
+assign text_1   = section.settings.text_1
+assign text_2   = section.settings.text_2
+assign text_3   = section.settings.text_3
+assign image    = section.settings.image
+assign address  = section.settings.address
+assign email    = section.settings.email
+assign phone    = section.settings.phone
+assign title    = section.settings.contact_title
+assign subtitle = section.settings.contact_subtitle
+assign image_map = section.settings.image_map
+
+%}
+
+<div class="contact" data-section-id="{{section.id}}" data-section-type="contact">
+  <div class="container">
+    <div class="contact__wrapper">
+      <div class="hero-banner">
+        <div class="hero-banner__wrapper">
+          <div class="d-flex align-items-center">
+            <div class="textbox">
+              <div class="text-1">
+                <span>{{text_1}}</span>
+              </div>
+              <div class="text-2">
+                <span>{{text_2}}</span>
+              </div>
+              <div class="text-3">
+                <span>{{text_3}}</span>
+              </div>
+            </div>
+            <div class="image">
+              {% render 'image-style' image: image  %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact__form">
+        <div class="heading">
+          <div class="title">
+            <h2>{{title}}</h2>
+          </div>
+          <div class="subtitle">
+            <span>{{subtitle}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-5 order-1 order-lg-0">
+            <div class="map">
+              <div class="map__content" id="gg_map">
+                {% render 'image-style' image: image_map %}
+              </div>
+              <div class="map__info">
+                <div class="address">
+                  {% render 'svg' type: 'location' %}
+                  <span>{{address}}</span>
+                </div>
+                <div class="email">
+                  {% render 'svg' type: 'envelope' %}
+                  <span>{{email}}</span>
+                </div>
+                <div class="phone">
+                  {% render 'svg' type: 'phone' %}
+                  <span>{{phone}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-7 order-0 order-lg-1">
+            {%- form 'contact' -%}
+              <div class="form-group">
+                <label for="full_name">{{ 'form.full_name' | t}}</label>
+                <input type="text" id="full_name" class="form-control" name="contact[Full name]" placeholder="{{ 'form.full_name_placeholder' | t}}">
+              </div>
+
+              <div class="form-group">
+                <label for="email">{{ 'form.email' | t}}</label>
+                <input type="text" id="email" class="form-control" name="contact[Email]" placeholder="{{ 'form.email_placeholder' | t}}">
+              </div>
+
+              <div class="form-group">
+                <label for="message">{{ 'form.message' | t}}</label>
+                <textarea name="contact[Message]" id="message" cols="30" rows="10" class="form-control" placeholder="{{ 'form.message_placeholder' | t}}"></textarea>
+              </div>
+              <button type="submit" class="w-100 btn btn-2">{{ 'form.btn.contact' | t}}</button>
+            {%- endform -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name" : "Page Contact",
+    "tag" : "section",
+    "settings" : [
+      {
+        "type": "header",
+        "content": "Section heading"
+      },
+      {
+        "type": "text",
+        "id": "text_1",
+        "label": "Text 1"
+      },
+      {
+        "type": "text",
+        "id": "text_2",
+        "label": "Text 2"
+      },
+      {
+        "type": "text",
+        "id": "text_3",
+        "label": "Text 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"  
+      },
+      {
+        "type": "header",
+        "content": "Contact settings"
+      },
+      {
+        "type": "text",
+        "id": "contact_title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "contact_subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "text",
+        "id": "address",
+        "label": "Address"
+      },
+      {
+        "type": "text",
+        "id": "email",
+        "label": "Email"
+      },
+      {
+        "type": "text",
+        "id": "phone",
+        "label": "Phone"
+      },
+      {
+        "type": "header",
+        "content": "Map settings"
+      },
+      {
+        "type": "text",
+        "id": "map_api_key",
+        "label": "API Key"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_map",
+        "label": "Image"
+      }
+    ]
+  }
+{% endschema %}
