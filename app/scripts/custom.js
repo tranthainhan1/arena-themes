@@ -37,5 +37,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   load("*");
 
-  CustomerLayout();
+  document.body.classList.contains("template-customers-login") &&
+    CustomerLayout();
 });

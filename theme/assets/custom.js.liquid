@@ -88,6 +88,24 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var arrayWithoutHoles = __webpack_require__(6);
+
+var iterableToArray = __webpack_require__(7);
+
+var unsupportedIterableToArray = __webpack_require__(8);
+
+var nonIterableSpread = __webpack_require__(9);
+
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
+}
+
+module.exports = _toConsumableArray;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
 (function(window, factory) {
 	var lazySizes = factory(window, window.document, Date);
 	window.lazySizes = lazySizes;
@@ -845,24 +863,6 @@
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithoutHoles = __webpack_require__(6);
-
-var iterableToArray = __webpack_require__(7);
-
-var unsupportedIterableToArray = __webpack_require__(8);
-
-var nonIterableSpread = __webpack_require__(9);
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray;
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
@@ -892,9 +892,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	factory = factory.bind(null, window, window.document);
 
 	if( true && module.exports){
-		factory(__webpack_require__(0));
+		factory(__webpack_require__(1));
 	} else if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1071,9 +1071,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	factory = factory.bind(null, window, window.document);
 
 	if( true && module.exports){
-		factory(__webpack_require__(0));
+		factory(__webpack_require__(1));
 	} else if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1277,9 +1277,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	factory = factory.bind(null, window, window.document);
 
 	if( true && module.exports){
-		factory(__webpack_require__(0));
+		factory(__webpack_require__(1));
 	} else if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1760,7 +1760,7 @@ var ls_parent_fit = __webpack_require__(3);
 var ls_object_fit = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/lazysizes.js
-var lazysizes = __webpack_require__(0);
+var lazysizes = __webpack_require__(1);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/plugins/rias/ls.rias.js
 var ls_rias = __webpack_require__(5);
@@ -2151,7 +2151,7 @@ if (window.Shopify.designMode) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/toConsumableArray.js
-var toConsumableArray = __webpack_require__(1);
+var toConsumableArray = __webpack_require__(0);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray);
 
 // EXTERNAL MODULE: ./node_modules/tiny-slider/src/helpers/Object.keys.js
@@ -5787,7 +5787,6 @@ var PartnersTemplate = {
 
 var CustomerLayout = function () {
   function customerLayout() {
-    var container = document.getElementsByClassName("customer")[0];
     document.getElementById("switch_form_register").addEventListener("click", function (e) {
       document.getElementById("login").style.display = "none";
       document.getElementById("register").style.display = "block";
@@ -5803,6 +5802,20 @@ var CustomerLayout = function () {
     document.getElementById("back_form_login").addEventListener("click", function (e) {
       document.getElementById("login").style.display = "block";
       document.getElementById("recover_password").style.display = "none";
+    });
+
+    toConsumableArray_default()(document.getElementsByClassName("password-toggle")).forEach(function (item) {
+      item.addEventListener("click", function () {
+        var input = item.previousElementSibling;
+
+        if (this.classList.contains("show")) {
+          this.classList.remove("show");
+          input.setAttribute("type", "password");
+        } else {
+          this.classList.add("show");
+          input.setAttribute("type", "text");
+        }
+      });
     });
   }
 
@@ -5835,7 +5848,7 @@ window.addEventListener("DOMContentLoaded", function () {
   register("about-template", AboutTemplate);
   register("partners-template", PartnersTemplate);
   load("*");
-  CustomerLayout();
+  document.body.classList.contains("template-customers-login") && CustomerLayout();
 });
 
 /***/ })

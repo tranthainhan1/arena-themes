@@ -4,7 +4,9 @@
       "product": {
         "label_variants": "styles"
       }
-    }
+    },
+    "min": "Min",
+    "max": "Max"
   },
   "search": {
     "general": {
@@ -135,6 +137,25 @@
     "btn": {
       "appointment": "Send Appointment",
       "contact": "Send Message"
+    }
+  },
+  "collection_template": {
+    "themes": {
+      "search": {
+        "placeholder": "Type keyword"
+      },
+      "pagination": {
+        "showing_all": "Show all {{count}} themes",
+        "showing": "1-15 of {{count}} themes"
+      },
+      "sort_by": "Sort by",
+      "select": {
+        "option_1": "Most Recent"
+      },
+      "btn": {
+        "clear": "Clear All",
+        "apply": "Apply"
+      }
     }
   }
 }

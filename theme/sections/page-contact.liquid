@@ -8,7 +8,6 @@ assign email    = section.settings.email
 assign phone    = section.settings.phone
 assign title    = section.settings.contact_title
 assign subtitle = section.settings.contact_subtitle
-assign image_map = section.settings.image_map
 
 %}
 
@@ -45,29 +44,32 @@ assign image_map = section.settings.image_map
             <span>{{subtitle}}</span>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12 col-lg-5 order-1 order-lg-0">
-            <div class="map">
-              <div class="map__content" id="gg_map">
-                {% render 'image-style' image: image_map %}
-              </div>
-              <div class="map__info">
-                <div class="address">
-                  {% render 'svg' type: 'location' %}
-                  <span>{{address}}</span>
+        <div class="contact__content">
+          <div class="map">
+            <div class="map__content" id="gg_map">
+            </div>
+            <div class="map__info">
+              <div class="row">
+                <div class="col-12 col-lg-6">
+                  <div class="map__info__item address ">
+                    {% render 'svg' type: 'location' %}
+                    <span>{{address}}</span>
+                  </div>
                 </div>
-                <div class="email">
-                  {% render 'svg' type: 'envelope' %}
-                  <span>{{email}}</span>
-                </div>
-                <div class="phone">
-                  {% render 'svg' type: 'phone' %}
-                  <span>{{phone}}</span>
+                <div class="col-12 col-lg-6">
+                  <div class="map__info__item email">
+                    {% render 'svg' type: 'envelope-solid' %}
+                    <span>{{email}}</span>
+                  </div>
+                  <div class="map__info__item phone">
+                    {% render 'svg' type: 'phone' %}
+                    <span>{{phone}}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-12 col-lg-7 order-0 order-lg-1">
+          <div class="form">
             {%- form 'contact' -%}
               <div class="form-group">
                 <label for="full_name">{{ 'form.full_name' | t}}</label>
@@ -91,7 +93,16 @@ assign image_map = section.settings.image_map
     </div>
   </div>
 </div>
-
+<script>
+  function initMap() {
+    var mapProp = {
+      center: new google.maps.LatLng(10.80259, 106.684624),
+      zoom: 20,
+    };
+    var map = new google.maps.Map(document.getElementById("gg_map"), mapProp);
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=initMap" async defer ></script>
 
 {% schema %}
   {
@@ -159,11 +170,6 @@ assign image_map = section.settings.image_map
         "type": "text",
         "id": "map_api_key",
         "label": "API Key"
-      },
-      {
-        "type": "image_picker",
-        "id": "image_map",
-        "label": "Image"
       }
     ]
   }

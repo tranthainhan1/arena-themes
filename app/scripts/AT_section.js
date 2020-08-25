@@ -342,8 +342,6 @@ let PartnersTemplate = {
 
 let CustomerLayout = (function () {
   function customerLayout() {
-    let container = document.getElementsByClassName("customer")[0];
-
     document
       .getElementById("switch_form_register")
       .addEventListener("click", function (e) {
@@ -371,11 +369,24 @@ let CustomerLayout = (function () {
         document.getElementById("login").style.display = "block";
         document.getElementById("recover_password").style.display = "none";
       });
+
+    [...document.getElementsByClassName("password-toggle")].forEach((item) => {
+      item.addEventListener("click", function () {
+        let input = item.previousElementSibling;
+
+        if (this.classList.contains("show")) {
+          this.classList.remove("show");
+          input.setAttribute("type", "password");
+        } else {
+          this.classList.add("show");
+          input.setAttribute("type", "text");
+        }
+      });
+    });
   }
 
   return customerLayout;
 })();
-
 export {
   Header,
   IconsBox,

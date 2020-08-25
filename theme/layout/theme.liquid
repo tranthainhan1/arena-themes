@@ -39,9 +39,15 @@
   {{ content_for_header }}
 </head>
 
-{%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | join: '-' -}}{%- endcapture -%}
+{%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | first -}}{%- endcapture -%}
 
-<body class="{{ themeClass }}">
+{%- assign arr = template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' -%}
+
+{%- if arr.size > 1 -%}
+  {%- capture subThemeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | join: '-' -}}{%- endcapture -%}
+{%- endif -%}
+
+<body class="{{subThemeClass}}">
   {%- render 'snippet-theme', type: 'themeCSS' -%}
   <div class="boxed-wapper">
     {%- section 'header' -%}
