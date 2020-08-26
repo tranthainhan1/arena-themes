@@ -1,7 +1,7 @@
 import { tns } from "tiny-slider/src/tiny-slider";
 
 var AT = {
-  initTinySlider: (container) => {
+  initTinySlider: function (container) {
     let config = JSON.parse(
       container.querySelector("[id*='config-tns']").innerHTML
     );
@@ -63,6 +63,17 @@ var AT = {
           }, 200)();
         }
       }
+    });
+  },
+  initTNS: function () {
+    [...document.getElementsByClassName("js-tns")].forEach(function (item) {
+      let config = JSON.parse(item.getAttribute("data-config"));
+      let controlsContainer = item.nextElementSibling;
+      config = Object.assign(config, {
+        container: item,
+        controlsContainer,
+      });
+      let tnsSlider = tns(config);
     });
   },
 };

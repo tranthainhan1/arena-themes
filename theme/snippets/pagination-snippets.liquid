@@ -17,7 +17,9 @@
         </li>
       {%- else -%}
         {%- if part.title == paginate.current_page -%}
-          <li class="active">{{ part.title }}</li>
+          <li class="active">
+            <a href="javascript">{{ part.title }}</a>
+          </li>
         {%- else -%}
           <li>{{ part.title }}</li>
         {%- endif -%}

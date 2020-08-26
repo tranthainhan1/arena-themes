@@ -18,8 +18,10 @@ import {
   HeroBanner,
   AboutTemplate,
   PartnersTemplate,
+  CollectionThemes,
   CustomerLayout,
 } from "./AT_section";
+import AT from "./_arn";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
@@ -34,9 +36,11 @@ window.addEventListener("DOMContentLoaded", () => {
   register("hero-banner", HeroBanner);
   register("about-template", AboutTemplate);
   register("partners-template", PartnersTemplate);
+  register("collection-themes", CollectionThemes);
 
   load("*");
 
   document.body.classList.contains("template-customers-login") &&
     CustomerLayout();
+  AT.initTNS();
 });

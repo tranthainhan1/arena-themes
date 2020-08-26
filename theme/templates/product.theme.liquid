@@ -1,0 +1,150 @@
+<script>console.log({{product | json}})</script>
+<div class="product" data-section-id="product" data-section-type="product-theme">
+  <div class="container">
+    <div class="product__wrapper">
+      <div class="d-none d-lg-block product__block">   
+        {% render 'breadcrumb-snippets' type: 'themes' %}
+      </div>
+      <div class="product__block">
+        <div class="product-detail">
+          <div class="product-detail__content">
+            <div class="title">
+              <h2>{{product.title}}</h2>
+            </div>
+            <div class="price">
+              <span>{{product.price | money}}</span>
+            </div>
+            <div class="description">
+              {{product.description}}
+            </div>
+            <div class="total-variant">
+              <span>{{ 'product_template.themes.total_variant' | t: count: product.metafields.c_f.total_variant}}</span>
+            </div>
+            <div class="form">
+              <form action="cart/add" id="product-{{product.id}}">
+                <input type="hidden" value="1" name="quantity">
+                {%- for option in product.options -%}
+                  <div class="swatch">
+                  <label for="product_style">{{ option }}</label>
+                  <select name="id" id="product_style">
+                    {%- for variant in product.variants -%}
+                      <option value="{{variant.id}}">{{variant.title}}</option>
+                    {%- endfor -%}
+                  </select>
+                </div>
+                {%- endfor -%}
+                
+                <button class="btn btn-2">{{ 'product_template.themes.buy_theme' | t}}</button>
+                <button class="btn btn-2">{{ 'product_template.themes.view_demo' | t}}</button>
+              </form>
+            </div>
+            <div class="product-variant">
+              <span>{{'product_template.themes.total_variant' | t: count: product.metafields.c_f.total_variant}}</span>
+            </div>
+          </div>
+          <div class="product-image">
+            <div class="image">
+              {% render 'image-style' image: product.featured_image %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product__block">
+        <div class="product-features">
+          <div class="product-features__header">
+            <div class="title">
+              <span>{{ 'product_template.themes.features.title' | t}}</span>
+            </div>
+            <div class="subtitle">
+              <span>{{ 'product_template.themes.features.subtitle' | t}}</span>
+            </div>
+          </div>
+          <div class="product-features__content">
+            {%- assign features_list = "Smart Mega Menu,Wishlist & Compare app,Autocomplete Search,Sales Notification,Exit Discount,Multi-currency,Custom FAQ Page,Flexible Product Swatch Ever,Product Upsell,Related Product,Product Page Tabs,EU Policy Notice,Optimized Cart,Sticky Cart,Countdown Timer,Social Proof,Direct to Checkout,Free+Shipping,Urgency Box,FOMO Popup Notification" | split: ',' -%}
+            <div class="row">
+              {%- for i in (1..20) -%}
+                {%- assign icon = 'icon_box_' | append: i -%}
+                {%- assign svg = 'product_icon_box_' | append: i -%}
+              {%- if product.metafields.c_f[icon] -%}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-5th">
+                  <div class="text-center product-features__item">
+                    {% render 'svg' type: svg %}
+                    {%- assign features_index  = i | minus: 1  -%}
+                    <p class="label">{{features_list[features_index]}}</p>
+                  </div>
+                </div>
+              {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <div class="d-sm-none btn-view-more">
+              <span>{{'button.view_more' | t}}</span>
+              {% render 'svg' type: 'angle-down' %}
+              {% render 'svg' type: 'angle-up' %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product__block">
+        <div class="product-mode">
+          <div class="product-mode__header">
+            <div class="title">
+              <h3>{{ 'product_template.themes.mode.title' | t}}</h3>
+            </div> 
+            <div class="product-mode__content">
+              <ul class="list">
+                {%- assign mode_list = "Flexibility Description Tabs,Cart type,Support Dynamic Check Out,Free Shipping Threshold,Auto Curency Swithcher,Mobile UI Optimize,Catalog Mode,Exit Intend Discount Popup,Fomo Product Sales,Ajax Cart Option,Multicolor,Google Translate," | split: "," -%}
+                {%- for i in (1..12) -%}
+                  {%- assign isShow = 'product_theme_mode_' | append: i -%}
+                  {%- if product.metafields.c_f[isShow] -%}
+                    {%- assign index = i | minus: 1 -%}
+                    <li>{{mode_list[index]}}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product__block">
+        <div class="product-related">
+          <div class="featured-collection">
+            {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+              <div class="featured-collection__wrap">
+                <div class="featured-collection__title text-{{text_align}} section_title-wrapper">
+                  <div class="heading section_title-text-1">
+                    <span class="content">{{ 'product_template.themes.related.title' | t}}</span>
+                  </div>
+                </div>
+                <div class="featured-collection__content">
+                  <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":35},"1052":{"items":4,"gutter":30},"1440":{"items":5}}}'>
+                    {%- for p in collection.products -%}
+                        {%- if p.id != product.id -%}
+                          <div class="featured-collection__item">
+                            {%- render 'card-template', type: 'product', product: p -%}
+                          </div>
+                        {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                  <div class="js-tns-controls section-{{section.id}} d-none">
+                    <div class="btn-prev">
+                      {% render 'svg', type: 'angle-left'  %}
+                    </div>
+                    <div class="btn-next">
+                      {% render 'svg', type: 'angle-right'  %}
+                    </div>
+                  </div>
+                </div>
+                {%- if text_under_content != blank -%}
+                  <div class="featured-collection__text-under text-{{text_under_align}}">
+                    <span>{{linking_words}}</span>
+                    <a href="{{text_under_url | default: 'javascript:void(0)'}}">{{text_under_content}}</a>
+                  </div>
+                {%- endif -%}
+              </div>
+            {% if layout == 'boxed' %} </div> {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

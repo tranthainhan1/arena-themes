@@ -5469,6 +5469,17 @@ var AT = {
         }
       }
     });
+  },
+  initTNS: function initTNS() {
+    toConsumableArray_default()(document.getElementsByClassName("js-tns")).forEach(function (item) {
+      var config = JSON.parse(item.getAttribute("data-config"));
+      var controlsContainer = item.nextElementSibling;
+      config = Object.assign(config, {
+        container: item,
+        controlsContainer: controlsContainer
+      });
+      var tnsSlider = tns(config);
+    });
   }
 };
 /* harmony default export */ var _arn = (AT);
@@ -5822,6 +5833,27 @@ var CustomerLayout = function () {
   return customerLayout;
 }();
 
+var CollectionThemes = {
+  onLoad: function onLoad() {
+    this.handleSidebar();
+  },
+  handleSidebar: function handleSidebar() {
+    var btnOpen = document.getElementById("js-open-sidebar");
+    var btnClose = document.getElementsByClassName("js-close-sidebar");
+    var sidebarContainer = document.getElementById("js-sidebar-container");
+    btnOpen.addEventListener("click", function () {
+      sidebarContainer.classList.add("show");
+      document.body.style.overflow = "hidden";
+    });
+
+    toConsumableArray_default()(btnClose).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        sidebarContainer.classList.remove("show");
+        document.body.style.overflow = "";
+      });
+    });
+  }
+};
 
 // CONCATENATED MODULE: ./app/scripts/custom.js
 // import "lazysizes/plugins/unveilhooks/ls.unveilhooks";
@@ -5832,6 +5864,7 @@ var CustomerLayout = function () {
 
  // import "lazysizes/plugins/video-embed/ls.video-embed";
 // import * as shopifyCart from "@shopify/theme-cart";
+
 
 
 
@@ -5847,8 +5880,10 @@ window.addEventListener("DOMContentLoaded", function () {
   register("hero-banner", HeroBanner);
   register("about-template", AboutTemplate);
   register("partners-template", PartnersTemplate);
+  register("collection-themes", CollectionThemes);
   load("*");
   document.body.classList.contains("template-customers-login") && CustomerLayout();
+  _arn.initTNS();
 });
 
 /***/ })

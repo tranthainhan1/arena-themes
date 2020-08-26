@@ -387,6 +387,31 @@ let CustomerLayout = (function () {
 
   return customerLayout;
 })();
+
+let CollectionThemes = {
+  onLoad: function () {
+    this.handleSidebar();
+  },
+  handleSidebar: function () {
+    let btnOpen = document.getElementById("js-open-sidebar");
+    let btnClose = document.getElementsByClassName("js-close-sidebar");
+
+    let sidebarContainer = document.getElementById("js-sidebar-container");
+
+    btnOpen.addEventListener("click", function () {
+      sidebarContainer.classList.add("show");
+      document.body.style.overflow = "hidden";
+    });
+
+    [...btnClose].forEach((btn) => {
+      btn.addEventListener("click", function () {
+        sidebarContainer.classList.remove("show");
+        document.body.style.overflow = "";
+      });
+    });
+  },
+};
+
 export {
   Header,
   IconsBox,
@@ -397,5 +422,6 @@ export {
   HeroBanner,
   AboutTemplate,
   PartnersTemplate,
+  CollectionThemes,
   CustomerLayout,
 };

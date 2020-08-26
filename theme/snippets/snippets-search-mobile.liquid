@@ -1,21 +1,21 @@
 <div class="d-lg-none search-mobile" id="search-mobile">
   <div class="form-search">
-    <form action="/search" id="search">
+    <form action="/search" id="mobile_search">
       <div class="form-group">
         <a href="javascript:void(0)" id="close_search_mobile">
           {% render 'svg' type: 'arrow-left' %}
         </a>
-        <input type="text" id="input_search_mobile" class="form-control" placeholder="{{ 'search.general.search_placeholder' | t}}">
+        <input type="text" id="input_search_mobile" class="form-control" placeholder="{{ 'search.search_placeholder' | t}}">
         {% render 'svg' type: 'microphone' %}
       </div>
     </form>
   </div>
   <div class="no-result">
     <div class="title">
-      <span>{{'search.general.no_result.title' | t}}</span>
+      <span>{{'search.no_result.title' | t}}</span>
     </div>
     <div class="subtitle">
-      <span>{{ 'search.general.no_result.subtitle' | t}}</span>
+      <span>{{ 'search.no_result.subtitle' | t}}</span>
     </div>
   </div>
 </div>

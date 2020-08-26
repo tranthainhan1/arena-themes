@@ -3,29 +3,52 @@
     {% liquid 
       assign image = product.featured_image
     %}
-      <div class="card card-product">
-        <div class="card-img-top">
-          <a href="{{product.url}}">
-            {%- render 'image-style', image: image, originQuality: true -%}
+    <div class="card card-product">
+      <div class="card-img-top">
+        <a href="{{product.url | within: collection}}">
+          {%- render 'image-style', image: image, originQuality: true -%}
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="card-body__tile">
+          <a href="{{product.url | within: collection}}" class="title">
+            <span >{{product.title}}</span>
           </a>
+          <span class="price">{{product.price | money }}</span>
         </div>
-        <div class="card-body">
-          <div class="card-body__tile">
-            <span class="title">{{product.title}}</span>
-            <span class="price">{{product.price | money }}</span>
+        <div class="card-body__variants">
+          <div class="card-body__variants-label">
+            <span>{{product.metafields.c_f.total_variant | default: 0}}</span>
+            <span>{{ 'general.card.product.label_variants' | t }}</span>
           </div>
-          <div class="card-body__variants">
-            <div class="card-body__variants-label">
-              <span>{{product.metafields.c_f.total_variant | default: 0}}</span>
-              <span>{{ 'general.card.product.label_variants' | t }}</span>
-            </div>
-            <div class="card-body__variants-link">
-              <a href="#">
-                {% render 'svg', type: 'arrow-right'  %}
-              </a>
-            </div>
+          <div class="card-body__variants-link">
+            <a href="{{product.url | within: collection}}">
+              {% render 'svg', type: 'arrow-right'  %}
+            </a>
           </div>
+        </div>
 
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'app' -%}
+    {% liquid 
+      assign image = product.featured_image
+      assign description = product.description
+    %}
+    <div class="card card-app">
+      <div class="card__header">
+        <div class="image">
+          {% render 'image-style' image: image %}
+        </div>
+        <div class="card__name">
+          <span>{{product.title}}</span>
         </div>
       </div>
+      <div class="card__description">
+        <span>{{description}}</span>
+      </div>
+      <div class="card_price">
+      </div>
+    </div>
 {%- endcase -%}

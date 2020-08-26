@@ -9,12 +9,10 @@
     "max": "Max"
   },
   "search": {
-    "general": {
-      "search_placeholder": "What are you looking for ?",
-      "no_result": {
-        "title": "No results for",
-        "subtitle": "Sorry, we couldn’t find any matches."
-      }
+    "search_placeholder": "What are you looking for ?",
+    "no_result": {
+      "title": "No results for",
+      "subtitle": "Sorry, we couldn’t find any matches."
     }
   },
   "products": {
@@ -155,6 +153,30 @@
       "btn": {
         "clear": "Clear All",
         "apply": "Apply"
+      },
+      "filter": "Filter"
+    },
+    "apps": {
+      "search": {
+        "placeholder": "Search app..."
+      }
+    }
+  },
+  "product_template": {
+    "themes": {
+      "total_variant": "{{count}} styles included",
+      "styles": "Styles",
+      "buy_theme": "Buy Theme",
+      "view_demo": "View Demo",
+      "features": {
+        "title": "Theme Features",
+        "subtitle": "All our themes come with premium features to help you create an amazing Shopping Experience"
+      },
+      "mode": {
+        "title": "All themes on the Theme Store also include:"
+      },
+      "related": {
+        "title": "Related Product by Categories"
       }
     }
   }
