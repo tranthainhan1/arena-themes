@@ -1,0 +1,27 @@
+{%- case block.type -%}
+  {%- when 'hero-banner' -%}
+    {% liquid 
+      assign text_1 = block.settings.text_1
+      assign text_2 = block.settings.text_2
+      assign text_3 = block.settings.text_3
+      assign image  = block.settings.image
+    %}
+    <div class="hero-banner">
+      <div class="hero-banner__wrapper">
+        <div class="textbox">
+          <div class="text-1">
+            <span>{{text_1}}</span>
+          </div>
+          <div class="text-2">
+            <span>{{text_2}}</span>
+          </div>
+          <div class="text-3">
+            <span>{{text_3}}</span>
+          </div>
+        </div>
+        <div class="image">
+          {% render 'image-style' image: image  %}
+        </div>
+      </div>
+    </div>
+{%- endcase -%}

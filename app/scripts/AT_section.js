@@ -36,11 +36,13 @@ let Header = {
           document.body.classList.remove("sidebar-mobile-show");
           btnMenu.classList.remove("show");
           menuMobileContainer.classList.remove("show");
+          document.body.classList.remove("popup-is-showing");
           isComplete = true;
         } else {
           document.body.classList.add("sidebar-mobile-show");
           btnMenu.classList.add("show");
           menuMobileContainer.classList.add("show");
+          document.body.classList.add("popup-is-showing");
           isComplete = true;
         }
       }
@@ -49,6 +51,7 @@ let Header = {
       document.body.classList.remove("sidebar-mobile-show");
       btnMenu.classList.remove("show");
       menuMobileContainer.classList.remove("show");
+      document.body.classList.remove("popup-is-showing");
     });
   },
   handleCollapse: function () {
@@ -118,36 +121,22 @@ let Header = {
       } else {
         if (elmSearchMobile.classList.contains("show")) {
           elmSearchMobile.classList.remove("show");
+          document.body.classList.remove("popup-is-showing");
         } else {
           elmSearchMobile.classList.add("show");
+          document.body.classList.add("popup-is-showing");
           inputSearchMobile.focus();
         }
       }
     });
     btnCloseSearch.addEventListener("click", function () {
       headerDesktop.classList.remove("search-show");
+      document.body.classList.remove("popup-is-showing");
     });
     btnCloseSearchMobile.addEventListener("click", function () {
       elmSearchMobile.classList.remove("show");
+      document.body.classList.remove("popup-is-showing");
     });
-  },
-};
-
-let IconsBox = {
-  onLoad: function () {
-    this.tns = AT.initTinySlider(this.container);
-  },
-};
-
-let FeaturedCollection = {
-  onLoad: function () {
-    this.tns = AT.initTinySlider(this.container);
-  },
-};
-
-let LogoList = {
-  onLoad: function () {
-    this.tns = AT.initTinySlider(this.container);
   },
 };
 
@@ -401,11 +390,39 @@ let CollectionThemes = {
     btnOpen.addEventListener("click", function () {
       sidebarContainer.classList.add("show");
       document.body.style.overflow = "hidden";
+      document.body.classList.add("popup-is-showing");
     });
 
     [...btnClose].forEach((btn) => {
       btn.addEventListener("click", function () {
         sidebarContainer.classList.remove("show");
+        document.body.classList.remove("popup-is-showing");
+        document.body.style.overflow = "";
+      });
+    });
+  },
+};
+
+let CollectionApps = {
+  onLoad: function () {
+    this.handleSidebar();
+  },
+  handleSidebar: function () {
+    let btnOpen = document.getElementById("js-open-sidebar");
+    let btnClose = document.getElementsByClassName("js-close-sidebar");
+
+    let sidebarContainer = document.getElementById("js-sidebar-container");
+
+    btnOpen.addEventListener("click", function () {
+      sidebarContainer.classList.add("show");
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("popup-is-showing");
+    });
+
+    [...btnClose].forEach((btn) => {
+      btn.addEventListener("click", function () {
+        sidebarContainer.classList.remove("show");
+        document.body.classList.remove("popup-is-showing");
         document.body.style.overflow = "";
       });
     });
@@ -414,9 +431,6 @@ let CollectionThemes = {
 
 export {
   Header,
-  IconsBox,
-  FeaturedCollection,
-  LogoList,
   Footer,
   SupportTemplate,
   HeroBanner,
@@ -424,4 +438,5 @@ export {
   PartnersTemplate,
   CollectionThemes,
   CustomerLayout,
+  CollectionApps,
 };

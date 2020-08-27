@@ -2,7 +2,7 @@
   assign banner_title = section.settings.banner_title 
   assign banner_subtitle = section.settings.banner_subtitle 
 %}
-<script>console.log({{collection | json}})</script>
+
 <div class="collection collection-{{collection.handle}}" data-section-id="{{section.id}}" data-section-type="collection-apps">
   <div class="container">
     <div class="banner">
@@ -19,16 +19,18 @@
               <input type="text" placeholder="{{ 'collection_template.apps.search.placeholder' | t}}">
               {% render 'svg' type: 'search' %}
             </div>
-            <div class="result ">
-              <div class="no-result">
-                <div class="title">
-                  <span>{{ 'search.no_result.title' | t}}</span>
-                </div>
-                <div class="subtitle">
-                  <span>{{ 'search.no_result.subtitle' | t}}</span>
+            {% comment %} 
+              <div class="result">
+                <div class="no-result">
+                  <div class="title">
+                    <span>{{ 'search.no_result.title' | t}}</span>
+                  </div>
+                  <div class="subtitle">
+                    <span>{{ 'search.no_result.subtitle' | t}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            {% endcomment %}
           </div>
         </div>
       </div>
@@ -39,7 +41,9 @@
         <div class="d-lg-none sidebar_header">
           <div class="title">
             <span>{{ 'collection_template.themes.filter' | t}}</span>
-            {% render 'svg' type: 'close' %}
+            <a href="javascript:void(0)" class="js-close-sidebar">
+              {% render 'svg' type: 'close' %}
+            </a>
           </div>
           <div class="sort-by">
             <label for="sort_by">{{ 'collection_template.themes.sort_by' | t}}</label>
@@ -71,6 +75,7 @@
                     {%- endfor -%}
                   </div>
                 </div>
+              {% comment %} end {% endcomment %}
               {%- when 'filter_price' -%}
                   {% liquid 
                     assign title = block.settings.title  
@@ -102,6 +107,30 @@
                     </div>
                   </div>
                 </div>
+              {% comment %} end {% endcomment %}
+              {%- when 'filter_rating' -%} 
+                {% liquid 
+                  assign title = block.settings.title 
+                %}              
+                <div class="filter-group filter-rating">
+                  <div class="header">
+                    <p>{{title}}</p>
+                  </div>
+                  <div class="filter-group__body">
+                    {%- for i in (1..5) -%}
+                      {%- assign rating = 'rating-'| append: i -%}
+                      <div class="filter-item">
+                        <div class="d-flex checkbox">
+                          <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
+                          <label for="filter_item_{{block.id}}_{{forloop.index}}">
+                            {% render 'svg' type: rating  %}
+                          </label>
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {% comment %} end {% endcomment %}
             {%- endcase -%}
           {%- endfor -%}
           <div class="sidebar_btn">
@@ -113,11 +142,11 @@
       <div class="col-12 col-lg-9 product-grid">
         <div class="toolbar">
           <div class="toolbar_right">
-            <div class="pagination-showing">
+            <div class="pagination-showing">    
               {%- if collection.all_products_count > 15  -%}
-                <span>{{ 'collection_template.themes.pagination.showing' | t: count: collection.all_products_count}}</span>
+                <span>{{ 'collection_template.apps.pagination.showing' | t: count: collection.all_products_count}}</span>
               {%- else -%}
-                <span>{{ 'collection_template.themes.pagination.showing_all' | t: count: collection.all_products_count}}</span>
+                <span>{{ 'collection_template.apps.pagination.showing_all' | t: count: collection.all_products_count}}</span>
               {%- endif -%}
             </div>
 
@@ -135,11 +164,11 @@
             </div>
           </div>
         </div>
-        <div class="product-grid">
+        <div class="product-grid__wrapper">
           {% paginate collection.products by 3 %}
             <div class="row">
                 {%- for product in collection.products -%}
-                  <div class="col-6 col-lg-4">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4">
                     {% render 'card-template' type: 'app', product: product  %}
                   </div>
                 {%- endfor -%}
@@ -150,7 +179,6 @@
             {%- endif -%}
           {% endpaginate %}
         </div>
-        
       </div>
     </div>
   </div>
@@ -197,6 +225,17 @@
             "type": "text",
             "id": "title",
             "label": "Filter Title"
+          }
+        ]
+      },
+      {
+        "type" : "filter_rating",
+        "name" : "Filter Rating",
+        "settings" : [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Filter Rating"
           }
         ]
       }

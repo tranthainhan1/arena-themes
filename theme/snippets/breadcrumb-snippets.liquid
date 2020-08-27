@@ -1,15 +1,19 @@
 {%- case type -%}
   {%- when 'themes' -%}
-    {%- assign tittle = 'Shopify Themes' -%}
+    {%- assign title = 'Shopify Themes' -%}
+  {%- when 'apps' -%}
+    {%- assign title = 'Shopify Apps' -%}
 {%- endcase -%}
-<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
-  <a href="{{collection.url}}" class="title">{{tittle}}</a>
+<div class="wrapper_breadcrumb">
+  <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+    <a href="{{collection.url}}" class="title">{{title}}</a>
 
-  {% if template contains 'product' %}
-    {%- if collection.url -%}
-      <a href="{{collection.url}}">{{tittle}}</a>
-    {%- endif -%}
-    <span aria-hidden="true">></span>
-    <span>{{ product.title }}</span>
-  {% endif %}
-</nav>
+    {% if template contains 'product' %}
+      {%- if collection.url -%}
+        <a href="{{collection.url}}">{{title}}</a>
+      {%- endif -%}
+      <span aria-hidden="true">></span>
+      <span>{{ product.title }}</span>
+    {% endif %}
+  </nav>
+</div>

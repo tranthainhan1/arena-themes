@@ -1,0 +1,95 @@
+
+{% liquid 
+  assign image        = product.featured_image
+  assign price        = product.price | money
+  assign day_trial    = product.metafields.c_f.day_trial
+  assign title        = product.title
+  assign link_install = product.metafields.c_f.link_install
+  assign link_demo    = product.metafields.c_f.link_demo
+  assign description  = product.description | replace: "<card-description>", '' | replace: "</card-description>", ""
+  assign version      = product.metafields.c_f.version | default: '1.0'
+%}
+
+<div class="product product-app">
+  <div class="container">
+    <div class="d-none d-lg-block">
+      {% render 'breadcrumb-snippets' type: 'apps' %} 
+    </div>
+    <div class="product__block">
+      <div class="product__detail">
+        <div class="product__content">
+          <div class="d-none d-lg-block image">
+            {% render 'image-style' image: image %}
+          </div>
+          <div class="product__info">
+            <div class="name">
+              <span>{{title}}</span>
+            </div>
+            <div class="d-lg-none image">
+              {% render 'image-style' image: image %}
+            </div>
+            <div class="short-description">
+              <span>Expand the functionality of your store with Custom Fields.</span>
+            </div>
+            <div class="price">
+              {%- if price == 0 -%}
+              {%- else -%}
+                <span>{{ 'card.app.price' | t: price: price, day: day_trial}}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+        <div class="product__button">
+          <a href="#" class="btn btn-2 btn-install">
+            <span>{{ 'product_template.apps.btn.install' | t}}</span>
+          </a>
+          <a href="#" class="btn btn-2 btn-view-demo">
+            <span>{{ 'product_template.apps.btn.view_demo' | t}}</span>
+          </a>
+          <p class="version">{{ 'product_template.apps.version' | t : version: version}}</p>
+        </div>
+      </div>
+    </div> 
+    <div class="product__block">
+      <div class="product__description">
+        {{description}}
+      </div>
+    </div>
+    <div class="product-related">
+          <div class="featured-collection">
+            <div class="featured-collection__wrap">
+              <div class="featured-collection__title section_title-wrapper">
+                <div class="heading section_title-text-1">
+                  <span class="content">{{ 'product_template.apps.related.title' | t}}</span>
+                </div>
+              </div>
+              <div class="featured-collection__content">
+                <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1,"gutter":25},"479":{"items":1.7},"576":{"items":2},"1024":{"items":3,"gutter":30},"1440":{"items":4}}}'>
+                  {%- for p in collection.products -%}
+                      {%- if p.id != product.id -%}
+                        <div class="featured-collection__item">
+                          {%- render 'card-template', type: 'app', product: p -%}
+                        </div>
+                      {%- endif -%}
+                  {%- endfor -%}
+                </div>
+                <div class="js-tns-controls section-{{section.id}} d-none">
+                  <div class="btn-prev">
+                    {% render 'svg', type: 'angle-left'  %}
+                  </div>
+                  <div class="btn-next">
+                    {% render 'svg', type: 'angle-right'  %}
+                  </div>
+                </div>
+              </div>
+              {%- if text_under_content != blank -%}
+                <div class="featured-collection__text-under text-{{text_under_align}}">
+                  <span>{{linking_words}}</span>
+                  <a href="{{text_under_url | default: 'javascript:void(0)'}}">{{text_under_content}}</a>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { tns } from "tiny-slider/src/tiny-slider";
 
 var AT = {
   initTinySlider: function (container) {
+    console.trace();
     let config = JSON.parse(
       container.querySelector("[id*='config-tns']").innerHTML
     );

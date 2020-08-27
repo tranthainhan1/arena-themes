@@ -1,0 +1,19 @@
+{% liquid   
+  
+%}
+
+<div class="blog blog-careers">
+  <div class="container">
+    {%- for block in section.settings.blocks -%}
+      {% render 'blog-careers-snippets' block: block %}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name" : "Blog Careers",
+    "tag" : "section",
+    "settings" : []
+  }
+{% endschema %}

@@ -9,9 +9,6 @@ import "lazysizes/plugins/rias/ls.rias";
 // import * as shopifyCart from "@shopify/theme-cart";
 import { register, load } from "@shopify/theme-sections";
 import {
-  IconsBox,
-  FeaturedCollection,
-  LogoList,
   Header,
   Footer,
   SupportTemplate,
@@ -20,6 +17,7 @@ import {
   PartnersTemplate,
   CollectionThemes,
   CustomerLayout,
+  CollectionApps,
 } from "./AT_section";
 import AT from "./_arn";
 
@@ -27,9 +25,9 @@ window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 
 window.addEventListener("DOMContentLoaded", () => {
-  register("icons-cart", IconsBox);
-  register("featured-collection", FeaturedCollection);
-  register("logo-list", LogoList);
+  // register("icons-cart", IconsBox);
+  // register("featured-collection", FeaturedCollection);
+  // register("logo-list", LogoList);
   register("header", Header);
   register("footer", Footer);
   register("support-template", SupportTemplate);
@@ -37,6 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
   register("about-template", AboutTemplate);
   register("partners-template", PartnersTemplate);
   register("collection-themes", CollectionThemes);
+  register("collection-apps", CollectionApps);
 
   load("*");
 

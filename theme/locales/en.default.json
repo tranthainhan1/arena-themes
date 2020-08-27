@@ -159,6 +159,10 @@
     "apps": {
       "search": {
         "placeholder": "Search app..."
+      },
+      "pagination": {
+        "showing_all": "Show all {{count}} apps",
+        "showing": "1-15 of {{count}} apps"
       }
     }
   },
@@ -178,6 +182,23 @@
       "related": {
         "title": "Related Product by Categories"
       }
+    },
+    "apps": {
+      "btn": {
+        "install": "Install Now",
+        "view_demo": "View Demo"
+      },
+      "version": "Version: {{version}}",
+      "related": {
+        "title": "You might also like"
+      }
+    }
+  },
+  "card": {
+    "app": {
+      "free": "Free",
+      "price": "From {{price}}/month, {{day}}-day free trial.",
+      "install": "Install App"
     }
   }
 }

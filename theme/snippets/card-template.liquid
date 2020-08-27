@@ -2,6 +2,7 @@
   {%- when 'product' -%}
     {% liquid 
       assign image = product.featured_image
+      
     %}
     <div class="card card-product">
       <div class="card-img-top">
@@ -33,22 +34,37 @@
   {% comment %} end {% endcomment %}
   {%- when 'app' -%}
     {% liquid 
-      assign image = product.featured_image
-      assign description = product.description
+      assign image       = product.featured_image
+      assign description = product.description | split: '<card-description>' | last | split: '</card-description>' | first
+      assign price       = product.price | money
+      assign url         = product.url | within: collection
+      assign day_trial = product.metafields.c_f.day_trial 
     %}
     <div class="card card-app">
-      <div class="card__header">
-        <div class="image">
-          {% render 'image-style' image: image %}
+      <div class="card__warpper">
+        <div class="card__header">
+          <a href="{{url}}">
+            <div class="image">
+              {% render 'image-style' image: image %}
+            </div>
+            <div class="card__name">
+              <span>{{product.title}}</span>
+            </div>
+          </a>
         </div>
-        <div class="card__name">
-          <span>{{product.title}}</span>
+        <div class="card__description">
+          <span>{{description}}</span>
+        </div>
+        <div class="card__price">
+          {%- if product.price == 0 -%}
+            <span>{{ 'card.app.free' | t}}</span>
+          {%- else -%}
+            <span>{{ 'card.app.price' | t: price: price, day: day_trial}}</span>
+          {%- endif -%}
         </div>
       </div>
-      <div class="card__description">
-        <span>{{description}}</span>
-      </div>
-      <div class="card_price">
+      <div class="card__button">
+        <a href="{{url}}" class="w-100 text-center btn btn-2">{{ 'card.app.install' | t}}</a>
       </div>
     </div>
 {%- endcase -%}

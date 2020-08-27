@@ -5401,6 +5401,7 @@ var tns = function(options) {
 
 var AT = {
   initTinySlider: function initTinySlider(container) {
+    console.trace();
     var config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
     var sliderContainer = container.querySelector(".js-tns");
     var controlsContainer = sliderContainer.nextElementSibling;
@@ -5522,11 +5523,13 @@ var Header = {
           document.body.classList.remove("sidebar-mobile-show");
           btnMenu.classList.remove("show");
           menuMobileContainer.classList.remove("show");
+          document.body.classList.remove("popup-is-showing");
           isComplete = true;
         } else {
           document.body.classList.add("sidebar-mobile-show");
           btnMenu.classList.add("show");
           menuMobileContainer.classList.add("show");
+          document.body.classList.add("popup-is-showing");
           isComplete = true;
         }
       }
@@ -5535,6 +5538,7 @@ var Header = {
       document.body.classList.remove("sidebar-mobile-show");
       btnMenu.classList.remove("show");
       menuMobileContainer.classList.remove("show");
+      document.body.classList.remove("popup-is-showing");
     });
   },
   handleCollapse: function handleCollapse() {
@@ -5605,33 +5609,22 @@ var Header = {
       } else {
         if (elmSearchMobile.classList.contains("show")) {
           elmSearchMobile.classList.remove("show");
+          document.body.classList.remove("popup-is-showing");
         } else {
           elmSearchMobile.classList.add("show");
+          document.body.classList.add("popup-is-showing");
           inputSearchMobile.focus();
         }
       }
     });
     btnCloseSearch.addEventListener("click", function () {
       headerDesktop.classList.remove("search-show");
+      document.body.classList.remove("popup-is-showing");
     });
     btnCloseSearchMobile.addEventListener("click", function () {
       elmSearchMobile.classList.remove("show");
+      document.body.classList.remove("popup-is-showing");
     });
-  }
-};
-var IconsBox = {
-  onLoad: function onLoad() {
-    this.tns = _arn.initTinySlider(this.container);
-  }
-};
-var FeaturedCollection = {
-  onLoad: function onLoad() {
-    this.tns = _arn.initTinySlider(this.container);
-  }
-};
-var LogoList = {
-  onLoad: function onLoad() {
-    this.tns = _arn.initTinySlider(this.container);
   }
 };
 var Footer = {
@@ -5844,11 +5837,36 @@ var CollectionThemes = {
     btnOpen.addEventListener("click", function () {
       sidebarContainer.classList.add("show");
       document.body.style.overflow = "hidden";
+      document.body.classList.add("popup-is-showing");
     });
 
     toConsumableArray_default()(btnClose).forEach(function (btn) {
       btn.addEventListener("click", function () {
         sidebarContainer.classList.remove("show");
+        document.body.classList.remove("popup-is-showing");
+        document.body.style.overflow = "";
+      });
+    });
+  }
+};
+var CollectionApps = {
+  onLoad: function onLoad() {
+    this.handleSidebar();
+  },
+  handleSidebar: function handleSidebar() {
+    var btnOpen = document.getElementById("js-open-sidebar");
+    var btnClose = document.getElementsByClassName("js-close-sidebar");
+    var sidebarContainer = document.getElementById("js-sidebar-container");
+    btnOpen.addEventListener("click", function () {
+      sidebarContainer.classList.add("show");
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("popup-is-showing");
+    });
+
+    toConsumableArray_default()(btnClose).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        sidebarContainer.classList.remove("show");
+        document.body.classList.remove("popup-is-showing");
         document.body.style.overflow = "";
       });
     });
@@ -5871,9 +5889,9 @@ var CollectionThemes = {
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 window.addEventListener("DOMContentLoaded", function () {
-  register("icons-cart", IconsBox);
-  register("featured-collection", FeaturedCollection);
-  register("logo-list", LogoList);
+  // register("icons-cart", IconsBox);
+  // register("featured-collection", FeaturedCollection);
+  // register("logo-list", LogoList);
   register("header", Header);
   register("footer", Footer);
   register("support-template", SupportTemplate);
@@ -5881,6 +5899,7 @@ window.addEventListener("DOMContentLoaded", function () {
   register("about-template", AboutTemplate);
   register("partners-template", PartnersTemplate);
   register("collection-themes", CollectionThemes);
+  register("collection-apps", CollectionApps);
   load("*");
   document.body.classList.contains("template-customers-login") && CustomerLayout();
   _arn.initTNS();
