@@ -1,13 +1,13 @@
 {%- case block.type -%}
-  {%- when 'hero-banner' -%}
+  {%- when 'hero_banner' -%}
     {% liquid 
-      assign text_1 = block.settings.text_1
+      assign text_1 = block.settings.text_1 
       assign text_2 = block.settings.text_2
       assign text_3 = block.settings.text_3
       assign image  = block.settings.image
     %}
-    <div class="hero-banner">
-      <div class="hero-banner__wrapper">
+    <div class="careers-banner">
+      <div class="careers-banner__wrapper">
         <div class="textbox">
           <div class="text-1">
             <span>{{text_1}}</span>
@@ -19,9 +19,159 @@
             <span>{{text_3}}</span>
           </div>
         </div>
-        <div class="image">
-          {% render 'image-style' image: image  %}
+        <div class="d-none d-lg-block image-desktop">
+          {% render 'image-style' image: image_desktop  %}
+        </div>
+        <div class="d-lg-none image-mobile">
+          {% render 'image-style' image: image_mobile  %}
         </div>
       </div>
     </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'custom_content' -%}
+    {% liquid 
+      assign image_desktop   = block.settings.image_desktop
+      assign image_mobile    = block.settings.image_mobile
+      assign heading         = block.settings.heading
+      assign paragraph_1     = block.settings.paragraph_1
+      assign paragraph_2     = block.settings.paragraph_2
+      assign bg_color        = block.settings.bg_color
+      assign image_margin    = block.settings.image_margin
+      assign align_top       = block.settings.align_top
+      assign item_on_mobile  = block.settings.item_on_mobile
+      assign image_max_width = block.settings.image_max_width
+      assign list_type       = block.settings.list_type
+      assign two_column      = block.settings.two_column
+      assign align_middle    = block.settings.align_middle
+    %}
+
+    <div class="hero-banner" data-block-id="{{block.id}}"  {{block.shopify_attributes}}>
+      <div class="hero-banner__wrapper">
+        <div class="d-flex hero-banner__content">
+          <div class="d-none d-lg-block hero-banner__image-desktop">
+            <div class="image">
+              {% render 'image-style' image: image_desktop  %}
+            </div>
+          </div>
+          <div class="hero-banner__text-box">
+            <div class="heading">
+              <h3>{{heading}}</h3>
+            </div>
+            <div class="paragraph-1">
+              <span>{{paragraph_1}}</span>
+            </div>
+            <div class="paragraph-2">
+              {{paragraph_2}}
+            </div>
+            <div class="d-lg-none image">
+              {% render 'image-style'  image: image_mobile %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      {%- if image_margin != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          margin: {{image_margin}};
+        }
+      {%- endif -%}
+      {%- if image_max_width != blank -%}
+        .hero-banner[data-block-id="{{block.id}}"] .hero-banner__wrapper .hero-banner__image-desktop{
+          max-width: {{image_max_width}};
+        }
+      {%- endif -%}
+    </style>
+  {% comment %} end {% endcomment %}
+  {%- when 'icons_box' -%}
+    {% liquid 
+      assign heading    = block.settings.heading
+      assign subheading = block.settings.subheading
+    %}
+    <div class="icons-cart" {{block.shopify_attributes}}>
+      {% if layout == 'boxed' %} <div class="container"> {%- endif -%}  
+        <div class="icons-cart__wrapper">
+          <div class="icons-cart__heading">
+            <div class="heading">
+              <span>{{heading}}</span>
+            </div>
+            <div class="subheading">
+              <span>{{subheading}}</span>
+            </div>
+          </div>
+          <div class ="icons-cart__list">
+            <div class ="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"disable":true}}}'>
+              {%- for i in (1..6) -%}
+                {% liquid 
+                  assign block_url = 'block_url_' | append: i
+                  assign icon_html = 'icon_' | append: i
+                  assign title     = 'block_title_' | append: i
+                  assign subtitle     = 'block_subtitle_' | append: i
+                %}
+                <div class="icons-cart__item">
+                  <a href="{{block.settings[block_url] | default: 'javascript:void(0)'}}">
+                    <div class="wrapper">
+                      <div class="icon_box">
+                        {{block.settings[icon_html]}}
+                      </div>
+                      <div class="title">
+                        <span>{{block.settings[title]}}</span> 
+                      </div>
+                      <div class="subtitle">
+                        <span>{{block.settings[subtitle]}}</span> 
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {%- endfor -%}
+            </div>
+            <div class="js-tns-controls section-{{section.id}} d-none">
+              <div class="btn-prev">
+                {% render 'svg', type: 'angle-left'  %}
+              </div>
+              <div class="btn-next">
+                {% render 'svg', type: 'angle-right'  %}
+              </div>
+            </div>
+          </div>
+          {%- if btn_title != blank -%}
+            <div class="icons-cart__button">
+              <a href="{{btn_url | default : 'javascript:void(0)'}}" class="btn btn-1">
+                <span>{{btn_title}}</span>
+                {%- include 'svg', type: 'angle-right' -%}
+              </a>
+            </div>
+          {%- endif -%}
+        </div>
+      {% if layout == 'boxed' %} </div> {%- endif -%}
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'blog_posts' -%}
+    {% liquid 
+      assign title = block.settings.block_title 
+      assign subtitle = block.settings.block_subtitle 
+    %}
+    <div class="blog-posts__list">
+      <div class="heading text-center">
+        <div class="title"> 
+          <h3>{{title}}</h3>
+        </div>
+        <div class="subtitle">
+          <span>{{subtitle}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-lg-8">
+          <div class="blog-posts__list__content">
+            {%- for article in blog.articles -%}
+              <article class="blog-posts__item">
+                {% render 'card-template' type: 'career-large', article: article %}
+              </article>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
 {%- endcase -%}

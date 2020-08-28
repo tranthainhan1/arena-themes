@@ -67,4 +67,79 @@
         <a href="{{url}}" class="w-100 text-center btn btn-2">{{ 'card.app.install' | t}}</a>
       </div>
     </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'career-large' -%} 
+    {% liquid 
+      assign nowTimestamp = 'now' | date: '%s'
+      assign dateStart    = article.published_at | date: '%s'
+      assign diffSeconds  = nowTimestamp | minus: dateStart
+      assign title        = article.title
+      assign url          = article.url
+    %}
+    {%- capture post_ago -%}
+      {%- if diffSeconds > 86400-%}
+
+        {%- assign day = diffSeconds | divided_by: 3600 | divided_by: 24 -%}
+        {%- if day > 1 -%}
+          {{ 'card.career.days_post_ago' | t: days: day}}
+        {%- else -%}
+          {{ 'card.career.day_post_ago' | t: day: day}}
+        {%- endif -%}
+
+      {%- elsif diffSeconds > 3600 -%}
+
+        {%- assign hour = diffSeconds | divided_by: 3600 -%}
+        {%- if hour > 1 -%}
+          {{ 'card.career.hours_post_ago' | t: hours: hour}}
+        {%- else -%}
+          {{ 'card.career.hour_post_ago' | t: hour: hour}}
+        {%- endif -%}
+
+      {%- elsif diffSeconds > 60 -%}
+
+        {%- assign minute = diffSeconds | divided_by: 60 -%}
+        {%- if minute > 1 -%}
+          {{ 'card.career.minutes_post_ago' | t: minutes: minute}}
+        {%- else -%}
+          {{ 'card.career.minute_post_ago' | t: minute: minute}}
+        {%- endif -%}
+
+      {%- else -%}
+      
+        {%- assign second = diffSeconds -%}
+        {%- if second > 1 -%}
+          {{ 'card.career.seconds_post_ago' | t: seconds: second}}
+        {%- else -%}
+          {{ 'card.career.second_post_ago' | t: second: second}}
+        {%- endif -%}
+
+      {%- endif -%}
+    {%- endcapture -%}
+
+    <div class="card card-career">
+      <div class="card__tags">
+        {%- for tag in article.tags -%}
+          {% liquid 
+            assign tag_title = tag | split: '_' | last
+            assign badge_type =  tag | split: '_' | first
+          %}
+          <div class="badge {{badge_type}}">
+            <span>{{tag_title}}</span> 
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="card__post-ago">
+        <span>{{post_ago}}</span>
+      </div>
+      <div class="card__title">
+        <h5>
+          <a href="{{url}}">{{title}}</a>
+        </h5>
+        <a href="{{url}}" class="btn">
+          {{ 'card.career.btn' | t}}
+          {% render 'svg' type: 'angle-right' %}
+        </a>
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
 {%- endcase -%}

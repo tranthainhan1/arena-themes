@@ -3,13 +3,13 @@
   assign features_count = 0 
 %}
 
-<div class="product" data-section-id="product" data-section-type="product-theme">
+<div class="product product-page" data-section-id="product" data-section-type="product-theme">
   <div class="container">
     <div class="product__wrapper">
       <div class="d-none d-lg-block">
         {% render 'breadcrumb-snippets' type: 'themes' %}
       </div>
-      <div class="product__block">
+      <div class="product__block__detail">
         <div class="product-detail">
           <div class="product-detail__content">
             <div class="title">
@@ -30,20 +30,20 @@
                 {%- for option in product.options -%}
                   <div class="swatch">
                   <label for="product_style">{{ option }}</label>
-                  <select name="id" id="product_style">
-                    {%- for variant in product.variants -%}
-                      <option value="{{variant.id}}">{{variant.title}}</option>
-                    {%- endfor -%}
-                  </select>
+                  <div class="select-group">
+                    <select name="id" id="product_style">
+                      {%- for variant in product.variants -%}
+                        <option value="{{variant.id}}">{{variant.title}}</option>
+                      {%- endfor -%}
+                    </select>
+                    {% render 'svg' type: 'angle-down' %}
+                  </div>
                 </div>
                 {%- endfor -%}
                 
-                <button class="btn btn-2">{{ 'product_template.themes.buy_theme' | t}}</button>
-                <button class="btn btn-2">{{ 'product_template.themes.view_demo' | t}}</button>
+                <button class="btn btn-2 btn-buy">{{ 'product_template.themes.buy_theme' | t}}</button>
+                <button class="btn btn-2 btn-view-more">{{ 'product_template.themes.view_demo' | t}}</button>
               </form>
-            </div>
-            <div class="product-variant">
-              <span>{{'product_template.themes.total_variant' | t: count: product.metafields.c_f.total_variant}}</span>
             </div>
           </div>
           <div class="product-image">
@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-      <div class="product__block">
+      <div class="product__block__features">
         <div class="product-features">
           <div class="product-features__header">
             <div class="title">
@@ -70,7 +70,7 @@
                 {%- assign svg = 'product_icon_box_' | append: i -%}
               {%- if product.metafields.c_f[icon] -%}
                 {%- assign features_count = features_count | plus: 1 -%}
-                <div class="col-6 col-sm-4 col-md-3 col-lg-5th {% if i > 10 %}d-none d-lg-block{%- endif -%}">
+                <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-5th {% if i > 10 %}d-none d-md-block{%- endif -%}">
                   <div class="text-center product-features__item">
                     {% render 'svg' type: svg %}
                     {%- assign features_index  = i | minus: 1  -%}
@@ -81,13 +81,13 @@
               {%- endfor -%}
             </div>
             {%- if features_count > 10 -%}
-              <div class="d-lg-none js-collapse collapse">
+              <div class="d-sm-none js-collapse collapse">
                 <div class="row">
                   {%- for i in (11..20) -%}
                     {%- assign icon = 'icon_box_' | append: i -%}
                     {%- assign svg = 'product_icon_box_' | append: i -%}
                   {%- if product.metafields.c_f[icon] -%}
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-5th">
+                    <div class="col-6 col-sm-4 col-md-4 col-lg-5th">
                       <div class="text-center product-features__item">
                         {% render 'svg' type: svg %}
                         {%- assign features_index  = i | minus: 1  -%}
@@ -98,7 +98,7 @@
                   {%- endfor -%}
                 </div>
               </div>
-              <div class="d-lg-none btn-view-more js-toggle-collapse">
+              <div class="d-sm-none btn-view-more js-toggle-collapse">
                 <span>{{'button.view_more' | t}}</span>
                 {% render 'svg' type: 'angle-down' %}
                 {% render 'svg' type: 'angle-up' %}
@@ -107,7 +107,7 @@
           </div>
         </div>
       </div>
-      <div class="product__block">
+      <div class="product__block__mode">
         <div class="product-mode">
           <div class="product-mode__header">
             <div class="title">
@@ -128,7 +128,7 @@
           </div>
         </div>
       </div>
-      <div class="product__block">
+      <div class="product__block__related">
         <div class="product-related">
           <div class="featured-collection">
             {% if layout == 'boxed' %} <div class="container"> {%- endif -%}

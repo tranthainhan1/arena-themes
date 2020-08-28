@@ -199,6 +199,17 @@
       "free": "Free",
       "price": "From {{price}}/month, {{day}}-day free trial.",
       "install": "Install App"
+    },
+    "career": {
+      "days_post_ago": "Post {{days}} days ago",
+      "day_post_ago": "Post {{day}} day ago",
+      "hours_post_ago": "Post {{hours}} hours ago",
+      "hour_post_ago": "Post {{hour}} hour ago",
+      "minutes_post_ago": "Post {{minutes}} minutes ago",
+      "minute_post_ago": "Post {{minute}} minute ago",
+      "seconds_post_ago": "Post {{seconds}} seconds ago",
+      "second_post_ago": "Post {{second}} second ago",
+      "btn": "Read more"
     }
   }
 }

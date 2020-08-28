@@ -3,6 +3,8 @@
     {%- assign title = 'Shopify Themes' -%}
   {%- when 'apps' -%}
     {%- assign title = 'Shopify Apps' -%}
+  {%- when 'blog' -%}
+    {%- assign title = 'Company' -%}
 {%- endcase -%}
 <div class="wrapper_breadcrumb">
   <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
@@ -13,7 +15,13 @@
         <a href="{{collection.url}}">{{title}}</a>
       {%- endif -%}
       <span aria-hidden="true"> ></span>
-      <span>{{ product.title }}</span>
+      <span>{{ page_title }}</span>
+    {% endif %}
+    
+    {% if template contains 'article' %}
+      <a href="{{blog.url}}">{{blog.title}}</a>
+      <span aria-hidden="true"> ></span>
+      <span>{{ page_title }}</span>
     {% endif %}
   </nav>
 </div>

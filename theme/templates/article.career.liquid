@@ -1,0 +1,27 @@
+<div class="article article-career">
+  <div class="container">
+    <div class="d-none d-lg-block">
+      {% render 'breadcrumb-snippets' type: 'blog', blog: blog %}
+    </div>
+    <div class="d-flex article__tags">
+      {%- for tag in article.tags -%}
+        {%- assign tag_title = tag | split: '_' | last -%}
+        {%- assign badge_style = tag | split: '_' | first -%}
+        <div class="badge {{badge_style}}">
+          <span>{{tag_title}}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="row">
+      <div class="col-12 col-lg-8">
+        <article>
+          <div class="title">
+            <h2>{{article.title}}</h2>
+          </div>
+          <div class="content">{{article.content}}</div>
+        </article>
+      </div>
+      <div class="col-12 col-lg-4"></div>
+    </div>
+  </div>
+</div>
