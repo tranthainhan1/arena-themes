@@ -1,11 +1,10 @@
 {% liquid 
-  assign layout = section.settings.layout
   assign align_top = section.settings.align_top
 %}
 
 
 <div class="custom-content" data-section-id="{{section.id}}" data-section-type="custom-content">
-  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+  <div class="container">
     <div class="custom-content__wrapper {% if align_top %}align-top{%- endif -%}">
       <div class="custom-content__content">
         <div class="row">
@@ -26,5 +25,5 @@
         </div>
       </div>
     </div>
-  {% if layout == 'boxed' %} </div> {%- endif -%}
+  </div>
 </div>

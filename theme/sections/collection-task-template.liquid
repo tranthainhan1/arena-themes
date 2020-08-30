@@ -1,0 +1,284 @@
+{% liquid 
+  assign custom_content_title = section.settings.custom_content_title
+  assign paragraph_1          = section.settings.paragraph_1
+  assign paragraph_2          = section.settings.paragraph_2
+  assign image_mobile         = section.settings.image_mobile
+  assign image_desktop        = section.settings.image_desktop
+  assign collection_title     = section.settings.collection_title
+  assign collection_subtitle  = section.settings.collection_subtitle
+  assign icons_box_title      = section.settings.icons_box_title
+  assign icons_box_subtitle   = section.settings.icons_box_subtitle
+  assign logo_list_title      = section.settings.logo_list_title
+  assign logo_list_subtitle   = section.settings.logo_list_subtitle
+%}
+{%- capture icon_list -%}{%- endcapture-%}  
+{%- capture logo_list -%}{%- endcapture-%}
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when 'icon_item' -%}
+      {% liquid 
+        assign icon_svg = block.settings.icon_svg
+        assign icon_label = block.settings.icon_label
+      %}
+      {%- capture icon_item -%}
+        <div class="icons-cart__item" {{block.shopify_attributes}}>
+          {{icon_svg}}
+          <span>{{icon_label}}</span>
+        </div>
+      {%- endcapture -%}
+
+      {%- assign icon_list = icon_list | append: icon_item -%}
+    {% comment %} end {% endcomment %}
+    {%- when 'logo_item' -%}
+      {% liquid 
+        assign image = block.settings.image
+        assign url = block.settings.url | default: 'javascript:void(0)'
+      %}
+
+      {%- capture logo_item -%}
+        <div class="col-6 col-lg-5th logo-list__item">
+          <a href="{{url}}" class="image">
+            {% render 'image-style' image: image %}
+          </a>
+        </div>
+      {%- endcapture -%}
+      {%- assign logo_list = logo_list | append: logo_item -%}
+  {%- endcase -%}
+{%- endfor -%}
+<div class="collection collection-task">
+  <div class="container">
+    <div class="d-none d-lg-block">
+      {% render 'breadcrumb-snippets' type: 'collection-task'  %}
+    </div>
+    
+    <div class="custom-content">
+      <div class="custom-content__wrapper">
+        <div class="custom-content__text">
+          <div class="heading">
+            <span>{{custom_content_title}}</span>
+          </div>
+          <div class="d-lg-none image">
+            {% render 'image-style' image: image_mobile %}
+          </div>
+          <div class="paragrap-1">
+            <span>{{paragraph_1}}</span>
+          </div>
+          <div class="paragrap-2">
+            <span>{{paragraph_2}}</span>
+          </div>
+        </div>
+        <div class="custom-content__image">
+          <div class="d-none d-lg-block image">
+            {% render 'image-style' image: image_desktop %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collection-list">
+      <div class="collection-list__wrapper">
+        <div class="heading text-center">
+          <div class="title">
+            <h3>{{collection_title}}</h3>
+          </div>
+          <div class="subtitle">
+            <span>{{collection_subtitle}}</span>
+          </div>
+        </div>
+        <div class="row collection-list__content">
+          {%- assign length = shop.metafields.c_f.collection_image.size | minus: 1 -%}
+
+          {%- for i in (0..length) -%}
+            {% liquid 
+              assign handle = shop.metafields.c_f.collection_list[i] 
+              assign collection_item =  collections[handle]
+              assign svg =  shop.metafields.c_f.collection_image[i]
+              assign label =  shop.metafields.c_f.collection_label[i]
+            %}
+            <div class="col-6 col-sm-4 col-md-3 collection-list__item">
+              <a href="{{collection_item.url | default: 'javascript:void(0)'}}" class="d-flex text-center">
+                {{svg}}
+                <span>{{label}}</span>
+              </a>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="icons-cart">
+      <div class="icons-cart__wrapper">
+        <div class="icons-cart__heading text-center">
+          <div class="heading">
+            <span>{{icons_box_title}}</span>
+          </div>
+          <div class="subheading">
+            <span>{{icons_box_subtitle}}</span>
+          </div>
+        </div>
+        <div class ="icons-cart__list">
+          <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4}}}'>
+            {{icon_list}}
+          </div>
+          <div class="js-tns-controls section-{{section.id}} d-none">
+            <div class="btn-prev">
+              {% render 'svg', type: 'angle-left'  %}
+            </div>
+            <div class="btn-next">
+              {% render 'svg', type: 'angle-right'  %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="logo-list">
+      <div class="logo-list__wrapper">
+        <div class="logo-list__title section_title-wrapper">
+          <div class="heading">
+            <div class="title">
+              <h2>{{logo_list_title}}</h2>
+            </div>
+            <div class="subtitle">
+              <span>{{logo_list_subtitle}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row logo-list__list">
+          {{logo_list}}
+        </div> 
+      </div>
+    </div>  
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Task Template",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Custom Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Text settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_content_title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "paragraph_1",
+      "label": "Paragraph 1"
+    },
+    {
+      "type": "html",
+      "id": "paragraph_2",
+      "label": "Paragraph 2 (Custom HTML)",
+      "info" : "If the content so long, you can use a collapsed content using a wrapper like this: <collapse> What you want collapse </collapse>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Image on desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image on mobile"
+    },
+    {
+      "type": "header",
+      "content": "Collection list"
+    },
+    {
+      "type": "text",
+      "id": "collection_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "collection_subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "paragraph",
+      "content": "Please use metafields to add item."
+    },
+    {
+      "type": "header",
+      "content": "Icons box"
+    },
+    {
+      "type": "text",
+      "id": "icons_box_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "icons_box_subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "paragraph",
+      "content": "To add a item, please add block 'Icon item'"
+    },
+    {
+      "type": "header",
+      "content": "Logo list"
+    },
+    {
+      "type": "text",
+      "id": "logo_list_title",
+      "label": "title"
+    },
+    {
+      "type": "text",
+      "id": "logo_list_subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "paragraph",
+      "content": "To add a item, please add block 'Logo item'"
+    }
+  ],
+  "blocks" : [
+    {
+      "type" : "icon_item",
+      "name" : "Icon item",
+      "settings" : [
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "SVG"
+        },
+        {
+          "type": "text",
+          "id": "icon_label",
+          "label": "Label"
+        }
+      ]
+    },
+    {
+      "type" : "logo_item",
+      "name" : "Logo item",
+      "settings" : [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type" : "url",
+          "id" : "url",
+          "label" : "URL"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
