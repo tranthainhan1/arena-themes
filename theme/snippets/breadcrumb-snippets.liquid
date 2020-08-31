@@ -5,7 +5,7 @@
     {%- assign title = 'Shopify Apps' -%}
   {%- when 'blog' -%}
     {%- assign title = 'Company' -%}
-  {%- when 'collection-task' -%}
+  {%- when 'task' -%}
     {%- assign title = 'Shopify Services' -%}
 {%- endcase -%}
 <div class="wrapper_breadcrumb">
@@ -27,18 +27,12 @@
     {% endif %}
 
     {% if template contains 'collection' %}
-      
-      
-
-      {%- if collection.metafields.c_f.parent != blank -%}
-
-        {%- assign collection_parent = collections[collection.metafields.c_f.parent] -%}
+      {%- if collection.metafields.c_f.collection_parent != blank -%}
+        {%- assign collection_parent = collections[collection.metafields.c_f.collection_parent] -%}
         <a href="{{collection_parent.url}}">{{collection_parent.title}}</a>
         <span aria-hidden="true"> ></span>
-        <a href="{{blog.url}}">{{blog.title}}</a>
-        <span>{{ page_title }}</span>
+        <span>{{page_title}}</span>
       {%- else -%}
-        <a href="{{blog.url}}">{{blog.title}}</a>
         <span>{{ page_title }}</span>
       {%- endif -%}
     {% endif %}

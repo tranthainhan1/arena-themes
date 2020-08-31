@@ -27,7 +27,7 @@
         <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":35},"1052":{"items":4,"gutter":30},"1440":{"items":5}}}'>
           {%- for product in collection.products -%}
               <div class="featured-collection__item">
-                {%- render 'card-template', type: 'product', product: product -%}
+                {%- render 'card-template', type: 'product', product: product, collection: collection -%}
               </div>
           {%- endfor -%}
         </div>

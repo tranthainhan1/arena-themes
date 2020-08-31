@@ -131,40 +131,38 @@
       <div class="product__block__related">
         <div class="product-related">
           <div class="featured-collection">
-            {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
-              <div class="featured-collection__wrap">
-                <div class="featured-collection__title text-{{text_align}} section_title-wrapper">
-                  <div class="heading section_title-text-1">
-                    <span class="content">{{ 'product_template.themes.related.title' | t}}</span>
-                  </div>
+            <div class="featured-collection__wrap">
+              <div class="featured-collection__title text-{{text_align}} section_title-wrapper">
+                <div class="heading section_title-text-1">
+                  <span class="content">{{ 'product_template.themes.related.title' | t}}</span>
                 </div>
-                <div class="featured-collection__content">
-                  <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":35},"1052":{"items":4,"gutter":30},"1440":{"items":5}}}'>
-                    {%- for p in collection.products -%}
-                        {%- if p.id != product.id -%}
-                          <div class="featured-collection__item">
-                            {%- render 'card-template', type: 'product', product: p -%}
-                          </div>
-                        {%- endif -%}
-                    {%- endfor -%}
-                  </div>
-                  <div class="js-tns-controls section-{{section.id}} d-none">
-                    <div class="btn-prev">
-                      {% render 'svg', type: 'angle-left'  %}
-                    </div>
-                    <div class="btn-next">
-                      {% render 'svg', type: 'angle-right'  %}
-                    </div>
-                  </div>
-                </div>
-                {%- if text_under_content != blank -%}
-                  <div class="featured-collection__text-under text-{{text_under_align}}">
-                    <span>{{linking_words}}</span>
-                    <a href="{{text_under_url | default: 'javascript:void(0)'}}">{{text_under_content}}</a>
-                  </div>
-                {%- endif -%}
               </div>
-            {% if layout == 'boxed' %} </div> {%- endif -%}
+              <div class="featured-collection__content">
+                <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":35},"1052":{"items":4,"gutter":30},"1440":{"items":5}}}'>
+                  {%- for p in collection.products -%}
+                      {%- if p.id != product.id -%}
+                        <div class="featured-collection__item">
+                          {%- render 'card-template', type: 'product', product: p -%}
+                        </div>
+                      {%- endif -%}
+                  {%- endfor -%}
+                </div>
+                <div class="js-tns-controls section-{{section.id}} d-none">
+                  <div class="btn-prev">
+                    {% render 'svg', type: 'angle-left'  %}
+                  </div>
+                  <div class="btn-next">
+                    {% render 'svg', type: 'angle-right'  %}
+                  </div>
+                </div>
+              </div>
+              {%- if text_under_content != blank -%}
+                <div class="featured-collection__text-under text-{{text_under_align}}">
+                  <span>{{linking_words}}</span>
+                  <a href="{{text_under_url | default: 'javascript:void(0)'}}">{{text_under_content}}</a>
+                </div>
+              {%- endif -%}
+            </div>
           </div>
         </div>
       </div>

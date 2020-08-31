@@ -1,0 +1,70 @@
+{% liquid 
+  assign image = section.settings.image
+  assign title = section.settings.title
+%}
+<div class="faq" data-section-id="{{section.id}}">
+  <div class="container">
+    <div class="faq__wrapper">
+      <div class="d-none d-lg-block image">
+        {% render 'image-style' image: image  %}
+      </div>
+      <div class="faq__content">
+        <div class="title">
+          <span>{{title}}</span>
+        </div>
+        {%- for block in section.blocks -%}
+          {% liquid 
+            assign question = block.settings.question
+            assign answer = block.settings.answer
+          %}
+          <div class="faq__item">
+            <div class="js-btn-collapse question {% if forloop.first %}show{%- endif -%}">
+              <div class="title"><span>{{question}}</span></div>
+              {% render 'svg' type: 'angle-down' %}
+              {% render 'svg' type: 'angle-up' %}
+            </div>
+            <div class="js-collapse answer {% if forloop.first %}show{%- endif -%}">
+              <span>{{answer}}</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name" : "FAQs",
+    "tag" : "section",
+    "settings" : [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }
+    ],
+    "blocks" : [
+      {
+        "type" : "question_and_answer",
+        "name" : "Question and answer",
+        "settings" : [
+          {
+            "type": "text",
+            "id": "question",
+            "label": "Question"
+          },
+          {
+            "type": "html",
+            "id": "answer",
+            "label": "Answer"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

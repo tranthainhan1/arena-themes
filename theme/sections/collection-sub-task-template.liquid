@@ -1,41 +1,39 @@
-{% liquid 
-  assign banner_title = section.settings.banner_title 
-  assign banner_subtitle = section.settings.banner_subtitle 
-%}
-
-<div class="collection collection-{{collection.handle}}" data-section-id="{{section.id}}" data-section-type="collection-apps">
+<div class="collection collection-sub-task" data-section-id="{{section.id}}" data-section-type="collection-sub-task">
   <div class="container">
-    <div class="banner">
-      <div class="banner__wrapper">
-        <div class="text-lg-center textbox">
+    <div class="d-none d-lg-block">
+      {% render 'breadcrumb-snippets' type: 'task'  %}
+    </div>
+
+    <div class="related-collection">
+      <div class="related-collection__wrapper">
+        <div class="heading">
           <div class="title">
-            <h1>{{banner_title}}</h1>
+            <h3>{{collection.title}}</h3>
           </div>
           <div class="subtitle">
-            <span>{{banner_subtitle}}</span>
+            <span>{{collection.description}}</span>
           </div>
-          <div class="textbox__search">
-            <div class="input-group">
-              <input type="text" placeholder="{{ 'collection_template.apps.search.placeholder' | t}}">
-              {% render 'svg' type: 'search' %}
+        </div>
+        <div class="row related-collection__list">
+          {% liquid 
+            assign collection_parent =  collection.metafields.c_f.collection_parent
+            if collection_parent != blank
+              assign realted_collection = collections[collection_parent].metafields.c_f.collection_child | split: '|'
+            else 
+              assign realted_collection = shop.metafields.global_related_collection | split: '|'
+            endif
+          %}
+          
+          {%- for handle in realted_collection -%}
+            <div class="col-6 col-lg-2 d-flex related-collection__item">
+              {{collections[handle].metafields.c_f.collection_svg}}
+              <span>{{collections[handle].title}}</span>
             </div>
-            {% comment %} 
-              <div class="result">
-                <div class="no-result">
-                  <div class="title">
-                    <span>{{ 'search.no_result.title' | t}}</span>
-                  </div>
-                  <div class="subtitle">
-                    <span>{{ 'search.no_result.subtitle' | t}}</span>
-                  </div>
-                </div>
-              </div>
-            {% endcomment %}
-          </div>
+          {%- endfor -%}
         </div>
       </div>
     </div>
-    
+
     <div class="row">
       <div class="col-12 col-lg-3 sidebar" id="js-sidebar-container">
         <div class="d-lg-none sidebar_header">
@@ -43,7 +41,7 @@
             <span>{{ 'collection_template.themes.filter' | t}}</span>
             <a href="javascript:void(0)" class="js-close-sidebar">
               {% render 'svg' type: 'close' %}
-            </a>
+            </a> 
           </div>
           <div class="sort-by">
             <label for="sort_by">{{ 'collection_template.themes.sort_by' | t}}</label>
@@ -143,10 +141,10 @@
         <div class="toolbar">
           <div class="toolbar_right">
             <div class="pagination-showing">    
-              {%- if collection.all_products_count > 15  -%}
-                <span>{{ 'collection_template.apps.pagination.showing' | t: count: collection.all_products_count}}</span>
+              {%- if collection.all_products_count > 10  -%}
+                <span>{{ 'collection_template.tasks.pagination.showing' | t: count: collection.all_products_count}}</span>
               {%- else -%}
-                <span>{{ 'collection_template.apps.pagination.showing_all' | t: count: collection.all_products_count}}</span>
+                <span>{{ 'collection_template.tasks.pagination.showing_all' | t: count: collection.all_products_count}}</span>
               {%- endif -%}
             </div>
 
@@ -165,11 +163,12 @@
           </div>
         </div>
         <div class="product-grid__wrapper">
-          {% paginate collection.products by 15 %}
+          {% paginate collection.products by 10 %} 
+          <script>console.log({{collection.products | json}})</script>
             <div class="row">
                 {%- for product in collection.products -%}
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4">
-                    {% render 'card-template' type: 'app', product: product  %}
+                  <div class="col-12">
+                    {% render 'card-template' type: 'sub-task', product: product  %}
                   </div>
                 {%- endfor -%}
             </div>
@@ -183,24 +182,24 @@
     </div>
   </div>
 </div>
-
+ 
 {% schema %}
   {
-    "name" : "Collection Apps",
+    "name" : "Collection Sub-Task",
     "tag" : "section",
     "settings" : [
       {
         "type": "header",
-        "content": "Banner"
+        "content": "Section Related Collection"
       },
       {
         "type": "text",
-        "id": "banner_title",
+        "id": "related_title",
         "label": "Title"
       },
       {
         "type": "text",
-        "id": "banner_subtitle",
+        "id": "related_subtitle",
         "label": "Subtitle"
       }
     ],

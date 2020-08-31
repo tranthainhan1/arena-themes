@@ -5872,6 +5872,29 @@ var CollectionApps = {
     });
   }
 };
+var CollectionSubTask = {
+  onLoad: function onLoad() {
+    this.handleSidebar();
+  },
+  handleSidebar: function handleSidebar() {
+    var btnOpen = document.getElementById("js-open-sidebar");
+    var btnClose = document.getElementsByClassName("js-close-sidebar");
+    var sidebarContainer = document.getElementById("js-sidebar-container");
+    btnOpen.addEventListener("click", function () {
+      sidebarContainer.classList.add("show");
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("popup-is-showing");
+    });
+
+    toConsumableArray_default()(btnClose).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        sidebarContainer.classList.remove("show");
+        document.body.classList.remove("popup-is-showing");
+        document.body.style.overflow = "";
+      });
+    });
+  }
+};
 
 // CONCATENATED MODULE: ./app/scripts/custom.js
 // import "lazysizes/plugins/unveilhooks/ls.unveilhooks";
@@ -5900,6 +5923,7 @@ window.addEventListener("DOMContentLoaded", function () {
   register("partners-template", PartnersTemplate);
   register("collection-themes", CollectionThemes);
   register("collection-apps", CollectionApps);
+  register("collection-sub-task", CollectionSubTask);
   load("*");
   document.body.classList.contains("template-customers-login") && CustomerLayout();
   _arn.initTNS();

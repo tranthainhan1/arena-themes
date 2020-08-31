@@ -13,6 +13,7 @@
 %}
 {%- capture icon_list -%}{%- endcapture-%}  
 {%- capture logo_list -%}{%- endcapture-%}
+
 {%- for block in section.blocks -%}
   {%- case block.type -%}
     {%- when 'icon_item' -%}
@@ -22,8 +23,10 @@
       %}
       {%- capture icon_item -%}
         <div class="icons-cart__item" {{block.shopify_attributes}}>
-          {{icon_svg}}
-          <span>{{icon_label}}</span>
+          <div class="icons-cart__item__wrapper">
+            {{icon_svg}}
+            <span>{{icon_label}}</span>
+          </div>
         </div>
       {%- endcapture -%}
 
@@ -45,10 +48,11 @@
       {%- assign logo_list = logo_list | append: logo_item -%}
   {%- endcase -%}
 {%- endfor -%}
+
 <div class="collection collection-task">
   <div class="container">
     <div class="d-none d-lg-block">
-      {% render 'breadcrumb-snippets' type: 'collection-task'  %}
+      {% render 'breadcrumb-snippets' type: 'task'  %}
     </div>
     
     <div class="custom-content">
@@ -86,17 +90,17 @@
           </div>
         </div>
         <div class="row collection-list__content">
-          {%- assign length = shop.metafields.c_f.collection_image.size | minus: 1 -%}
+          {%- assign collection_list = shop.metafields.c_f.collection_list | split: '|' -%}
 
-          {%- for i in (0..length) -%}
+          {%- for handle in collection_list -%}
             {% liquid 
-              assign handle = shop.metafields.c_f.collection_list[i] 
               assign collection_item =  collections[handle]
-              assign svg =  shop.metafields.c_f.collection_image[i]
-              assign label =  shop.metafields.c_f.collection_label[i]
+              assign label =  collection_item.title
+              assign url = collection_item.url 
+              assign svg = collection_item.metafields.c_f.collection_svg 
             %}
             <div class="col-6 col-sm-4 col-md-3 collection-list__item">
-              <a href="{{collection_item.url | default: 'javascript:void(0)'}}" class="d-flex text-center">
+              <a href="{{url | default: 'javascript:void(0)'}}" class="text-center">
                 {{svg}}
                 <span>{{label}}</span>
               </a>
@@ -178,8 +182,12 @@
     {
       "type": "html",
       "id": "paragraph_2",
-      "label": "Paragraph 2 (Custom HTML)",
-      "info" : "If the content so long, you can use a collapsed content using a wrapper like this: <collapse> What you want collapse </collapse>"
+      "label": "Paragraph list"
+    },
+    {
+      "type": "text",
+      "id": "show_item_paragraph_list",
+      "label": "Use for 'Paragaph list'"
     },
     {
       "type": "image_picker",

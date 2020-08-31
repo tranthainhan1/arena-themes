@@ -4,7 +4,8 @@
       assign text_1 = block.settings.text_1 
       assign text_2 = block.settings.text_2
       assign text_3 = block.settings.text_3
-      assign image  = block.settings.image
+      assign image_desktop  = block.settings.image_desktop
+      assign image_mobile  = block.settings.image_mobile
     %}
     <div class="careers-banner">
       <div class="careers-banner__wrapper">
@@ -19,10 +20,10 @@
             <span>{{text_3}}</span>
           </div>
         </div>
-        <div class="d-none d-lg-block image-desktop">
+        <div class="d-none d-lg-block image">
           {% render 'image-style' image: image_desktop  %}
         </div>
-        <div class="d-lg-none image-mobile">
+        <div class="d-lg-none image">
           {% render 'image-style' image: image_mobile  %}
         </div>
       </div>
@@ -101,7 +102,7 @@
             </div>
           </div>
           <div class ="icons-cart__list">
-            <div class ="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"disable":true}}}'>
+            <div class ="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.5,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"disable":true}}}'>
               {%- for i in (1..6) -%}
                 {% liquid 
                   assign block_url = 'block_url_' | append: i
@@ -161,17 +162,33 @@
           <span>{{subtitle}}</span>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-lg-8">
-          <div class="blog-posts__list__content">
-            {%- for article in blog.articles -%}
-              <article class="blog-posts__item">
-                {% render 'card-template' type: 'career-large', article: article %}
-              </article>
-            {%- endfor -%}
+      <div class="blog-posts__list__content">
+        {%- for article in blog.articles -%}
+          <article class="blog-posts__item">
+            {% render 'card-template' type: 'career-large', article: article %}
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  {% comment %} end {% endcomment %}
+  {%- when 'separator' -%}
+    {%- liquid
+      assign _bg_color = section.settings.bg_color | default: 'rgba(0,0,0,0)'
+    -%}
+    {%- capture content -%}
+      <div class="block-separator block-separator-{{ block.id }} block-{{block.id}}" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
+        <div class="container">
+
+          {%- capture separatorID -%}.block-{{block.id}} .spacing-{{block.id}}{%- endcapture -%}
+          <div class="separator spacing-{{block.id}}"{{block.shopify_attributes}}>
+            {%- capture block_css -%}{%- render 'css-resp', classID: separatorID, css_value: block.settings.height, css_property: 'height' -%}{%- endcapture -%}
+            {%- assign block_css = block_css | append: block_css -%}
           </div>
         </div>
       </div>
-    </div>
+    <style>.block-{{block.id}}{background-color:{{_bg_color}};}{{block_css}}</style>
+    {%- endcapture -%}
+    
+    {%- render 'compress', content: content -%}
   {% comment %} end {% endcomment %}
 {%- endcase -%}

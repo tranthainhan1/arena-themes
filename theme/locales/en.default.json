@@ -164,6 +164,12 @@
         "showing_all": "Show all {{count}} apps",
         "showing": "1-15 of {{count}} apps"
       }
+    },
+    "tasks": {
+      "pagination": {
+        "showing_all": "Show all {{count}} services",
+        "showing": "1-10 of {{count}} services"
+      }
     }
   },
   "product_template": {
@@ -210,6 +216,13 @@
       "seconds_post_ago": "Post {{seconds}} seconds ago",
       "second_post_ago": "Post {{second}} second ago",
       "btn": "Read more"
+    },
+    "task": {
+      "day_work": "Within {{day}} Day",
+      "days_work": "Within {{days}} Days",
+      "hours_work": "Within {{hours}} Hours",
+      "hour_work": "Within {{hour}} Hour",
+      "btn": "Add to cart"
     }
   }
 }

@@ -18,6 +18,7 @@ import {
   CollectionThemes,
   CustomerLayout,
   CollectionApps,
+  CollectionSubTask,
 } from "./AT_section";
 import AT from "./_arn";
 
@@ -36,6 +37,7 @@ window.addEventListener("DOMContentLoaded", () => {
   register("partners-template", PartnersTemplate);
   register("collection-themes", CollectionThemes);
   register("collection-apps", CollectionApps);
+  register("collection-sub-task", CollectionSubTask);
 
   load("*");
 
