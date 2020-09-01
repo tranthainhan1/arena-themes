@@ -13,11 +13,32 @@
     <a href="{{collection.url}}" class="title">{{title}}</a>
 
     {% if template contains 'product' %}
-      {%- if collection.url -%}
-        <a href="{{collection.url}}">{{title}}</a>
-      {%- endif -%}
-      <span aria-hidden="true"> ></span>
-      <span>{{ page_title }}</span>
+      {%- case type -%}
+        {%- when 'task' -%}
+          {% liquid 
+            assign handle = collection.metafields.c_f.collection_parent 
+            if handle != blank 
+              assign collection_parent = collections[handle] 
+            endif 
+          %}
+          {%- if collection_parent != blank -%}
+            <a href="{{collection_parent.url}}">{{collection_parent.title}}</a>
+            <span aria-hidden="true"> ></span>
+          {%- endif -%}
+
+          {%- if collection.url -%}
+            <a href="{{collection.url}}">{{collection.title}}</a>
+          {%- endif -%}
+          <span aria-hidden="true"> ></span>
+          <span>{{ page_title }}</span>  
+        {% comment %} end {% endcomment %}
+        {%- else -%}
+          {%- if collection.url -%}
+            <a href="{{collection.url}}">{{title}}</a>
+          {%- endif -%}
+          <span aria-hidden="true"> ></span>
+          <span>{{ page_title }}</span>  
+      {%- endcase -%}
     {% endif %}
     
     {% if template contains 'article' %}

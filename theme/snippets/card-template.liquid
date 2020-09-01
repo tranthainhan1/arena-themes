@@ -144,12 +144,12 @@
   {% comment %} end {% endcomment %}
   {%- when 'sub-task' -%}
     {% liquid 
-      assign title       = product.title
+      assign title = product.title
       if product.description contains '<short-desc>'
         assign shortDesc = product.description | split: '<short-desc>' | last | split: '</short-desc>' | first | append: '...'
       endif
-      assign price       = product.price | money | replace: '.00', ''
-      assign url = product.url | within : collection 
+      assign price      = product.price | money | replace: '.00', ''
+      assign url        = product.url | within : collection
       assign hours_work = product.metafields.c_f.hours_work | plus: 0
     %}
     <div class="card card-task">
@@ -193,7 +193,7 @@
             {%- endfor -%}
           </div>
           <div class="card__button">
-            <a href="#" class="btn btn-3">
+            <a href="{{url}}" class="btn btn-3">
               <span>{{ 'card.task.btn' | t}}</span>
               {% render 'svg' type: 'angle-right' %}
             </a>

@@ -1,0 +1,29 @@
+<div class="product product-task">
+  <div class="container">
+    <div class="product__wrapper">
+      <div class="d-none d-lg-block">
+        {% render 'breadcrumb-snippets' type: 'task' %}
+      </div>
+      <div class="product-detail">
+        <div class="product-description">
+          <div class="title">
+            <span>{{product.title}}</span>
+          </div>
+          <div class="description">
+            {{product.description | replace: '<short-desc>', '' | replace: '</short-desc>', ''| replace: '<short-desc-plan>', '' | replace: '</short-desc-plan>', ''}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name" : "Product Task",
+    "tag" : "section",
+    "settings" : [
+
+    ]
+  }
+{% endschema %}
