@@ -1,0 +1,161 @@
+{% liquid 
+  assign plan_title = section.settings.plan_title 
+  assign handle_parent = collection.metafields.c_f.collection_parent 
+  assign collection_parent = collections[handle_parent] 
+  assign related_collection = collection_parent.metafields.c_f.collection_child | split: '|' 
+  assign related_title  =  section.settings.related_title
+  assign related_subtitle  =  section.settings.related_subtitle
+  assign related_btn_label  =  section.settings.related_btn_label
+  assign related_btn_url  =  section.settings.related_btn_url
+%}
+<div class="collection collection-tasks-plan">
+  <div class="container">
+    <div class="d-none d-lg-block">
+      {% render 'breadcrumb-snippets' type: 'task' %}
+    </div>
+    <div class="collection-description">
+      <div class="title">
+        <h2>{{collection.title}}</h2>
+      </div>
+      <div class="description">
+        <div class="row">
+          <div class="col-12 col-lg-6 ">
+            <div class="description_content">
+              {{collection.description | replace: '<short-desc>', '' | replace: '</short-desc>', ''}}
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="image">
+              {% render 'image-style' image: collection.image %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="plan-list">
+      <div class="text-center title">
+        <h3>{{plan_title}}</h3>
+      </div>
+      <div class="plan-list__grid">
+        <div class="row">
+          {%- for product in collection.products -%}
+            <div class="col-12 col-lg-3">
+              <div class="plan-item">
+                {% render 'card-template' type: 'plan', product: product %}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+
+    {% render 'FAQs' section: section  %}
+
+    <div class="related-collection">
+        <div class="heading text-center">
+          <div class="title">
+            <h4>{{related_title}}</h4>
+          </div>
+          <div class="subtitle">
+            <span>{{related_subtitle}}</span>
+          </div>
+        </div>
+        <div class="js-tns related-collection__list" data-config='{"loop":false,"controls": false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"items":5}}}'>
+          {%- for handle in related_collection -%}
+            {% liquid 
+              assign svg = collections[handle].metafields.c_f.collection_svg
+              assign title = collections[handle].title 
+              assign url = collections[handle].url 
+            %}
+            <div class="related-collection__item">
+              {% render 'card-template' type: 'icon', svg: svg, title: title , url:  %}
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="related-collection__button text-center">
+          <a href="{{related_btn_url | default: 'javascript:void(0)'}}" class="btn btn-1">
+            <span>{{related_btn_label}}</span>
+            {% render 'svg' type: 'angle-right' %}
+          </a>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name" : "Collection task with plan",
+    "tag" : "section",
+    "settings" : [
+      {
+        "type": "header", 
+        "content": "Plan List"
+      },
+      {
+        "type": "text",
+        "id": "plan_title",
+        "label": "Title"
+      },
+      {
+        "type": "header",
+        "content": "FAQs"
+      },
+      {
+        "type": "text",
+        "id": "faq_title",
+        "label": "Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "faq_image",
+        "label": "Image"  
+      },
+      {
+        "type": "paragraph",
+        "content": "Add block 'FAQ Item'"
+      },
+      {
+        "type": "header",
+        "content": "Related Collection"
+      },
+      {
+        "type": "text",
+        "id": "related_title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "related_subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "text",
+        "id": "related_btn_label",
+        "label": "Label Button"
+      },
+      {
+        "type" : "url",
+        "id" : "related_btn_url",
+        "label" : "URL Button"
+      }
+    ],
+    "blocks" : [
+      {
+        "type" : "faq_item",
+        "name" : "FAQ Item",
+        "settings" : [
+          {
+            "type": "text",
+            "id": "question",
+            "label": "Question"
+          },
+          {
+            "type": "text",
+            "id": "answer",
+            "label": "Answer"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

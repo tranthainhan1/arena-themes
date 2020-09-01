@@ -26,8 +26,10 @@
           
           {%- for handle in realted_collection -%}
             <div class="col-6 col-lg-2 d-flex related-collection__item">
-              {{collections[handle].metafields.c_f.collection_svg}}
-              <span>{{collections[handle].title}}</span>
+              <a href="{{collections[handle].url}}">
+                {{collections[handle].metafields.c_f.collection_svg}}
+                <span>{{collections[handle].title}}</span>
+              </a>
             </div>
           {%- endfor -%}
         </div>
@@ -180,6 +182,7 @@
         </div>
       </div>
     </div>
+    {% render 'FAQs', section: section %}
   </div>
 </div>
  
@@ -201,6 +204,24 @@
         "type": "text",
         "id": "related_subtitle",
         "label": "Subtitle"
+      },
+      {
+        "type": "header",
+        "content": "FAQs"
+      },
+      {
+        "type": "text",
+        "id": "faq_title",
+        "label": "Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "faq_image",
+        "label": "Image"  
+      },
+      {
+        "type": "paragraph",
+        "content": "Add block 'FAQ Item'"
       }
     ],
     "blocks" : [
@@ -235,6 +256,22 @@
             "type": "text",
             "id": "title",
             "label": "Filter Rating"
+          }
+        ]
+      },
+      {
+        "type" : "faq_item",
+        "name" : "FAQ Item",
+        "settings" : [
+          {
+            "type": "text",
+            "id": "question",
+            "label": "Question"
+          },
+          {
+            "type": "text",
+            "id": "answer",
+            "label": "Answer"
           }
         ]
       }

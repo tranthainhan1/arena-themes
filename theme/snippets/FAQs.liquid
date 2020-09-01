@@ -1,0 +1,37 @@
+{% liquid 
+  assign image = section.settings.faq_image
+  assign title = section.settings.faq_title
+%}
+<div class="faq">
+  <div class="faq__wrapper">
+    <div class="d-none d-lg-block image">
+      {% render 'image-style' image: image  %}
+    </div>
+    <div class="faq__content">
+      <div class="title">
+        <h3>{{title}}</h3>
+      </div>
+      {%- for block in section.blocks -%}
+        {%- if block.type != 'faq_item' -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign count = count | plus: 1 -%}
+        {% liquid 
+          assign question = block.settings.question
+          assign answer = block.settings.answer
+        %}
+        <div class="faq__item">
+          <div class="js-btn-collapse question {% if count == 1 %}show{%- endif -%}">
+            <div class="title"><span>{{question}}</span></div>
+            {% render 'svg' type: 'angle-down' %}
+            {% render 'svg' type: 'angle-up' %}
+          </div>
+          <div class="js-collapse answer {% if count == 1 %}show{%- endif -%}">
+            <span>{{answer}}</span>
+          </div>
+        </div>
+        
+      {%- endfor -%}
+    </div>
+  </div>
+</div>

@@ -32,20 +32,6 @@
 
       {%- assign icon_list = icon_list | append: icon_item -%}
     {% comment %} end {% endcomment %}
-    {%- when 'logo_item' -%}
-      {% liquid 
-        assign image = block.settings.image
-        assign url = block.settings.url | default: 'javascript:void(0)'
-      %}
-
-      {%- capture logo_item -%}
-        <div class="col-6 col-lg-5th logo-list__item">
-          <a href="{{url}}" class="image">
-            {% render 'image-style' image: image %}
-          </a>
-        </div>
-      {%- endcapture -%}
-      {%- assign logo_list = logo_list | append: logo_item -%}
   {%- endcase -%}
 {%- endfor -%}
 
@@ -99,7 +85,7 @@
               assign url = collection_item.url 
               assign svg = collection_item.metafields.c_f.collection_svg 
             %}
-            <div class="col-6 col-sm-4 col-md-3 collection-list__item">
+            <div class="col-6 col-sm-4 col-xl-3 collection-list__item">
               <a href="{{url | default: 'javascript:void(0)'}}" class="text-center">
                 {{svg}}
                 <span>{{label}}</span>
@@ -135,24 +121,7 @@
         </div>
       </div>
     </div>
-
-    <div class="logo-list">
-      <div class="logo-list__wrapper">
-        <div class="logo-list__title section_title-wrapper">
-          <div class="heading">
-            <div class="title">
-              <h2>{{logo_list_title}}</h2>
-            </div>
-            <div class="subtitle">
-              <span>{{logo_list_subtitle}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="row logo-list__list">
-          {{logo_list}}
-        </div> 
-      </div>
-    </div>  
+    
   </div>
 </div>
 
@@ -268,22 +237,6 @@
           "type": "text",
           "id": "icon_label",
           "label": "Label"
-        }
-      ]
-    },
-    {
-      "type" : "logo_item",
-      "name" : "Logo item",
-      "settings" : [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type" : "url",
-          "id" : "url",
-          "label" : "URL"
         }
       ]
     }
