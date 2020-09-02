@@ -77,6 +77,14 @@ var AT = {
       let tnsSlider = tns(config);
     });
   },
+  initHandleCollapse: function () {
+    let btnCollapse = document.getElementsByClassName("js-btn-collapse");
+    [...btnCollapse].forEach(function (item) {
+      let id = item.getAttribute("data-target");
+      let collapseContainer = document.getElementById(id);
+      AT.handleCollapse(item, collapseContainer);
+    });
+  },
 };
 
 export default AT;

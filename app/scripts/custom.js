@@ -44,4 +44,5 @@ window.addEventListener("DOMContentLoaded", () => {
   document.body.classList.contains("template-customers-login") &&
     CustomerLayout();
   AT.initTNS();
+  AT.initHandleCollapse();
 });

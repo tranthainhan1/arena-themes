@@ -142,6 +142,80 @@
       </div>
     </div>
   {% comment %} end {% endcomment %}
+  {%- when 'career-small' -%} 
+    {% liquid 
+      assign nowTimestamp = 'now' | date: '%s'
+      assign dateStart    = article.published_at | date: '%s'
+      assign diffSeconds  = nowTimestamp | minus: dateStart
+      assign title        = article.title
+      assign url          = article.url
+    %}
+    {%- capture post_ago -%}
+      {%- if diffSeconds > 86400-%}
+
+        {%- assign day = diffSeconds | divided_by: 3600 | divided_by: 24 -%}
+        {%- if day > 1 -%}
+          {{ 'card.career.days_post_ago' | t: days: day}}
+        {%- else -%}
+          {{ 'card.career.day_post_ago' | t: day: day}}
+        {%- endif -%}
+
+      {%- elsif diffSeconds > 3600 -%}
+
+        {%- assign hour = diffSeconds | divided_by: 3600 -%}
+        {%- if hour > 1 -%}
+          {{ 'card.career.hours_post_ago' | t: hours: hour}}
+        {%- else -%}
+          {{ 'card.career.hour_post_ago' | t: hour: hour}}
+        {%- endif -%}
+
+      {%- elsif diffSeconds > 60 -%}
+
+        {%- assign minute = diffSeconds | divided_by: 60 -%}
+        {%- if minute > 1 -%}
+          {{ 'card.career.minutes_post_ago' | t: minutes: minute}}
+        {%- else -%}
+          {{ 'card.career.minute_post_ago' | t: minute: minute}}
+        {%- endif -%}
+
+      {%- else -%}
+      
+        {%- assign second = diffSeconds -%}
+        {%- if second > 1 -%}
+          {{ 'card.career.seconds_post_ago' | t: seconds: second}}
+        {%- else -%}
+          {{ 'card.career.second_post_ago' | t: second: second}}
+        {%- endif -%}
+
+      {%- endif -%}
+    {%- endcapture -%}
+
+    <div class="card card-career">
+      <div class="card__tags">
+        {%- for tag in article.tags -%}
+          {% liquid 
+            assign tag_title = tag | split: '_' | last
+            assign badge_type =  tag | split: '_' | first
+          %}
+          <div class="badge {{badge_type}}">
+            <span>{{tag_title}}</span> 
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="card__title">
+        <h5>
+          <a href="{{url}}">{{title}}</a>
+        </h5>
+      </div>
+      <div class="d-none d-md-block card__post-ago">
+        <span>{{post_ago}}</span>
+      </div>
+      <a href="{{url}}" class="btn">
+        {{ 'card.career.btn' | t}}
+        {% render 'svg' type: 'angle-right' %}
+      </a>
+    </div>
+  {% comment %} end {% endcomment %}
   {%- when 'sub-task' -%}
     {% liquid 
       assign title = product.title
@@ -156,16 +230,39 @@
        <div class="card__wrapper">
         <div class="card__body">
           <div class="card__body__left">
-            <div class="card-name">
-              <a href="{{url}}">
-                <span>{{title}}</span>
-              </a>
+            <div class="card-group">
+              <div class="card-group__left">
+                <div class="card-name">
+                  <a href="{{url}}">
+                    <span>{{title}}</span>
+                  </a>
+                </div>
+              </div>
+              <div class="d-lg-none card-group__right">
+                <div class="price">
+                  <h2>{{price}}</h2>
+                </div>
+                <div class="hours-work">
+                  {%- if hours_work >= 24 -%}
+                    {%- assign days = hours_work | divided_by: 24 -%}
+                    {%- if days > 1 -%}
+                      <span>{{ 'card.task.days_work' | t: days: days}}</span>
+                    {%- else -%}
+                      <span>{{ 'card.task.day_work' | t: day: days}}</span>
+                    {%- endif -%}
+                  {%- elsif hours_work > 1 -%}
+                    <span>{{ 'card.task.hours_work' | t: hours: hours_work}}</span>
+                  {%- else -%}
+                    <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
+                  {%- endif -%}
+                </div>
+              </div>
             </div>
             <div class="card__description">
               {{shortDesc}}
             </div>
           </div>
-          <div class="card__body__right">
+          <div class="d-none d-lg-block card__body__right">
             <div class="price">
               <h2>{{price}}</h2>
             </div>
@@ -205,7 +302,7 @@
   {%- when 'plan' -%}
     {% liquid 
       assign name = product.title
-      assign price = product.price | money
+      assign price = product.price | money | replace: '.00' , ''
       assign hours_work =   product.metafields.c_f.hours_work | plus: 0
       if product.description contains '<short-desc-plan>'
         assign shortDesc = product.description | split: '<short-desc-plan>' | last | split: '</short-desc-plan>' | first
@@ -214,37 +311,39 @@
 
     %}
     <div class="card card-plan">
-      <div class="card__header">
-        <div class="card-name">
-          <span>{{name}}</span>
-        </div>
-        <div class="card-price">
-          <div class="price">
-            <h2>{{price}}</h2>
+      <div class="card__wrapper">
+        <div class="card__header">
+          <div class="card-name">
+            <a href="{{url}}">{{name}}</a>
           </div>
-          <div class="hours-work">
-            {%- if hours_work >= 24 -%}
-              {%- assign days = hours_work | divided_by: 24 -%}
-              {%- if days > 1 -%}
-                <span>{{ 'card.task.days_work' | t: days: days}}</span>
+          <div class="card-price">
+            <div class="price">
+              <h2>{{price}}</h2>
+            </div>
+            <div class="hours-work">
+              {%- if hours_work >= 24 -%}
+                {%- assign days = hours_work | divided_by: 24 -%}
+                {%- if days > 1 -%}
+                  <span>{{ 'card.task.days_work' | t: days: days}}</span>
+                {%- else -%}
+                  <span>{{ 'card.task.day_work' | t: day: days}}</span>
+                {%- endif -%}
+              {%- elsif hours_work > 1 -%}
+                <span>{{ 'card.task.hours_work' | t: hours: hours_work}}</span>
               {%- else -%}
-                <span>{{ 'card.task.day_work' | t: day: days}}</span>
+                <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
               {%- endif -%}
-            {%- elsif hours_work > 1 -%}
-              <span>{{ 'card.task.hours_work' | t: hours: hours_work}}</span>
-            {%- else -%}
-              <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
-            {%- endif -%}
+            </div>
           </div>
         </div>
+        {%- if shortDesc != blank -%}
+          <div class="card-body">
+            {{shortDesc}}
+          </div>
+        {%- endif -%}
       </div>
-      {%- if shortDesc != blank -%}
-        <div class="card-body">
-          {{shortDesc}}
-        </div>
-      {%- endif -%}
       <div class="card-button">
-        <a href="{{url}}" class="btn btn-1">
+        <a href="{{url}}" class="btn btn-2">
           {{ 'card.task.btn_plan' | t}}
         </a>
       </div>

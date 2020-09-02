@@ -7,23 +7,194 @@
       <div class="product-detail">
         <div class="product-description">
           <div class="title">
-            <span>{{product.title}}</span>
+            <h2>{{product.title}}</h2>
           </div>
           <div class="description">
             {{product.description | replace: '<short-desc>', '' | replace: '</short-desc>', ''| replace: '<short-desc-plan>', '' | replace: '</short-desc-plan>', ''}}
           </div>
         </div>
+        <div class="product-swatchs">
+          <div class="product-swatchs__wrapper">
+            <div class="title">
+              <span>{{ 'product_template.task.card_swatchs_title' | t}}</span>
+            </div>
+            <div class="swatchs">
+              <form action="/cart/add" id="product_form_{{product.id}}" accept-charset="UTF-8" enctype="multipart/form-data" class="product-form">
+                <div class="swatchs-tab" id="swatchs_tab">
+                  {%- for variant in product.variants -%}
+                    <div class="form-group">
+                      <input type="radio" name="id" data-target="variant_info_{{variant.id}}" id="variant_{{variant.id}}" value="{{variant.id}}" class="swatch" {% if forloop.first %}checked{%- endif -%}>
+                      <label for="variant_{{variant.id}}">{{variant.title}}</label>
+                    </div>
+                  {%- endfor -%}
+                  <input type="hidden" name="quantity" value="1">
+                </div>
+                <div class="swatchs-tab-content" id="swatchs_tab_content">
+                  {%- for variant in product.variants -%}
+                    <div class="swatch-info" id="variant_info_{{variant.id}}" {%- unless forloop.first -%} style="display:none;" {%- endunless -%}>
+                      <div class="swatch-info__price">
+                        <div class="label">
+                          <span>{{ 'product_template.task.price_label' | t}}</span>
+                        </div>
+                        <div class="price" id="product_price">
+                          <span>{{variant.price | money}}</span>
+                        </div>
+                      </div>
+                      <div class="swatch-info__delivery">
+                        <div class="label" id="delivery_label">
+                            <span>{{ 'product_template.task.delivery_label' | t: type: variant_title}}</span>
+                        </div>
+                        <div class="hours-work">
+                          {%- assign hours_work = variant.metafields.c_f.hours_work | plus: 0-%}
+                          {%- if hours_work >= 24 -%}
+                            {%- assign days = hours_work | divided_by: 24 -%}
+                            {%- if days > 1 -%}
+                              <span>{{ 'card.task.days_work' | t: days: days}}</span>
+                            {%- else -%}
+                              <span>{{ 'card.task.day_work' | t: day: days}}</span>
+                            {%- endif -%}
+                          {%- elsif hours_work > 1 -%}
+                            <span>{{ 'card.task.hours_work' | t: hours: hours_work}}</span>
+                          {%- else -%}
+                            <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                      <div class="swatch-info__total">
+                        <div class="label">
+                          <span>{{ 'product_template.task.total' | t}}</span>
+                        </div>
+                        <div class="total">
+                          <span>{{variant.price | money}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  {%- endfor -%}
+                </div>
+                <div class="swatchs-btn">
+                  <button type="submit" class="btn btn-2">{{ 'product_template.task.add_to_cart' | t}}</button>
+                  <a href="#" class="btn btn-2">{{ 'product_template.task.preview' | t}}</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="icons-box text-center">
+        <div class="title">
+          <h3>{{section.settings.icon_title}}</h3>
+        </div>
+        <div class="row icons-box__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'icon_box' -%}
+              <div class="col-6 col-lg-3 icon-box" {{block.shopify_attributes}}>
+                {{block.settings.svg}}
+                <div class="icon-box__content">
+                  <div class="title">
+                    <span>{{block.settings.icon_title}}</span>
+                  </div>
+                  <div class="d-none d-lg-block description">
+                    <span>{{block.settings.desc}}</span>
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="related-product">
+        <div class="heading text-center">
+          <div class="title">
+            <h3>{{section.settings.related_title}}</h3>
+          </div>
+          <div class="subtitle">
+            <span>{{section.settings.related_subtitle}}</span>
+          </div>
+        </div>
+        <div class="js-tns related-product__list" data-config='{"loop":false,"controls": false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"items":5}}}'>
+          {%- for p in collection.products -%}
+            {%- if product.handle != p.handle -%}
+              {% liquid 
+                assign svg = p.metafields.c_f.svg
+                assign title = p.title
+                assign url = p.url | within: collection
+              %}
+              <div class="related-product_item">
+                {% render 'card-template' type: 'icon', svg: svg, title: title , url: url  %}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="related-collection__button text-center">
+          <a href="{{collection.url | default: 'javascript:void(0)'}}" class="btn btn-1">
+            <span>{{section.settings.related_btn}}</span>
+            {% render 'svg' type: 'angle-right' %}
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
 {% schema %}
   {
     "name" : "Product Task",
     "tag" : "section",
     "settings" : [
-
+      {
+        "type": "header",
+        "content": "Icons Box"
+      },
+      {
+        "type": "text",
+        "id": "icon_title",
+        "label": "Title"
+      },
+      {
+        "type": "paragraph",
+        "content": "Add 'Icon Box' content to add item."
+      },
+      {
+        "type": "header",
+        "content": "Related Product"
+      },
+      {
+        "type": "text",
+        "id": "related_title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "related_subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "text",
+        "id": "related_btn",
+        "label": "Button label"
+      }
+    ],
+    "blocks" : [
+      {
+        "type" : "icon_box",
+        "name" : "Icon Box",
+        "settings" : [
+          {
+            "type": "html",
+            "id": "svg",
+            "label": "SVG"
+          },
+          {
+            "type": "text",
+            "id": "icon_title",
+            "label": "Title"
+          },
+          {
+            "type": "html",
+            "id": "desc",
+            "label": "Description"
+          } 
+        ]
+      }
     ]
   }
 {% endschema %}

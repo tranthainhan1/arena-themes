@@ -1,0 +1,41 @@
+{% liquid 
+%}
+
+{%- capture banner_block  -%}{%- endcapture -%}
+{%- capture sidebar -%}{%- endcapture-%}
+
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when 'banner' -%}
+      <div class="banner">
+        <div class="image">
+          {% render 'image-style' image: block.settings.image %}
+          <div class="title">
+            <span>{{block.settings.banner_title}}</span>
+          </div>
+        </div>
+      </div>
+    {% comment %} end {% endcomment %}
+    {%- when 'search' -%}
+      {%- capture block -%}
+        <div class="sb-widget">
+          <div class="sb-search">
+            <form id="search" class="form-search" action="/search" method="get">
+              <input name="q" type="text" class="form-control" placeholder="Search" autocomplete="off">
+              {% render 'svg' type: 'search' %}
+            </form>
+          </div>
+        </div>
+      {%- endcapture-%}
+      {%- assign sidebar = sidebar | append: block -%}
+    {% comment %} end {% endcomment %}
+    {%- when 'categories' -%}
+      
+      
+  {%- endcase -%}
+{%- endfor -%}
+<div class="blog blog-default">
+  <div class="container">
+    {{banner_block}}
+  </div>
+</div>

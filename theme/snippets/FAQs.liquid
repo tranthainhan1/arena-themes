@@ -21,12 +21,12 @@
           assign answer = block.settings.answer
         %}
         <div class="faq__item">
-          <div class="js-btn-collapse question {% if count == 1 %}show{%- endif -%}">
+          <div class="js-btn-collapse question {% if count == 1 %}show{%- endif -%}" data-target="collapse_{{block.id}}">
             <div class="title"><span>{{question}}</span></div>
             {% render 'svg' type: 'angle-down' %}
             {% render 'svg' type: 'angle-up' %}
           </div>
-          <div class="js-collapse answer {% if count == 1 %}show{%- endif -%}">
+          <div class="js-collapse answer {% if count == 1 %}show{%- endif -%}" id="collapse_{{block.id}}">
             <span>{{answer}}</span>
           </div>
         </div>

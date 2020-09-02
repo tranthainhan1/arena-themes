@@ -5481,6 +5481,15 @@ var AT = {
       });
       var tnsSlider = tns(config);
     });
+  },
+  initHandleCollapse: function initHandleCollapse() {
+    var btnCollapse = document.getElementsByClassName("js-btn-collapse");
+
+    toConsumableArray_default()(btnCollapse).forEach(function (item) {
+      var id = item.getAttribute("data-target");
+      var collapseContainer = document.getElementById(id);
+      AT.handleCollapse(item, collapseContainer);
+    });
   }
 };
 /* harmony default export */ var _arn = (AT);
@@ -5927,6 +5936,7 @@ window.addEventListener("DOMContentLoaded", function () {
   load("*");
   document.body.classList.contains("template-customers-login") && CustomerLayout();
   _arn.initTNS();
+  _arn.initHandleCollapse();
 });
 
 /***/ })

@@ -135,7 +135,9 @@
     "btn": {
       "appointment": "Send Appointment",
       "contact": "Send Message"
-    }
+    },
+    "phone": "Phone",
+    "phone_placeholder": "ex: 092 3456 789"
   },
   "collection_template": {
     "themes": {
@@ -190,14 +192,22 @@
       }
     },
     "apps": {
+      "version": "Version: {{version}}",
       "btn": {
         "install": "Install Now",
         "view_demo": "View Demo"
       },
-      "version": "Version: {{version}}",
       "related": {
         "title": "You might also like"
       }
+    },
+    "task": {
+      "card_swatchs_title": "Turnaround time",
+      "price_label": "Base Price",
+      "delivery_label": "{{type}} Delivery",
+      "total": "Total cost",
+      "add_to_cart": "Add to Cart",
+      "preview": "Preview Sample"
     }
   },
   "card": {
@@ -224,6 +234,19 @@
       "hour_work": "Within {{hour}} Hour",
       "btn": "Add to cart",
       "btn_plan": "Hire Us"
+    }
+  },
+  "article_template": {
+    "career": {
+      "form_title": "Apply for this Job",
+      "related_article_html": "Not what you’re looking for? <br> Check out these similar roles.",
+      "form_message_placeholder": "Introduction of yourself",
+      "form_button": "Submit Application"
+    }
+  },
+  "blog_template": {
+    "blog_default": {
+      "search_placeholder": "Search articles"
     }
   }
 }
