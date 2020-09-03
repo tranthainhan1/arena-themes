@@ -3,9 +3,7 @@ import { tns } from "tiny-slider/src/tiny-slider";
 var AT = {
   initTinySlider: function (container) {
     console.trace();
-    let config = JSON.parse(
-      container.querySelector("[id*='config-tns']").innerHTML
-    );
+    let config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
     let sliderContainer = container.querySelector(".js-tns");
     let controlsContainer = sliderContainer.nextElementSibling;
     config = Object.assign(config, {
@@ -31,7 +29,7 @@ var AT = {
   handleCollapse: function (btnTrigger, collapseContainer) {
     let first = true,
       isComplete = false;
-
+    console.trace();
     btnTrigger.addEventListener("click", function () {
       if (first || isComplete) {
         first = false;

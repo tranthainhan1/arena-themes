@@ -94,7 +94,7 @@
             <div class="js-paragraph paragraph-2">
               {{paragraph_2}}
             </div>
-            <div class="d-sm-none js-trigger-paragraph btn-view-more">
+            <div class="d-sm-none js-btn-collapse btn-view-more" data-target="collapse_{{block.id}}">
               <span>{{'button.view_more' | t}}</span>
               {% render 'svg' type: 'angle-down' %}
               {% render 'svg' type: 'angle-up' %}

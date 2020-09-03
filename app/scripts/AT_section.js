@@ -8,9 +8,7 @@ let Header = {
       btnMenu: $container.querySelector(".js-handle-nav-mobile"),
       menuMobileContainer: $container.querySelector(".js-nav-mobile"),
       elmTriggerCollapse: $container.querySelectorAll(".js-trigger-collapse"),
-      overlayMenuMobile: $container.querySelector(
-        ".header .overlay-menu-mobile"
-      ),
+      overlayMenuMobile: $container.querySelector(".header .overlay-menu-mobile"),
       btnSearch: document.getElementById("js-handle-search"),
       btnCloseSearch: document.getElementById("js-close-search"),
       headerDesktop: $container.getElementsByClassName("header-desktop")[0],
@@ -21,7 +19,6 @@ let Header = {
     };
 
     this.handleMenuMobile();
-    this.handleCollapse();
     this.handleSearch();
   },
   handleMenuMobile: function () {
@@ -52,51 +49,6 @@ let Header = {
       btnMenu.classList.remove("show");
       menuMobileContainer.classList.remove("show");
       document.body.classList.remove("popup-is-showing");
-    });
-  },
-  handleCollapse: function () {
-    let first = true,
-      isComplete = false;
-    let { elmTriggerCollapse } = this.elements;
-    elmTriggerCollapse.forEach(function (item) {
-      let parent = item.closest(".link-list__item");
-      let collapseContainer = parent.querySelector(".dropdown-menu-mobile");
-      let childCollapseContainer = collapseContainer.children;
-
-      item.addEventListener("click", function () {
-        if (first || isComplete) {
-          first = false;
-          isComplete = false;
-          if (this.classList.contains("show")) {
-            let height = collapseContainer.offsetHeight;
-            collapseContainer.style.height = `${height}px`;
-            AT.debounce(function () {
-              collapseContainer.style.height = "0px";
-            }, 1)();
-            AT.debounce(() => {
-              collapseContainer.style.height = "";
-              this.classList.remove("show");
-              collapseContainer.classList.remove("show");
-              isComplete = true;
-            }, 200)();
-          } else {
-            this.classList.add("show");
-            collapseContainer.classList.add("show");
-            collapseContainer.style.height = "0px";
-            let height = Object.values(childCollapseContainer).reduce(
-              (accu, currentValue) => {
-                return accu + currentValue.offsetHeight;
-              },
-              0
-            );
-            collapseContainer.style.height = `${height}px`;
-            AT.debounce(function () {
-              collapseContainer.style.height = "";
-              isComplete = true;
-            }, 200)();
-          }
-        }
-      });
     });
   },
   handleSearch: function () {
@@ -179,12 +131,9 @@ let Footer = {
           } else {
             elmParent.classList.add("show");
             elmMenuList.style.height = "0px";
-            let height = Object.values(children).reduce(
-              (accu, currentValue) => {
-                return accu + currentValue.offsetHeight;
-              },
-              0
-            );
+            let height = Object.values(children).reduce((accu, currentValue) => {
+              return accu + currentValue.offsetHeight;
+            }, 0);
             elmMenuList.style.height = `${height}px`;
             AT.debounce(function () {
               elmMenuList.style.height = "";
@@ -212,9 +161,7 @@ let Footer = {
     function setPaddingFooter() {
       let heightMobileBar = mobileBar.offsetHeight;
 
-      footerWrapper.style.paddingBottom = `${
-        heightMobileBar + paddingBottomFooterWrapper
-      }px`;
+      footerWrapper.style.paddingBottom = `${heightMobileBar + paddingBottomFooterWrapper}px`;
     }
   },
 };
@@ -228,29 +175,28 @@ let SupportTemplate = {
       let dataSetting = elmHeroBanner.getAttribute("data-setting");
 
       let collapseWrapper = document.createElement("li");
-      collapseWrapper.classList.add("collapse");
-      collapseWrapper.style.listStyle = "none";
-      collapseWrapper.style.padding = "0px";
+      let btnTrigger = elmHeroBanner.getElementsByClassName("js-btn-collapse");
 
-      let elmParagraph2 = elmHeroBanner.querySelector(".paragraph-2 ul");
-      let elmLiList = elmParagraph2.children;
+      [...btnTrigger].forEach((item) => {
+        let id = item.getAttribute("data-target");
+        collapseWrapper.setAttribute("id", id);
+        collapseWrapper.classList = "js-collapse collapse";
+        collapseWrapper.style.listStyle = "none";
+        collapseWrapper.style.padding = "0px";
 
-      [...elmLiList].forEach((li, index) => {
-        if (index > dataSetting - 1) {
-          collapseWrapper.appendChild(li);
-        }
+        let elmParagraph2 = elmHeroBanner.querySelector(".paragraph-2 ul");
+        let elmLiList = elmParagraph2.children;
+
+        [...elmLiList].forEach((li, index) => {
+          if (index > dataSetting - 1) {
+            collapseWrapper.appendChild(li);
+          }
+        });
+        elmParagraph2.appendChild(collapseWrapper);
       });
-      elmParagraph2.appendChild(collapseWrapper);
-
-      let btnTrigger = elmHeroBanner.getElementsByClassName(
-        "js-trigger-paragraph"
-      )[0];
-
-      AT.handleCollapse(btnTrigger, collapseWrapper);
     });
   },
 };
-
 let HeroBanner = {
   onLoad: function () {
     let $container = this.container;
@@ -258,7 +204,10 @@ let HeroBanner = {
 
     if (dataSetting) {
       let collapseWrapper = document.createElement("li");
-      collapseWrapper.classList.add("collapse");
+      let btnTrigger = $container.getElementsByClassName("js-btn-collapse")[0];
+      let id = btnTrigger.getAttribute("data-target");
+      collapseWrapper.setAttribute("id", id);
+      collapseWrapper.classList = "js-collapse collapse";
       collapseWrapper.style.listStyle = "none";
       collapseWrapper.style.padding = "0px";
 
@@ -271,93 +220,31 @@ let HeroBanner = {
         }
       });
       elmParagraph2.appendChild(collapseWrapper);
-
-      let btnTrigger = $container.getElementsByClassName(
-        "js-trigger-paragraph"
-      )[0];
-
-      AT.handleCollapse(btnTrigger, collapseWrapper);
     }
-  },
-};
-
-let AboutTemplate = {
-  onLoad: function () {
-    let $container = this.container,
-      blockImageGallery = $container.getElementsByClassName("image-gallery")[0],
-      blockHerobanner = $container.getElementsByClassName("hero-banner-v2")[0];
-
-    (function () {
-      let btnCollapse = blockImageGallery.getElementsByClassName(
-          "js-btn-collapse"
-        )[0],
-        collapseContainer = blockImageGallery.getElementsByClassName(
-          "js-collapse"
-        )[0];
-      AT.handleCollapse(btnCollapse, collapseContainer);
-    })();
-
-    (function () {
-      let btnCollapse = blockHerobanner.getElementsByClassName(
-          "js-btn-collapse"
-        )[0],
-        collapseContainer = blockHerobanner.getElementsByClassName(
-          "js-collapse"
-        )[0];
-      AT.handleCollapse(btnCollapse, collapseContainer);
-    })();
-  },
-};
-
-let PartnersTemplate = {
-  onLoad: function () {
-    let $container = this.container;
-    this.elements = {
-      btnCollapse: $container.getElementsByClassName("js-btn-collapse"),
-      collapseContainer: $container.getElementsByClassName("js-collapse"),
-    };
-
-    this.handleFAQCollapse();
-  },
-
-  handleFAQCollapse: function () {
-    let { btnCollapse, collapseContainer } = this.elements;
-
-    [...btnCollapse].forEach((item, index) => {
-      AT.handleCollapse(item, collapseContainer[index]);
-    });
   },
 };
 
 let CustomerLayout = (function () {
   function customerLayout() {
-    document
-      .getElementById("switch_form_register")
-      .addEventListener("click", function (e) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("register").style.display = "block";
-      });
+    document.getElementById("switch_form_register").addEventListener("click", function (e) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("register").style.display = "block";
+    });
 
-    document
-      .getElementById("switch_form_login")
-      .addEventListener("click", function (e) {
-        document.getElementById("login").style.display = "block";
-        document.getElementById("register").style.display = "none";
-      });
+    document.getElementById("switch_form_login").addEventListener("click", function (e) {
+      document.getElementById("login").style.display = "block";
+      document.getElementById("register").style.display = "none";
+    });
 
-    document
-      .getElementById("switch_form_recover")
-      .addEventListener("click", function (e) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("recover_password").style.display = "block";
-      });
+    document.getElementById("switch_form_recover").addEventListener("click", function (e) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("recover_password").style.display = "block";
+    });
 
-    document
-      .getElementById("back_form_login")
-      .addEventListener("click", function (e) {
-        document.getElementById("login").style.display = "block";
-        document.getElementById("recover_password").style.display = "none";
-      });
+    document.getElementById("back_form_login").addEventListener("click", function (e) {
+      document.getElementById("login").style.display = "block";
+      document.getElementById("recover_password").style.display = "none";
+    });
 
     [...document.getElementsByClassName("password-toggle")].forEach((item) => {
       item.addEventListener("click", function () {
@@ -460,8 +347,7 @@ export {
   Footer,
   SupportTemplate,
   HeroBanner,
-  AboutTemplate,
-  PartnersTemplate,
+  // AboutTemplate,
   CollectionThemes,
   CustomerLayout,
   CollectionApps,

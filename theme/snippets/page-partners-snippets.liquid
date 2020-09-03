@@ -112,12 +112,12 @@
               assign answer = 'answer_' | append: i 
             %}
             <div class="faq__item">
-              <div class="js-btn-collapse question {% if forloop.first %}show{%- endif -%}">
+              <div class="js-btn-collapse question {% if forloop.first %}show{%- endif -%}" data-target="collapse_{{block.id}}_{{i}}">
                 <div class="title"><span>{{block.settings[question]}}</span></div>
                 {% render 'svg' type: 'angle-down' %}
                 {% render 'svg' type: 'angle-up' %}
               </div>
-              <div class="js-collapse answer {% if forloop.first %}show{%- endif -%}">
+              <div class="js-collapse answer {% if forloop.first %}show{%- endif -%}" id="collapse_{{block.id}}_{{i}}">
                 <span>{{block.settings[answer]}}</span>
               </div>
             </div>
@@ -169,11 +169,11 @@
             </div>
 
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" required>
+              <input type="checkbox" id="terms_and_conditions"class="form-check-input" required>
               {%- capture link -%}
                 <a href="#">{{ 'form.terms_and_conditions_link' | t}}</a>
               {%- endcapture -%}
-              <label for="form-text" class="form-check-label">{{ 'form.terms_and_conditions_html' | t: link: link}}</label>
+              <label for="terms_and_conditions" class="form-check-label">{{ 'form.terms_and_conditions_html' | t: link: link}}</label>
             </div>
 
             <button class="w-100 btn btn-2" type="submit">{{ 'form.btn.appointment' | t}}</button>

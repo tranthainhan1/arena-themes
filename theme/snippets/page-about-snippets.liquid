@@ -174,7 +174,7 @@
                   </div>
                 </div>
 
-                <div class="js-collapse col-12 col-md-6  paragraph-list__wrapper">
+                <div class="js-collapse col-12 col-md-6  paragraph-list__wrapper" id="collapse_{{block.id}}">
                   <div class="d-sm-none paragraph-list__item">
                     <div class="title">
                       <p>{{block.settings.item_title_3}}</p>
@@ -210,7 +210,7 @@
                 </div>
               </div>
             </div>
-            <div class="d-sm-none js-btn-collapse btn-view-more">
+            <div class="d-sm-none js-btn-collapse btn-view-more" data-target="collapse_{{block.id}}">
               <span>{{'button.view_more' | t}}</span>
               {% render 'svg' type: 'angle-down' %}
               {% render 'svg' type: 'angle-up' %}
@@ -322,7 +322,7 @@
               {%- endif -%}
             {%- endfor -%}
 
-            <div class="d-sm-none js-collapse collapse-container">
+            <div class="d-sm-none js-collapse collapse-container" id="collapse_{{block.id}}">
               <div class="row">
                 {%- assign show_item_on_mobile = show_item_on_mobile | plus: 1 -%}
                 {%- for i in (show_item_on_mobile..12) -%}
@@ -353,7 +353,7 @@
               </div>
             </div>
           </div>
-          <div class="{%- if show_item_on_mobile != blank -%} d-sm-none {%- else -%} d-none {% endif %} js-btn-collapse text-center btn-view-more">
+          <div class="{%- if show_item_on_mobile != blank -%} d-sm-none {%- else -%} d-none {% endif %} js-btn-collapse text-center btn-view-more" data-target="collapse_{{block.id}}">
             <span>{{'button.view_more' | t}}</span>
             {% render 'svg' type: 'angle-down' %}
             {% render 'svg' type: 'angle-up' %}

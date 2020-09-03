@@ -5430,6 +5430,7 @@ var AT = {
   handleCollapse: function handleCollapse(btnTrigger, collapseContainer) {
     var first = true,
         isComplete = false;
+    console.trace();
     btnTrigger.addEventListener("click", function () {
       var _this = this;
 
@@ -5513,7 +5514,6 @@ var Header = {
       inputSearchMobile: document.getElementById("input_search_mobile")
     };
     this.handleMenuMobile();
-    this.handleCollapse();
     this.handleSearch();
   },
   handleMenuMobile: function handleMenuMobile() {
@@ -5548,54 +5548,6 @@ var Header = {
       btnMenu.classList.remove("show");
       menuMobileContainer.classList.remove("show");
       document.body.classList.remove("popup-is-showing");
-    });
-  },
-  handleCollapse: function handleCollapse() {
-    var first = true,
-        isComplete = false;
-    var elmTriggerCollapse = this.elements.elmTriggerCollapse;
-    elmTriggerCollapse.forEach(function (item) {
-      var parent = item.closest(".link-list__item");
-      var collapseContainer = parent.querySelector(".dropdown-menu-mobile");
-      var childCollapseContainer = collapseContainer.children;
-      item.addEventListener("click", function () {
-        var _this = this;
-
-        if (first || isComplete) {
-          first = false;
-          isComplete = false;
-
-          if (this.classList.contains("show")) {
-            var height = collapseContainer.offsetHeight;
-            collapseContainer.style.height = "".concat(height, "px");
-            _arn.debounce(function () {
-              collapseContainer.style.height = "0px";
-            }, 1)();
-            _arn.debounce(function () {
-              collapseContainer.style.height = "";
-
-              _this.classList.remove("show");
-
-              collapseContainer.classList.remove("show");
-              isComplete = true;
-            }, 200)();
-          } else {
-            this.classList.add("show");
-            collapseContainer.classList.add("show");
-            collapseContainer.style.height = "0px";
-
-            var _height = Object.values(childCollapseContainer).reduce(function (accu, currentValue) {
-              return accu + currentValue.offsetHeight;
-            }, 0);
-
-            collapseContainer.style.height = "".concat(_height, "px");
-            _arn.debounce(function () {
-              collapseContainer.style.height = "";
-              isComplete = true;
-            }, 200)();
-          }
-        }
-      });
     });
   },
   handleSearch: function handleSearch() {
@@ -5674,11 +5626,11 @@ var Footer = {
             elmParent.classList.add("show");
             elmMenuList.style.height = "0px";
 
-            var _height2 = Object.values(children).reduce(function (accu, currentValue) {
+            var _height = Object.values(children).reduce(function (accu, currentValue) {
               return accu + currentValue.offsetHeight;
             }, 0);
 
-            elmMenuList.style.height = "".concat(_height2, "px");
+            elmMenuList.style.height = "".concat(_height, "px");
             _arn.debounce(function () {
               elmMenuList.style.height = "";
               isComplete = true;
@@ -5716,21 +5668,25 @@ var SupportTemplate = {
     toConsumableArray_default()(elmHeroBannerList).forEach(function (elmHeroBanner) {
       var dataSetting = elmHeroBanner.getAttribute("data-setting");
       var collapseWrapper = document.createElement("li");
-      collapseWrapper.classList.add("collapse");
-      collapseWrapper.style.listStyle = "none";
-      collapseWrapper.style.padding = "0px";
-      var elmParagraph2 = elmHeroBanner.querySelector(".paragraph-2 ul");
-      var elmLiList = elmParagraph2.children;
+      var btnTrigger = elmHeroBanner.getElementsByClassName("js-btn-collapse");
 
-      toConsumableArray_default()(elmLiList).forEach(function (li, index) {
-        if (index > dataSetting - 1) {
-          collapseWrapper.appendChild(li);
-        }
+      toConsumableArray_default()(btnTrigger).forEach(function (item) {
+        var id = item.getAttribute("data-target");
+        collapseWrapper.setAttribute("id", id);
+        collapseWrapper.classList = "js-collapse collapse";
+        collapseWrapper.style.listStyle = "none";
+        collapseWrapper.style.padding = "0px";
+        var elmParagraph2 = elmHeroBanner.querySelector(".paragraph-2 ul");
+        var elmLiList = elmParagraph2.children;
+
+        toConsumableArray_default()(elmLiList).forEach(function (li, index) {
+          if (index > dataSetting - 1) {
+            collapseWrapper.appendChild(li);
+          }
+        });
+
+        elmParagraph2.appendChild(collapseWrapper);
       });
-
-      elmParagraph2.appendChild(collapseWrapper);
-      var btnTrigger = elmHeroBanner.getElementsByClassName("js-trigger-paragraph")[0];
-      _arn.handleCollapse(btnTrigger, collapseWrapper);
     });
   }
 };
@@ -5741,7 +5697,10 @@ var HeroBanner = {
 
     if (dataSetting) {
       var collapseWrapper = document.createElement("li");
-      collapseWrapper.classList.add("collapse");
+      var btnTrigger = $container.getElementsByClassName("js-btn-collapse")[0];
+      var id = btnTrigger.getAttribute("data-target");
+      collapseWrapper.setAttribute("id", id);
+      collapseWrapper.classList = "js-collapse collapse";
       collapseWrapper.style.listStyle = "none";
       collapseWrapper.style.padding = "0px";
       var elmParagraph2 = $container.querySelector(".paragraph-2 ul");
@@ -5754,47 +5713,7 @@ var HeroBanner = {
       });
 
       elmParagraph2.appendChild(collapseWrapper);
-      var btnTrigger = $container.getElementsByClassName("js-trigger-paragraph")[0];
-      _arn.handleCollapse(btnTrigger, collapseWrapper);
     }
-  }
-};
-var AboutTemplate = {
-  onLoad: function onLoad() {
-    var $container = this.container,
-        blockImageGallery = $container.getElementsByClassName("image-gallery")[0],
-        blockHerobanner = $container.getElementsByClassName("hero-banner-v2")[0];
-
-    (function () {
-      var btnCollapse = blockImageGallery.getElementsByClassName("js-btn-collapse")[0],
-          collapseContainer = blockImageGallery.getElementsByClassName("js-collapse")[0];
-      _arn.handleCollapse(btnCollapse, collapseContainer);
-    })();
-
-    (function () {
-      var btnCollapse = blockHerobanner.getElementsByClassName("js-btn-collapse")[0],
-          collapseContainer = blockHerobanner.getElementsByClassName("js-collapse")[0];
-      _arn.handleCollapse(btnCollapse, collapseContainer);
-    })();
-  }
-};
-var PartnersTemplate = {
-  onLoad: function onLoad() {
-    var $container = this.container;
-    this.elements = {
-      btnCollapse: $container.getElementsByClassName("js-btn-collapse"),
-      collapseContainer: $container.getElementsByClassName("js-collapse")
-    };
-    this.handleFAQCollapse();
-  },
-  handleFAQCollapse: function handleFAQCollapse() {
-    var _this$elements3 = this.elements,
-        btnCollapse = _this$elements3.btnCollapse,
-        collapseContainer = _this$elements3.collapseContainer;
-
-    toConsumableArray_default()(btnCollapse).forEach(function (item, index) {
-      _arn.handleCollapse(item, collapseContainer[index]);
-    });
   }
 };
 
@@ -5928,8 +5847,8 @@ window.addEventListener("DOMContentLoaded", function () {
   register("footer", Footer);
   register("support-template", SupportTemplate);
   register("hero-banner", HeroBanner);
-  register("about-template", AboutTemplate);
-  register("partners-template", PartnersTemplate);
+  register("about-template", /* Cannot get final name for export "AboutTemplate" in "./app/scripts/AT_section.js" (known exports: Header Footer SupportTemplate HeroBanner CollectionThemes CustomerLayout CollectionApps CollectionSubTask, known reexports: ) */ undefined);
+  register("partners-template", /* Cannot get final name for export "PartnersTemplate" in "./app/scripts/AT_section.js" (known exports: Header Footer SupportTemplate HeroBanner CollectionThemes CustomerLayout CollectionApps CollectionSubTask, known reexports: ) */ undefined);
   register("collection-themes", CollectionThemes);
   register("collection-apps", CollectionApps);
   register("collection-sub-task", CollectionSubTask);

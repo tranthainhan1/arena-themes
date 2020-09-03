@@ -31,7 +31,7 @@
           <div class="paragraph-2">
             <span>{{paragraph_list}}</span>
           </div>
-          <div class="{% if item_on_mobile != blank %}d-sm-none{%- else -%}d-none{% endif %} js-trigger-paragraph btn-view-more">
+          <div class="{% if item_on_mobile != blank %}d-sm-none{%- else -%}d-none{% endif %} js-btn-collapse btn-view-more" data-target="collapse_{{section.id}}">
             <span>{{'button.view_more' | t}}</span>
             {% render 'svg' type: 'angle-down' %}
             {% render 'svg' type: 'angle-up' %}

@@ -1,0 +1,199 @@
+{% liquid 
+assign banner_image = section.settings.banner_image  
+assign banner_title = section.settings.banner_title  
+%}
+
+{%- capture banner_block  -%}{%- endcapture -%}
+{%- capture sidebar -%}{%- endcapture-%}
+
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when 'search' -%}
+      {%- capture block_content -%}
+        <div class="sb-widget">
+          <div class="sb-search">
+            <form id="search" class="form-search" action="/search" method="get">
+              <input name="q" type="text" class="form-control" placeholder="Search" autocomplete="off">
+              {% render 'svg' type: 'search' %}
+            </form>
+          </div>
+        </div>
+      {%- endcapture-%}
+      {%- assign sidebar = sidebar | append: block_content -%}
+    {% comment %} end {% endcomment %}
+    {%- when 'categories' -%}
+      {%- capture block_content -%}
+        <div class="sb-widget">
+          <div class="sb-categories">
+            <div class="title"> 
+              <span>{{block.settings.title}}</span>
+            </div>
+            <div class="sb-categories__list">
+              <div class="sb-categories__item">
+                <div class="label">
+                  <span>Announcements</span>
+                </div>
+                <div class="number">
+                  <span>(21)</span>
+                </div>
+              </div>
+              <div class="sb-categories__item">
+                <div class="label">
+                  <span>Product Updates</span>
+                </div>
+                <div class="number">
+                  <span>(16)</span>
+                </div>
+              </div>
+              <div class="sb-categories__item">
+                <div class="label">
+                  <span>Grow your Shopify Store</span>
+                </div>
+                <div class="number">
+                  <span>(09)</span>
+                </div>
+              </div>
+              <div class="sb-categories__item">
+                <div class="label">
+                  <span>App Guides</span>
+                </div>
+                <div class="number">
+                  <span>(46)</span>
+                </div>
+              </div>
+              <div class="sb-categories__item">
+                <div class="label">
+                  <span>Shopify Plus</span>
+                </div>
+                <div class="number">
+                  <span>(22)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endcapture -%}
+      {%- assign sidebar = sidebar | append: block_content -%}
+    {% comment %} end {% endcomment %}
+    {%- when 'blog_list' -%}
+      {%- capture block_content -%}
+        <div class="sb-widget">
+          <div class="sb-blog-list">
+            <div class="title">
+              <span>{{block.settings.title}}</span>
+            </div>
+            <div class="sb-blog-list__list">
+              {%- for article in blogs[block.settings.blog_handle].articles -%}
+                <div class="sb-blog-list__item">
+                  <div class="article-image">
+                    {% render 'image-style' image: article.image %}
+                  </div>
+                  <div class="article-info">
+                    <div class="title">
+                      <span>{{article.title}}</span>
+                    </div>
+                    <div class="post-day">
+                      <span>{{article.published_at | date: '%b %d, %y'}}</span>
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {%- endcapture -%}
+    {% comment %} end {% endcomment %}
+  {%- endcase -%}
+{%- endfor -%}
+<div class="blog blog-default">
+  <div class="container">
+
+    <div class="banner">
+      <div class="image">
+        {% render 'image-style' image: banner_image %}
+        <div class="title">
+          <span>{{banner_title}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-list">
+      <div class="row">
+        <div class="col-12 col-lg-8 order-2 order-lg-1">
+          <div class="row">
+            {%- for article in blog.articles -%}
+              {%- if forloop.first -%}
+                <div class="col-12">
+                  <div class="article article-large">
+                    <div class="image">
+                      {% render 'image-style' image: article.image %}
+                    </div>
+                    <div class="article-info">
+                      <div class="post-day">
+                        <span>{{article.published_at | date: '%b %d, %y'}}</span>
+                      </div>
+                      <div class="title">
+                        <span>{{article.title}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- else -%}
+                <div class="col-12 col-lg-6">
+                  <div class="article article-small">
+                    <div class="image">
+                      {% render 'image-style' image: article.image %}
+                    </div>
+                    <div class="article-info">
+                      <div class="post-day">
+                        <span>{{article.published_at | date: '%b %d, %y'}}</span>
+                      </div>
+                      <div class="title">
+                        <span>{{article.title}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 order-1 order-lg-2">
+          <div class="sidebar">
+            {{sidebar}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name" : "Blog Default",
+    "tag" : "section",
+    "settings" : [
+      {
+        "type": "header",
+        "content": "Banner Settings"
+      },
+      {
+        "type": "text",
+        "id": "banner_title",
+        "label": "Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_image",
+        "label": "Image"
+      }
+    ],
+    "blocks" : [
+      {
+        "type" : "search",
+        "name" : "Search",
+        "settings" : []
+      }
+    ]
+  }
+{% endschema %}
