@@ -3,108 +3,8 @@ assign banner_image = section.settings.banner_image
 assign banner_title = section.settings.banner_title  
 %}
 
-{%- capture banner_block  -%}{%- endcapture -%}
-{%- capture sidebar -%}{%- endcapture-%}
 
-{%- for block in section.blocks -%}
-  {%- case block.type -%}
-    {%- when 'search' -%}
-      {%- capture block_content -%}
-        <div class="sb-widget">
-          <div class="sb-search">
-            <form id="search" class="form-search" action="/search" method="get">
-              <input name="q" type="text" class="form-control" placeholder="Search" autocomplete="off">
-              {% render 'svg' type: 'search' %}
-            </form>
-          </div>
-        </div>
-      {%- endcapture-%}
-      {%- assign sidebar = sidebar | append: block_content -%}
-    {% comment %} end {% endcomment %}
-    {%- when 'categories' -%}
-      {%- capture block_content -%}
-        <div class="sb-widget">
-          <div class="sb-categories">
-            <div class="title"> 
-              <span>{{block.settings.title}}</span>
-            </div>
-            <div class="sb-categories__list">
-              <div class="sb-categories__item">
-                <div class="label">
-                  <span>Announcements</span>
-                </div>
-                <div class="number">
-                  <span>(21)</span>
-                </div>
-              </div>
-              <div class="sb-categories__item">
-                <div class="label">
-                  <span>Product Updates</span>
-                </div>
-                <div class="number">
-                  <span>(16)</span>
-                </div>
-              </div>
-              <div class="sb-categories__item">
-                <div class="label">
-                  <span>Grow your Shopify Store</span>
-                </div>
-                <div class="number">
-                  <span>(09)</span>
-                </div>
-              </div>
-              <div class="sb-categories__item">
-                <div class="label">
-                  <span>App Guides</span>
-                </div>
-                <div class="number">
-                  <span>(46)</span>
-                </div>
-              </div>
-              <div class="sb-categories__item">
-                <div class="label">
-                  <span>Shopify Plus</span>
-                </div>
-                <div class="number">
-                  <span>(22)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      {%- endcapture -%}
-      {%- assign sidebar = sidebar | append: block_content -%}
-    {% comment %} end {% endcomment %}
-    {%- when 'blog_list' -%}
-      {%- capture block_content -%}
-        <div class="sb-widget">
-          <div class="sb-blog-list">
-            <div class="title">
-              <span>{{block.settings.title}}</span>
-            </div>
-            <div class="sb-blog-list__list">
-              {%- for article in blogs[block.settings.blog_handle].articles -%}
-                <div class="sb-blog-list__item">
-                  <div class="article-image">
-                    {% render 'image-style' image: article.image %}
-                  </div>
-                  <div class="article-info">
-                    <div class="title">
-                      <span>{{article.title}}</span>
-                    </div>
-                    <div class="post-day">
-                      <span>{{article.published_at | date: '%b %d, %y'}}</span>
-                    </div>
-                  </div>
-                </div>
-              {%- endfor -%}
-            </div>
-          </div>
-        </div>
-      {%- endcapture -%}
-    {% comment %} end {% endcomment %}
-  {%- endcase -%}
-{%- endfor -%}
+
 <div class="blog blog-default">
   <div class="container">
 
@@ -126,14 +26,18 @@ assign banner_title = section.settings.banner_title
                 <div class="col-12">
                   <div class="article article-large">
                     <div class="image">
-                      {% render 'image-style' image: article.image %}
+                      <a href="{{article.url}}">
+                        {% render 'image-style' image: article.image %}
+                      </a>
                     </div>
                     <div class="article-info">
                       <div class="post-day">
-                        <span>{{article.published_at | date: '%b %d, %y'}}</span>
+                        <span>{{article.published_at | date: '%b %d, %Y'}}</span>
                       </div>
                       <div class="title">
-                        <span>{{article.title}}</span>
+                        <a href="{{article.url}}">
+                         <span>{{article.title}}</span>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -146,7 +50,7 @@ assign banner_title = section.settings.banner_title
                     </div>
                     <div class="article-info">
                       <div class="post-day">
-                        <span>{{article.published_at | date: '%b %d, %y'}}</span>
+                        <span>{{article.published_at | date: '%b %d, %Y'}}</span>
                       </div>
                       <div class="title">
                         <span>{{article.title}}</span>
@@ -160,7 +64,107 @@ assign banner_title = section.settings.banner_title
         </div>
         <div class="col-12 col-lg-4 order-1 order-lg-2">
           <div class="sidebar">
-            {{sidebar}}
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'search' -%}
+                  <div class="sb-widget">
+                    <div class="sb-wrapper">
+                      <div class="sb-search">
+                        <form id="search" class="form-search" action="/search" method="get">
+                          <input name="q" type="text" class="form-control" placeholder="Search" autocomplete="off">
+                          {% render 'svg' type: 'search' %}
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                {% comment %} end {% endcomment %}
+                {%- when 'categories' -%}
+                  <div class="sb-widget">
+                    <div class="sb-wrapper">
+                      <div class="sb-categories">
+                        <div class="title"> 
+                          <span>{{block.settings.title}}</span>
+                        </div>
+                        <div class="sb-categories__list">
+                          <div class="sb-categories__item">
+                            <div class="label">
+                              <span>Announcements</span>
+                            </div>
+                            <div class="number">
+                              <span>(21)</span>
+                            </div>
+                          </div>
+                          <div class="sb-categories__item">
+                            <div class="label">
+                              <span>Product Updates</span>
+                            </div>
+                            <div class="number">
+                              <span>(16)</span>
+                            </div>
+                          </div>
+                          <div class="sb-categories__item">
+                            <div class="label">
+                              <span>Grow your Shopify Store</span>
+                            </div>
+                            <div class="number">
+                              <span>(09)</span>
+                            </div>
+                          </div>
+                          <div class="sb-categories__item">
+                            <div class="label">
+                              <span>App Guides</span>
+                            </div>
+                            <div class="number">
+                              <span>(46)</span>
+                            </div>
+                          </div>
+                          <div class="sb-categories__item">
+                            <div class="label">
+                              <span>Shopify Plus</span>
+                            </div>
+                            <div class="number">
+                              <span>(22)</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% comment %} end {% endcomment %}
+                {%- when 'blog_list' -%}
+                  <div class="sb-widget">
+                    <div class="sb-wrapper">
+                      <div class="sb-blog-list">
+                        <div class="title">
+                          <span>{{block.settings.title}}</span>
+                        </div>
+                        <div class="sb-blog-list__wrapper">
+                          {%- for article in blogs[block.settings.blog].articles -%}
+                            <div class="sb-blog-list__item">
+                              <div class="article-image">
+                                <a href="{{article.url}}">
+                                  {% render 'image-style' image: article.image %}
+                                </a>
+                              </div>
+                              <div class="article-info">
+                                <div class="title">
+                                  <a href="{{article.url}}">
+                                    <span>{{article.title}}</span>
+                                  </a>
+                                </div>
+                                <div class="post-day">
+                                  <span>{{article.published_at | date: '%b %d, %Y'}}</span>
+                                </div>
+                              </div>
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% comment %} end {% endcomment %}
+              {%- endcase -%}
+            {%- endfor -%}
           </div>
         </div>
       </div>
@@ -193,6 +197,38 @@ assign banner_title = section.settings.banner_title
         "type" : "search",
         "name" : "Search",
         "settings" : []
+      },
+      {
+        "type" : "categories",
+        "name" : "Categories",
+        "settings" : [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      },
+      {
+        "type" : "blog_list",
+        "name" : "Blog List",
+        "settings" : [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+             "type" : "blog",
+             "id"   : "blog",
+             "label": "Blog"
+          }
+        ]
       }
     ]
   }
