@@ -6,7 +6,8 @@
       }
     },
     "min": "Min",
-    "max": "Max"
+    "max": "Max",
+    "tags": "Tags:"
   },
   "search": {
     "search_placeholder": "What are you looking for ?",
@@ -242,6 +243,11 @@
       "related_article_html": "Not what you’re looking for? <br> Check out these similar roles.",
       "form_message_placeholder": "Introduction of yourself",
       "form_button": "Submit Application"
+    },
+    "default": {
+      "social_label": "Share via social",
+      "next_label": "NEXT POST",
+      "previous_label": "PREVIOUS POST"
     }
   },
   "blog_template": {

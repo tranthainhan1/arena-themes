@@ -1,0 +1,103 @@
+<div class="sidebar">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'search' -%}
+        <div class="sb-widget">
+          <div class="sb-wrapper">
+            <div class="sb-search">
+              <form id="search" class="form-search" action="/search" method="get">
+                <input name="q" type="text" class="form-control" placeholder="Search" autocomplete="off">
+                {% render 'svg' type: 'search' %}
+              </form>
+            </div>
+          </div>
+        </div>
+      {% comment %} end {% endcomment %}
+      {%- when 'categories' -%}
+        <div class="sb-widget">
+          <div class="sb-wrapper">
+            <div class="sb-categories">
+              <div class="title"> 
+                <span>{{block.settings.title}}</span>
+              </div>
+              <div class="sb-categories__list">
+                <div class="sb-categories__item">
+                  <div class="label">
+                    <span>Announcements</span>
+                  </div>
+                  <div class="number">
+                    <span>(21)</span>
+                  </div>
+                </div>
+                <div class="sb-categories__item">
+                  <div class="label">
+                    <span>Product Updates</span>
+                  </div>
+                  <div class="number">
+                    <span>(16)</span>
+                  </div>
+                </div>
+                <div class="sb-categories__item">
+                  <div class="label">
+                    <span>Grow your Shopify Store</span>
+                  </div>
+                  <div class="number">
+                    <span>(09)</span>
+                  </div>
+                </div>
+                <div class="sb-categories__item">
+                  <div class="label">
+                    <span>App Guides</span>
+                  </div>
+                  <div class="number">
+                    <span>(46)</span>
+                  </div>
+                </div>
+                <div class="sb-categories__item">
+                  <div class="label">
+                    <span>Shopify Plus</span>
+                  </div>
+                  <div class="number">
+                    <span>(22)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% comment %} end {% endcomment %}
+      {%- when 'blog_list' -%}
+        <div class="sb-widget">
+          <div class="sb-wrapper">
+            <div class="sb-blog-list">
+              <div class="title">
+                <span>{{block.settings.title}}</span>
+              </div>
+              <div class="sb-blog-list__wrapper">
+                {%- for article in blogs[block.settings.blog].articles -%}
+                  <div class="sb-blog-list__item">
+                    <div class="article-image">
+                      <a href="{{article.url}}">
+                        {% render 'image-style' image: article.image %}
+                      </a>
+                    </div>
+                    <div class="article-info">
+                      <div class="title">
+                        <a href="{{article.url}}">
+                          <span>{{article.title}}</span>
+                        </a>
+                      </div>
+                      <div class="post-day">
+                        <span>{{article.published_at | date: '%b %d, %Y'}}</span>
+                      </div>
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% comment %} end {% endcomment %}
+    {%- endcase -%}
+  {%- endfor -%}
+</div>

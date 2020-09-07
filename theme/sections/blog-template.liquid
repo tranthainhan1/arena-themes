@@ -46,14 +46,18 @@ assign banner_title = section.settings.banner_title
                 <div class="col-12 col-lg-6">
                   <div class="article article-small">
                     <div class="image">
-                      {% render 'image-style' image: article.image %}
+                      <a href="{{article.url}}">
+                        {% render 'image-style' image: article.image %}
+                      </a>
                     </div>
                     <div class="article-info">
                       <div class="post-day">
                         <span>{{article.published_at | date: '%b %d, %Y'}}</span>
                       </div>
                       <div class="title">
-                        <span>{{article.title}}</span>
+                        <a href="{{article.url}}">
+                         <span>{{article.title}}</span>
+                        </a>
                       </div>
                     </div>
                   </div>

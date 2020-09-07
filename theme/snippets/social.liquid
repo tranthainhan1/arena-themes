@@ -1,0 +1,19 @@
+<div class="social">
+  <div class="social__label">
+    <span>{{ label }}</span>
+  </div>
+  <div class="social__icons">
+    {%- for i in (1..6) -%}
+     
+      {%- assign type = 'social_font_type_' | append: i -%}
+      {%- assign icon = 'social_font_icon_' | append: i -%}
+      {%- assign link = 'social_icon_link_' | append: i -%}
+      {%- assign title = 'social_icon_title_' | append: i -%}
+      {%- if settings[type] != 'none' and settings[icon] != blank -%}
+        <a href="{{settings[link]}}" title="{{settings[title]}}">
+          {{settings[icon]}}
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>

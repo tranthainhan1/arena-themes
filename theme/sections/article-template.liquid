@@ -1,0 +1,179 @@
+{%- assign current_article = false -%}
+
+{%- for a in blog.articles -%}
+
+  {%- if current_article -%}
+    {%- assign next_article = a -%}
+    {%- break -%}
+  {%- endif -%}
+
+  {%- if a.id == article.id -%}
+    {%- assign current_article = true -%}
+  {%- else -%}
+    {%- assign previous_article = a -%}
+  {%- endif -%}
+
+{%- endfor -%}
+
+
+<div class="article article-default">
+  <div class="container">
+    <div class="d-none d-lg-block">
+      {% render 'breadcrumb-snippets' type: 'blog' %}
+    </div>
+    <div class="article__wrapper">
+      <div class="row">
+        
+        <div class="col-12 col-lg-8 order-2 order-lg-1">
+          <div class="article__content">
+            <div class="header">
+              <div class="title">
+                <h3>{{article.title}}</h3>
+              </div>
+              {% render 'article-post-day' post_day: article.published_at, showAuthor: true %}
+            </div>
+            <div class="content">
+              {{article.content}}
+            </div>
+          </div>
+          <div class="article__social">
+            <div class="row">
+              <div class="col-12 col-lg-6">
+                <div class="article__social__right">
+                  {%- assign label = 'article_template.default.social_label' | t -%}
+                  {% render 'social' label: label %}
+                </div>
+              </div>
+              <div class="col-12 col-lg-6">
+                <div class="article__social__left">
+                  <div class="article-tags">
+                    <div class="article-tags__wrapper">
+                      <span>{{ 'general.tags' | t}}</span>
+                      <span>
+                        {%- for tag in article.tags -%}
+                          {%- if forloop.last -%}
+                            <i>
+                              <a href="{{ tag | within: blog}}" class="article-tag">
+                                {{tag.title}}
+                              </a>
+                            </i>
+                          {%- else -%}
+                            <i>
+                              <a href="{{ tag | within: blog}}" class="article-tag">
+                                {{tag.title}}
+                              </a> ,
+                            </i>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="article__nav">
+            <div class="row">
+
+              {%- if previous_article -%}
+                <div class="col-6">
+                  <div class="previous-article">
+                    <div class="previous-label">
+                      <a href="{{previous_article.url}}">{{ 'article_template.default.previous_label' | t}}</a>
+                      <div class="d-flex previous-article_info">
+                        <a href="{{previous_article.url}}" class="image">
+                          {% render 'image-style' image: previous_article.image %}
+                        </a>
+                        <div class="field-group">
+                          <div class="title">
+                            <a href="{{previous_article.url}}">
+                              {{previous_article.title}}
+                            </a>
+                          </div>
+                          {% render 'article-post-day' post_day: previous_article.published_at %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+
+              {%- if next_article -%}
+                <div class="col-6">
+                  <div class="next-article">
+                    <div class="next-label">
+                      <a href="{{next_article.url}}">{{ 'article_template.default.next_label' | t}}</a>
+                      <div class="d-flex next-article_info">
+                        <div class="field-group text-right">
+                          <div class="title">
+                            <a href="{{next_article.url}}">{{next_article.title}}</a>
+                          </div>
+                          {% render 'article-post-day' post_day: next_article.published_at %}
+                        </div>
+                        <a href="{{next_article.url}}" class="image">
+                          {% render 'image-style' image: next_article.image %}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 order-1 order-lg-2">
+          {% render 'blog-sidebar' section: section %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name" : "Article Default",
+    "tag" : "section",
+    "settings" : [],
+    "blocks" : [
+      {
+        "type" : "search",
+        "name" : "Search",
+        "settings" : []
+      },
+      {
+        "type" : "categories",
+        "name" : "Categories",
+        "settings" : [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      },
+      {
+        "type" : "blog_list",
+        "name" : "Blog List",
+        "settings" : [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+             "type" : "blog",
+             "id"   : "blog",
+             "label": "Blog"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
