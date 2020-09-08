@@ -8,6 +8,7 @@ import "lazysizes/plugins/rias/ls.rias";
 // import "lazysizes/plugins/video-embed/ls.video-embed";
 // import * as shopifyCart from "@shopify/theme-cart";
 import { register, load } from "@shopify/theme-sections";
+
 import {
   Header,
   Footer,
@@ -21,7 +22,6 @@ import {
   CollectionSubTask,
 } from "./AT_section";
 import AT from "./_arn";
-
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 
@@ -41,8 +41,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   load("*");
 
-  document.body.classList.contains("template-customers-login") &&
-    CustomerLayout();
+  document.body.classList.contains("template-customers-login") && CustomerLayout();
+
   AT.initTNS();
   AT.initHandleCollapse();
+  AT.handleSearch();
 });

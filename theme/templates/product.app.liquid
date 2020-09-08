@@ -32,7 +32,8 @@
               <span>Expand the functionality of your store with Custom Fields.</span>
             </div>
             <div class="price">
-              {%- if price == 0 -%}
+              {%- if product.price == 0 -%}
+                <span>{{ 'product_template.apps.free' | t}}</span>
               {%- else -%}
                 <span>{{ 'card.app.price' | t: price: price, day: day_trial}}</span>
               {%- endif -%}

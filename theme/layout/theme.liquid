@@ -13,7 +13,7 @@
   <meta name='MobileOptimized' content='360'>
   <meta http-equiv="cleartype" content="on">
   <meta name="theme-color" content="{{ settings.main_color }}">
-  <title>{{ page_title }}{%- if current_tags -%}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  <title>{%- include 'page-title' -%}</title>
   {%- if page_description -%}
   <meta name="description" content="{{ page_description | escape }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags | escape }}.{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}.{% endif %}" />
   {%- endif -%}
@@ -47,7 +47,7 @@
   {%- capture subThemeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | join: '-' -}}{%- endcapture -%}
 {%- endif -%}
 
-<body class="{{subThemeClass}}">
+<body class="{{themeClass}} {{subThemeClass}}">
   {%- render 'snippet-theme', type: 'themeCSS' -%}
   <div class="boxed-wapper">
     {%- section 'header' -%}

@@ -11,7 +11,7 @@
              <a href="javascript:void(0)" id="js-close-search" class="close-search">
               {% render 'svg' , type: 'close' %}
             </a>
-            <input type="text" name="q" />
+            <input type="text" name="q" class="js-search"/>
           </form>
           <div class="search-result">
             <div class="no-result">
@@ -21,6 +21,9 @@
               <div class="subtitle">
                 <span>{{ 'search.no_result.subtitle' | t}}</span>
               </div>
+            </div>
+            <div class="has-results">
+              .
             </div>
           </div>
         </div>

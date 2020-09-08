@@ -2,7 +2,6 @@ import { tns } from "tiny-slider/src/tiny-slider";
 
 var AT = {
   initTinySlider: function (container) {
-    console.trace();
     let config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
     let sliderContainer = container.querySelector(".js-tns");
     let controlsContainer = sliderContainer.nextElementSibling;
@@ -29,7 +28,7 @@ var AT = {
   handleCollapse: function (btnTrigger, collapseContainer) {
     let first = true,
       isComplete = false;
-    console.trace();
+
     btnTrigger.addEventListener("click", function () {
       if (first || isComplete) {
         first = false;
@@ -81,6 +80,19 @@ var AT = {
       let id = item.getAttribute("data-target");
       let collapseContainer = document.getElementById(id);
       AT.handleCollapse(item, collapseContainer);
+    });
+  },
+
+  handleSearch: function () {
+    let inputsSearch = document.querySelectorAll('input[class="js-search"]');
+
+    [...inputsSearch].forEach(function (input) {
+      input.addEventListener(
+        "keyup",
+        AT.debounce(function (event) {
+          let q = event.target.value;
+        }, 500)
+      );
     });
   },
 };

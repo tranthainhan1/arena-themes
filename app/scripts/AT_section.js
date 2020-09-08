@@ -347,7 +347,6 @@ export {
   Footer,
   SupportTemplate,
   HeroBanner,
-  // AboutTemplate,
   CollectionThemes,
   CustomerLayout,
   CollectionApps,
