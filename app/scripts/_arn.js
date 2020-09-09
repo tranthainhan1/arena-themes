@@ -14,13 +14,11 @@ var AT = {
   },
   debounce: (func, wait) => {
     let timeout;
-
     return function (...args) {
       const later = () => {
         clearTimeout(timeout);
         func(...args);
       };
-
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
     };
@@ -83,18 +81,46 @@ var AT = {
     });
   },
 
-  handleSearch: function () {
-    let inputsSearch = document.querySelectorAll('input[class="js-search"]');
+  // handleSearch: function () {
+  //   let searchContainers = document.getElementsByClassName("js-search");
 
-    [...inputsSearch].forEach(function (input) {
-      input.addEventListener(
-        "keyup",
-        AT.debounce(function (event) {
-          let q = event.target.value;
-        }, 500)
-      );
-    });
-  },
+  //   [...searchContainers].forEach(function (searchContainer) {
+  //     let input = searchContainer.getElementsByClassName("js-input-search")[0];
+  //     let resultContainer = searchContainer.getElementsByClassName("js-search-result")[0];
+  //     let prevKeyword;
+
+  //     const request = AT.debounce((q) => {
+  //       const myHeaders = new Headers();
+  //       const myRequest = new Request(`/search/suggest.json?q=${q}&resources%5Btype%5D=product,article`, {
+  //         method: "get",
+  //         headers: myHeaders,
+  //       });
+
+  //       fetch(myRequest)
+  //         .then((res) => res.json())
+  //         .then(({ resources: { results } }) => loadResults(results, q));
+  //     }, 500);
+
+  //     input.addEventListener("keyup", function (event) {
+  //       let q = event.target.value.trim();
+  //       if (q && prevKeyword !== q) {
+  //         resultContainer.classList.add("is-load");
+  //         request(q);
+  //         prevKeyword = q;
+  //       }
+  //     });
+
+  //     function loadResults({ products, articles }, q) {
+  //       let countResults = products.length + articles.length;
+  //       if (countResults) {
+  //       } else {
+  //         resultContainer.classList.remove("is-load");
+  //         resultContainer.getElementsByClassName("keyword")[0].innerHTML = q;
+  //         resultContainer.classList.add("no-result");
+  //       }
+  //     }
+  //   });
+  // },
 };
 
 export default AT;

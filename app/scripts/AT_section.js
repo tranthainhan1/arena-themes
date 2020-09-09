@@ -9,7 +9,7 @@ let Header = {
       menuMobileContainer: $container.querySelector(".js-nav-mobile"),
       elmTriggerCollapse: $container.querySelectorAll(".js-trigger-collapse"),
       overlayMenuMobile: $container.querySelector(".header .overlay-menu-mobile"),
-      btnSearch: document.getElementById("js-handle-search"),
+      btnOpenSearch: document.getElementById("js-open-search"),
       btnCloseSearch: document.getElementById("js-close-search"),
       headerDesktop: $container.getElementsByClassName("header-desktop")[0],
       elmSearch: document.getElementById("search"),
@@ -53,7 +53,7 @@ let Header = {
   },
   handleSearch: function () {
     let {
-      btnSearch,
+      btnOpenSearch,
       headerDesktop,
       btnCloseSearch,
       elmSearch,
@@ -62,7 +62,7 @@ let Header = {
       inputSearchMobile,
     } = this.elements;
 
-    btnSearch.addEventListener("click", function () {
+    btnOpenSearch.addEventListener("click", function () {
       if (window.innerWidth > 991) {
         if (headerDesktop.classList.contains("search-show")) {
           headerDesktop.classList.remove("search-show");

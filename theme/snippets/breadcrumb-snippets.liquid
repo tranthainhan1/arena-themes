@@ -35,8 +35,8 @@
         {%- else -%}
           {%- if collection.url -%}
             <a href="{{collection.url}}">{{title}}</a>
+            <span aria-hidden="true"> ></span>
           {%- endif -%}
-          <span aria-hidden="true"> ></span>
           <span>{{ page_title }}</span>  
       {%- endcase -%}
     {% endif %}

@@ -5489,16 +5489,42 @@ var AT = {
       var collapseContainer = document.getElementById(id);
       AT.handleCollapse(item, collapseContainer);
     });
-  },
-  handleSearch: function handleSearch() {
-    var inputsSearch = document.querySelectorAll('input[class="js-search"]');
+  } // handleSearch: function () {
+  //   let searchContainers = document.getElementsByClassName("js-search");
+  //   [...searchContainers].forEach(function (searchContainer) {
+  //     let input = searchContainer.getElementsByClassName("js-input-search")[0];
+  //     let resultContainer = searchContainer.getElementsByClassName("js-search-result")[0];
+  //     let prevKeyword;
+  //     const request = AT.debounce((q) => {
+  //       const myHeaders = new Headers();
+  //       const myRequest = new Request(`/search/suggest.json?q=${q}&resources%5Btype%5D=product,article`, {
+  //         method: "get",
+  //         headers: myHeaders,
+  //       });
+  //       fetch(myRequest)
+  //         .then((res) => res.json())
+  //         .then(({ resources: { results } }) => loadResults(results, q));
+  //     }, 500);
+  //     input.addEventListener("keyup", function (event) {
+  //       let q = event.target.value.trim();
+  //       if (q && prevKeyword !== q) {
+  //         resultContainer.classList.add("is-load");
+  //         request(q);
+  //         prevKeyword = q;
+  //       }
+  //     });
+  //     function loadResults({ products, articles }, q) {
+  //       let countResults = products.length + articles.length;
+  //       if (countResults) {
+  //       } else {
+  //         resultContainer.classList.remove("is-load");
+  //         resultContainer.getElementsByClassName("keyword")[0].innerHTML = q;
+  //         resultContainer.classList.add("no-result");
+  //       }
+  //     }
+  //   });
+  // },
 
-    toConsumableArray_default()(inputsSearch).forEach(function (input) {
-      input.addEventListener("keyup", AT.debounce(function (event) {
-        var q = event.target.value;
-      }, 500));
-    });
-  }
 };
 /* harmony default export */ var _arn = (AT);
 // CONCATENATED MODULE: ./app/scripts/AT_section.js
@@ -5512,7 +5538,7 @@ var Header = {
       menuMobileContainer: $container.querySelector(".js-nav-mobile"),
       elmTriggerCollapse: $container.querySelectorAll(".js-trigger-collapse"),
       overlayMenuMobile: $container.querySelector(".header .overlay-menu-mobile"),
-      btnSearch: document.getElementById("js-handle-search"),
+      btnOpenSearch: document.getElementById("js-open-search"),
       btnCloseSearch: document.getElementById("js-close-search"),
       headerDesktop: $container.getElementsByClassName("header-desktop")[0],
       elmSearch: document.getElementById("search"),
@@ -5559,14 +5585,14 @@ var Header = {
   },
   handleSearch: function handleSearch() {
     var _this$elements2 = this.elements,
-        btnSearch = _this$elements2.btnSearch,
+        btnOpenSearch = _this$elements2.btnOpenSearch,
         headerDesktop = _this$elements2.headerDesktop,
         btnCloseSearch = _this$elements2.btnCloseSearch,
         elmSearch = _this$elements2.elmSearch,
         elmSearchMobile = _this$elements2.elmSearchMobile,
         btnCloseSearchMobile = _this$elements2.btnCloseSearchMobile,
         inputSearchMobile = _this$elements2.inputSearchMobile;
-    btnSearch.addEventListener("click", function () {
+    btnOpenSearch.addEventListener("click", function () {
       if (window.innerWidth > 991) {
         if (headerDesktop.classList.contains("search-show")) {
           headerDesktop.classList.remove("search-show");

@@ -1,8 +1,8 @@
 {%- case type -%}
 	{%- when 'icon-list' -%}
 		<div class="icon-list">
-      <div class="icon-list__item search">
-        <a href="javascript:void(0)" id="js-handle-search">
+      <div class="js-search icon-list__item search">
+        <a href="javascript:void(0)" id="js-open-search">
           {% render 'svg' , type: 'search' %}
         </a>
         <div class="search-group">
@@ -10,20 +10,21 @@
             {% render 'svg' , type: 'search' %}
              <a href="javascript:void(0)" id="js-close-search" class="close-search">
               {% render 'svg' , type: 'close' %}
+              {% render 'svg' , type: 'loading' %}
             </a>
-            <input type="text" name="q" class="js-search"/>
+            <input type="text" name="q" class="js-input-search"/>
           </form>
-          <div class="search-result">
+          <div class="js-search-result search-result">
             <div class="no-result">
               <div class="title">
-                <span>{{ 'search.no_result.title' | t}}</span>
+                <span>{{ 'search.no_result.title' | t}} "<span class="keyword"></span>"</span>
               </div>
               <div class="subtitle">
                 <span>{{ 'search.no_result.subtitle' | t}}</span>
               </div>
             </div>
             <div class="has-results">
-              .
+              
             </div>
           </div>
         </div>
@@ -84,3 +85,6 @@
       </a>
     </div>
 {%- endcase -%}
+<style>
+  
+</style>
