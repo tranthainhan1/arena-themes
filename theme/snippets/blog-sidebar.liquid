@@ -98,6 +98,9 @@
           </div>
         </div>
       {% comment %} end {% endcomment %}
+      {%- when 'block_custom' -%}
+        {{block_custom}}
+      {% comment %} end {% endcomment %}
     {%- endcase -%}
   {%- endfor -%}
 </div>

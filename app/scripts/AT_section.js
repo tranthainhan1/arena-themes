@@ -83,6 +83,7 @@ let Header = {
     });
     btnCloseSearch.addEventListener("click", function () {
       headerDesktop.classList.remove("search-show");
+      headerDesktop.getElementsByClassName("js-search");
       document.body.classList.remove("popup-is-showing");
     });
     btnCloseSearchMobile.addEventListener("click", function () {

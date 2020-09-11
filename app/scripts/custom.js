@@ -40,10 +40,8 @@ window.addEventListener("DOMContentLoaded", () => {
   register("collection-sub-task", CollectionSubTask);
 
   load("*");
-
   document.body.classList.contains("template-customers-login") && CustomerLayout();
 
   AT.initTNS();
   AT.initHandleCollapse();
-  AT.handleSearch();
 });

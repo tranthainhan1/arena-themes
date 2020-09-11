@@ -5613,6 +5613,7 @@ var Header = {
     });
     btnCloseSearch.addEventListener("click", function () {
       headerDesktop.classList.remove("search-show");
+      headerDesktop.getElementsByClassName("js-search");
       document.body.classList.remove("popup-is-showing");
     });
     btnCloseSearchMobile.addEventListener("click", function () {
@@ -5889,7 +5890,6 @@ window.addEventListener("DOMContentLoaded", function () {
   document.body.classList.contains("template-customers-login") && CustomerLayout();
   _arn.initTNS();
   _arn.initHandleCollapse();
-  _arn.handleSearch();
 });
 
 /***/ })

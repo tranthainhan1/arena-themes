@@ -15,7 +15,99 @@
 
 {%- endfor -%}
 
+{%- assign article_content = a.content | split: "<!-- anchor-link -->" -%}
+    {%- for c in article_content -%}
+      {%- if c contains "<!-- /anchor-link -->" -%}
+        {%- assign anchor_link = c | split: "<!-- /anchor-link -->"| first  -%} 
+        {%- assign anchor_links = anchorL_links | append: anchor_link -%}
+        {%- unless forloop.last -%}
+          {%- assign anchor_links = anchorL_links | append: ',' -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
 
+{%- capture anchor_links -%}{%- endcapture-%}
+
+{%- capture article_content -%}
+  {% liquid 
+    assign article_content = article.content | split: "<!-- clipboard -->" 
+    for c in article_content
+      assign index =  forloop.index
+      if c contains "<!-- /clipboard -->"
+        assign custom_tag =  " id='content-copy-" | append: forloop.index | append: "'>"
+        assign first_content = c | split: "<!-- /clipboard -->" | first | replace_first: ">", custom_tag
+        assign last_content = c | split: "<!-- /clipboard -->" | last
+
+        echo "<code class='copy-to-clipboard'>"
+        echo first_content
+        echo 'article_template.default.btn_copy_clipboard_html' | t: index: forloop.index
+        echo "</code>"
+        
+        if last_content contains "<!-- anchor-link -->"
+          assign new_custom_tag = " id='anchor-link-" | append: forloop.index | append: "'>"
+          assign new_first_content = last_content | split: "<!-- anchor-link -->" | first
+          assign new_last_content = last_content | split: "<!-- anchor-link -->" | last
+
+          echo new_first_content
+
+          assign new_last_content = new_last_content | split: "<!-- /anchor-link -->"
+          assign anchor_content =  new_last_content[0] | replace_first: ">" , new_custom_tag
+          assign anchor_links = anchor_links | append: anchor_content | append: ',' 
+
+          echo anchor_content
+          echo new_last_content[1]
+
+        else
+          echo last_content
+        endif
+      else
+        if c contains "<!-- anchor-link -->"
+          assign newC = c | split: "<!-- anchor-link -->"
+          for content in newC 
+            if content contains "<!-- /anchor-link -->"
+              assign custom_tag = " id='anchor-link-" | append: index  | append: '-' | append: forloop.index | append: "'>"
+              assign first_content = content | split: "<!-- /anchor-link -->" | first
+              assign last_content = content | split: "<!-- /anchor-link -->" | last
+
+              assign anchor_content =  first_content | replace_first: ">" , custom_tag
+              assign anchor_links = anchor_links | append: anchor_content | append: ',' 
+
+              echo anchor_content
+              echo last_content
+            else
+              echo content
+            endif
+          endfor
+
+        else
+          echo c
+        endif
+      endif
+    endfor
+  %}
+{%- endcapture -%}
+
+{%- assign anchor_links = anchor_links | split: "," -%}
+
+{%- capture block_sidebar_custom -%}
+  <div class="sb-widget">
+    <div class="sb-wrapper">
+      <div class="sb-sections">
+        <div class="title"> 
+          <span>Sections</span>
+        </div>
+        <div class="sb-sections__list">
+          {%- for anchor_link in anchor_links -%}
+            {%- assign href = anchor_link | split: "'" | slice: 1,1  -%}
+            <div class="sb-sections__item {% if forloop.first %}active{%- endif -%}">
+              <a href="{{href[0] | prepend: '#'}}">{{anchor_link | strip_html | strip}}</a>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endcapture -%}
 <div class="article article-default">
   <div class="container">
     <div class="d-none d-lg-block">
@@ -30,10 +122,13 @@
               <div class="title">
                 <h3>{{article.title}}</h3>
               </div>
-              {% render 'article-post-day' post_day: article.published_at, showAuthor: true %}
+              {% render 'article-post-day' post_day: article.published_at, show_author: true %}
+              <div class="image">
+                {% render 'image-style' image: article.image %}
+              </div>
             </div>
             <div class="content">
-              {{article.content}}
+              {{article_content}}
             </div>
           </div>
           <div class="article__social">
@@ -123,13 +218,31 @@
         </div>
 
         <div class="col-12 col-lg-4 order-1 order-lg-2">
-          {% render 'blog-sidebar' section: section %}
+          {% render 'blog-sidebar' section: section, block_custom: block_sidebar_custom  %}
         </div>
 
       </div>
     </div>
   </div>
 </div>
+
+<script type="application/javascript">
+  let elm = document.getElementsByClassName('sb-sections__list')[0];
+
+  [...elm.children].forEach(item => {
+    item.addEventListener('click', (e) => {
+      [...elm.children].forEach( (item)  => {
+        if(item.contains(e.target)){
+          item.classList.add('active');
+        }else{
+          item.classList.remove('active')
+        }
+
+      });
+      
+    });
+  });
+</script>
 
 {% schema %}
   {
@@ -173,6 +286,11 @@
              "label": "Blog"
           }
         ]
+      },
+      {
+        "type" : "block_custom",
+        "name" : "Block custom",
+        "settings" : []
       }
     ]
   }

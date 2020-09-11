@@ -26,22 +26,35 @@
           <div class="text-center form-title">
             <h4>{{ 'article_template.career.form_title' | t}}</h4>
           </div>
+          
           <div class="form-group">
             <label for="full_name">{{ 'form.full_name' | t}}</label>
             <input type="text" placeholder="{{ 'form.full_name_placeholder' | t}}" name="contact[Full Name]" id="full_name">
           </div>
+
           <div class="form-group">
             <label for="email">{{ 'form.email' | t}}</label>
             <input type="text" placeholder="{{ 'form.email_placeholder' | t}}" name="contact[Email]" id="email">
           </div>
+
           <div class="form-group">
             <label for="phone">{{ 'form.phone' | t}}</label>
             <input type="text" placeholder="{{ 'form.phone_placeholder' | t}}" name="contact[Phone]" id="phone">
           </div>
+
+          <div class="form-group">
+            <label for="upload">{{ 'form.upload' | t}}</label>
+            <div class="input-group input-upload">
+              <input type="file" id="upload" >
+              <label for="upload">{{ 'article_template.career.upload_html' | t}}</label>
+            </div>
+          </div>
+
           <div class="form-group">
             <label for="message">{{ 'form.message' | t}}</label>
             <textarea type="text" placeholder="{{ 'article_template.career.form_message_placeholder' | t}}" name="contact[Message]" id="message"></textarea>
           </div>
+          
           <button type="submit" class="w-100 btn btn-2">{{ 'article_template.career.form_button' | t}}</button>
         {%- endform -%}
       </div>
@@ -56,8 +69,8 @@
         <div class="related-article__list">
           <div class="row">
             {%- for article in blog.articles limit: 4-%}
-              <div class="col-12 col-lg-3 related-article__item">
-                {% render 'card-template' type: 'career-small'm article: article %}
+              <div class="col-12 col-md-6 col-xl-3 related-article__item">
+                {% render 'card-template' type: 'career-small', article: article %}
               </div>
             {%- endfor -%}
           </div>

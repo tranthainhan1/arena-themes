@@ -58,7 +58,7 @@
   "scripts": {
     "serve:test": "cross-env NODE_ENV=test gulp serve",
     "serve:dist": "cross-env NODE_ENV=production gulp serve",
-    "start": "concurrently \"gulp serve\" \"cd theme/ && theme watch -a --notify=../.tmp/theme.update \"",
+    "start": "concurrently \"gulp serve\" \"cd theme/ && theme watch -a --allow-live --notify=../.tmp/theme.update \"",
     "build": "cross-env NODE_ENV=production gulp",
     "test": "npm run serve:test",
     "tasks": "gulp --tasks"

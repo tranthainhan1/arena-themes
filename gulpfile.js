@@ -214,17 +214,11 @@ function updateLayout(env) {
       .then((res) => {
         let content = res.asset.value;
         // Remove existed css_variables.liquid refer
-        let newLayout = content.replace(
-          /\{\%\s*include.+css_variables(?:(?!\%\}).)+\%\}/gm,
-          ""
-        );
+        let newLayout = content.replace(/\{\%\s*include.+css_variables(?:(?!\%\}).)+\%\}/gm, "");
         // Remove existed main.css refer
         newLayout = newLayout.replace(
           new RegExp(
-            `\\{\\{\\s*(?:'|")${_cssName.replace(
-              /[.*+?^${}()|[\]\\]/g,
-              "\\$&"
-            )}(?:'|")(?:(?!\\}\\}).)+\\}\\}`,
+            `\\{\\{\\s*(?:'|")${_cssName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:'|")(?:(?!\\}\\}).)+\\}\\}`,
             "gm"
           ),
           ""
@@ -280,88 +274,71 @@ function updateLayout(env) {
 /**
  * ====================================================== BUILD FILE FOR PRODUCTION SHOPIFY PACKAGE
  */
-const build = parallel(
-  productionStyles.bind(this, _minifyCss),
-  scripts.bind(this, true)
-);
+const build = parallel(productionStyles.bind(this, _minifyCss), scripts.bind(this, true));
 
 async function productionStyles(_minify) {
   // Strip out variable declaration on theme/assets/main.css
   let task_1 = new Promise((resolve, reject) => {
-    fs.readFile(
-      `theme/assets/${_cssName}`,
-      { encoding: "utf8" },
-      (err, data) => {
-        if (!err) {
-          let newCss = data.replace(
-            /\/\*remove_production(?:(?!\/\*end_remove_production\*\/)(.|\s))+\/\*end_remove_production\*\//gm,
-            ""
-          );
-          fs.writeFile(`theme/assets/${_cssName}`, newCss, (_err) => {
-            if (!_err) {
-              if (_minify) {
-                src(`theme/assets/${_cssName}`)
-                  .pipe(
-                    $.postcss([cssnano({ safe: true, autoprefixer: false })])
-                  )
-                  .pipe(dest("theme/assets"));
-              }
-              resolve({
-                status: "success",
-                filePath: `assets/${_cssName}`,
-              });
-            } else {
-              resolve({
-                status: "error",
-                msg: err.message,
-              });
+    fs.readFile(`theme/assets/${_cssName}`, { encoding: "utf8" }, (err, data) => {
+      if (!err) {
+        let newCss = data.replace(
+          /\/\*remove_production(?:(?!\/\*end_remove_production\*\/)(.|\s))+\/\*end_remove_production\*\//gm,
+          ""
+        );
+        fs.writeFile(`theme/assets/${_cssName}`, newCss, (_err) => {
+          if (!_err) {
+            if (_minify) {
+              src(`theme/assets/${_cssName}`)
+                .pipe($.postcss([cssnano({ safe: true, autoprefixer: false })]))
+                .pipe(dest("theme/assets"));
             }
-          });
-        } else {
-          resolve({
-            status: "error",
-            msg: err.message,
-          });
-        }
+            resolve({
+              status: "success",
+              filePath: `assets/${_cssName}`,
+            });
+          } else {
+            resolve({
+              status: "error",
+              msg: err.message,
+            });
+          }
+        });
+      } else {
+        resolve({
+          status: "error",
+          msg: err.message,
+        });
       }
-    );
+    });
   });
 
   // Generate theme/snippets/css_variables.liquid
   let task_2 = new Promise((resolve, reject) => {
-    fs.readFile(
-      "app/styles/variables.scss.liquid",
-      { encoding: "utf8" },
-      (err, data) => {
-        if (!err) {
-          let newVars = data
-            .replace(/\/\*remove_production\*\//gm, "<style>")
-            .replace(/\/\*end_remove_production\*\//gm, "</style>");
-          fs.writeFile(
-            "theme/snippets/css_variables.liquid",
-            newVars,
-            (_err) => {
-              if (!_err) {
-                resolve({
-                  status: "success",
-                  filePath: "snippets/css_variables.liquid",
-                });
-              } else {
-                resolve({
-                  status: "error",
-                  msg: err.message,
-                });
-              }
-            }
-          );
-        } else {
-          resolve({
-            status: "error",
-            msg: err.message,
-          });
-        }
+    fs.readFile("app/styles/variables.scss.liquid", { encoding: "utf8" }, (err, data) => {
+      if (!err) {
+        let newVars = data
+          .replace(/\/\*remove_production\*\//gm, "<style>")
+          .replace(/\/\*end_remove_production\*\//gm, "</style>");
+        fs.writeFile("theme/snippets/css_variables.liquid", newVars, (_err) => {
+          if (!_err) {
+            resolve({
+              status: "success",
+              filePath: "snippets/css_variables.liquid",
+            });
+          } else {
+            resolve({
+              status: "error",
+              msg: err.message,
+            });
+          }
+        });
+      } else {
+        resolve({
+          status: "error",
+          msg: err.message,
+        });
       }
-    );
+    });
   });
 
   let task_3 = updateLayout("production");
@@ -464,45 +441,37 @@ function prepareCssVar() {
   return (async () => {
     // Read theme/config/settings_data.json
     let currentSettings = new Promise((resolve, reject) => {
-      fs.readFile(
-        "theme/config/settings_data.json",
-        { encoding: "utf8" },
-        (err, data) => {
-          if (err) {
-            resolve({
-              status: "error",
-              msg: err.message,
-            });
-          } else {
-            let currentSettings = JSON.parse(data)["current"];
-            resolve({
-              status: "success",
-              currentSettings,
-            });
-          }
+      fs.readFile("theme/config/settings_data.json", { encoding: "utf8" }, (err, data) => {
+        if (err) {
+          resolve({
+            status: "error",
+            msg: err.message,
+          });
+        } else {
+          let currentSettings = JSON.parse(data)["current"];
+          resolve({
+            status: "success",
+            currentSettings,
+          });
         }
-      );
+      });
     });
 
     // Read vars declared in variable liquid file
     let currentVars = new Promise((resolve, reject) => {
-      fs.readFile(
-        "app/styles/variables.scss.liquid",
-        { encoding: "utf8" },
-        (err, data) => {
-          if (err) {
-            resolve({
-              status: "error",
-              msg: err.message,
-            });
-          } else {
-            resolve({
-              status: "success",
-              curVars: data,
-            });
-          }
+      fs.readFile("app/styles/variables.scss.liquid", { encoding: "utf8" }, (err, data) => {
+        if (err) {
+          resolve({
+            status: "error",
+            msg: err.message,
+          });
+        } else {
+          resolve({
+            status: "success",
+            curVars: data,
+          });
         }
-      );
+      });
     });
 
     // Remove Css refer on layout/theme.liquid
@@ -589,15 +558,16 @@ async function startAppServer() {
 
 function testReload() {
   if (firstBuild) {
-    npmRun.exec(
-      `cd theme/ && theme deploy ./assets/${_cssName} ./assets/${_jsName}.liquid`,
-      function (err, stdout, stderr) {
-        if (stdout) console.log(stdout);
-        if (stderr) console.log(stderr);
-        firstBuild = false;
-        server.reload();
-      }
-    );
+    npmRun.exec(`cd theme/ && theme deploy ./assets/${_cssName} ./assets/${_jsName}.liquid --allow-live`, function (
+      err,
+      stdout,
+      stderr
+    ) {
+      if (stdout) console.log(stdout);
+      if (stderr) console.log(stderr);
+      firstBuild = false;
+      server.reload();
+    });
   } else {
     if (changeFlag === "css") {
       changeFlag = "";

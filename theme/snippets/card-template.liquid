@@ -191,26 +191,28 @@
     {%- endcapture -%}
 
     <div class="card card-career">
-      <div class="card__tags">
-        {%- for tag in article.tags -%}
-          {% liquid 
-            assign tag_title = tag | split: '_' | last
-            assign badge_type =  tag | split: '_' | first
-          %}
-          <div class="badge {{badge_type}}">
-            <span>{{tag_title}}</span> 
-          </div>
-        {%- endfor -%}
+      <div class="card__wrapper">
+        <div class="card__tags">
+          {%- for tag in article.tags -%}
+            {% liquid 
+              assign tag_title = tag | split: '_' | last
+              assign badge_type =  tag | split: '_' | first
+            %}
+            <div class="badge {{badge_type}}">
+              <span>{{tag_title}}</span> 
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="card__title">
+          <h5>
+            <a href="{{url}}">{{title}}</a>
+          </h5>
+        </div>
+        <div class="card__post-ago">
+          <span>{{post_ago}}</span>
+        </div>
       </div>
-      <div class="card__title">
-        <h5>
-          <a href="{{url}}">{{title}}</a>
-        </h5>
-      </div>
-      <div class="d-none d-md-block card__post-ago">
-        <span>{{post_ago}}</span>
-      </div>
-      <a href="{{url}}" class="btn">
+      <a href="{{url}}" class="btn btn-more">
         {{ 'card.career.btn' | t}}
         {% render 'svg' type: 'angle-right' %}
       </a>

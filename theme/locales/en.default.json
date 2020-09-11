@@ -138,7 +138,8 @@
       "contact": "Send Message"
     },
     "phone": "Phone",
-    "phone_placeholder": "ex: 092 3456 789"
+    "phone_placeholder": "ex: 092 3456 789",
+    "upload": "Resume/CV"
   },
   "collection_template": {
     "themes": {
@@ -243,12 +244,14 @@
       "form_title": "Apply for this Job",
       "related_article_html": "Not what you’re looking for? <br> Check out these similar roles.",
       "form_message_placeholder": "Introduction of yourself",
-      "form_button": "Submit Application"
+      "form_button": "Submit Application",
+      "upload_html": "<b>Upload a file</b> or drag and drop here"
     },
     "default": {
       "social_label": "Share via social",
       "next_label": "NEXT POST",
-      "previous_label": "PREVIOUS POST"
+      "previous_label": "PREVIOUS POST",
+      "btn_copy_clipboard_html": "<button id='copy-to-clipboard-{{index}}'  data-target='content-copy-{{index}}'>COPY CODE</button>"
     }
   },
   "blog_template": {
