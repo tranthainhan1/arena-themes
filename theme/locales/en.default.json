@@ -249,8 +249,8 @@
     },
     "default": {
       "social_label": "Share via social",
-      "next_label": "NEXT POST",
-      "previous_label": "PREVIOUS POST",
+      "next_label": "next post",
+      "previous_label": "previous post",
       "btn_copy_clipboard_html": "<button id='copy-to-clipboard-{{index}}'  data-target='content-copy-{{index}}'>COPY CODE</button>"
     }
   },

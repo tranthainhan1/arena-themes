@@ -90,23 +90,25 @@
 {%- assign anchor_links = anchor_links | split: "," -%}
 
 {%- capture block_sidebar_custom -%}
-  <div class="sb-widget">
-    <div class="sb-wrapper">
-      <div class="sb-sections">
-        <div class="title"> 
-          <span>Sections</span>
-        </div>
-        <div class="sb-sections__list">
-          {%- for anchor_link in anchor_links -%}
-            {%- assign href = anchor_link | split: "'" | slice: 1,1  -%}
-            <div class="sb-sections__item {% if forloop.first %}active{%- endif -%}">
-              <a href="{{href[0] | prepend: '#'}}">{{anchor_link | strip_html | strip}}</a>
-            </div>
-          {%- endfor -%}
+  {%- if anchor_links.size != 0 -%}
+    <div class="sb-widget">
+      <div class="sb-wrapper">
+        <div class="sb-sections">
+          <div class="title"> 
+            <span>Sections</span>
+          </div>
+          <div class="sb-sections__list">
+            {%- for anchor_link in anchor_links -%}
+              {%- assign href = anchor_link | split: "'" | slice: 1,1  -%}
+              <div class="sb-sections__item {% if forloop.first %}active{%- endif -%}">
+                <a href="{{href[0] | prepend: '#'}}">{{anchor_link | strip_html | strip}}</a>
+              </div>
+            {%- endfor -%}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  {%- endif -%}
 {%- endcapture -%}
 <div class="article article-default">
   <div class="container">
@@ -141,28 +143,30 @@
               </div>
               <div class="col-12 col-lg-6">
                 <div class="article__social__left">
-                  <div class="article-tags">
-                    <div class="article-tags__wrapper">
-                      <span>{{ 'general.tags' | t}}</span>
-                      <span>
-                        {%- for tag in article.tags -%}
-                          {%- if forloop.last -%}
-                            <i>
-                              <a href="{{ tag | within: blog}}" class="article-tag">
-                                {{tag.title}}
-                              </a>
-                            </i>
-                          {%- else -%}
-                            <i>
-                              <a href="{{ tag | within: blog}}" class="article-tag">
-                                {{tag.title}}
-                              </a> ,
-                            </i>
-                          {%- endif -%}
-                        {%- endfor -%}
-                      </span>
+                  {%- if article.tags.size != 0 -%}
+                    <div class="article-tags">
+                      <div class="article-tags__wrapper">
+                        <span>{{ 'general.tags' | t}}</span>
+                        <span>
+                          {%- for tag in article.tags -%}
+                            {%- if forloop.last -%}
+                              <i>
+                                <a href="{{ tag | within: blog}}" class="article-tag">
+                                  {{tag.title}}
+                                </a>
+                              </i>
+                            {%- else -%}
+                              <i>
+                                <a href="{{ tag | within: blog}}" class="article-tag">
+                                  {{tag.title}}
+                                </a> ,
+                              </i>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  {%- endif -%}
                 </div>
               </div>
             </div>
@@ -172,10 +176,15 @@
 
               {%- if previous_article -%}
                 <div class="col-6">
-                  <div class="previous-article">
-                    <div class="previous-label">
-                      <a href="{{previous_article.url}}">{{ 'article_template.default.previous_label' | t}}</a>
-                      <div class="d-flex previous-article_info">
+                  <div class="nav-article previous-article">
+                    <div class="nav-label">
+                      <a href="{{previous_article.url}}">
+                        <span class="d-md-none">
+                          {% render 'svg' type: 'angle-left' %}
+                        </span>
+                        <span>{{ 'article_template.default.previous_label' | t}}</span>
+                      </a>
+                      <div class="d-none d-md-flex nav-article_info">
                         <a href="{{previous_article.url}}" class="image">
                           {% render 'image-style' image: previous_article.image %}
                         </a>
@@ -195,10 +204,15 @@
 
               {%- if next_article -%}
                 <div class="col-6">
-                  <div class="next-article">
-                    <div class="next-label">
-                      <a href="{{next_article.url}}">{{ 'article_template.default.next_label' | t}}</a>
-                      <div class="d-flex next-article_info">
+                  <div class="nav-article next-article">
+                    <div class="nav-label">
+                      <a href="{{next_article.url}}">
+                        <span class="d-md-none">
+                          {% render 'svg' type: 'angle-right' %}
+                        </span>
+                        <span>{{ 'article_template.default.next_label' | t}}</span>
+                      </a>
+                      <div class="d-none d-md-flex nav-article_info">
                         <div class="field-group text-right">
                           <div class="title">
                             <a href="{{next_article.url}}">{{next_article.title}}</a>
