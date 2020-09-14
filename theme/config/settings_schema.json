@@ -245,18 +245,6 @@
       },
       {
         "type": "color",
-        "id": "price_compare_color",
-        "label": "Sale Price color",
-        "default": "#FF9923"
-      },
-      {
-        "type": "color",
-        "id": "price_sale_color",
-        "label": "Old Price color",
-        "default": "#9BABCD"
-      },
-      {
-        "type": "color",
         "id": "rating_star_color",
         "label": "Review Star color",
         "default": "#FF9923"
@@ -266,58 +254,6 @@
         "id": "rating_star_empty_color",
         "label": "Review Star empty color",
         "default": "#103178"
-      },
-      {
-        "type": "header",
-        "content": "Label color"
-      },
-      {
-        "type": "paragraph",
-        "content": "+ Sale Label"
-      },
-      {
-        "type": "color",
-        "id": "sale_label_color",
-        "label": "Text color",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "sale_label_bg_color",
-        "label": "Background color",
-        "default": "#FF9923"
-      },
-      {
-        "type": "paragraph",
-        "content": "+ Hot Label"
-      },
-      {
-        "type": "color",
-        "id": "hot_label_color",
-        "label": "Text color",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "hot_label_bg_color",
-        "label": "Background color",
-        "default": "#F00000"
-      },
-      {
-        "type": "paragraph",
-        "content": "+ New Label"
-      },
-      {
-        "type": "color",
-        "id": "new_label_color",
-        "label": "Text color",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "new_label_bg_color",
-        "label": "Background color",
-        "default": "#12A05C"
       },
       {
         "type": "header",
@@ -580,31 +516,9 @@
       },
       {
         "type": "color",
-        "id": "desk_border_color",
-        "label": "Border color",
-        "default": "#103178"
-      },
-      {
-        "type": "range",
-        "id": "desk_border_color_opacity",
-        "label": "Border color opacity",
-        "min": 0,
-        "max": 100,
-        "step": 10,
-        "unit": "%",
-        "default": 10
-      },
-      {
-        "type": "color",
         "id": "desk_text_color",
         "label": "Text color",
         "default": "#5B6C8F"
-      },
-      {
-        "type": "color",
-        "id": "desk_icon_color",
-        "label": "Icon color",
-        "default": "#FF9923"
       },
       {
         "type": "color",
@@ -630,43 +544,9 @@
       },
       {
         "type": "color",
-        "id": "mobi_border_color",
-        "label": "Border color",
-        "default": "#103178"
-      },
-      {
-        "type": "range",
-        "id": "mobi_border_color_opacity",
-        "label": "Border color opacity",
-        "min": 0,
-        "max": 100,
-        "step": 10,
-        "unit": "%",
-        "default": 10
-      },
-      {
-        "type": "color",
         "id": "mobi_text_color",
         "label": "Text color",
         "default": "#5B6C8F"
-      },
-      {
-        "type": "color",
-        "id": "mobi_icon_color",
-        "label": "Icon color",
-        "default": "#FF9923"
-      },
-      {
-        "type": "color",
-        "id": "mobi_bg_cart_number",
-        "label": "Background Cart Icon number",
-        "default": "#103178"
-      },
-      {
-        "type": "color",
-        "id": "mobi_text_cart_number",
-        "label": "Cart Icon number",
-        "default": "#FFFFFF"
       }
     ]
   },

@@ -69,6 +69,11 @@
       "label_quesion": "How can we help you?",
       "placeholder_quesion": "Describe your task or list of tasks for us.",
       "label_btn": "Submit Your Request"
+    },
+    "page_404": {
+      "title": "Page not found",
+      "subtitle": "Sorry, we’re unable to find the page you’re looking for.",
+      "go_home": "Go to Homepage"
     }
   },
   "layout": {

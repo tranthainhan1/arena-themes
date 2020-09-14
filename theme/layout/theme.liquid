@@ -27,8 +27,8 @@
     render 'css-variables-local'
     render 'fb-open-graph'
   -%}
-  {{ 'main_style.css' | asset_url | stylesheet_tag }}
   {% include 'css_variables' %} 
+  {{ 'main_style.css' | asset_url | stylesheet_tag }}
   {%- capture arnAIFContent -%}{{ shop.metafields.arn_aif.script }}{%- endcapture -%}
   {%- unless arnAIFContent == blank -%}
       {%- comment -%} Call ARN-AIF metafield, css & js {%- endcomment-%}
@@ -55,7 +55,6 @@
         {{ content_for_layout }}
     </main>
     {% section 'footer' %}
-    {% section 'mobile-bar' %}
   </div>
   <script src="{{ 'app.js' | asset_url }}"></script>
   <script src="{{ 'custom.js' | asset_url }}"></script>
