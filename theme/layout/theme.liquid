@@ -29,6 +29,7 @@
   -%}
   {% include 'css_variables' %} 
   {{ 'main_style.css' | asset_url | stylesheet_tag }}
+  {%- include 'css-file' -%}
   {%- capture arnAIFContent -%}{{ shop.metafields.arn_aif.script }}{%- endcapture -%}
   {%- unless arnAIFContent == blank -%}
       {%- comment -%} Call ARN-AIF metafield, css & js {%- endcomment-%}
