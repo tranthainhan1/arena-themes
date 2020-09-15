@@ -1,4 +1,5 @@
 import { tns } from "tiny-slider/src/tiny-slider";
+import serialize from "form-serialize";
 
 var AT = {
   initTinySlider: function (container) {
@@ -80,47 +81,45 @@ var AT = {
       AT.handleCollapse(item, collapseContainer);
     });
   },
+  initBackToTop: function () {
+    let btnToTop = document.getElementById("back-to-top");
+    let footer = document.getElementById("footer");
 
-  // handleSearch: function () {
-  //   let searchContainers = document.getElementsByClassName("js-search");
+    btnToTop.addEventListener("click", function (e) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    });
+    window.addEventListener("scroll", function () {
+      if (window.pageYOffset + window.innerHeight < footer.offsetTop) {
+        btnToTop.classList.contains("show") && btnToTop.classList.remove("show");
+      } else {
+        !btnToTop.classList.contains("show") && btnToTop.classList.add("show");
+      }
+    });
+  },
+  initAddToCart: function () {
+    let btnAddToCart = document.getElementsByClassName("js-add-to-card");
 
-  //   [...searchContainers].forEach(function (searchContainer) {
-  //     let input = searchContainer.getElementsByClassName("js-input-search")[0];
-  //     let resultContainer = searchContainer.getElementsByClassName("js-search-result")[0];
-  //     let prevKeyword;
+    [...btnAddToCart].forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        let form = e.target.closest("form");
+        let myHeaders = new Headers();
+        let myRequest = new Request("/cart/add.js", {
+          method: "post",
+          headers: myHeaders,
+          body: new URLSearchParams(serialize(form)),
+        });
 
-  //     const request = AT.debounce((q) => {
-  //       const myHeaders = new Headers();
-  //       const myRequest = new Request(`/search/suggest.json?q=${q}&resources%5Btype%5D=product,article`, {
-  //         method: "get",
-  //         headers: myHeaders,
-  //       });
-
-  //       fetch(myRequest)
-  //         .then((res) => res.json())
-  //         .then(({ resources: { results } }) => loadResults(results, q));
-  //     }, 500);
-
-  //     input.addEventListener("keyup", function (event) {
-  //       let q = event.target.value.trim();
-  //       if (q && prevKeyword !== q) {
-  //         resultContainer.classList.add("is-load");
-  //         request(q);
-  //         prevKeyword = q;
-  //       }
-  //     });
-
-  //     function loadResults({ products, articles }, q) {
-  //       let countResults = products.length + articles.length;
-  //       if (countResults) {
-  //       } else {
-  //         resultContainer.classList.remove("is-load");
-  //         resultContainer.getElementsByClassName("keyword")[0].innerHTML = q;
-  //         resultContainer.classList.add("no-result");
-  //       }
-  //     }
-  //   });
-  // },
+        fetch(myRequest)
+          .then((res) => res.json())
+          .then((res) => console.log(res));
+      });
+    });
+  },
 };
 
 export default AT;

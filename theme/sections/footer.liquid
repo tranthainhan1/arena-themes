@@ -1,5 +1,4 @@
 {% liquid 
-  assign bg_color = section.settings.bg_color
   assign nav_link_lb_1 = section.settings.nav_link_lb_1 
   assign nav_link_url_1 = section.settings.nav_link_url_1 
   
@@ -7,7 +6,7 @@
   assign nav_link_url_2 = section.settings.nav_link_url_2 
 %}
 
-<div class="footer" data-section-id="{{section.id}}" data-section-type="footer">
+<div class="footer" id="footer" data-section-id="{{section.id}}" data-section-type="footer">
   <div class="container">
     <div class="footer__wrapper">
       <div class="footer-top">
@@ -51,24 +50,12 @@
   </div>    
 </div>
 
-<style> 
-{%- if bg_color != blank -%}
-  .footer .footer__wrapper{
-    background-color: {{bg_color}};
-  }
-{%- endif -%}
-</style>
 
 {% schema %}
   {
     "name" : "Footer",
     "tag" : "footer",
     "settings" : [
-      {
-        "type" : "color",
-        "id" : "bg_color",
-        "label" : "Background color"
-      },
       {
         "type" : "header",
         "content" : "Footer bottom settings"

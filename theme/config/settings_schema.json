@@ -203,6 +203,11 @@
       },
       {
         "type": "color",
+        "id": "main_bg_color",
+        "label": "Main background color"
+      },
+      {
+        "type": "color",
         "id": "main_border_color",
         "label": "Divider Color",
         "info": "Used for dividers, borders.",
@@ -539,14 +544,29 @@
       {
         "type": "color",
         "id": "mobi_bg_color",
-        "label": "Background color",
+        "label": "Background color on navigation mobile",
         "default": "#FFFFFF"
       },
       {
         "type": "color",
         "id": "mobi_text_color",
-        "label": "Text color",
+        "label": "Text color on navigation mobile",
         "default": "#5B6C8F"
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "color",
+        "id": "footer_background_color",
+        "label": "Background color"
+      },
+      {
+        "type": "color",
+        "id": "footer_text_color",
+        "label": "Text color"
       }
     ]
   },

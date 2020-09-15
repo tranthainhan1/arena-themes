@@ -2,7 +2,6 @@
   assign features_list = "Smart Mega Menu,Wishlist & Compare app,Autocomplete Search,Sales Notification,Exit Discount,Multi-currency,Custom FAQ Page,Flexible Product Swatch Ever,Product Upsell,Related Product,Product Page Tabs,EU Policy Notice,Optimized Cart,Sticky Cart,Countdown Timer,Social Proof,Direct to Checkout,Free+Shipping,Urgency Box,FOMO Popup Notification" | split: ','
   assign features_count = 0 
 %}
-<script>console.log({{product | json }})</script>
 <div class="product product-page" data-section-id="product" data-section-type="product-theme">
   <div class="container">
     <div class="product__wrapper">
@@ -25,23 +24,26 @@
               <span>{{ 'product_template.themes.total_variant' | t: count: product.metafields.c_f.total_variant}}</span>
             </div>
             <div class="form">
-              <form action="cart/add" id="product-{{product.id}}">
+              <form action="cart/add" id="product-{{product.id}}" data-product-id="{{product.id}}">
                 <input type="hidden" value="1" name="quantity">
-                {%- for option in product.options -%}
-                  <div class="swatch">
-                  <label for="product_style">{{ option }}</label>
-                  <div class="select-group">
-                    <select name="id" id="product_style">
-                      {%- for variant in product.variants -%}
-                        <option value="{{variant.id}}">{{variant.title}}</option>
-                      {%- endfor -%}
-                    </select>
-                    {% render 'svg' type: 'angle-down' %}
-                  </div>
+                <input type="hidden" value="{{product.id}}" name="id">
+                <div class="swatchs">
+                  {%- for option in product.options -%}
+                    <div class="swatch-element">
+                      <label for="product_style">{{ option }}</label>
+                      <div class="select-group">
+                        <select name="option-0" id="product_style">
+                          {%- for variant in product.variants -%}
+                            <option value="{{variant.id}}">{{variant.title}}</option>
+                          {%- endfor -%}
+                        </select>
+                        {% render 'svg' type: 'angle-down' %}
+                      </div>
+                    </div>
+                  {%- endfor -%}
                 </div>
-                {%- endfor -%}
                 
-                <button class="btn btn-2 btn-buy">{{ 'product_template.themes.buy_theme' | t}}</button>
+                <button class="js-add-to-card btn btn-2 btn-buy">{{ 'product_template.themes.buy_theme' | t}}</button>
                 <button class="btn btn-2 btn-view-more">{{ 'product_template.themes.view_demo' | t}}</button>
               </form>
             </div>

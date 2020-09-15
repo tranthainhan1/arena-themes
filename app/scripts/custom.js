@@ -44,4 +44,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   AT.initTNS();
   AT.initHandleCollapse();
+  AT.initBackToTop();
+  AT.initAddToCart();
 });

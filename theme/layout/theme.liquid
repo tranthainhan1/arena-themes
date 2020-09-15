@@ -55,6 +55,8 @@
         {{ content_for_layout }}
     </main>
     {% section 'footer' %}
+    {% section 'mobile-bar' %}
+    {% render 'back-to-top'  %}
   </div>
   <script src="{{ 'app.js' | asset_url }}"></script>
   <script src="{{ 'custom.js' | asset_url }}"></script>
