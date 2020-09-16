@@ -19,14 +19,23 @@
       </div>
       <div class="logo-list__content">
         <div class="logo-list__list">
-          <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"375":{"items":3},"576":{"items":3},"768":{"items":4},"992":{"items":5,"gutter":30},"1200":{"items":6,"gutter":30},"1440":{"items":8}}}'>
+          <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"375":{"items":2},"576":{"items":3},"768":{"items":4},"992":{"items":5,"gutter":30},"1200":{"items":6,"gutter":30},"1440":{"items":7}}}'>
             {%- for block in section.blocks -%}
               {% liquid 
                 assign image = block.settings.image 
               %}
               <div class="logo-list__item">
                 <div class="image">
-                  {%- render 'image-style', image: image, originQuality: true -%}
+                  <span class="image__style" >
+                    <img 
+                        class="w-100 h-100 lazyload" 
+                        data-sizes="auto"
+                        data-srcset="{{ image | img_url: '640x'}} 2x"
+                        data-optimumx="1.6"
+                        data-parent-fit="cover"
+                        >
+                  </span>
+                  {% comment %} {%- render 'image-style', image: image, originQuality: true -%} {% endcomment %}
                 </div>
               </div>
             {%- endfor -%}

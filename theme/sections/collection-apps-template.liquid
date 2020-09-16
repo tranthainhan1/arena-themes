@@ -37,109 +37,108 @@
     </div>
     
     <div class="row">
-      <div class="col-12 col-lg-3 sidebar" id="js-sidebar-container">
-        <div class="d-lg-none sidebar_header">
-          <div class="title">
-            <span>{{ 'collection_template.themes.filter' | t}}</span>
-            <a href="javascript:void(0)" class="js-close-sidebar">
-              {% render 'svg' type: 'close' %}
-            </a>
+      {% comment %} 
+        <div class="col-12 col-lg-3 sidebar" id="js-sidebar-container">
+          <div class="d-lg-none sidebar_header">
+            <div class="title">
+              <span>{{ 'collection_template.themes.filter' | t}}</span>
+              <a href="javascript:void(0)" class="js-close-sidebar">
+                {% render 'svg' type: 'close' %}
+              </a>
+            </div>
+            <div class="sort-by">
+              <label for="sort_by">{{ 'collection_template.themes.sort_by' | t}}</label>
+              <select name="sort_by" id="sort_by">
+                <option value="Most Recent">{{ 'collection_template.themes.select.option_1' | t}}</option>
+              </select>
+              {% render 'svg' type: 'angle-down' %}
+            </div>
           </div>
-          <div class="sort-by">
-            <label for="sort_by">{{ 'collection_template.themes.sort_by' | t}}</label>
-            <select name="sort_by" id="sort_by">
-              <option value="Most Recent">{{ 'collection_template.themes.select.option_1' | t}}</option>
-            </select>
-            {% render 'svg' type: 'angle-down' %}
-          </div>
-        </div>
-        <div class="filter">
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when 'filter_group' -%}
-                {% liquid 
-                  assign title = block.settings.title  
-                %}
-                <div class="filter-group">
-                  <div class="header">
-                    <p>{{title}}</p>
-                  </div>
-                  <div class="filter-group__body">
-                    {%- for i in (1..5) -%}
-                      <div class="filter-item">
-                        <div class="d-flex checkbox">
-                          <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
-                          <label for="filter_item_{{block.id}}_{{forloop.index}}">Text</label>
-                        </div>
-                      </div>
-                    {%- endfor -%}
-                  </div>
-                </div>
-              {% comment %} end {% endcomment %}
-              {%- when 'filter_price' -%}
+          <div class="filter">
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'filter_group' -%}
                   {% liquid 
                     assign title = block.settings.title  
                   %}
-                <div class="filter-price">
-                  <div class="header">
-                    <p>{{title}}</p>
-                  </div>
-                  <div class="filter-price__body">
-                    <div class="row">
-                      <div class="col-6">
-                        <div class="filter-price__min">
-                          <label for="price_min">{{ 'general.min' | t}}</label>
-                          <div class="input-group">
-                            <span>{{ cart.currency.symbol }}</span>
-                            <input type="number" placeholder="0" id="price_min">
+                  <div class="filter-group">
+                    <div class="header">
+                      <p>{{title}}</p>
+                    </div>
+                    <div class="filter-group__body">
+                      {%- for i in (1..5) -%}
+                        <div class="filter-item">
+                          <div class="d-flex checkbox">
+                            <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
+                            <label for="filter_item_{{block.id}}_{{forloop.index}}">Text</label>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-6">
-                        <div class="filter-price__max">
-                          <label for="price_max">{{ 'general.max' | t}}</label>
-                          <div class="input-group">
-                            <span>{{ cart.currency.symbol }}</span>
-                            <input type="number" placeholder="500" id="price_max">
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- when 'filter_price' -%}
+                    {% liquid 
+                      assign title = block.settings.title  
+                    %}
+                  <div class="filter-price">
+                    <div class="header">
+                      <p>{{title}}</p>
+                    </div>
+                    <div class="filter-price__body">
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="filter-price__min">
+                            <label for="price_min">{{ 'general.min' | t}}</label>
+                            <div class="input-group">
+                              <span>{{ cart.currency.symbol }}</span>
+                              <input type="number" placeholder="0" id="price_min">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="filter-price__max">
+                            <label for="price_max">{{ 'general.max' | t}}</label>
+                            <div class="input-group">
+                              <span>{{ cart.currency.symbol }}</span>
+                              <input type="number" placeholder="500" id="price_max">
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              {% comment %} end {% endcomment %}
-              {%- when 'filter_rating' -%} 
-                {% liquid 
-                  assign title = block.settings.title 
-                %}              
-                <div class="filter-group filter-rating">
-                  <div class="header">
-                    <p>{{title}}</p>
-                  </div>
-                  <div class="filter-group__body">
-                    {%- for i in (1..5) -%}
-                      {%- assign rating = 'rating-'| append: i -%}
-                      <div class="filter-item">
-                        <div class="d-flex checkbox">
-                          <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
-                          <label for="filter_item_{{block.id}}_{{forloop.index}}">
-                            {% render 'svg' type: rating  %}
-                          </label>
+                {%- when 'filter_rating' -%} 
+                  {% liquid 
+                    assign title = block.settings.title 
+                  %}              
+                  <div class="filter-group filter-rating">
+                    <div class="header">
+                      <p>{{title}}</p>
+                    </div>
+                    <div class="filter-group__body">
+                      {%- for i in (1..5) -%}
+                        {%- assign rating = 'rating-'| append: i -%}
+                        <div class="filter-item">
+                          <div class="d-flex checkbox">
+                            <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
+                            <label for="filter_item_{{block.id}}_{{forloop.index}}">
+                              {% render 'svg' type: rating  %}
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                    {%- endfor -%}
+                      {%- endfor -%}
+                    </div>
                   </div>
-                </div>
-              {% comment %} end {% endcomment %}
-            {%- endcase -%}
-          {%- endfor -%}
-          <div class="sidebar_btn">
-            <button id="filter_clear" class="btn btn-2 clear">{{ 'collection_template.themes.btn.clear' | t}}</button>
-            <button id="filter_apply" class="btn btn-2 apply">{{ 'collection_template.themes.btn.apply' | t}}</button>
+              {%- endcase -%}
+            {%- endfor -%}
+            <div class="sidebar_btn">
+              <button id="filter_clear" class="btn btn-2 clear">{{ 'collection_template.themes.btn.clear' | t}}</button>
+              <button id="filter_apply" class="btn btn-2 apply">{{ 'collection_template.themes.btn.apply' | t}}</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-12 col-lg-9 product-grid">
+       {% endcomment %}
+      <div class="col-12 product-grid">
         <div class="toolbar">
           <div class="toolbar_right">
             <div class="pagination-showing">    
@@ -168,7 +167,7 @@
           {% paginate collection.products by 15 %}
             <div class="row">
                 {%- for product in collection.products -%}
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
                     {% render 'card-template' type: 'app', product: product  %}
                   </div>
                 {%- endfor -%}

@@ -52,7 +52,19 @@
       <ul class="horizontal-nav__content">
         {%- for link in linklists[nav_link].links -%}
           <li class="nav-link">
-            <a href="{{link.url}}">{{link.title}}</a>
+            <a href="{{link.url}}">
+              <span>{{link.title}}</span>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'trigger' -%}
+                  {% liquid 
+                    assign title = block.settings.title
+                  %}
+                  {%- if title == link.title -%}
+                    {% render 'svg-2' type: 'caret-down' %}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </a>
             {%- for block in section.blocks -%}
               {%- if block.type == 'trigger' -%}
                 {% liquid 

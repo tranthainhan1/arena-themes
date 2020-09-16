@@ -1,5 +1,6 @@
+{{ 'main_style.css' | asset_url | stylesheet_tag }}
+{% comment %} 
 {{ 'header-footer.css' | asset_url | stylesheet_tag }}
-{{ 'global.css' | asset_url | stylesheet_tag }}
 {%- if template contains 'index'-%}
   {{ 'section-home.css' | asset_url | stylesheet_tag }}
 {%- elsif template contains 'product'-%}
@@ -8,4 +9,5 @@
   {{ 'categories-page.css' | asset_url | stylesheet_tag }}
 {%- elsif template contains 'page'-%}
   {{ 'other-page.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
+{%- endif -%} 
+{% endcomment %}

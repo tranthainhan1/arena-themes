@@ -1,7 +1,5 @@
 {% liquid 
-  assign layout      = section.settings.layout
   assign block_count = section.blocks.size
-  
 %}
 
 {%- capture blockCss -%}
@@ -10,7 +8,7 @@
 {%- endcapture -%}
 
 <div class="multiple-banner" data-section-id="{{section.id}}" data-section-type="multiple-banner">
-  {% if layout == 'boxed' %} <div class="container"> {%- endif -%}
+  <div class="container">
     <div class="multiple-banner__wrapper">
       <div class="row">
         {%- for block in section.blocks -%}
@@ -54,5 +52,5 @@
         {%- endfor -%}
       </div>
     </div>
-  {% if layout == 'boxed' %} </div> {%- endif -%}
+  </div>
 </div>

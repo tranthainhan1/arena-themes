@@ -24,10 +24,10 @@
               <span>{{ 'product_template.themes.total_variant' | t: count: product.metafields.c_f.total_variant}}</span>
             </div>
             <div class="form">
-              <form action="cart/add" id="product-{{product.id}}" data-product-id="{{product.id}}">
+              <form action="cart/add" id="product-form">
                 <input type="hidden" value="1" name="quantity">
                 <input type="hidden" value="{{product.id}}" name="id">
-                <div class="swatchs">
+                <div class="swatch">
                   {%- for option in product.options -%}
                     <div class="swatch-element">
                       <label for="product_style">{{ option }}</label>
@@ -44,7 +44,7 @@
                 </div>
                 
                 <button class="js-add-to-card btn btn-2 btn-buy">{{ 'product_template.themes.buy_theme' | t}}</button>
-                <button class="btn btn-2 btn-view-more">{{ 'product_template.themes.view_demo' | t}}</button>
+                <a href="{{product.metafields.c_f.demo_link | default: 'javascript:void(0)'}}" class="btn btn-2 btn-view-more text-center">{{ 'product_template.themes.view_demo' | t}}</a>
               </form>
             </div>
           </div>
@@ -55,81 +55,108 @@
           </div>
         </div>
       </div>
-      <div class="product__block__features">
-        <div class="product-features">
-          <div class="product-features__header">
-            <div class="title">
-              <span>{{ 'product_template.themes.features.title' | t}}</span>
+      {% liquid 
+        assign isShowFeatures = false
+        for i in (1..12)
+          assign key = 'icon_box_' | append: i 
+          if product.metafields.c_f[key] 
+            assign isShowFeatures = true
+            break
+          endif  
+        endfor
+      %}
+
+      {%- if isShowFeatures -%}
+        <div class="product__block__features">
+          <div class="product-features">
+            <div class="product-features__header">
+              <div class="title">
+                <span>{{ 'product_template.themes.features.title' | t}}</span>
+              </div>
+              <div class="subtitle">
+                <span>{{ 'product_template.themes.features.subtitle' | t}}</span>
+              </div>
             </div>
-            <div class="subtitle">
-              <span>{{ 'product_template.themes.features.subtitle' | t}}</span>
-            </div>
-          </div>
-          <div class="product-features__content">
-            <div class="row">
-              {%- for i in (1..20) -%}
-                {%- assign icon = 'icon_box_' | append: i -%}
-                {%- assign svg = 'product_icon_box_' | append: i -%}
-              {%- if product.metafields.c_f[icon] -%}
-                {%- assign features_count = features_count | plus: 1 -%}
-                <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-5th {% if i > 10 %}d-none d-md-block{%- endif -%}">
-                  <div class="text-center product-features__item">
-                    {% render 'svg' type: svg %}
-                    {%- assign features_index  = i | minus: 1  -%}
-                    <p class="label">{{features_list[features_index]}}</p>
+            <div class="product-features__content">
+              <div class="row">
+                {%- for i in (1..20) -%}
+                  {%- assign icon = 'icon_box_' | append: i -%}
+                  {%- assign svg = 'product_icon_box_' | append: i -%}
+                {%- if product.metafields.c_f[icon] -%}
+                  {%- assign features_count = features_count | plus: 1 -%}
+                  <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-5th {% if i > 10 %}d-none d-md-block{%- endif -%}">
+                    <div class="text-center product-features__item">
+                      {% render 'svg' type: svg %}
+                      {%- assign features_index  = i | minus: 1  -%}
+                      <p class="label">{{features_list[features_index]}}</p>
+                    </div>
+                  </div>
+                {%- endif -%}
+                {%- endfor -%}
+              </div>
+              {%- if features_count > 10 -%}
+                <div class="d-sm-none js-collapse collapse">
+                  <div class="row">
+                    {%- for i in (11..20) -%}
+                      {%- assign icon = 'icon_box_' | append: i -%}
+                      {%- assign svg = 'product_icon_box_' | append: i -%}
+                    {%- if product.metafields.c_f[icon] -%}
+                      <div class="col-6 col-sm-4 col-md-4 col-lg-5th">
+                        <div class="text-center product-features__item">
+                          {% render 'svg' type: svg %}
+                          {%- assign features_index  = i | minus: 1  -%}
+                          <p class="label">{{features_list[features_index]}}</p>
+                        </div>
+                      </div>
+                    {%- endif -%}
+                    {%- endfor -%}
                   </div>
                 </div>
-              {%- endif -%}
-              {%- endfor -%}
-            </div>
-            {%- if features_count > 10 -%}
-              <div class="d-sm-none js-collapse collapse">
-                <div class="row">
-                  {%- for i in (11..20) -%}
-                    {%- assign icon = 'icon_box_' | append: i -%}
-                    {%- assign svg = 'product_icon_box_' | append: i -%}
-                  {%- if product.metafields.c_f[icon] -%}
-                    <div class="col-6 col-sm-4 col-md-4 col-lg-5th">
-                      <div class="text-center product-features__item">
-                        {% render 'svg' type: svg %}
-                        {%- assign features_index  = i | minus: 1  -%}
-                        <p class="label">{{features_list[features_index]}}</p>
-                      </div>
-                    </div>
-                  {%- endif -%}
-                  {%- endfor -%}
+                <div class="d-sm-none btn-view-more js-toggle-collapse">
+                  <span>{{'button.view_more' | t}}</span>
+                  {% render 'svg' type: 'angle-down' %}
+                  {% render 'svg' type: 'angle-up' %}
                 </div>
-              </div>
-              <div class="d-sm-none btn-view-more js-toggle-collapse">
-                <span>{{'button.view_more' | t}}</span>
-                {% render 'svg' type: 'angle-down' %}
-                {% render 'svg' type: 'angle-up' %}
-              </div>
-            {%- endif -%}
-          </div>
-        </div>
-      </div>
-      <div class="product__block__mode">
-        <div class="product-mode">
-          <div class="product-mode__header">
-            <div class="title">
-              <h3>{{ 'product_template.themes.mode.title' | t}}</h3>
-            </div> 
-            <div class="product-mode__content">
-              <ul class="list">
-                {%- assign mode_list = "Flexibility Description Tabs,Cart type,Support Dynamic Check Out,Free Shipping Threshold,Auto Curency Swithcher,Mobile UI Optimize,Catalog Mode,Exit Intend Discount Popup,Fomo Product Sales,Ajax Cart Option,Multicolor,Google Translate," | split: "," -%}
-                {%- for i in (1..12) -%}
-                  {%- assign isShow = 'product_theme_mode_' | append: i -%}
-                  {%- if product.metafields.c_f[isShow] -%}
-                    {%- assign index = i | minus: 1 -%}
-                    <li>{{mode_list[index]}}</li>
-                  {%- endif -%}
-                {%- endfor -%}
-              </ul>
+              {%- endif -%}
             </div>
           </div>
         </div>
-      </div>
+      {%- endif -%}
+
+      {% liquid 
+        assign isShowMode = false
+        for i in (1..12)
+          assign key = 'product_theme_mode_' | append: i 
+          if product.metafields.c_f[key] 
+            assign isShowMode = true
+            break
+          endif  
+        endfor
+      %}
+
+      {%- if isShowMode -%}
+        <div class="product__block__mode">
+          <div class="product-mode">
+            <div class="product-mode__header">
+              <div class="title">
+                <h3>{{ 'product_template.themes.mode.title' | t}}</h3>
+              </div> 
+              <div class="product-mode__content">
+                <ul class="list">
+                  {%- assign mode_list = "Flexibility Description Tabs,Cart type,Support Dynamic Check Out,Free Shipping Threshold,Auto Curency Swithcher,Mobile UI Optimize,Catalog Mode,Exit Intend Discount Popup,Fomo Product Sales,Ajax Cart Option,Multicolor,Google Translate," | split: "," -%}
+                  {%- for i in (1..12) -%}
+                    {%- assign key = 'product_theme_mode_' | append: i -%}
+                    {%- if product.metafields.c_f[key] -%}
+                      {%- assign index = i | minus: 1 -%}
+                      <li>{{mode_list[index]}}</li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
       <div class="product__block__related">
         <div class="product-related">
           <div class="featured-collection">
@@ -141,6 +168,10 @@
               </div>
               <div class="featured-collection__content">
                 <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":35},"1052":{"items":4,"gutter":30},"1440":{"items":5}}}'>
+                  {%- unless collection -%}
+                    {%- assign collection  = product.collections.first -%}
+                  {%- endunless -%}
+
                   {%- for p in collection.products -%}
                       {%- if p.id != product.id -%}
                         <div class="featured-collection__item">
@@ -158,12 +189,6 @@
                   </div>
                 </div>
               </div>
-              {%- if text_under_content != blank -%}
-                <div class="featured-collection__text-under text-{{text_under_align}}">
-                  <span>{{linking_words}}</span>
-                  <a href="{{text_under_url | default: 'javascript:void(0)'}}">{{text_under_content}}</a>
-                </div>
-              {%- endif -%}
             </div>
           </div>
         </div>
@@ -171,3 +196,5 @@
     </div>
   </div>
 </div>
+
+<script>console.log({{product | json}})</script>
