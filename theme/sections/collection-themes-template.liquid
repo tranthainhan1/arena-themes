@@ -3,7 +3,6 @@
   assign banner_subtitle = section.settings.banner_subtitle 
   assign banner_image = section.settings.banner_image 
 %}
-
 <div class="collection collection-{{collection.handle}}" data-section-id="{{section.id}}" data-section-type="collection-themes">
   <div class="container">
     <div class="banner">
@@ -79,19 +78,43 @@
                 {%- when 'filter_group' -%}
                   {% liquid 
                     assign title = block.settings.title  
+                    assign prefix = block.settings.prefix  
                   %}
+                  {%- assign tag_list = '' | split: '' -%}
+                  {%- for tag in collection.tags -%}
+                    {%- assign size = prefix.size -%}
+                    {%- assign tag_prefix = tag | slice: 0,size -%}
+                    {%- if tag_prefix == prefix -%}
+                      {%- capture tag_content -%}
+                        <div class="filter-item">
+                          <div class="d-flex checkbox">
+                            <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
+                            <label for="filter_item_{{block.id}}_{{forloop.index}}">{{tag}}</label>
+                          </div>
+                        </div>
+                      {%- endcapture -%}
+                      {%- assign tag_content = tag_content | split: '' -%}
+                      <script>console.log({{tag_content  | json}})</script>
+                      {%- assign tag_list  = tag_list | concat: tag_content -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  <script>console.log({{tag_list  | json}})</script>
                   <div class="filter-group">
                     <div class="header">
                       <p>{{title}}</p>
                     </div>
                     <div class="filter-group__body">
-                      {%- for i in (1..5) -%}
-                        <div class="filter-item">
-                          <div class="d-flex checkbox">
-                            <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
-                            <label for="filter_item_{{block.id}}_{{forloop.index}}">Text</label>
+                      {%- for tag in collection.tags -%}
+                        {%- assign size = prefix.size -%}
+                        {%- assign tag_prefix = tag | slice: 0,size -%}
+                        {%- if tag_prefix == prefix -%}
+                          <div class="filter-item">
+                            <div class="d-flex checkbox">
+                              <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
+                              <label for="filter_item_{{block.id}}_{{forloop.index}}">{{tag}}</label>
+                            </div>
                           </div>
-                        </div>
+                        {%- endif -%}
                       {%- endfor -%}
                     </div>
                   </div>
@@ -189,8 +212,12 @@
             "type": "text",
             "id": "title",
             "label": "Filter Title"
+          },
+          {
+            "type": "text",
+            "id": "prefix",
+            "label": "Tag Prefix"
           }
-
         ]
       },
       {

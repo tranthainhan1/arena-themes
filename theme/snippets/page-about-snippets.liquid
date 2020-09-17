@@ -43,21 +43,17 @@
     </div>
   {% comment %} end {% endcomment %}
   {%- when 'separator' -%}
-      {%- liquid
-        assign _bg_color = section.settings.bg_color | default: 'rgba(0,0,0,0)'
-      -%}
-      {%- capture content -%}
+    {%- capture content -%}
       <div class="block-separator block-separator-{{ block.id }} block-{{block.id}}" data-block-id="{{block.id}}" {{block.shopify_attributes}}>
         <div class="container">
 
           {%- capture separatorID -%}.block-{{block.id}} .spacing-{{block.id}}{%- endcapture -%}
           <div class="separator spacing-{{block.id}}"{{block.shopify_attributes}}>
             {%- capture block_css -%}{%- render 'css-resp', classID: separatorID, css_value: block.settings.height, css_property: 'height' -%}{%- endcapture -%}
-            {%- assign block_css = block_css | append: block_css -%}
           </div>
         </div>
       </div>
-    <style>.block-{{block.id}}{background-color:{{_bg_color}};}{{block_css}}</style>
+      <style>.block-{{block.id}}{background-color:{{_bg_color}};}{{block_css}}</style>
     {%- endcapture -%}
     {%- render 'compress', content: content -%}
   {% comment %} end {% endcomment %}
