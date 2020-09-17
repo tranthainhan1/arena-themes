@@ -88,36 +88,26 @@
                       {%- capture tag_content -%}
                         <div class="filter-item">
                           <div class="d-flex checkbox">
-                            <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
-                            <label for="filter_item_{{block.id}}_{{forloop.index}}">{{tag}}</label>
+                            <input type="checkbox" id="filter_item_{{block.id}}_{{forloop.index}}"  value="{{tag | handle}}">
+                            <label for="filter_item_{{block.id}}_{{forloop.index}}">{{tag | split: prefix | join: ''}}</label>
                           </div>
                         </div>
                       {%- endcapture -%}
-                      {%- assign tag_content = tag_content | split: '' -%}
-                      <script>console.log({{tag_content  | json}})</script>
+                      {%- assign tag_content = tag_content | split: '<split>' -%}
                       {%- assign tag_list  = tag_list | concat: tag_content -%}
                     {%- endif -%}
                   {%- endfor -%}
-                  <script>console.log({{tag_list  | json}})</script>
-                  <div class="filter-group">
-                    <div class="header">
-                      <p>{{title}}</p>
+
+                  {%- if tag_list.size > 0 -%}
+                    <div class="filter-group">
+                      <div class="header">
+                        <p>{{title}}</p>
+                      </div>
+                      <div class="filter-group__body">
+                        {{tag_list | join: ''}}
+                      </div>
                     </div>
-                    <div class="filter-group__body">
-                      {%- for tag in collection.tags -%}
-                        {%- assign size = prefix.size -%}
-                        {%- assign tag_prefix = tag | slice: 0,size -%}
-                        {%- if tag_prefix == prefix -%}
-                          <div class="filter-item">
-                            <div class="d-flex checkbox">
-                              <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
-                              <label for="filter_item_{{block.id}}_{{forloop.index}}">{{tag}}</label>
-                            </div>
-                          </div>
-                        {%- endif -%}
-                      {%- endfor -%}
-                    </div>
-                  </div>
+                  {%- endif -%}
                 {%- when 'filter_price' -%}
                     {% liquid 
                       assign title = block.settings.title  
