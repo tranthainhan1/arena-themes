@@ -174,8 +174,8 @@
           <div class="article__nav">
             <div class="row">
 
-              {%- if previous_article -%}
-                <div class="col-6">
+              <div class="col-6">
+                {%- if previous_article -%}
                   <div class="nav-article previous-article">
                     <div class="nav-label">
                       <a href="{{previous_article.url}}">
@@ -199,11 +199,11 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              {%- endif -%}
+                {%- endif -%}
+              </div>
 
-              {%- if next_article -%}
-                <div class="col-6">
+              <div class="col-6">
+                {%- if next_article -%}
                   <div class="nav-article next-article">
                     <div class="nav-label">
                       <a href="{{next_article.url}}">
@@ -225,8 +225,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              {%- endif -%}
+                {%- endif -%}
+              </div>
             </div>
           </div>
         </div>

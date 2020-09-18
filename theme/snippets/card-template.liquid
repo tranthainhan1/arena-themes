@@ -241,7 +241,10 @@
                 </div>
               </div>
               <div class="d-lg-none card-group__right">
-                <div class="hours-work">
+                {% comment %} <div class="price">
+                  <h2>{{price}}</h2>
+                </div> {% endcomment %}
+                <div class="hours-work"> 
                   {%- if hours_work >= 24 -%}
                     {%- assign days = hours_work | divided_by: 24 -%}
                     {%- if days > 1 -%}
@@ -262,9 +265,9 @@
             </div>
           </div>
           <div class="d-none d-lg-block card__body__right">
-            <div class="price">
+            {% comment %} <div class="price">
               <h2>{{price}}</h2>
-            </div>
+            </div> {% endcomment %}
             <div class="hours-work">
               {%- if hours_work >= 24 -%}
                 {%- assign days = hours_work | divided_by: 24 -%}
@@ -284,7 +287,7 @@
         
         <div class="d-flex card__footer">
           <div class="card__tags">
-            {%- for tag in product.tags -%}
+            {%- for tag in product.tags limit: 4 -%}
               <span>{{tag}}</span>
             {%- endfor -%}
           </div>

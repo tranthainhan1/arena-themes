@@ -23,8 +23,8 @@
               <form action="/cart/add" id="product_form_{{product.id}}" accept-charset="UTF-8" enctype="multipart/form-data" class="product-form">
                 <div class="swatchs-tab" id="swatchs_tab">
                   {%- for variant in product.variants -%}
-                    <div class="form-group">
-                      <input type="radio" name="id" data-target="variant_info_{{variant.id}}" id="variant_{{variant.id}}" value="{{variant.id}}" class="swatch" {% if forloop.first %}checked{%- endif -%}>
+                    <div class="form-group {% unless product.variants.size > 1 %}d-none{%- endunless -%}">
+                      <input type="radio" name="id" data-target="variant_info_{{variant.id}}" id="variant_{{variant.id}}" value="{{variant.id}}" class="swatch " {% if forloop.first %}checked{%- endif -%}>
                       <label for="variant_{{variant.id}}">{{variant.title}}</label>
                     </div>
                   {%- endfor -%}
@@ -46,19 +46,36 @@
                             <span>{{ 'product_template.task.delivery_label' | t: type: variant_title}}</span>
                         </div>
                         <div class="hours-work">
-                          {%- assign hours_work = variant.metafields.c_f.hours_work | plus: 0-%}
-                          {%- if hours_work >= 24 -%}
-                            {%- assign days = hours_work | divided_by: 24 -%}
-                            {%- if days > 1 -%}
-                              <span>{{ 'card.task.days_work' | t: days: days}}</span>
+                          {%- if product.variants.size > 1 -%}
+                            {%- assign hours_work = variant.metafields.c_f.hours_work | plus: 0-%}
+                            {%- if hours_work >= 24 -%}
+                              {%- assign days = hours_work | divided_by: 24 -%}
+                              {%- if days > 1 -%}
+                                <span>{{ 'card.task.days_work' | t: days: days}}</span>
+                              {%- else -%}
+                                <span>{{ 'card.task.day_work' | t: day: days}}</span>
+                              {%- endif -%}
+                            {%- elsif hours_work > 1 -%}
+                              <span>{{ 'card.task.hours_work' | t: hours: hours_work}}</span>
                             {%- else -%}
-                              <span>{{ 'card.task.day_work' | t: day: days}}</span>
+                              <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
                             {%- endif -%}
-                          {%- elsif hours_work > 1 -%}
-                            <span>{{ 'card.task.hours_work' | t: hours: hours_work}}</span>
                           {%- else -%}
-                            <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
+                            {%- assign hours_work = product.metafields.c_f.hours_work | plus: 0-%}
+                            {%- if hours_work >= 24 -%}
+                              {%- assign days = hours_work | divided_by: 24 -%}
+                              {%- if days > 1 -%}
+                                <span>{{ 'card.task.days_work' | t: days: days}}</span>
+                              {%- else -%}
+                                <span>{{ 'card.task.day_work' | t: day: days}}</span>
+                              {%- endif -%}
+                            {%- elsif hours_work > 1 -%}
+                              <span>{{ 'card.task.hours_work' | t: hours: hours_work}}</span>
+                            {%- else -%}
+                              <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
+                            {%- endif -%}
                           {%- endif -%}
+                          
                         </div>
                       </div>
                       <div class="swatch-info__total">
