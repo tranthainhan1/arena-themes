@@ -1,7 +1,9 @@
 import { tns } from "tiny-slider/src/tiny-slider";
 import serialize from "form-serialize";
+import { Header } from "./AT_section";
 
 var AT = {
+  cart: {},
   initTinySlider: function (container) {
     let config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
     let sliderContainer = container.querySelector(".js-tns");
@@ -100,159 +102,62 @@ var AT = {
       }
     });
   },
-  initAddToCart: function () {
+  addToCart: function () {
     let btnAddToCart = document.getElementsByClassName("js-add-to-card");
-
+    let arrFetch = [];
     [...btnAddToCart].forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         let form = e.target.closest("form");
-        let myHeaders = new Headers();
-        let myRequest = new Request("/cart/add.js", {
+        console.time("test");
+        fetch("/cart/add.js", {
           method: "post",
-          headers: myHeaders,
+          headers: new Headers(),
           body: new URLSearchParams(serialize(form)),
+        }).then((res) => {
+          fetch("/cart.js", {
+            method: "get",
+            headers: new Headers(),
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              AT.cart = res;
+              AT.updateCart();
+            });
         });
-
-        fetch(myRequest)
-          .then((res) => res.json())
-          .then((res) => console.log(res));
       });
     });
   },
-  initLinksOption: function () {
-    let product = JSON.parse(document.getElementById("product-json").innerHTML);
-    var Shopify = Shopify || {};
-
-    // Required functionality from depricated options_selection.js
-    (Shopify.arrayIncludes = function (e, t) {
-      for (var n = 0; n < e.length; n++) if (e[n] == t) return !0;
-      return !1;
-    }),
-      (Shopify.uniq = function (e) {
-        for (var t = [], n = 0; n < e.length; n++) Shopify.arrayIncludes(t, e[n]) || t.push(e[n]);
-        return t;
-      });
-
-    Shopify.optionsMap = {};
-
-    Shopify.updateOptionsInSelector = function (selectorIndex) {
-      switch (selectorIndex) {
-        case 0:
-          var key = "root";
-          var selector = document.querySelector(".single-option-selector:nth-of-type(1)");
-          break;
-        case 1:
-          var key = document.querySelector(".single-option-selector:nth-of-type(2)").value;
-          var selector = document.querySelector(".single-option-selector:nth-of-type(2)");
-          break;
-        case 2:
-          var key = document.querySelector(".single-option-selector:nth-of-type(1)").value;
-          key += " / " + document.querySelector(".single-option-selector:nth-of-type(2)").value;
-          var selector = document.querySelector(".single-option-selector:nth-of-type(3)");
-      }
-
-      var initialValue = selector.val();
-      selector.empty();
-      var availableOptions = Shopify.optionsMap[key];
-      for (var i = 0; i < availableOptions.length; i++) {
-        var option = availableOptions[i];
-        var newOption = (document.createElement("option").value = option);
-        newOption.innerHTML = option;
-        selector.append(newOption);
-      }
-      document
-        .querySelectorAll('.swatch[data-option-index="' + selectorIndex + '"] .swatch-element')
-        .each(function (item) {
-          if (availableOptions.contains(item.getAttribute("data-value"))) {
-            $(this)
-              .removeClass("soldout")
-              .show()
-              .find(":radio")
-              .removeAttr("disabled", "disabled")
-              .removeAttr("checked");
-            item.classList.remove("soldout");
-
-            item.removeAttribute("disabled");
-            item.removeAttribute("checked");
-          } else {
-            $(this).addClass("soldout").hide().find(":radio").removeAttr("checked").attr("disabled", "disabled");
-          }
-        });
-      if (jQuery.inArray(initialValue, availableOptions) !== -1) {
-        selector.val(initialValue);
-      }
-      selector.trigger("change");
-    };
-
-    Shopify.linkOptionSelectors = function (product) {
-      // Building our mapping object.
-      for (var i = 0; i < product.variants.length; i++) {
-        var variant = product.variants[i];
-        if (variant.available) {
-          // Gathering values for the 1st drop-down.
-          Shopify.optionsMap["root"] = Shopify.optionsMap["root"] || [];
-          Shopify.optionsMap["root"].push(variant.option1);
-          Shopify.optionsMap["root"] = Shopify.uniq(Shopify.optionsMap["root"]);
-          // Gathering values for the 2nd drop-down.
-          if (product.options.length > 1) {
-            var key = variant.option1;
-            Shopify.optionsMap[key] = Shopify.optionsMap[key] || [];
-            Shopify.optionsMap[key].push(variant.option2);
-            Shopify.optionsMap[key] = Shopify.uniq(Shopify.optionsMap[key]);
-          }
-          // Gathering values for the 3rd drop-down.
-          if (product.options.length === 3) {
-            var key = variant.option1 + " / " + variant.option2;
-            Shopify.optionsMap[key] = Shopify.optionsMap[key] || [];
-            Shopify.optionsMap[key].push(variant.option3);
-            Shopify.optionsMap[key] = Shopify.uniq(Shopify.optionsMap[key]);
-          }
+  getCart: function () {
+    fetch("/cart.js", {
+      method: "get",
+      headers: new Headers(),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.item_count !== 0) {
+          AT.cart = res;
         }
-      }
-      // Update options right away.
-      Shopify.updateOptionsInSelector(0);
-      if (product.options.length > 1) Shopify.updateOptionsInSelector(1);
-      if (product.options.length === 3) Shopify.updateOptionsInSelector(2);
-      // When there is an update in the first dropdown.
-      jQuery(".single-option-selector:eq(0)").change(function () {
-        Shopify.updateOptionsInSelector(1);
-        if (product.options.length === 3) Shopify.updateOptionsInSelector(2);
-        return true;
       });
-      // When there is an update in the second dropdown.
-      jQuery(".single-option-selector:eq(1)").change(function () {
-        if (product.options.length === 3) Shopify.updateOptionsInSelector(2);
-        return true;
+  },
+  updateCart: function () {
+    let cart = document.getElementById("total_item_of_cart");
+    cart.innerHTML = AT.cart.item_count;
+  },
+  removeItemCart: function () {
+    let removeButtons = document.getElementsByClassName("js-remove-item");
+
+    [...removeButtons].forEach((btn) => {
+      btn.addEventListener("click", function () {
+        let cartItem = this.closest(".cart-item");
+        let line = this.getAttribute("data-line");
+        fetch("/cart/change.js", {
+          method: "post",
+          headers: new Headers(),
+          body: new URLSearchParams(`line=${line}&quantity=0`),
+        }).then((res) => cartItem.remove());
       });
-    };
-
-    if (product.available && product.options.size > 1) {
-      var $addToCartForm = $('form[action="/cart/add"]');
-      if (window.MutationObserver && $addToCartForm.length) {
-        if (typeof observer === "object" && typeof observer.disconnect === "function") {
-          observer.disconnect();
-        }
-        var config = { childList: true, subtree: true };
-        var observer = new MutationObserver(function () {
-          Shopify.linkOptionSelectors(product);
-          observer.disconnect();
-        });
-        observer.observe($addToCartForm[0], config);
-      }
-    }
-
-    var selector = jQuery(".single-option-selector:eq(0)");
-    selector.trigger("change");
-
-    // {% if product.options.size == 1 %}
-    //   {% for variant in product.variants %}
-    //     {% unless variant.available %}
-    //       jQuery('.single-option-selector option').filter(function() { return jQuery(this).text().trim() === {{ variant.title | json }}; }).remove();
-    //     {% endunless %}
-    //   {% endfor %}
-    //   jQuery('.single-option-selector').trigger('change');
-    // {% endif %}
+    });
   },
 };
 

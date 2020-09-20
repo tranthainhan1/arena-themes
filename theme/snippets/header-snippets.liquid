@@ -43,7 +43,7 @@
       <div class="icon-list__item cart">
         <a href="/cart">
           {%- include 'svg', type: 'cart' -%}
-          <div class="number">0</div>
+          <div class="number" id="total_item_of_cart">{{cart.item_count}}</div>
         </a>
       </div>
     </div>

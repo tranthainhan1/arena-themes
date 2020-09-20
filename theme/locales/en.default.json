@@ -37,7 +37,11 @@
     "title": "Shopping Cart",
     "subtotal": "Subtotal",
     "label_btn_checkout": "Process to Checkout",
-    "continue_shopping": "Continue Shopping"
+    "continue_shopping": "Continue Shopping",
+    "table": {
+      "product": "Product",
+      "subtotal": "Subtotal"
+    }
   },
   "contact": {
     "form": {

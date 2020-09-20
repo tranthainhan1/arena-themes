@@ -1,10 +1,82 @@
-<div class="cart-template">
+<div class="cart-template {% if cart.item_count == 0 %}empty{%- endif -%}">
   <div class="container">
-    {%- if cart.item_count == 0 -%}
+    <div class="cart-template__wrapper">
       {%- render 'cart-template-empty' section: section -%}
-    {%- else -%}
-      <div class="cart-template__title">{{'cart.title' | t}}</div>
-      
-    {%- endif -%}
+      <div class="cart-template__content">
+        <div class="cart-template__title text-center">
+          <h2>{{'cart.title' | t}}</h2>
+        </div>
+        <div class="cart-table">
+          <div class="d-none d-lg-block cart-table__header">
+            <div class="row">
+              <div class="col-8">
+                <span>{{ 'cart.table.product' | t}}</span>
+              </div>
+              <div class="col-4">
+                <span>{{ 'cart.table.subtotal' | t}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="cart-table__body">
+            {%- for line in cart.items -%}
+              <div class="cart-item">
+                <div class="cart-item__wrapper">
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="d-flex cart-item__left">
+                        <div class="cart-item__image" >
+                          {% render 'image-style' image: line.image %}
+                        </div>
+                        <div class="cart-item__info">
+                          <div class="name">
+                            <a href="{{line.product.url | within: collection}}">{{line.product.title}}</a>
+                          </div>
+                          <div class="options">
+                            {%- for option in line.options_with_values -%}
+                              <p>{{option.name}} : {{option.value}}</p>
+                            {%- endfor -%}
+                          </div>
+                          <div class="d-lg-none price">
+                            <span>{{line.final_line_price | money_with_currency}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-none d-lg-flex cart-item__right">
+                        <div class="price">
+                          <span>{{line.final_line_price | money_with_currency}}</span>
+                        </div>
+                        <div class="remove">
+                          <a href="javascript:void(0)" class="js-remove-item" data-line="{{forloop.index}}">
+                            {% render 'svg' type: 'close' %}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+          <div class="cart-table__footer">  
+            <div class="d-flex cart-table__subtotal">
+              <div class="label">
+                <span>{{ 'cart.table.subtotal' | t}}</span>
+              </div>
+              <div class="subtotal price">
+                <span>{{cart.total_price | money_with_currency}}</span>
+              </div>
+            </div>
+            <div class="cart-table__button">
+              <div class="row">
+                <a href="/" class="btn btn-3 text-center order-2 order-lg-1">{{ 'cart.continue_shopping' | t}}</a>
+                <a href="/checkout" class="btn btn-3 text-center order-1 order-lg-2" >{{ 'cart.label_btn_checkout' | t}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

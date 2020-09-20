@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayWithoutHoles = __webpack_require__(8);
+var arrayWithoutHoles = __webpack_require__(7);
 
-var iterableToArray = __webpack_require__(9);
+var iterableToArray = __webpack_require__(8);
 
-var unsupportedIterableToArray = __webpack_require__(10);
+var unsupportedIterableToArray = __webpack_require__(9);
 
-var nonIterableSpread = __webpack_require__(11);
+var nonIterableSpread = __webpack_require__(10);
 
 function _toConsumableArray(arr) {
   return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
@@ -882,28 +882,6 @@ module.exports = _arrayLikeToArray;
 /* 3 */
 /***/ (function(module, exports) {
 
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    module.exports = _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-module.exports = _typeof;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
 // get successful control from form and assemble into object
 // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
 
@@ -1167,7 +1145,7 @@ module.exports = serialize;
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(window, factory) {
@@ -1346,7 +1324,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(window, factory) {
@@ -1553,7 +1531,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(window, factory) {
@@ -1955,7 +1933,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayLikeToArray = __webpack_require__(2);
@@ -1967,7 +1945,7 @@ function _arrayWithoutHoles(arr) {
 module.exports = _arrayWithoutHoles;
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports) {
 
 function _iterableToArray(iter) {
@@ -1977,7 +1955,7 @@ function _iterableToArray(iter) {
 module.exports = _iterableToArray;
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayLikeToArray = __webpack_require__(2);
@@ -1994,7 +1972,7 @@ function _unsupportedIterableToArray(o, minLen) {
 module.exports = _unsupportedIterableToArray;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 function _nonIterableSpread() {
@@ -2004,7 +1982,7 @@ function _nonIterableSpread() {
 module.exports = _nonIterableSpread;
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 // Object.keys
@@ -2021,7 +1999,7 @@ if (!Object.keys) {
 }
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports) {
 
 // ChildNode.remove
@@ -2034,7 +2012,7 @@ if(!("remove" in Element.prototype)){
 }
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2042,16 +2020,16 @@ if(!("remove" in Element.prototype)){
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/plugins/parent-fit/ls.parent-fit.js
-var ls_parent_fit = __webpack_require__(5);
+var ls_parent_fit = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/plugins/object-fit/ls.object-fit.js
-var ls_object_fit = __webpack_require__(6);
+var ls_object_fit = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/lazysizes.js
 var lazysizes = __webpack_require__(1);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/plugins/rias/ls.rias.js
-var ls_rias = __webpack_require__(7);
+var ls_rias = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./node_modules/@shopify/theme-sections/section.js
 var SECTION_ID_ATTR = 'data-section-id';
@@ -2442,15 +2420,11 @@ if (window.Shopify.designMode) {
 var toConsumableArray = __webpack_require__(0);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/typeof.js
-var helpers_typeof = __webpack_require__(3);
-var typeof_default = /*#__PURE__*/__webpack_require__.n(helpers_typeof);
-
 // EXTERNAL MODULE: ./node_modules/tiny-slider/src/helpers/Object.keys.js
-var Object_keys = __webpack_require__(12);
+var Object_keys = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/tiny-slider/src/helpers/childNode.remove.js
-var childNode_remove = __webpack_require__(13);
+var childNode_remove = __webpack_require__(12);
 
 // CONCATENATED MODULE: ./node_modules/tiny-slider/src/helpers/raf.js
 var raf_win = window;
@@ -5689,7 +5663,7 @@ var tns = function(options) {
 };
 
 // EXTERNAL MODULE: ./node_modules/form-serialize/index.js
-var form_serialize = __webpack_require__(4);
+var form_serialize = __webpack_require__(3);
 var form_serialize_default = /*#__PURE__*/__webpack_require__.n(form_serialize);
 
 // CONCATENATED MODULE: ./app/scripts/_arn.js
@@ -5698,6 +5672,7 @@ var form_serialize_default = /*#__PURE__*/__webpack_require__.n(form_serialize);
 
 
 var AT = {
+  cart: {},
   initTinySlider: function initTinySlider(container) {
     var config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
     var sliderContainer = container.querySelector(".js-tns");
@@ -5806,167 +5781,65 @@ var AT = {
       }
     });
   },
-  initAddToCart: function initAddToCart() {
+  addToCart: function addToCart() {
     var btnAddToCart = document.getElementsByClassName("js-add-to-card");
+    var arrFetch = [];
 
     toConsumableArray_default()(btnAddToCart).forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         var form = e.target.closest("form");
-        var myHeaders = new Headers();
-        var myRequest = new Request("/cart/add.js", {
+        console.time("test");
+        fetch("/cart/add.js", {
           method: "post",
-          headers: myHeaders,
+          headers: new Headers(),
           body: new URLSearchParams(form_serialize_default()(form))
-        });
-        fetch(myRequest).then(function (res) {
-          return res.json();
         }).then(function (res) {
-          return console.log(res);
+          fetch("/cart.js", {
+            method: "get",
+            headers: new Headers()
+          }).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            AT.cart = res;
+            AT.updateCart();
+          });
         });
       });
     });
   },
-  initLinksOption: function initLinksOption() {
-    var product = JSON.parse(document.getElementById("product-json").innerHTML);
-    var Shopify = Shopify || {}; // Required functionality from depricated options_selection.js
-
-    Shopify.arrayIncludes = function (e, t) {
-      for (var n = 0; n < e.length; n++) {
-        if (e[n] == t) return !0;
+  getCart: function getCart() {
+    fetch("/cart.js", {
+      method: "get",
+      headers: new Headers()
+    }).then(function (res) {
+      return res.json();
+    }).then(function (res) {
+      if (res.item_count !== 0) {
+        AT.cart = res;
       }
+    });
+  },
+  updateCart: function updateCart() {
+    var cart = document.getElementById("total_item_of_cart");
+    cart.innerHTML = AT.cart.item_count;
+  },
+  removeItemCart: function removeItemCart() {
+    var removeButtons = document.getElementsByClassName("js-remove-item");
 
-      return !1;
-    }, Shopify.uniq = function (e) {
-      for (var t = [], n = 0; n < e.length; n++) {
-        Shopify.arrayIncludes(t, e[n]) || t.push(e[n]);
-      }
-
-      return t;
-    };
-    Shopify.optionsMap = {};
-
-    Shopify.updateOptionsInSelector = function (selectorIndex) {
-      switch (selectorIndex) {
-        case 0:
-          var key = "root";
-          var selector = document.querySelector(".single-option-selector:nth-of-type(1)");
-          break;
-
-        case 1:
-          var key = document.querySelector(".single-option-selector:nth-of-type(2)").value;
-          var selector = document.querySelector(".single-option-selector:nth-of-type(2)");
-          break;
-
-        case 2:
-          var key = document.querySelector(".single-option-selector:nth-of-type(1)").value;
-          key += " / " + document.querySelector(".single-option-selector:nth-of-type(2)").value;
-          var selector = document.querySelector(".single-option-selector:nth-of-type(3)");
-      }
-
-      var initialValue = selector.val();
-      selector.empty();
-      var availableOptions = Shopify.optionsMap[key];
-
-      for (var i = 0; i < availableOptions.length; i++) {
-        var option = availableOptions[i];
-        var newOption = document.createElement("option").value = option;
-        newOption.innerHTML = option;
-        selector.append(newOption);
-      }
-
-      document.querySelectorAll('.swatch[data-option-index="' + selectorIndex + '"] .swatch-element').each(function (item) {
-        if (availableOptions.contains(item.getAttribute("data-value"))) {
-          $(this).removeClass("soldout").show().find(":radio").removeAttr("disabled", "disabled").removeAttr("checked");
-          item.classList.remove("soldout");
-          item.removeAttribute("disabled");
-          item.removeAttribute("checked");
-        } else {
-          $(this).addClass("soldout").hide().find(":radio").removeAttr("checked").attr("disabled", "disabled");
-        }
-      });
-
-      if (jQuery.inArray(initialValue, availableOptions) !== -1) {
-        selector.val(initialValue);
-      }
-
-      selector.trigger("change");
-    };
-
-    Shopify.linkOptionSelectors = function (product) {
-      // Building our mapping object.
-      for (var i = 0; i < product.variants.length; i++) {
-        var variant = product.variants[i];
-
-        if (variant.available) {
-          // Gathering values for the 1st drop-down.
-          Shopify.optionsMap["root"] = Shopify.optionsMap["root"] || [];
-          Shopify.optionsMap["root"].push(variant.option1);
-          Shopify.optionsMap["root"] = Shopify.uniq(Shopify.optionsMap["root"]); // Gathering values for the 2nd drop-down.
-
-          if (product.options.length > 1) {
-            var key = variant.option1;
-            Shopify.optionsMap[key] = Shopify.optionsMap[key] || [];
-            Shopify.optionsMap[key].push(variant.option2);
-            Shopify.optionsMap[key] = Shopify.uniq(Shopify.optionsMap[key]);
-          } // Gathering values for the 3rd drop-down.
-
-
-          if (product.options.length === 3) {
-            var key = variant.option1 + " / " + variant.option2;
-            Shopify.optionsMap[key] = Shopify.optionsMap[key] || [];
-            Shopify.optionsMap[key].push(variant.option3);
-            Shopify.optionsMap[key] = Shopify.uniq(Shopify.optionsMap[key]);
-          }
-        }
-      } // Update options right away.
-
-
-      Shopify.updateOptionsInSelector(0);
-      if (product.options.length > 1) Shopify.updateOptionsInSelector(1);
-      if (product.options.length === 3) Shopify.updateOptionsInSelector(2); // When there is an update in the first dropdown.
-
-      jQuery(".single-option-selector:eq(0)").change(function () {
-        Shopify.updateOptionsInSelector(1);
-        if (product.options.length === 3) Shopify.updateOptionsInSelector(2);
-        return true;
-      }); // When there is an update in the second dropdown.
-
-      jQuery(".single-option-selector:eq(1)").change(function () {
-        if (product.options.length === 3) Shopify.updateOptionsInSelector(2);
-        return true;
-      });
-    };
-
-    if (product.available && product.options.size > 1) {
-      var $addToCartForm = $('form[action="/cart/add"]');
-
-      if (window.MutationObserver && $addToCartForm.length) {
-        if (typeof_default()(observer) === "object" && typeof observer.disconnect === "function") {
-          observer.disconnect();
-        }
-
-        var config = {
-          childList: true,
-          subtree: true
-        };
-        var observer = new MutationObserver(function () {
-          Shopify.linkOptionSelectors(product);
-          observer.disconnect();
+    toConsumableArray_default()(removeButtons).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var cartItem = this.closest(".cart-item");
+        var line = this.getAttribute("data-line");
+        fetch("/cart/change.js", {
+          method: "post",
+          headers: new Headers(),
+          body: new URLSearchParams("line=".concat(line, "&quantity=0"))
+        }).then(function (res) {
+          return cartItem.remove();
         });
-        observer.observe($addToCartForm[0], config);
-      }
-    }
-
-    var selector = jQuery(".single-option-selector:eq(0)");
-    selector.trigger("change"); // {% if product.options.size == 1 %}
-    //   {% for variant in product.variants %}
-    //     {% unless variant.available %}
-    //       jQuery('.single-option-selector option').filter(function() { return jQuery(this).text().trim() === {{ variant.title | json }}; }).remove();
-    //     {% endunless %}
-    //   {% endfor %}
-    //   jQuery('.single-option-selector').trigger('change');
-    // {% endif %}
+      });
+    });
   }
 };
 /* harmony default export */ var _arn = (AT);
@@ -6300,16 +6173,83 @@ var CollectionSubTask = {
     });
   }
 };
+var Product = {
+  onLoad: function onLoad() {
+    var product = this.product = JSON.parse(document.getElementById("product_json").innerHTML);
+    this.initVariants();
+    this.container.addEventListener("variantChange", this.updateProduct.bind(this));
+  },
+  initVariants: function initVariants() {
+    var options = {
+      container: this.container,
+      product: this.product
+    };
+    this.variants = new AT_section_Variants(options);
+  },
+  updateProduct: function updateProduct(_ref) {
+    var variant = _ref.detail;
+  }
+};
+
+var AT_section_Variants = function () {
+  function Variants(options) {
+    var _this = this;
+
+    this.container = options.container;
+    this.product = options.product;
+    this.singleOptionSelector = document.getElementsByClassName("single-option-selector");
+    this.currentVariant = this.getVariantFromOptions();
+
+    toConsumableArray_default()(this.singleOptionSelector).forEach(function (item) {
+      item.addEventListener("change", _this.onSelectChange.bind(_this));
+    });
+  }
+
+  Variants.prototype = {
+    getVariantFromOptions: function getVariantFromOptions() {
+      var currentOptions = this.getCurrentOptions();
+      var variants = this.product.variants;
+      var found = variants.find(function (variant) {
+        return currentOptions.every(function (option) {
+          return option.value === variant[option.index];
+        });
+      });
+      return found;
+    },
+    onSelectChange: function onSelectChange() {
+      var variant = this.getVariantFromOptions();
+      this.container.dispatchEvent(new CustomEvent("variantChange", {
+        detail: variant
+      }));
+
+      if (!variant) {
+        return;
+      }
+
+      this.currentVariant = variant;
+      this.updateMasterSelect(variant);
+    },
+    getCurrentOptions: function getCurrentOptions() {
+      return toConsumableArray_default()(this.singleOptionSelector).map(function (item) {
+        var option = {};
+        option.index = item.getAttribute("data-index");
+        option.value = item.value;
+        return option;
+      });
+    },
+    updateMasterSelect: function updateMasterSelect(variant) {
+      var masterSelect = document.getElementById("master_select");
+      masterSelect.value = variant.id;
+    }
+  };
+  return Variants;
+}();
+
 
 // CONCATENATED MODULE: ./app/scripts/custom.js
-// import "lazysizes/plugins/unveilhooks/ls.unveilhooks";
 
- // import "lazysizes/plugins/bgset/ls.bgset";
 
- // import "lazysizes/plugins/respimg/ls.respimg";
 
- // import "lazysizes/plugins/video-embed/ls.video-embed";
-// import * as shopifyCart from "@shopify/theme-cart";
 
 
 
@@ -6317,24 +6257,22 @@ var CollectionSubTask = {
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 window.addEventListener("DOMContentLoaded", function () {
-  // register("icons-cart", IconsBox);
-  // register("featured-collection", FeaturedCollection);
-  // register("logo-list", LogoList);
   register("header", Header);
   register("footer", Footer);
   register("support-template", SupportTemplate);
   register("hero-banner", HeroBanner);
-  register("about-template", /* Cannot get final name for export "AboutTemplate" in "./app/scripts/AT_section.js" (known exports: Header Footer SupportTemplate HeroBanner CollectionThemes CustomerLayout CollectionApps CollectionSubTask, known reexports: ) */ undefined);
-  register("partners-template", /* Cannot get final name for export "PartnersTemplate" in "./app/scripts/AT_section.js" (known exports: Header Footer SupportTemplate HeroBanner CollectionThemes CustomerLayout CollectionApps CollectionSubTask, known reexports: ) */ undefined);
   register("collection-themes", CollectionThemes);
   register("collection-apps", CollectionApps);
   register("collection-sub-task", CollectionSubTask);
+  register("product-theme", Product);
   load("*");
   document.body.classList.contains("template-customers-login") && CustomerLayout();
   _arn.initTNS();
+  _arn.getCart();
   _arn.initHandleCollapse();
   _arn.initBackToTop();
-  _arn.initAddToCart();
+  _arn.addToCart();
+  _arn.removeItemCart();
 });
 
 /***/ })

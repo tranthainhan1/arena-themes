@@ -20,21 +20,22 @@
             <div class="description">
               {{product.description}}
             </div>
-            <div class="total-variant">
-              <span>{{ 'product_template.themes.total_variant' | t: count: product.metafields.c_f.total_variant}}</span>
-            </div>
+            {%- if product.metafields.c_f.total_variant != blank -%}
+              <div class="total-variant">
+                <span>{{ 'product_template.themes.total_variant' | t: count: product.metafields.c_f.total_variant}}</span>
+              </div>
+            {%- endif -%}
             <div class="form">
               <form action="cart/add" id="product-form">
                 <input type="hidden" value="1" name="quantity">
-                <input type="hidden" value="{{product.id}}" name="id">
                 <div class="swatch">
-                  {%- for option in product.options -%}
+                  {%- for option in product.options_with_values -%}
                     <div class="swatch-element">
-                      <label for="product_style">{{ option }}</label>
+                      <label for="product_style">{{ option.name }}</label>
                       <div class="select-group">
-                        <select name="option-0" id="product_style">
-                          {%- for variant in product.variants -%}
-                            <option value="{{variant.id}}">{{variant.title}}</option>
+                        <select id="option_{{option.position}}" class="single-option-selector" data-index="option{{option.position}}">
+                          {%- for value in option.values -%}
+                            <option value="{{value}}">{{value}}</option>
                           {%- endfor -%}
                         </select>
                         {% render 'svg' type: 'angle-down' %}
@@ -44,7 +45,20 @@
                 </div>
                 
                 <button class="js-add-to-card btn btn-2 btn-buy">{{ 'product_template.themes.buy_theme' | t}}</button>
-                <a href="{{product.metafields.c_f.demo_link | default: 'javascript:void(0)'}}" class="btn btn-2 btn-view-more text-center">{{ 'product_template.themes.view_demo' | t}}</a>
+                {%- if product.metafields.c_f.demo_link != blank -%}
+                  <a href="{{product.metafields.c_f.demo_link}}" class="btn btn-2 btn-view-more text-center">{{ 'product_template.themes.view_demo' | t}}</a>
+                {%- endif -%}
+                <select name="id" id="master_select" class="d-none no-js">
+                  {% for variant in product.variants %}
+                    <option 
+                      value="{{ variant.id }}" 
+                      {%- unless variant != current_variant %}selected{%- endunless -%}
+                      {%- unless variant.available %}disabled{% endunless %}
+                      >
+                      {{ variant.title }}  {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+                    </option>
+                  {% endfor %}
+                </select>
               </form>
             </div>
           </div>
@@ -197,4 +211,6 @@
   </div>
 </div>
 
-<script>console.log({{product | json}})</script>
+<script type="application/ld+json" id="product_json">
+{{product | json}}
+</script>
