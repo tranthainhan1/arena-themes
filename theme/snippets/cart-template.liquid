@@ -7,12 +7,12 @@
           <h2>{{'cart.title' | t}}</h2>
         </div>
         <div class="cart-table">
-          <div class="d-none d-lg-block cart-table__header">
+          <div class="d-none d-md-block cart-table__header">
             <div class="row">
-              <div class="col-8">
+              <div class="col-9">
                 <span>{{ 'cart.table.product' | t}}</span>
               </div>
-              <div class="col-4">
+              <div class="col-3">
                 <span>{{ 'cart.table.subtotal' | t}}</span>
               </div>
             </div>
@@ -22,7 +22,7 @@
               <div class="cart-item">
                 <div class="cart-item__wrapper">
                   <div class="row">
-                    <div class="col-8">
+                    <div class="col-9">
                       <div class="d-flex cart-item__left">
                         <div class="cart-item__image" >
                           {% render 'image-style' image: line.image %}
@@ -36,16 +36,16 @@
                               <p>{{option.name}} : {{option.value}}</p>
                             {%- endfor -%}
                           </div>
-                          <div class="d-lg-none price">
-                            <span>{{line.final_line_price | money_with_currency}}</span>
+                          <div class="d-md-none price">
+                            <span>{{line.final_line_price | money}}</span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-4">
-                      <div class="d-none d-lg-flex cart-item__right">
-                        <div class="price">
-                          <span>{{line.final_line_price | money_with_currency}}</span>
+                    <div class="col-3">
+                      <div class="d-flex cart-item__right">
+                        <div class="d-none d-md-block price">
+                          <span>{{line.final_line_price | money}}</span>
                         </div>
                         <div class="remove">
                           <a href="javascript:void(0)" class="js-remove-item" data-line="{{forloop.index}}">
@@ -65,14 +65,12 @@
                 <span>{{ 'cart.table.subtotal' | t}}</span>
               </div>
               <div class="subtotal price">
-                <span>{{cart.total_price | money_with_currency}}</span>
+                <span>{{cart.total_price | money}}</span>
               </div>
             </div>
             <div class="cart-table__button">
-              <div class="row">
-                <a href="/" class="btn btn-3 text-center order-2 order-lg-1">{{ 'cart.continue_shopping' | t}}</a>
-                <a href="/checkout" class="btn btn-3 text-center order-1 order-lg-2" >{{ 'cart.label_btn_checkout' | t}}</a>
-              </div>
+              <a href="/" class="btn btn-2 text-center order-2 order-md-1">{{ 'cart.continue_shopping' | t}}</a>
+              <a href="/checkout" class="btn btn-2 text-center order-1 order-md-2" >{{ 'cart.label_btn_checkout' | t}}</a>
             </div>
           </div>
         </div>

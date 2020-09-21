@@ -517,7 +517,6 @@ function prepareCssVar() {
     };
   });
 }
-
 /**
  * BROWSER SYNC SERVER
  */

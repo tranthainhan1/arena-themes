@@ -104,12 +104,12 @@ var AT = {
   },
   addToCart: function () {
     let btnAddToCart = document.getElementsByClassName("js-add-to-card");
-    let arrFetch = [];
+
     [...btnAddToCart].forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         let form = e.target.closest("form");
-        console.time("test");
+        console.log(serialize(form));
         fetch("/cart/add.js", {
           method: "post",
           headers: new Headers(),
