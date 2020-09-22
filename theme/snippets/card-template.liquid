@@ -241,10 +241,10 @@
                 </div>
               </div>
               <div class="d-lg-none card-group__right">
-                {% comment %} <div class="price">
+                <div class="price">
                   <h2>{{price}}</h2>
-                </div> {% endcomment %}
-                <div class="hours-work"> 
+                </div> 
+                {% comment %} <div class="hours-work"> 
                   {%- if hours_work >= 24 -%}
                     {%- assign days = hours_work | divided_by: 24 -%}
                     {%- if days > 1 -%}
@@ -257,7 +257,7 @@
                   {%- else -%}
                     <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
                   {%- endif -%}
-                </div>
+                </div> {% endcomment %}
               </div>
             </div>
             <div class="card__description">
@@ -265,10 +265,10 @@
             </div>
           </div>
           <div class="d-none d-lg-block card__body__right">
-            {% comment %} <div class="price">
+            <div class="price">
               <h2>{{price}}</h2>
-            </div> {% endcomment %}
-            <div class="hours-work">
+            </div>
+            {% comment %} <div class="hours-work">
               {%- if hours_work >= 24 -%}
                 {%- assign days = hours_work | divided_by: 24 -%}
                 {%- if days > 1 -%}
@@ -281,16 +281,16 @@
               {%- else -%}
                 <span>{{ 'card.task.hour_work' | t: hour: hours_work}}</span>
               {%- endif -%}
-            </div>
+            </div> {% endcomment %}
           </div>
         </div>
         
         <div class="d-flex card__footer">
-          <div class="card__tags">
+          {% comment %} <div class="card__tags">
             {%- for tag in product.tags limit: 4 -%}
               <span>{{tag}}</span>
             {%- endfor -%}
-          </div>
+          </div> {% endcomment %}
           <div class="card__button">
             <a href="{{url}}" class="btn btn-3">
               <span>{{ 'card.task.btn' | t}}</span>

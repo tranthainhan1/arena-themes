@@ -73,7 +73,8 @@
                 %}
                 {%- if title == link.title -%}
                   <ul class="dropdown-menu {% if two_column %}two-column{%- endif -%}">
-                    {% render 'header-dropdown-menu-snippets' index: forloop.index , section: section  %} 
+                    {% render 'header-dropdown-menu-snippets' index: forloop.index , section: section  %}
+                    {% render 'svg' type: 'close' %}
                   </ul>
                 {%- endif -%}
               {%- endif -%}
