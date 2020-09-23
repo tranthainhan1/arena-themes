@@ -77,7 +77,6 @@ let Header = {
         } else {
           elmSearchMobile.classList.add("show");
           document.body.classList.add("popup-is-showing");
-          inputSearchMobile.focus();
         }
       }
     });
