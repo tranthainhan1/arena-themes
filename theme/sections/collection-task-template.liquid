@@ -1,8 +1,6 @@
 {% liquid 
-  assign custom_content_title = section.settings.custom_content_title
-  assign paragraph_1          = section.settings.paragraph_1
-  assign paragraph_2          = section.settings.paragraph_2
-  assign image_mobile         = section.settings.image_mobile
+  assign banner_title = section.settings.banner_title
+  assign popular_list         = section.settings.popular_list | strip | split: ','
   assign image_desktop        = section.settings.image_desktop
   assign collection_title     = section.settings.collection_title
   assign collection_subtitle  = section.settings.collection_subtitle
@@ -41,26 +39,37 @@
       {% render 'breadcrumb-snippets' type: 'task'  %}
     </div>
     
-    <div class="custom-content">
-      <div class="custom-content__wrapper">
-        <div class="custom-content__text">
-          <div class="heading">
-            <span>{{custom_content_title}}</span>
+    <div class="banner">
+      <div class="banner__wrapper">
+        <div class="textbox">
+          <div class="title">
+            <h1>{{banner_title}}</h1>
           </div>
-          <div class="d-lg-none image">
-            {% render 'image-style' image: image_mobile %}
+          <div class="banner__search">
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'collections.tasks.search_placeholder' | t}}">
+              {% render 'svg' type: 'search' %}
+            </div>
           </div>
-          <div class="paragrap-1">
-            <span>{{paragraph_1}}</span>
-          </div>
-          <div class="paragrap-2">
-            <span>{{paragraph_2}}</span>
-          </div>
+          {%- if popular_list.size > 0 -%}
+            <div class="banner__popular">
+              <div class="popular-list">
+                <span>{{ 'collections.apps.popular' | t}}</span>
+                {%- for popular in popular_list -%}
+                  {%- assign popularNew = popular | split: '|' -%}
+                  {%- assign text = '1234' | split: '|' -%}
+                  <script>console.log({{popularNew | json}})</script>
+                  {%- if popularNew.size == 2 -%}
+                    {%- assign url = popularNew[1] -%} 
+                  {%- endif -%}
+                  <a href="{{ url | default: 'javascript:void(0)' | strip }}" class="popular-item">{{ popularNew[0] | strip }}</a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
         </div>
-        <div class="custom-content__image">
-          <div class="d-none d-lg-block image">
-            {% render 'image-style' image: image_desktop %}
-          </div>
+        <div class="image">
+          {% render 'image-style' image: image_desktop %}
         </div>
       </div>
     </div>
@@ -132,31 +141,12 @@
   "settings": [
     {
       "type": "header",
-      "content": "Section Custom Content"
-    },
-    {
-      "type": "paragraph",
-      "content": "Text settings"
+      "content": "Banner"
     },
     {
       "type": "text",
-      "id": "custom_content_title",
-      "label": "Heading"
-    },
-    {
-      "type": "text",
-      "id": "paragraph_1",
-      "label": "Paragraph 1"
-    },
-    {
-      "type": "html",
-      "id": "paragraph_2",
-      "label": "Paragraph list"
-    },
-    {
-      "type": "text",
-      "id": "show_item_paragraph_list",
-      "label": "Use for 'Paragaph list'"
+      "id": "banner_title",
+      "label": "Title"
     },
     {
       "type": "image_picker",
@@ -164,9 +154,10 @@
       "label": "Image on desktop"
     },
     {
-      "type": "image_picker",
-      "id": "image_mobile",
-      "label": "Image on mobile"
+      "type": "html",
+      "id": "popular_list",
+      "label": "Popular list",
+      "info" : "Please separated by ','"
     },
     {
       "type": "header",

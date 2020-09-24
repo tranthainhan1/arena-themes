@@ -1,6 +1,6 @@
 {% liquid 
   assign banner_title = section.settings.banner_title 
-  assign banner_subtitle = section.settings.banner_subtitle 
+  assign popular_list = section.settings.popular_list | strip | split: ','
   assign banner_image = section.settings.banner_image 
 %}
 <div class="collection collection-{{collection.handle}}" data-section-id="{{section.id}}" data-section-type="collection-themes">
@@ -11,9 +11,28 @@
           <div class="title">
             <h1>{{banner_title}}</h1>
           </div>
-          <div class="subtitle">
-            <span>{{banner_subtitle}}</span>
+          <div class="banner__search">
+            <div class="input-group">
+              <input type="text" placeholder="{{ 'collections.themes.search_placeholder' | t}}">
+              {% render 'svg' type: 'search' %}
+            </div>
           </div>
+          {%- if popular_list.size > 0 -%}
+            <div class="banner__popular">
+              <div class="popular-list">
+                <span>{{ 'collections.apps.popular' | t}}</span>
+                {%- for popular in popular_list -%}
+                  {%- assign popularNew = popular | split: '|' -%}
+                  {%- assign text = '1234' | split: '|' -%}
+                  <script>console.log({{popularNew | json}})</script>
+                  {%- if popularNew.size == 2 -%}
+                    {%- assign url = popularNew[1] -%} 
+                  {%- endif -%}
+                  <a href="{{ url | default: 'javascript:void(0)' | strip }}" class="popular-item">{{ popularNew[0] | strip }}</a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
         </div>
         <div class="image">
           {% render 'image-style' image: banner_image %}
@@ -24,7 +43,7 @@
       <div class="row">
         <div class="col-12 col-lg-3">
           <div class="toolbar__search">
-            <input type="text" placeholder="{{ 'collection_template.themes.search.placeholder' | t}}">
+            <input type="text" placeholder="{{ 'collections.themes.search_placeholder' | t}}">
             {% render 'svg' type: 'search' %}
           </div>
         </div>
@@ -32,16 +51,16 @@
           <div class="toolbar_right">
             <div class="pagination-showing">
               {%- if collection.all_products_count > 15  -%}
-                <span>{{ 'collection_template.themes.pagination.showing' | t: count: collection.all_products_count}}</span>
+                <span>{{ 'collections.themes.pagination.showing' | t: count: collection.all_products_count}}</span>
               {%- else -%}
-                <span>{{ 'collection_template.themes.pagination.showing_all' | t: count: collection.all_products_count}}</span>
+                <span>{{ 'collections.themes.pagination.showing_all' | t: count: collection.all_products_count}}</span>
               {%- endif -%}
             </div>
 
             <div class="d-none  d-lg-flex sort-by">
-              <label for="sort_by">{{ 'collection_template.themes.sort_by' | t}}</label>
+              <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
               <select name="sort_by" id="sort_by">
-                <option value="Most Recent">{{ 'collection_template.themes.select.option_1' | t}}</option>
+                <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
               </select>
               {% render 'svg' type: 'angle-down' %}
             </div>
@@ -59,15 +78,15 @@
         <div class="col-12 col-lg-3 sidebar" id="js-sidebar-container">
           <div class="d-lg-none sidebar_header">
             <div class="title">
-              <span>{{ 'collection_template.themes.filter' | t}}</span>
+              <span>{{ 'collections.themes.filter' | t}}</span>
               <a href="javascript:void(0)" class="js-close-sidebar">
                 {% render 'svg' type: 'close' %}
               </a>
             </div>
             <div class="sort-by">
-              <label for="sort_by">{{ 'collection_template.themes.sort_by' | t}}</label>
+              <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
               <select name="sort_by" id="sort_by">
-                <option value="Most Recent">{{ 'collection_template.themes.select.option_1' | t}}</option>
+                <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
               </select>
               {% render 'svg' type: 'angle-down' %}
             </div>
@@ -142,8 +161,8 @@
               {%- endcase -%}
             {%- endfor -%}
             <div class="sidebar_btn">
-              <button id="filter_clear" class="btn btn-2 clear">{{ 'collection_template.themes.btn.clear' | t}}</button>
-              <button id="filter_apply" class="btn btn-2 apply">{{ 'collection_template.themes.btn.apply' | t}}</button>
+              <button id="filter_clear" class="btn btn-2 clear">{{ 'collections.themes.btn.clear' | t}}</button>
+              <button id="filter_apply" class="btn btn-2 apply">{{ 'collections.themes.btn.apply' | t}}</button>
             </div>
           </div>
         </div>
@@ -183,9 +202,10 @@
         "label": "Title"
       },
       {
-        "type": "text",
-        "id": "banner_subtitle",
-        "label": "Subtitle"
+        "type": "html",
+        "id": "popular_list",
+        "label": "Popular list",
+        "info" : "Please separated by ','"
       }, 
       {
         "type": "image_picker",

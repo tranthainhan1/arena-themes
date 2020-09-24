@@ -866,6 +866,22 @@ module.exports = _toConsumableArray;
 /* 2 */
 /***/ (function(module, exports) {
 
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+module.exports = _arrayLikeToArray;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
 // get successful control from form and assemble into object
 // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
 
@@ -1127,22 +1143,6 @@ function str_serialize(result, key, value) {
 
 module.exports = serialize;
 
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray;
 
 /***/ }),
 /* 4 */
@@ -1936,7 +1936,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayLikeToArray = __webpack_require__(3);
+var arrayLikeToArray = __webpack_require__(2);
 
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return arrayLikeToArray(arr);
@@ -1958,7 +1958,7 @@ module.exports = _iterableToArray;
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayLikeToArray = __webpack_require__(3);
+var arrayLikeToArray = __webpack_require__(2);
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
@@ -5663,11 +5663,10 @@ var tns = function(options) {
 };
 
 // EXTERNAL MODULE: ./node_modules/form-serialize/index.js
-var form_serialize = __webpack_require__(2);
+var form_serialize = __webpack_require__(3);
 var form_serialize_default = /*#__PURE__*/__webpack_require__.n(form_serialize);
 
 // CONCATENATED MODULE: ./app/scripts/_arn.js
-
 
 
 
@@ -5788,7 +5787,6 @@ var AT = {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         var form = e.target.closest("form");
-        console.log(form_serialize_default()(form));
         fetch("/cart/add.js", {
           method: "post",
           headers: new Headers(),

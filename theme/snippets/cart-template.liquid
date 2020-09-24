@@ -24,9 +24,11 @@
                   <div class="row">
                     <div class="col-9">
                       <div class="d-flex cart-item__left">
-                        <div class="cart-item__image" >
-                          {% render 'image-style' image: line.image %}
-                        </div>
+                        {%- if line.image != blank -%}
+                          <div class="cart-item__image" >
+                            {% render 'image-style' image: line.image %}
+                          </div>
+                        {%- endif -%}
                         <div class="cart-item__info">
                           <div class="name">
                             <a href="{{line.product.url | within: collection}}">{{line.product.title}}</a>

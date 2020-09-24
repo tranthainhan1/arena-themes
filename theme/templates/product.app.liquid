@@ -41,8 +41,11 @@
           </div>
         </div>
         <div class="product__button">
-          <a href="#" class="btn btn-2 btn-install">
-            <span>{{ 'product_template.apps.btn.install' | t}}</span>
+          <a href="#" class="btn btn-3 btn-install">
+            {% render 'svg-2' type: 'shopify' %}
+            <div class="label">
+              {{ 'product_template.apps.btn.install_html' | t}}
+            </div>
           </a>
           <a href="#" class="btn btn-2 btn-view-demo">
             <span>{{ 'product_template.apps.btn.view_demo' | t}}</span>

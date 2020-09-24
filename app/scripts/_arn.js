@@ -1,6 +1,5 @@
 import { tns } from "tiny-slider/src/tiny-slider";
 import serialize from "form-serialize";
-import { Header } from "./AT_section";
 
 var AT = {
   cart: {},
@@ -109,7 +108,7 @@ var AT = {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         let form = e.target.closest("form");
-        console.log(serialize(form));
+
         fetch("/cart/add.js", {
           method: "post",
           headers: new Headers(),

@@ -150,11 +150,10 @@
     "phone_placeholder": "ex: 092 3456 789",
     "upload": "Resume/CV"
   },
-  "collection_template": {
+  "collections": {
     "themes": {
-      "search": {
-        "placeholder": "Type keyword"
-      },
+      "search_placeholder": "Type keyword",
+      "popular": "Popular:",
       "pagination": {
         "showing_all": "Show all {{count}} themes",
         "showing": "1-15 of {{count}} themes"
@@ -170,15 +169,16 @@
       "filter": "Filter"
     },
     "apps": {
-      "search": {
-        "placeholder": "Search app..."
-      },
+      "search_placeholder": "Search app...",
+      "popular": "Popular:",
       "pagination": {
         "showing_all": "Show all {{count}} apps",
         "showing": "1-15 of {{count}} apps"
       }
     },
     "tasks": {
+      "search_placeholder": "e.g responsive theme for electronics store",
+      "popular": "Popular:",
       "pagination": {
         "showing_all": "Show all {{count}} services",
         "showing": "1-10 of {{count}} services"
@@ -205,7 +205,7 @@
     "apps": {
       "version": "Version: {{version}}",
       "btn": {
-        "install": "Install Now",
+        "install_html": "<p>Add app on the</p><p>Shopify App Store</p>",
         "view_demo": "View Demo"
       },
       "related": {
@@ -214,12 +214,15 @@
       "free": "Free"
     },
     "task": {
-      "card_swatchs_title": "Turnaround time",
-      "price_label": "Base Price",
-      "delivery_label": "{{type}} Delivery",
-      "total": "Total cost",
-      "add_to_cart": "Add to Cart",
-      "preview": "Preview Sample"
+      "price_label": "Basic Task Price",
+      "delivery_label": "Standard Delivery",
+      "total": "Total price",
+      "add_to_cart": "Purchase Task",
+      "preview": "Preview Sample",
+      "revisions": "Revisions",
+      "secure": "100% Secure",
+      "custom_request": "Submit a custom request",
+      "variant_question": "Do you need some other variation of this service?"
     }
   },
   "card": {
@@ -240,12 +243,12 @@
       "btn": "Read more"
     },
     "task": {
-      "day_work": "Within {{day}} Day",
-      "days_work": "Within {{days}} Days",
-      "hours_work": "Within {{hours}} Hours",
-      "hour_work": "Within {{hour}} Hour",
+      "day_work": "{{day}} Day",
+      "days_work": "{{days}} Days",
+      "hours_work": "{{hours}} Hours",
+      "hour_work": "{{hour}} Hour",
       "btn": "Demo preview",
-      "btn_plan": "Hire Us"
+      "btn_plan": "Continue"
     }
   },
   "article_template": {

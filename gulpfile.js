@@ -521,18 +521,6 @@ function prepareCssVar() {
  * BROWSER SYNC SERVER
  */
 async function startAppServer() {
-  let __cssVar = await prepareCssVar();
-
-  let __js = await prepareJs();
-
-  if (__cssVar.status == "error") {
-    throw new Error(__cssVar.msg);
-  }
-
-  if (__js.status == "error") {
-    throw new Error(__js.msg);
-  }
-
   server.init({
     notify: true,
     port,
@@ -549,44 +537,20 @@ async function startAppServer() {
   });
 
   watch("app/styles/**/*.scss", styles);
-  //watch(`app/scripts/**/!(${_jsName.replace(".js", "")}).js`, scripts);
   watch(`app/scripts/**/*.js`, scripts);
 
   watch(".tmp/theme.update").on("change", testReload);
 }
 
 function testReload() {
-  if (firstBuild) {
-    npmRun.exec(`cd theme/ && theme deploy ./assets/${_cssName} ./assets/${_jsName}.liquid --allow-live`, function (
-      err,
-      stdout,
-      stderr
-    ) {
-      if (stdout) console.log(stdout);
-      if (stderr) console.log(stderr);
-      firstBuild = false;
-      server.reload();
-    });
-  } else {
-    if (changeFlag === "css") {
-      changeFlag = "";
-      server.reload("*.css");
-    } else if (changeFlag === "js") {
-      changeFlag = "";
-      setTimeout(() => {
-        server.reload();
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        server.reload();
-      }, 1000);
-    }
-  }
+  setTimeout(() => {
+    server.reload();
+  }, 1000);
 }
 
 let serve;
 
-serve = series(startAppServer, parallel(styles, scripts));
+serve = series(startAppServer);
 
 exports.serve = serve;
 exports.build = build;
