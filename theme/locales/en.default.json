@@ -222,7 +222,8 @@
       "revisions": "Revisions",
       "secure": "100% Secure",
       "custom_request": "Submit a custom request",
-      "variant_question": "Do you need some other variation of this service?"
+      "variant_question": "Do you need some other variation of this service?",
+      "discount": "Discount ({{discount}}%)"
     }
   },
   "card": {

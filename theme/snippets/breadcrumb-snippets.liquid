@@ -8,9 +8,23 @@
   {%- when 'task' -%}
     {%- assign title = 'Shopify Services' -%}
 {%- endcase -%}
+{%- if template contains 'product' and collection == blank -%}
+  {%- assign collection  = product.collections[0] -%}
+{%- endif -%}
 <div class="wrapper_breadcrumb">
   <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
     <a href="{{collection.url}}" class="title">{{title}}</a>
+
+    {% if template contains 'collection' %}
+      {%- if collection.metafields.c_f.collection_parent != blank -%}
+        {%- assign collection_parent = collections[collection.metafields.c_f.collection_parent] -%}
+        <a href="{{collection_parent.url}}">{{collection_parent.title}}</a>
+        <span aria-hidden="true"> ></span>
+        <span>{{page_title}}</span>
+      {%- else -%}
+        <span>{{ page_title }}</span>
+      {%- endif -%}
+    {% endif %}
 
     {% if template contains 'product' %}
       {%- case type -%}
@@ -47,15 +61,6 @@
       <span>{{ page_title }}</span>
     {% endif %}
 
-    {% if template contains 'collection' %}
-      {%- if collection.metafields.c_f.collection_parent != blank -%}
-        {%- assign collection_parent = collections[collection.metafields.c_f.collection_parent] -%}
-        <a href="{{collection_parent.url}}">{{collection_parent.title}}</a>
-        <span aria-hidden="true"> ></span>
-        <span>{{page_title}}</span>
-      {%- else -%}
-        <span>{{ page_title }}</span>
-      {%- endif -%}
-    {% endif %}
+    
   </nav>
-</div>
+</div> 

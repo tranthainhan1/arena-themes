@@ -2,18 +2,6 @@ import { tns } from "tiny-slider/src/tiny-slider";
 import serialize from "form-serialize";
 
 var AT = {
-  cart: {},
-  initTinySlider: function (container) {
-    let config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
-    let sliderContainer = container.querySelector(".js-tns");
-    let controlsContainer = sliderContainer.nextElementSibling;
-    config = Object.assign(config, {
-      container: sliderContainer,
-      controlsContainer,
-    });
-
-    return tns(config);
-  },
   debounce: (func, wait) => {
     let timeout;
     return function (...args) {
@@ -65,14 +53,36 @@ var AT = {
   },
   initTNS: function () {
     [...document.getElementsByClassName("js-tns")].forEach(function (item) {
-      let config = JSON.parse(item.getAttribute("data-config"));
+      let id = item.getAttribute("data-config");
+      let config = JSON.parse(document.getElementById(id).innerHTML);
       let controlsContainer = item.nextElementSibling;
       config = Object.assign(config, {
         container: item,
         controlsContainer,
       });
       let tnsSlider = tns(config);
+
+      tnsSlider.events.on("dragMove", (info) => {
+        [...info.slideItems].forEach((item) => {
+          let aTags = item.getElementsByTagName("a");
+          [...aTags].forEach((a) => {
+            a.addEventListener("click", preventDefault);
+          });
+        });
+      });
+
+      tnsSlider.events.on("dragEnd", (info) => {
+        [...info.slideItems].forEach((item) => {
+          let aTags = item.getElementsByTagName("a");
+          [...aTags].forEach((a) => {
+            a.removeEventListener("click", preventDefault);
+          });
+        });
+      });
     });
+    function preventDefault(e) {
+      e.preventDefault();
+    }
   },
   initHandleCollapse: function () {
     let btnCollapse = document.getElementsByClassName("js-btn-collapse");

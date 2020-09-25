@@ -8,6 +8,9 @@
   assign link_demo    = product.metafields.c_f.link_demo
   assign description  = product.description | replace: "<card-description>", '' | replace: "</card-description>", ""
   assign version      = product.metafields.c_f.version | default: '1.0'
+  if collection == blank 
+    assign collection = product.collections[0]
+  endif
 %}
 
 <div class="product product-app">

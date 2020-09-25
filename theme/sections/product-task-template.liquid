@@ -1,3 +1,6 @@
+{%- if collection == blank  -%}
+  {%- assign collection  = product.collections[0] -%}
+{%- endif -%}
 <div class="product product-task">
   <div class="container">
     <div class="product__wrapper">
@@ -30,15 +33,21 @@
                     {%- endfor -%}
                   </select>
                   <div class="swatch__info">
+                    {% comment %} compare at price {% endcomment %}
                     <div class="info-item">
                       <div class="label">
                         {% render 'svg-2' type: 'coin' %}
                         <span>{{ 'product_template.task.price_label' | t}}</span>
                       </div> 
                       <div class="price">
-                        <span>{{product.price | money}}</span>
+                        {%- if product.compare_at_price == blank -%}
+                          <span>{{product.price | money}}</span>
+                        {%- else -%}
+                          <span>{{product.compare_at_price | money}}</span>
+                        {%- endif -%}
                       </div>
                     </div>
+                    {% comment %} delivery {% endcomment %}
                     <div class="info-item">
                       <div class="label">
                         {% render 'svg-2' type: 'clock' %}
@@ -60,6 +69,7 @@
                         {%- endif -%}
                       </div>
                     </div>
+                    {% comment %} revision {% endcomment %}
                     <div class="info-item">
                       <div class="label">
                         {% render 'svg-2' type: 'circle-arrow' %}
@@ -69,7 +79,21 @@
                         <span>{{product.metafields.c_f.revisions | default: 1}}</span>
                       </div>
                     </div>
-                     <div class="info-item">
+                    {% comment %} discount {% endcomment %}
+                    {%- assign discount = product.compare_at_price | minus: product.price -%}
+                    {%- assign percent = discount | times: 100 | divided_by: product.compare_at_price  -%}
+                    {%- if discount > 0 -%}
+                      <div class="info-item">
+                        <div class="label"> 
+                          <span>{{ 'product_template.task.discount' | t: discount: percent }}</span>
+                        </div> 
+                        <div class="total">
+                          <span>{{discount | money}}</span>
+                        </div>
+                      </div>
+                    {%- endif -%}
+                    {% comment %} total {% endcomment %}
+                    <div class="info-item">
                       <div class="label">
                         <span>{{ 'product_template.task.total' | t}}</span>
                       </div> 

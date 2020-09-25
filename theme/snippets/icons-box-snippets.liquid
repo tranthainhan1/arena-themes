@@ -4,6 +4,8 @@
   assign subheading = section.settings.subheading
   assign btn_title  = section.settings.btn_title
   assign btn_url    = section.settings.btn_url
+  assign collection_handle = section.settings.collection 
+  assign collection = collections[collection_handle]  
 %}
 
 <div class="icons-cart" data-section-id="{{section.id}}" data-section-type="icons-cart">
@@ -18,12 +20,12 @@
         </div>
       </div>
       <div class="icons-cart__list">
-        <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"items":5}}}'>
-          {%- for block in section.blocks -%}
+        <div class="js-tns" data-config='tns_config_{{section.id}}'>
+          {%- for product in collection.products -%}
             {% liquid 
-              assign title     = block.settings.block_title
-              assign icon_html = block.settings.icon
-              assign block_url = block.settings.block_url | default: 'javascript:void(0)'
+              assign title     = product.title
+              assign icon_html = product.metafields.c_f.svg
+              assign block_url = product.url | within: collection
             %}
             <div class="icons-cart__item">
               <a href="{{block_url}}">
@@ -47,6 +49,42 @@
             {% render 'svg', type: 'angle-right'  %}
           </div>
         </div>
+        <script type="applicaiton/ld+json" id="tns_config_{{section.id}}">
+          {
+            "loop": false,
+            "mouseDrag": true,
+            "swipeAngle": false,
+            "nav": false,
+            "preventActionWhenRunning": true,
+            "preventScrollOnTouch": "auto",
+            "slideBy": 1,
+            "responsive": {
+              "1": {
+                "items": 1.7,
+                "gutter": 25
+              },
+              "479": {
+                "items": 2
+              },
+              "576": {
+                "items": 2.5
+              },
+              "768": {
+                "items": 3
+              },
+              "992": {
+                "items": 3.5,
+                "gutter": 30
+              },
+              "1052": {
+                "items": 4
+              },
+              "1440": {
+                "items": 5
+              }
+            }
+          }
+        </script>
       </div>
       {%- if btn_title != blank -%}
         <div class="icons-cart__button">

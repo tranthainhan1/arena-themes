@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="featured-collection__content">
-        <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":35},"1052":{"items":4,"gutter":30},"1440":{"items":5}}}'>
+        <div class="js-tns" data-config='tns_config_{{section.id}}'>
           {%- for product in collection.products -%}
               <div class="featured-collection__item">
                 {%- render 'card-template', type: 'product', product: product, collection: collection -%}
@@ -39,6 +39,40 @@
             {% render 'svg', type: 'angle-right'  %}
           </div>
         </div>
+        <script type="application/ld+json" id="tns_config_{{section.id}}">
+          {
+            "loop": false,
+            "nav": false,
+            "mouseDrag": true,
+            "swipeAngle": false,
+            "preventActionWhenRunning": true,
+            "preventScrollOnTouch": "auto",
+            "slideBy": 1,
+            "responsive": {
+              "1": {
+                "items": 1.7,
+                "gutter": 25
+              },
+              "479": {
+                "items": 2.5
+              },
+              "768": {
+                "items": 3
+              },
+              "992": {
+                "items": 3.5,
+                "gutter": 35
+              },
+              "1052": {
+                "items": 4,
+                "gutter": 30
+              },
+              "1440": {
+                "items": 5
+              }
+            }
+          }
+        </script>
       </div>
       {%- if text_under_content != blank -%}
         <div class="featured-collection__text-under text-{{text_under_align}}">

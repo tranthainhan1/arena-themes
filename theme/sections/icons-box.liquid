@@ -10,7 +10,6 @@
       background: {{bg_color}};
     }
   {%- endif -%}
-  {% comment %} .icons-cart .icons-cart__list .icons-cart__item .wrapper{width:250px;height:300px}.icons-cart .icons-cart__list{max-width:none;display:inline-flex;justify-content:center;vertical-align:top}.js-tns.tns-carousel .icons-cart__item{padding-right:30px}.js-tns .icons-cart__item{padding-right:30px}.js-tns{padding-left:15px}.js-tns.tns-slider>div{padding-right:30px;word-spacing:0}.js-tns:not(.tns-slider)>div{padding-right:30px}.js-tns:not(.tns-carousel)>div{margin-right:30px}.js-tns.tns-slider{word-spacing:-4px}.js-tns:not(.tns-carousel)>div:not(:last-child){margin:0} {% endcomment %}
 
 </style>
 {% schema %}
@@ -57,6 +56,15 @@
       },
       {
         "type": "header",
+        "content": "Collection"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "header",
         "content": "Button"
       },
       {
@@ -69,29 +77,6 @@
         "type": "url",
         "id": "btn_url",
         "label": "Button link"
-      }
-    ],
-    "blocks": [
-      {
-        "type": "icon_item",
-        "name": "Icon item",
-        "settings": [
-          {
-            "type": "html",
-            "id": "icon",
-            "label": "Icon"
-          },
-          {
-            "type": "text",
-            "id": "block_title",
-            "label": "Title"
-          },
-          {
-            "type" : "url",
-            "id" : "block_url",
-            "label" : "URL for item "
-          }
-        ]
       }
     ],
     "presets": [

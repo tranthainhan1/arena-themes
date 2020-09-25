@@ -5671,17 +5671,6 @@ var form_serialize_default = /*#__PURE__*/__webpack_require__.n(form_serialize);
 
 
 var AT = {
-  cart: {},
-  initTinySlider: function initTinySlider(container) {
-    var config = JSON.parse(container.querySelector("[id*='config-tns']").innerHTML);
-    var sliderContainer = container.querySelector(".js-tns");
-    var controlsContainer = sliderContainer.nextElementSibling;
-    config = Object.assign(config, {
-      container: sliderContainer,
-      controlsContainer: controlsContainer
-    });
-    return tns(config);
-  },
   debounce: function debounce(func, wait) {
     var timeout;
     return function () {
@@ -5744,14 +5733,37 @@ var AT = {
   },
   initTNS: function initTNS() {
     toConsumableArray_default()(document.getElementsByClassName("js-tns")).forEach(function (item) {
-      var config = JSON.parse(item.getAttribute("data-config"));
+      var id = item.getAttribute("data-config");
+      var config = JSON.parse(document.getElementById(id).innerHTML);
       var controlsContainer = item.nextElementSibling;
       config = Object.assign(config, {
         container: item,
         controlsContainer: controlsContainer
       });
       var tnsSlider = tns(config);
+      tnsSlider.events.on("dragMove", function (info) {
+        toConsumableArray_default()(info.slideItems).forEach(function (item) {
+          var aTags = item.getElementsByTagName("a");
+
+          toConsumableArray_default()(aTags).forEach(function (a) {
+            a.addEventListener("click", preventDefault);
+          });
+        });
+      });
+      tnsSlider.events.on("dragEnd", function (info) {
+        toConsumableArray_default()(info.slideItems).forEach(function (item) {
+          var aTags = item.getElementsByTagName("a");
+
+          toConsumableArray_default()(aTags).forEach(function (a) {
+            a.removeEventListener("click", preventDefault);
+          });
+        });
+      });
     });
+
+    function preventDefault(e) {
+      e.preventDefault();
+    }
   },
   initHandleCollapse: function initHandleCollapse() {
     var btnCollapse = document.getElementsByClassName("js-btn-collapse");

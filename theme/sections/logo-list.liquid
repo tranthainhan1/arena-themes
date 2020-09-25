@@ -19,7 +19,7 @@
       </div>
       <div class="logo-list__content">
         <div class="logo-list__list">
-          <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"375":{"items":2},"576":{"items":3},"768":{"items":4},"992":{"items":5,"gutter":30},"1200":{"items":6,"gutter":30},"1440":{"items":7}}}'>
+          <div class="js-tns" data-config='tns_config_{{section.id}}'>
             {%- for block in section.blocks -%}
               {% liquid 
                 assign image = block.settings.image 
@@ -48,6 +48,41 @@
               {% render 'svg', type: 'angle-right'  %}
             </div>
           </div>
+          <script type="application/ld+json" id="tns_config_{{section.id}}">
+            {
+              "loop": false,
+              "nav": false,
+              "preventActionWhenRunning": true,
+              "preventScrollOnTouch": "auto",
+              "slideBy": 1,
+              "responsive": {
+                "1": {
+                  "items": 1.7,
+                  "gutter": 25
+                },
+                "375": {
+                  "items": 2
+                },
+                "576": {
+                  "items": 3
+                },
+                "768": {
+                  "items": 4
+                },
+                "992": {
+                  "items": 5,
+                  "gutter": 30
+                },
+                "1200": {
+                  "items": 6,
+                  "gutter": 30
+                },
+                "1440": {
+                  "items": 7
+                }
+              }
+            }
+          </script>
         </div> 
       </div>
     </div>

@@ -39,42 +39,10 @@
         </div>
       </div>
     </div>
-    <div class="toolbar">
-      <div class="row">
-        <div class="col-12 col-lg-3">
-          <div class="toolbar__search">
-            <input type="text" placeholder="{{ 'collections.themes.search_placeholder' | t}}">
-            {% render 'svg' type: 'search' %}
-          </div>
-        </div>
-        <div class="col-12 col-lg-9">
-          <div class="toolbar_right">
-            <div class="pagination-showing">
-              {%- if collection.all_products_count > 15  -%}
-                <span>{{ 'collections.themes.pagination.showing' | t: count: collection.all_products_count}}</span>
-              {%- else -%}
-                <span>{{ 'collections.themes.pagination.showing_all' | t: count: collection.all_products_count}}</span>
-              {%- endif -%}
-            </div>
-
-            <div class="d-none  d-lg-flex sort-by">
-              <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
-              <select name="sort_by" id="sort_by">
-                <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
-              </select>
-              {% render 'svg' type: 'angle-down' %}
-            </div>
-            <div class="d-lg-none">
-              <a href="javascript:void(0)" id="js-open-sidebar">
-                {% render 'svg' type: 'filter' %}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <div class="product__content">
       <div class="row">
+
         <div class="col-12 col-lg-3 sidebar" id="js-sidebar-container">
           <div class="d-lg-none sidebar_header">
             <div class="title">
@@ -166,15 +134,38 @@
             </div>
           </div>
         </div>
-        {% comment %} <div class="js-close-sidebar overlay-mobile"></div> {% endcomment %}
         <div class="col-12 col-lg-9 product-grid">
-          {% paginate collection.products by 15 %}
+          <div class="toolbar">
+            <div class="toolbar_right">
+              <div class="pagination-showing">
+                {%- if collection.all_products_count > 15  -%}
+                  <span>{{ 'collections.themes.pagination.showing' | t: count: collection.all_products_count}}</span>
+                {%- else -%}
+                  <span>{{ 'collections.themes.pagination.showing_all' | t: count: collection.all_products_count}}</span>
+                {%- endif -%}
+              </div>
+
+              <div class="d-none  d-lg-flex sort-by">
+                <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
+                <select name="sort_by" id="sort_by">
+                  <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
+                </select>
+                {% render 'svg' type: 'angle-down' %}
+              </div>
+              <div class="d-lg-none">
+                <a href="javascript:void(0)" id="js-open-sidebar">
+                  {% render 'svg' type: 'filter' %}
+                </a>
+              </div>
+            </div>
+          </div>
+          {% paginate collection.products by 5 %}
             <div class="row">
-                {%- for product in collection.products -%}
-                  <div class="col-6 col-md-4 col-lg-6 col-xl-4"> 
-                    {% render 'card-template' type: 'product', product: product  %}
-                  </div>
-                {%- endfor -%}
+              {%- for product in collection.products -%}
+                <div class="col-6 col-md-4 col-lg-6 col-xl-4"> 
+                  {% render 'card-template' type: 'product', product: product  %}
+                </div>
+              {%- endfor -%}
             </div>
 
             {%- if paginate.pages > 1 -%}
