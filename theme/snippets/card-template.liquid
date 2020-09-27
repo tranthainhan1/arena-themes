@@ -306,8 +306,8 @@
       assign name = product.title
       assign price = product.price | money | replace: '.00' , ''
       assign hours_work =   product.metafields.c_f.hours_work | plus: 0
-      if product.description contains '<short-desc-plan>'
-        assign shortDesc = product.description | split: '<short-desc-plan>' | last | split: '</short-desc-plan>' | first
+      if product.description contains '<!--short-desc-plan-->'
+        assign shortDesc = product.description | split: '<!--short-desc-plan-->' | last | split: '<!--/short-desc-plan-->' | first
       endif
       assign url = product.url | within: collection 
 

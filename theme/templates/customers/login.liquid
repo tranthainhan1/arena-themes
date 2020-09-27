@@ -78,16 +78,16 @@
   <div class="acc__body">
     {%- form 'create_customer' -%}
       <div class="row">
-        <div class="col-6">
+        <div class="col-6"> 
           <div class="form-group">
-            <label for="customer_last_name">{{'layout.customer.register.first_name' | t}}</label>
-            <input type="text" id="customer_last_name" class="form-control" name="customer[last_name]" placeholder="{{'layout.customer.register.placeholder_first_name' | t}}">
+            <label for="customer_first_name">{{'layout.customer.register.first_name' | t}}</label>
+            <input type="text" id="customer_first_name" class="form-control" name="customer[first_name]" placeholder="{{'layout.customer.register.placeholder_first_name' | t}}">
           </div>	
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="customer_first_name">{{'layout.customer.register.last_name' | t}}</label>
-            <input type="text" id="customer_first_name" class="form-control" name="customer[first_name]" placeholder="{{'layout.customer.register.placeholder_last_name' | t}}">
+            <label for="customer_last_name">{{'layout.customer.register.last_name' | t}}</label>
+            <input type="text" id="customer_last_name" class="form-control" name="customer[last_name]" placeholder="{{'layout.customer.register.placeholder_last_name' | t}}">
           </div>	
         </div>
       </div>

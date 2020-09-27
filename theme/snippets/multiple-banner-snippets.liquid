@@ -18,10 +18,11 @@
             assign image          = block.settings.image
             assign text_color     = block.settings.text_color
             assign block_bg_color = block.settings.block_bg_color
+            assign url_link       = block.settings.url_link | default: 'javascript:void(0)'
           %}
           <div class="{{ blockCss | strip_newlines | strip}}">
             <div class="multiple-banner__item block-{{block.id}}" {{block.shopify_attributes}}>
-              <div class="multiple-banner__item__content">
+              <a href="{{url_link}}" class="multiple-banner__item__content">
                 <div class="title">
                   <div class="heading">
                     <span class="content">{{heading}}</span>
@@ -34,7 +35,7 @@
                   {%- assign image_height = image.height | append: 'px' -%}
                   {%- render 'image-style', image: image, imagePadding: image_height, originQuality: true -%}
                 </div>
-              </div>
+              </a>
               <style>
                 {%- if block.settings.text_color != blank -%}
                   .multiple-banner .multiple-banner__item.block-{{block.id}} .title >div{

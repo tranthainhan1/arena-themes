@@ -15,10 +15,10 @@
 
 {%- endfor -%}
 
-{%- assign article_content = a.content | split: "<!-- anchor-link -->" -%}
+{%- assign article_content = a.content | split: "<!--anchor-link-->" -%}
     {%- for c in article_content -%}
-      {%- if c contains "<!-- /anchor-link -->" -%}
-        {%- assign anchor_link = c | split: "<!-- /anchor-link -->"| first  -%} 
+      {%- if c contains "<!--/anchor-link-->" -%}
+        {%- assign anchor_link = c | split: "<!--/anchor-link-->"| first  -%} 
         {%- assign anchor_links = anchorL_links | append: anchor_link -%}
         {%- unless forloop.last -%}
           {%- assign anchor_links = anchorL_links | append: ',' -%}
@@ -30,27 +30,27 @@
 
 {%- capture article_content -%}
   {% liquid 
-    assign article_content = article.content | split: "<!-- clipboard -->" 
+    assign article_content = article.content | split: "<!--clipboard-->" 
     for c in article_content
       assign index =  forloop.index
-      if c contains "<!-- /clipboard -->"
+      if c contains "<!--/clipboard-->"
         assign custom_tag =  " id='content-copy-" | append: forloop.index | append: "'>"
-        assign first_content = c | split: "<!-- /clipboard -->" | first | replace_first: ">", custom_tag
-        assign last_content = c | split: "<!-- /clipboard -->" | last
+        assign first_content = c | split: "<!--/clipboard-->" | first | replace_first: ">", custom_tag
+        assign last_content = c | split: "<!--/clipboard-->" | last
 
         echo "<code class='copy-to-clipboard'>"
         echo first_content
         echo 'article_template.default.btn_copy_clipboard_html' | t: index: forloop.index
         echo "</code>"
         
-        if last_content contains "<!-- anchor-link -->"
+        if last_content contains "<!--anchor-link-->"
           assign new_custom_tag = " id='anchor-link-" | append: forloop.index | append: "'>"
-          assign new_first_content = last_content | split: "<!-- anchor-link -->" | first
-          assign new_last_content = last_content | split: "<!-- anchor-link -->" | last
+          assign new_first_content = last_content | split: "<!--anchor-link-->" | first
+          assign new_last_content = last_content | split: "<!--anchor-link-->" | last
 
           echo new_first_content
 
-          assign new_last_content = new_last_content | split: "<!-- /anchor-link -->"
+          assign new_last_content = new_last_content | split: "<!--/anchor-link-->"
           assign anchor_content =  new_last_content[0] | replace_first: ">" , new_custom_tag
           assign anchor_links = anchor_links | append: anchor_content | append: ',' 
 
@@ -61,13 +61,13 @@
           echo last_content
         endif
       else
-        if c contains "<!-- anchor-link -->"
-          assign newC = c | split: "<!-- anchor-link -->"
+        if c contains "<!--anchor-link-->"
+          assign newC = c | split: "<!--anchor-link-->"
           for content in newC 
-            if content contains "<!-- /anchor-link -->"
+            if content contains "<!--/anchor-link-->"
               assign custom_tag = " id='anchor-link-" | append: index  | append: '-' | append: forloop.index | append: "'>"
-              assign first_content = content | split: "<!-- /anchor-link -->" | first
-              assign last_content = content | split: "<!-- /anchor-link -->" | last
+              assign first_content = content | split: "<!--/anchor-link-->" | first
+              assign last_content = content | split: "<!--/anchor-link-->" | last
 
               assign anchor_content =  first_content | replace_first: ">" , custom_tag
               assign anchor_links = anchor_links | append: anchor_content | append: ',' 
@@ -101,7 +101,7 @@
             {%- for anchor_link in anchor_links -%}
               {%- assign href = anchor_link | split: "'" | slice: 1,1  -%}
               <div class="sb-sections__item {% if forloop.first %}active{%- endif -%}">
-                <a href="{{href[0] | prepend: '#'}}">{{anchor_link | strip_html | strip}}</a>
+                <a href="javascript:void(0)" class="js-anchor-link" data-target="{{href[0] | strip}}">{{anchor_link | strip_html | strip}}</a>
               </div>
             {%- endfor -%}
           </div>
@@ -241,19 +241,26 @@
 </div>
 
 <script type="application/javascript">
-  let elm = document.getElementsByClassName('sb-sections__list')[0];
+  let elm = document.querySelectorAll('.sb-sections__list a');
 
-  [...elm.children].forEach(item => {
+  elm.forEach(item => {
     item.addEventListener('click', (e) => {
-      [...elm.children].forEach( (item)  => {
-        if(item.contains(e.target)){
-          item.classList.add('active');
+      let target = item.getAttribute('data-target');
+      let anchorElm = document.getElementById(target);
+      let position = anchorElm.offsetTop + window.innerHeight - 100;
+      elm.forEach( (anchor_link)  => {
+        
+        if(anchor_link === e.target ){
+          anchor_link.parentElement.classList.add('active');
         }else{
-          item.classList.remove('active')
+          anchor_link.parentElement.classList.remove('active')
         }
-
       });
       
+      window.scrollTo({
+        top: anchorElm.offsetTop,
+        behavior: 'smooth'
+      })
     });
   });
 </script>

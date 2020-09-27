@@ -1,5 +1,6 @@
 import { tns } from "tiny-slider/src/tiny-slider";
 import serialize from "form-serialize";
+import { removeItem } from "@shopify/theme-cart";
 
 var AT = {
   debounce: (func, wait) => {
@@ -96,13 +97,14 @@ var AT = {
     let btnToTop = document.getElementById("back-to-top");
     let footer = document.getElementById("footer");
 
-    btnToTop.addEventListener("click", function (e) {
-      window.scroll({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
+    !!btnToTop &&
+      btnToTop.addEventListener("click", function (e) {
+        window.scroll({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
       });
-    });
     window.addEventListener("scroll", function () {
       if (window.pageYOffset + window.innerHeight < footer.offsetTop) {
         btnToTop.classList.contains("show") && btnToTop.classList.remove("show");
@@ -130,8 +132,7 @@ var AT = {
           })
             .then((res) => res.json())
             .then((res) => {
-              AT.cart = res;
-              AT.updateCart();
+              AT.onCartChange(res);
             });
         });
       });
@@ -149,24 +150,41 @@ var AT = {
         }
       });
   },
-  updateCart: function () {
-    let cart = document.getElementById("total_item_of_cart");
-    cart.innerHTML = AT.cart.item_count;
+  onCartChange: function (cart, action) {
+    //cart icon
+    let cartIcon = document.getElementById("total_item_of_cart");
+
+    !!cartIcon && (cartIcon.innerHTML = cart.item_count);
+
+    switch (action) {
+      case "remove":
+        let cartContainer = document.getElementById("cart_container");
+        !!cartContainer && cart.item_count === 0 && cartContainer.classList.add("empty");
+
+        break;
+    }
   },
   removeItemCart: function () {
-    let removeButtons = document.getElementsByClassName("js-remove-item");
+    let removeButtons = document.getElementsByClassName("btn-remove");
 
     [...removeButtons].forEach((btn) => {
       btn.addEventListener("click", function () {
         let cartItem = this.closest(".cart-item");
-        let line = this.getAttribute("data-line");
-        fetch("/cart/change.js", {
-          method: "post",
-          headers: new Headers(),
-          body: new URLSearchParams(`line=${line}&quantity=0`),
-        }).then((res) => cartItem.remove());
+        let key = this.getAttribute("data-key");
+        // fetch("/cart/change.js", {
+        //   method: "post",
+        //   headers: new Headers(),
+        //   body: new URLSearchParams(`line=${line}&quantity=0`),
+        // }).then((res) => cartItem.remove());
+        removeItem(key).then((res) => {
+          AT.onCartChange(res, "remove");
+          cartItem.remove();
+        });
       });
     });
+  },
+  initSearch: function () {
+    let searchContainer = document.getElementsByClassName("js-search");
   },
 };
 

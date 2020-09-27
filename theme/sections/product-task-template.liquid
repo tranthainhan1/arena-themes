@@ -1,6 +1,7 @@
 {%- if collection == blank  -%}
   {%- assign collection  = product.collections[0] -%}
 {%- endif -%}
+
 <div class="product product-task">
   <div class="container">
     <div class="product__wrapper">
@@ -14,7 +15,26 @@
             <h2>{{product.title}}</h2>
           </div>
           <div class="description">
-            {{product.description | replace: '<short-desc>', '' | replace: '</short-desc>', ''| replace: '<short-desc-plan>', '' | replace: '</short-desc-plan>', ''}}
+            {%- assign descriptionArr = product.description | split: "<!--collapse-->" -%}
+            {%- for content in descriptionArr -%}
+              {%- if content contains "<!--/collapse-->" -%}
+                {%- assign newContent = content | split: "<!--/collapse-->"-%}
+                {%- capture collapse -%}
+                  <div class="collapse" id="collapse_{{product.id}}_{{forloop.index}}">
+                    {{newContent[0]}}
+                  </div>
+                  <a class="js-btn-collapse btn-view-more" data-target="collapse_{{product.id}}_{{forloop.index}}" href="javascript:void(0)">
+                    <span>{{ 'button.view_more' | t}}</span>
+                    {% render 'svg' type: 'angle-down' %}
+                    {% render 'svg' type: 'angle-up' %}
+                  </a>
+                {%- endcapture -%}
+                {{collapse}}
+                {{newcollapse[1]}}
+              {%- else -%}
+                {{content}}  
+              {%- endif -%}
+            {%- endfor -%}
           </div>
         </div>
         <div class="product-info"> 
@@ -162,7 +182,7 @@
               <span>{{section.settings.related_subtitle}}</span>
             </div>
           </div>
-          <div class="js-tns related-product__list" data-config='{"loop":false,"controls": false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"items":5}}}'>
+          <div class="js-tns related-product__list" data-config='tns_config_{{product.id}}'>
             {%- for p in collection.products -%}
               {%- if product.handle != p.handle -%}
                 {% liquid 
@@ -182,6 +202,43 @@
               {% render 'svg' type: 'angle-right' %}
             </a>
           </div>
+          <script type="application/ld+json" id="tns_config_{{product.id}}">
+            {
+              "loop": false,
+              "controls": false,
+              "mouseDrag" : true,
+              "swipeAngle" : false,
+              "nav": false,
+              "preventActionWhenRunning": true,
+              "preventScrollOnTouch": "auto",
+              "slideBy": 1,
+              "responsive": {
+                "1": {
+                  "items": 1.7,
+                  "gutter": 25
+                },
+                "479": {
+                  "items": 2
+                },
+                "576": {
+                  "items": 2.5
+                },
+                "768": {
+                  "items": 3
+                },
+                "992": {
+                  "items": 3.5,
+                  "gutter": 30
+                },
+                "1052": {
+                  "items": 4
+                },
+                "1440": {
+                  "items": 5
+                }
+              }
+            }
+          </script>
         </div>
       </div>
 

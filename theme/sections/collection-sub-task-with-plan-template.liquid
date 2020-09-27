@@ -1,12 +1,12 @@
 {% liquid 
-  assign plan_title = section.settings.plan_title 
-  assign handle_parent = collection.metafields.c_f.collection_parent 
-  assign collection_parent = collections[handle_parent] 
-  assign related_collection = collection_parent.metafields.c_f.collection_child | split: '|' 
-  assign related_title  =  section.settings.related_title
-  assign related_subtitle  =  section.settings.related_subtitle
-  assign related_btn_label  =  section.settings.related_btn_label
-  assign related_btn_url  =  section.settings.related_btn_url
+  assign plan_title         = section.settings.plan_title
+  assign handle_parent      = collection.metafields.c_f.collection_parent
+  assign collection_parent  = collections[handle_parent]
+  assign related_collection = collection_parent.metafields.c_f.collection_child | split: '|'
+  assign related_title      = section.settings.related_title
+  assign related_subtitle   = section.settings.related_subtitle
+  assign related_btn_label  = section.settings.related_btn_label
+  assign related_btn_url    = section.settings.related_btn_url
 %}
 <div class="collection collection-tasks-plan">
   <div class="container">
@@ -19,7 +19,26 @@
           <h2>{{collection.title}}</h2>
         </div>
         <div class="description_content">
-          {{collection.description | replace: '<short-desc>', '' | replace: '</short-desc>', ''}}
+          {%- assign descriptionArr = collection.description | split: "<!--collapse-->" -%}
+          {%- for content in descriptionArr -%}
+            {%- if content contains "<!--/collapse-->" -%}
+              {%- assign newContent = content | split: "<!--/collapse-->"-%}
+              {%- capture collapse -%}
+                <div class="collapse" id="collapse_{{collection.id}}_{{forloop.index}}">
+                  {{newContent[0]}}
+                </div>
+                <a class="js-btn-collapse btn-view-more" data-target="collapse_{{collection.id}}_{{forloop.index}}">
+                  <span>{{ 'button.view_more' | t}}</span>
+                  {% render 'svg' type: 'angle-down' %}
+                  {% render 'svg' type: 'angle-up' %}
+                </a>
+              {%- endcapture -%}
+              {{collapse}}
+              {{newcollapse[1]}}
+            {%- else -%}
+              {{content}}  
+            {%- endif -%}
+          {%- endfor -%}
         </div>
       </div>
       <div class="image">
@@ -45,34 +64,73 @@
 
     {% render 'FAQs' section: section  %}
 
-    <div class="related-collection">
-        <div class="heading text-center">
-          <div class="title">
-            <h3>{{related_title}}</h3>
-          </div>
-          <div class="subtitle">
-            <span>{{related_subtitle}}</span>
-          </div>
-        </div>
-        <div class="js-tns related-collection__list" data-config='{"loop":false,"controls": false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"items":5}}}'>
-          {%- for handle in related_collection -%}
-            {% liquid 
-              assign svg = collections[handle].metafields.c_f.collection_svg
-              assign title = collections[handle].title 
-              assign url = collections[handle].url 
-            %}
-            <div class="related-collection__item">
-              {% render 'card-template' type: 'icon', svg: svg, title: title , url: url  %}
+    {%- if related_collection.size != 0 -%}
+      <div class="related-collection">
+          <div class="heading text-center">
+            <div class="title">
+              <h3>{{related_title}}</h3>
             </div>
-          {%- endfor -%}
-        </div>
-        <div class="related-collection__button text-center">
-          <a href="{{related_btn_url | default: 'javascript:void(0)'}}" class="btn btn-2">
-            <span>{{related_btn_label}}</span>
-            {% render 'svg' type: 'angle-right' %}
-          </a>
-        </div>
-    </div>
+            <div class="subtitle">
+              <span>{{related_subtitle}}</span>
+            </div>
+          </div>
+          <div class="js-tns related-collection__list" data-config='tns_config_{{collection.id}}'>
+            {%- for handle in related_collection -%}
+              {% liquid 
+                assign svg = collections[handle].metafields.c_f.collection_svg
+                assign title = collections[handle].title 
+                assign url = collections[handle].url 
+              %}
+              <div class="related-collection__item">
+                {% render 'card-template' type: 'icon', svg: svg, title: title , url: url  %}
+              </div>
+            {%- endfor -%}
+          </div>
+          <div class="related-collection__button text-center">
+            <a href="{{related_btn_url | default: 'javascript:void(0)'}}" class="btn btn-2">
+              <span>{{related_btn_label}}</span>
+              {% render 'svg' type: 'angle-right' %}
+            </a>
+          </div>
+          <script type="application/la+json" id="tns_config_{{collection.id}}">
+            {
+              "loop": false,
+              "controls": false,
+              "mouseDrag" : true,
+              "swipeAgnle" : false,
+              "nav": false,
+              "preventActionWhenRunning": true,
+              "preventScrollOnTouch": "auto",
+              "slideBy": 1,
+              "responsive": {
+                "1": {
+                  "items": 1.7,
+                  "gutter": 25
+                },
+                "479": {
+                  "items": 2
+                },
+                "576": {
+                  "items": 2.5
+                },
+                "768": {
+                  "items": 3
+                },
+                "992": {
+                  "items": 3.5,
+                  "gutter": 30
+                },
+                "1052": {
+                  "items": 4
+                },
+                "1440": {
+                  "items": 5
+                }
+              }
+            }
+          </script>
+      </div>
+    {%- endif -%}
   </div>
 </div>
 {% schema %}

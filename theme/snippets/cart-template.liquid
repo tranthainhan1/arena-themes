@@ -1,4 +1,4 @@
-<div class="cart-template {% if cart.item_count == 0 %}empty{%- endif -%}">
+<div class="cart-template {% if cart.item_count == 0 %}empty{%- endif -%}" id="cart_container">
   <div class="container">
     <div class="cart-template__wrapper">
       {%- render 'cart-template-empty' section: section -%}
@@ -6,76 +6,78 @@
         <div class="cart-template__title text-center">
           <h2>{{'cart.title' | t}}</h2>
         </div>
-        <div class="cart-table">
-          <div class="d-none d-md-block cart-table__header">
-            <div class="row">
-              <div class="col-9">
-                <span>{{ 'cart.table.product' | t}}</span>
-              </div>
-              <div class="col-3">
-                <span>{{ 'cart.table.subtotal' | t}}</span>
+        <form action="/cart" method="post">
+          <div class="cart-table">
+            <div class="d-none d-md-block cart-table__header">
+              <div class="row">
+                <div class="col-9">
+                  <span>{{ 'cart.table.product' | t}}</span>
+                </div>
+                <div class="col-3">
+                  <span>{{ 'cart.table.subtotal' | t}}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="cart-table__body">
-            {%- for line in cart.items -%}
-              <div class="cart-item">
-                <div class="cart-item__wrapper">
-                  <div class="row">
-                    <div class="col-9">
-                      <div class="d-flex cart-item__left">
-                        {%- if line.image != blank -%}
-                          <div class="cart-item__image" >
-                            {% render 'image-style' image: line.image %}
-                          </div>
-                        {%- endif -%}
-                        <div class="cart-item__info">
-                          <div class="name">
-                            <a href="{{line.product.url | within: collection}}">{{line.product.title}}</a>
-                          </div>
-                          <div class="options">
-                            {%- for option in line.options_with_values -%}
-                              <p>{{option.name}} : {{option.value}}</p>
-                            {%- endfor -%}
-                          </div>
-                          <div class="d-md-none price">
-                            <span>{{line.final_line_price | money}}</span>
+            <div class="cart-table__body">
+              {%- for line_item in cart.items -%}
+                <div class="cart-item">
+                  <div class="cart-item__wrapper">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex cart-item__left">
+                          {%- if line_item.image != blank -%}
+                            <div class="cart-item__image" >
+                              {% render 'image-style' image: line_item.image %}
+                            </div>
+                          {%- endif -%}
+                          <div class="cart-item__info">
+                            <div class="name">
+                              <a href="{{line_item.product.url | within: collection}}">{{line_item.product.title}}</a>
+                            </div>
+                            <div class="options">
+                              {%- for option in line_item.options_with_values -%}
+                                <p>{{option.name}} : {{option.value}}</p>
+                              {%- endfor -%}
+                            </div>
+                            <div class="d-md-none price">
+                              <span>{{line_item.final_line_price | money}}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="d-flex cart-item__right">
-                        <div class="d-none d-md-block price">
-                          <span>{{line.final_line_price | money}}</span>
-                        </div>
-                        <div class="remove">
-                          <a href="javascript:void(0)" class="js-remove-item" data-line="{{forloop.index}}">
-                            {% render 'svg' type: 'close' %}
-                          </a>
+                      <div class="col-3">
+                        <div class="d-flex cart-item__right">
+                          <div class="d-none d-md-block price">
+                            <span>{{line_item.final_line_price | money}}</span> 
+                          </div>
+                          <div class="remove">
+                            <a href="javascript:void(0)" class="btn-remove" data-key="{{line_item.key}}">
+                              {% render 'svg' type: 'close' %}
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              {%- endfor -%}
+            </div>
+            <div class="cart-table__footer">  
+              <div class="d-flex cart-table__subtotal">
+                <div class="label">
+                  <span>{{ 'cart.table.subtotal' | t}}</span>
+                </div>
+                <div class="subtotal price">
+                  <span>{{cart.total_price | money}}</span>
+                </div>
               </div>
-            {%- endfor -%}
-          </div>
-          <div class="cart-table__footer">  
-            <div class="d-flex cart-table__subtotal">
-              <div class="label">
-                <span>{{ 'cart.table.subtotal' | t}}</span>
-              </div>
-              <div class="subtotal price">
-                <span>{{cart.total_price | money}}</span>
+              <div class="cart-table__button">
+                <a href="/" class="btn btn-2 text-center order-2 order-md-1">{{ 'cart.continue_shopping' | t}}</a>
+                <button type="submit" name="checkout" class="btn btn-2 text-center order-1 order-md-2" >{{ 'cart.label_btn_checkout' | t}}</button>
               </div>
             </div>
-            <div class="cart-table__button">
-              <a href="/" class="btn btn-2 text-center order-2 order-md-1">{{ 'cart.continue_shopping' | t}}</a>
-              <a href="/checkout" class="btn btn-2 text-center order-1 order-md-2" >{{ 'cart.label_btn_checkout' | t}}</a>
-            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

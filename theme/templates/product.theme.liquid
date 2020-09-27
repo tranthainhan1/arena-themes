@@ -26,8 +26,7 @@
               </div>
             {%- endif -%}
             <div class="form">
-              <form action="cart/add" id="product-form">
-                <input type="hidden" value="1" name="quantity">
+              {%- form 'product', product -%}
                 <div class="swatch">
                   {%- for option in product.options_with_values -%}
                     <div class="swatch-element">
@@ -59,7 +58,7 @@
                     </option>
                   {% endfor %}
                 </select>
-              </form>
+              {%- endform -%}
             </div>
           </div>
           <div class="product-image">
@@ -181,7 +180,7 @@
                 </div>
               </div>
               <div class="featured-collection__content">
-                <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":35},"1052":{"items":4,"gutter":30},"1440":{"items":5}}}'>
+                <div class="js-tns" data-config='tns_config_{{product.id}}'>
                   {%- unless collection -%}
                     {%- assign collection  = product.collections.first -%}
                   {%- endunless -%}
@@ -202,6 +201,40 @@
                     {% render 'svg', type: 'angle-right'  %}
                   </div>
                 </div>
+                <script type="application/ld+json" id="tns_config_{{product.id}}">
+                  {
+                    "loop": false,
+                    "nav": false,
+                    "mouseDrag" : true,
+                    "swipeAngle" : false,
+                    "preventActionWhenRunning": true,
+                    "preventScrollOnTouch": "auto",
+                    "slideBy": 1,
+                    "responsive": {
+                      "1": {
+                        "items": 1.7,
+                        "gutter": 25
+                      },
+                      "479": {
+                        "items": 2.5
+                      },
+                      "768": {
+                        "items": 3
+                      },
+                      "992": {
+                        "items": 3.5,
+                        "gutter": 35
+                      },
+                      "1052": {
+                        "items": 4,
+                        "gutter": 30
+                      },
+                      "1440": {
+                        "items": 5
+                      }
+                    }
+                  }
+                </script>
               </div>
             </div>
           </div>
