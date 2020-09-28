@@ -24,10 +24,8 @@
   <link rel="preconnect dns-prefetch" href="{{ shop.url }}">
   {%- liquid
     render 'google-font'
-    render 'css-variables-local'
     render 'fb-open-graph'
   -%}
-  {% include 'css_variables' %} 
   {%- include 'css-file' -%}
   {%- capture arnAIFContent -%}{{ shop.metafields.arn_aif.script }}{%- endcapture -%}
   {%- unless arnAIFContent == blank -%}
@@ -37,6 +35,13 @@
       {{- 'arn-aif.js' | asset_url | script_tag -}}
   {%- endunless -%} 
   {{ content_for_header }}
+  <script type="application/javascript">
+    var theme = {
+      currency: {
+        money: {{shop.money_format | json}}
+      }
+    }
+  </script>
 </head>
 
 {%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | first -}}{%- endcapture -%}

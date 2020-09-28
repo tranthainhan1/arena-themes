@@ -156,7 +156,7 @@
       "popular": "Popular:",
       "pagination": {
         "showing_all": "Show all {{count}} themes",
-        "showing": "1-15 of {{count}} themes"
+        "showing": "{{from}}-{{to}} of {{count}} themes"
       },
       "sort_by": "Sort by",
       "select": {

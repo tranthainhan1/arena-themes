@@ -5,7 +5,9 @@
   },
   "dependencies": {
     "@shopify/theme-cart": "^4.0.0",
+    "@shopify/theme-currency": "^4.0.0",
     "@shopify/theme-sections": "^4.0.0",
+    "form-serialize": "^0.7.2",
     "lazysizes": "^5.2.2",
     "modernizr": "^3.6.0",
     "popper.js": "^1.14.6",

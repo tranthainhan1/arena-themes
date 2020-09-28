@@ -1,6 +1,7 @@
 import { tns } from "tiny-slider/src/tiny-slider";
 import serialize from "form-serialize";
 import { removeItem } from "@shopify/theme-cart";
+import * as Currency from "@shopify/theme-currency";
 
 var AT = {
   debounce: (func, wait) => {
@@ -153,16 +154,16 @@ var AT = {
   onCartChange: function (cart, action) {
     //cart icon
     let cartIcon = document.getElementById("total_item_of_cart");
-
-    !!cartIcon && (cartIcon.innerHTML = cart.item_count);
+    let cartTotal = document.getElementById("cart_total");
+    let cartContainer = document.getElementById("cart_container");
 
     switch (action) {
       case "remove":
-        let cartContainer = document.getElementById("cart_container");
         !!cartContainer && cart.item_count === 0 && cartContainer.classList.add("empty");
-
+        cartTotal.innerHTML = Currency.formatMoney(cart.total_price, theme.currency.money);
         break;
     }
+    !!cartIcon && (cartIcon.innerHTML = cart.item_count);
   },
   removeItemCart: function () {
     let removeButtons = document.getElementsByClassName("btn-remove");
@@ -171,11 +172,6 @@ var AT = {
       btn.addEventListener("click", function () {
         let cartItem = this.closest(".cart-item");
         let key = this.getAttribute("data-key");
-        // fetch("/cart/change.js", {
-        //   method: "post",
-        //   headers: new Headers(),
-        //   body: new URLSearchParams(`line=${line}&quantity=0`),
-        // }).then((res) => cartItem.remove());
         removeItem(key).then((res) => {
           AT.onCartChange(res, "remove");
           cartItem.remove();

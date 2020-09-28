@@ -16,6 +16,7 @@ import {
   Product,
 } from "./AT_section";
 import AT from "./_arn";
+
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 

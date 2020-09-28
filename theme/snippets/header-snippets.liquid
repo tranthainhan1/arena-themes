@@ -1,6 +1,6 @@
 {%- case type -%}
-	{%- when 'icon-list' -%}
-		<div class="icon-list">
+  {%- when 'icon-list' -%}
+    <div class="icon-list">
       <div class="js-search icon-list__item search">
         <a href="javascript:void(0)" id="js-open-search">
           {% render 'svg' , type: 'search' %}
@@ -96,7 +96,6 @@
         {%- include 'svg', type: 'close' -%}
       </a>
     </div>
+  {%- when 'mobile-menu' -%}
+    
 {%- endcase -%}
-<style>
-  
-</style>

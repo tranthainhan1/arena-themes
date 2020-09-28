@@ -135,31 +135,38 @@
           </div>
         </div>
         <div class="col-12 col-lg-9 product-grid">
-          <div class="toolbar">
-            <div class="toolbar_right">
-              <div class="pagination-showing">
-                {%- if collection.all_products_count > 15  -%}
-                  <span>{{ 'collections.themes.pagination.showing' | t: count: collection.all_products_count}}</span>
-                {%- else -%}
-                  <span>{{ 'collections.themes.pagination.showing_all' | t: count: collection.all_products_count}}</span>
-                {%- endif -%}
-              </div>
+          {% paginate collection.products by 5 %}
+            <div class="toolbar">
+              <div class="toolbar_right">
+                <div class="pagination-showing">
+                  {%- if paginate.page_size > 1  -%}
+                    {%- assign from = paginate.current_offset | plus : 1 -%}
+                    {%- if paginate.next -%}
+                      {%- assign to = paginate.current_offset | plus: paginate.page_size -%}
+                    {%- else -%}
+                      {%- assign to = paginate.items -%}
+                    {%- endif -%}
+                    {%- assign count = paginate.items -%}
+                    <span>{{ 'collections.themes.pagination.showing' | t: count: count, from: from, to: to }}</span>
+                  {%- else -%}
+                    <span>{{ 'collections.themes.pagination.showing_all' | t: count: collection.all_products_count}}</span>
+                  {%- endif -%}
+                </div>
 
-              <div class="d-none  d-lg-flex sort-by">
-                <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
-                <select name="sort_by" id="sort_by">
-                  <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
-                </select>
-                {% render 'svg' type: 'angle-down' %}
-              </div>
-              <div class="d-lg-none">
-                <a href="javascript:void(0)" id="js-open-sidebar">
-                  {% render 'svg' type: 'filter' %}
-                </a>
+                <div class="d-none  d-lg-flex sort-by">
+                  <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
+                  <select name="sort_by" id="sort_by">
+                    <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
+                  </select>
+                  {% render 'svg' type: 'angle-down' %}
+                </div>
+                <div class="d-lg-none">
+                  <a href="javascript:void(0)" id="js-open-sidebar">
+                    {% render 'svg' type: 'filter' %}
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-          {% paginate collection.products by 5 %}
             <div class="row">
               {%- for product in collection.products -%}
                 <div class="col-6 col-md-4 col-lg-6 col-xl-4"> 

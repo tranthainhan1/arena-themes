@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayWithoutHoles = __webpack_require__(7);
+var arrayWithoutHoles = __webpack_require__(8);
 
-var iterableToArray = __webpack_require__(8);
+var iterableToArray = __webpack_require__(9);
 
-var unsupportedIterableToArray = __webpack_require__(9);
+var unsupportedIterableToArray = __webpack_require__(10);
 
-var nonIterableSpread = __webpack_require__(10);
+var nonIterableSpread = __webpack_require__(11);
 
 function _toConsumableArray(arr) {
   return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
@@ -1148,6 +1148,81 @@ module.exports = serialize;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.formatMoney = formatMoney;
+/**
+ * Currency Helpers
+ * -----------------------------------------------------------------------------
+ * A collection of useful functions that help with currency formatting
+ *
+ * Current contents
+ * - formatMoney - Takes an amount in cents and returns it as a formatted dollar value.
+ *
+ */
+
+var moneyFormat = '${{amount}}';
+
+/**
+ * Format money values based on your shop currency settings
+ * @param  {Number|string} cents - value in cents or dollar amount e.g. 300 cents
+ * or 3.00 dollars
+ * @param  {String} format - shop money_format setting
+ * @return {String} value - formatted value
+ */
+function formatMoney(cents, format) {
+  if (typeof cents === 'string') {
+    cents = cents.replace('.', '');
+  }
+  var value = '';
+  var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+  var formatString = format || moneyFormat;
+
+  function formatWithDelimiters(number) {
+    var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+    var thousands = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
+    var decimal = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
+
+    if (isNaN(number) || number == null) {
+      return 0;
+    }
+
+    number = (number / 100.0).toFixed(precision);
+
+    var parts = number.split('.');
+    var dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+    var centsAmount = parts[1] ? decimal + parts[1] : '';
+
+    return dollarsAmount + centsAmount;
+  }
+
+  switch (formatString.match(placeholderRegex)[1]) {
+    case 'amount':
+      value = formatWithDelimiters(cents, 2);
+      break;
+    case 'amount_no_decimals':
+      value = formatWithDelimiters(cents, 0);
+      break;
+    case 'amount_with_comma_separator':
+      value = formatWithDelimiters(cents, 2, '.', ',');
+      break;
+    case 'amount_no_decimals_with_comma_separator':
+      value = formatWithDelimiters(cents, 0, '.', ',');
+      break;
+  }
+
+  return formatString.replace(placeholderRegex, value);
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(window, factory) {
 	if(!window) {return;}
 	var globalInstall = function(){
@@ -1324,7 +1399,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(window, factory) {
@@ -1531,7 +1606,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(window, factory) {
@@ -1933,7 +2008,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayLikeToArray = __webpack_require__(2);
@@ -1945,7 +2020,7 @@ function _arrayWithoutHoles(arr) {
 module.exports = _arrayWithoutHoles;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 function _iterableToArray(iter) {
@@ -1955,7 +2030,7 @@ function _iterableToArray(iter) {
 module.exports = _iterableToArray;
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayLikeToArray = __webpack_require__(2);
@@ -1972,7 +2047,7 @@ function _unsupportedIterableToArray(o, minLen) {
 module.exports = _unsupportedIterableToArray;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 function _nonIterableSpread() {
@@ -1982,7 +2057,7 @@ function _nonIterableSpread() {
 module.exports = _nonIterableSpread;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 // Object.keys
@@ -1999,7 +2074,7 @@ if (!Object.keys) {
 }
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 // ChildNode.remove
@@ -2012,7 +2087,7 @@ if(!("remove" in Element.prototype)){
 }
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2020,16 +2095,16 @@ if(!("remove" in Element.prototype)){
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/plugins/parent-fit/ls.parent-fit.js
-var ls_parent_fit = __webpack_require__(4);
+var ls_parent_fit = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/plugins/object-fit/ls.object-fit.js
-var ls_object_fit = __webpack_require__(5);
+var ls_object_fit = __webpack_require__(6);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/lazysizes.js
 var lazysizes = __webpack_require__(1);
 
 // EXTERNAL MODULE: ./node_modules/lazysizes/plugins/rias/ls.rias.js
-var ls_rias = __webpack_require__(6);
+var ls_rias = __webpack_require__(7);
 
 // CONCATENATED MODULE: ./node_modules/@shopify/theme-sections/section.js
 var SECTION_ID_ATTR = 'data-section-id';
@@ -2421,10 +2496,10 @@ var toConsumableArray = __webpack_require__(0);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray);
 
 // EXTERNAL MODULE: ./node_modules/tiny-slider/src/helpers/Object.keys.js
-var Object_keys = __webpack_require__(11);
+var Object_keys = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/tiny-slider/src/helpers/childNode.remove.js
-var childNode_remove = __webpack_require__(12);
+var childNode_remove = __webpack_require__(13);
 
 // CONCATENATED MODULE: ./node_modules/tiny-slider/src/helpers/raf.js
 var raf_win = window;
@@ -5688,7 +5763,7 @@ function fetchJSON(url, config) {
   });
 }
 
-function cart() {
+function request_cart() {
   return fetchJSON('/cart.js', getDefaultRequestConfig());
 }
 
@@ -5825,7 +5900,7 @@ function validate_options(options) {
  * @returns {Promise} Resolves with the state object of the cart (https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#get-cart)
  */
 function getState() {
-  return cart();
+  return request_cart();
 }
 
 /**
@@ -5836,7 +5911,7 @@ function getState() {
 function getItemIndex(key) {
   validate_key(key);
 
-  return cart().then(function(state) {
+  return request_cart().then(function(state) {
     var index = -1;
 
     state.items.forEach(function(item, i) {
@@ -5861,7 +5936,7 @@ function getItemIndex(key) {
 function getItem(key) {
   validate_key(key);
 
-  return cart().then(function(state) {
+  return request_cart().then(function(state) {
     var lineItem = null;
 
     state.items.forEach(function(item) {
@@ -5951,7 +6026,7 @@ function clearItems() {
  * @returns {Promise} Resolves with the cart attributes object
  */
 function getAttributes() {
-  return cart().then(function(state) {
+  return request_cart().then(function(state) {
     return state.attributes;
   });
 }
@@ -5982,7 +6057,7 @@ function clearAttributes() {
  * @returns {Promise} Resolves with the cart note string
  */
 function getNote() {
-  return cart().then(function(state) {
+  return request_cart().then(function(state) {
     return state.note;
   });
 }
@@ -6011,7 +6086,11 @@ function getShippingRates() {
   return cartShippingRates();
 }
 
+// EXTERNAL MODULE: ./node_modules/@shopify/theme-currency/dist/currency.cjs.js
+var currency_cjs = __webpack_require__(4);
+
 // CONCATENATED MODULE: ./app/scripts/_arn.js
+
 
 
 
@@ -6177,14 +6256,17 @@ var AT = {
   onCartChange: function onCartChange(cart, action) {
     //cart icon
     var cartIcon = document.getElementById("total_item_of_cart");
-    !!cartIcon && (cartIcon.innerHTML = cart.item_count);
+    var cartTotal = document.getElementById("cart_total");
+    var cartContainer = document.getElementById("cart_container");
 
     switch (action) {
       case "remove":
-        var cartContainer = document.getElementById("cart_container");
         !!cartContainer && cart.item_count === 0 && cartContainer.classList.add("empty");
+        cartTotal.innerHTML = currency_cjs["formatMoney"](cart.total_price, theme.currency.money);
         break;
     }
+
+    !!cartIcon && (cartIcon.innerHTML = cart.item_count);
   },
   removeItemCart: function removeItemCart() {
     var removeButtons = document.getElementsByClassName("btn-remove");
@@ -6192,12 +6274,7 @@ var AT = {
     toConsumableArray_default()(removeButtons).forEach(function (btn) {
       btn.addEventListener("click", function () {
         var cartItem = this.closest(".cart-item");
-        var key = this.getAttribute("data-key"); // fetch("/cart/change.js", {
-        //   method: "post",
-        //   headers: new Headers(),
-        //   body: new URLSearchParams(`line=${line}&quantity=0`),
-        // }).then((res) => cartItem.remove());
-
+        var key = this.getAttribute("data-key");
         removeItem(key).then(function (res) {
           AT.onCartChange(res, "remove");
           cartItem.remove();

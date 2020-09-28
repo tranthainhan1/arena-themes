@@ -15,6 +15,7 @@ const port = argv.port || 9000;
 const shopifyHost = "https://arena-commerce.myshopify.com";
 
 const path = require("path");
+const { throws } = require("assert");
 /**============================================================================================== */
 
 /**==============================================================================  SCRIPT FUNCTION */
@@ -74,6 +75,7 @@ async function scripts(minify) {
     },
 
     plugins: _plugins,
+    stats: "errors-only",
   };
 
   let babel_task = await new Promise((resolve, reject) => {
@@ -81,8 +83,7 @@ async function scripts(minify) {
       // Stats Object
       if (err || stats.hasErrors()) {
         // Handle errors here
-        console.log(err);
-        resolve("Cannot bundle js");
+        throw err || stats.compilation.errors;
       }
       // Done processing
       resolve(1);
