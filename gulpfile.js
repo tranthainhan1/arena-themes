@@ -135,7 +135,6 @@ async function startAppServer() {
     scripts
   );
   watch(["app/scripts/.common/arn.js"]).on("change", copy);
-  watch(["app/scripts/.common/AT_section.js"]).on("change", copy);
   watch(".tmp/theme.update").on("change", testReload);
 }
 
