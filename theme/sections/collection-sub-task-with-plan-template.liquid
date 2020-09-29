@@ -27,7 +27,7 @@
                 <div class="collapse" id="collapse_{{collection.id}}_{{forloop.index}}">
                   {{newContent[0]}}
                 </div>
-                <a class="js-btn-collapse btn-view-more" data-target="collapse_{{collection.id}}_{{forloop.index}}">
+                <a href="javascript:void(0)" class="js-btn-collapse btn-view-more" data-target="collapse_{{collection.id}}_{{forloop.index}}">
                   <span>{{ 'button.view_more' | t}}</span>
                   {% render 'svg' type: 'angle-down' %}
                   {% render 'svg' type: 'angle-up' %}

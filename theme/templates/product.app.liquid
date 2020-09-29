@@ -71,7 +71,7 @@
                 </div>
               </div>
               <div class="featured-collection__content">
-                <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1,"gutter":25},"479":{"items":1.7},"576":{"items":2},"1024":{"items":3,"gutter":30},"1440":{"items":4}}}'>
+                <div class="js-tns" data-config='tns-config-{{product.id}}'>
                   {%- for p in collection.products -%}
                       {%- if p.id != product.id -%}
                         <div class="featured-collection__item">
@@ -88,6 +88,36 @@
                     {% render 'svg', type: 'angle-right'  %}
                   </div>
                 </div>
+                <script type="application/ld+json" id="tns-config-{{product.id}}">
+                  {
+                    "loop": false,
+                    "nav": false,
+                    "mouseDrag" : true,
+                    "swipeAngle" : false,
+                    "preventActionWhenRunning": true,
+                    "preventScrollOnTouch": "auto",
+                    "slideBy": 1,
+                    "responsive": {
+                      "1": {
+                        "items": 1,
+                        "gutter": 25
+                      },
+                      "479": {
+                        "items": 1.7
+                      },
+                      "576": {
+                        "items": 2
+                      },
+                      "1024": {
+                        "items": 3,
+                        "gutter": 30
+                      },
+                      "1440": {
+                        "items": 4
+                      }
+                    }
+                  }
+                </script>
               </div>
               {%- if text_under_content != blank -%}
                 <div class="featured-collection__text-under text-{{text_under_align}}">

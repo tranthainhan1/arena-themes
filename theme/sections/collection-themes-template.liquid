@@ -12,10 +12,12 @@
             <h1>{{banner_title}}</h1>
           </div>
           <div class="banner__search">
-            <div class="input-group">
-              <input type="text" placeholder="{{ 'collections.themes.search_placeholder' | t}}">
-              {% render 'svg' type: 'search' %}
-            </div>
+            <form action="/search" method="get">
+              <div class="input-group">
+                <input type="text" name="q" placeholder="{{ 'collections.themes.search_placeholder' | t}}">
+                {% render 'svg' type: 'search' %}
+              </div>
+            </form>
           </div>
           {%- if popular_list.size > 0 -%}
             <div class="banner__popular">
@@ -24,7 +26,6 @@
                 {%- for popular in popular_list -%}
                   {%- assign popularNew = popular | split: '|' -%}
                   {%- assign text = '1234' | split: '|' -%}
-                  <script>console.log({{popularNew | json}})</script>
                   {%- if popularNew.size == 2 -%}
                     {%- assign url = popularNew[1] -%} 
                   {%- endif -%}
@@ -135,7 +136,7 @@
           </div>
         </div>
         <div class="col-12 col-lg-9 product-grid">
-          {% paginate collection.products by 5 %}
+          {% paginate collection.products by 15 %}
             <div class="toolbar">
               <div class="toolbar_right">
                 <div class="pagination-showing">

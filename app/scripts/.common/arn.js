@@ -96,7 +96,6 @@ var AT = {
   },
   initBackToTop: function () {
     let btnToTop = document.getElementById("back-to-top");
-    let footer = document.getElementById("footer");
 
     !!btnToTop &&
       btnToTop.addEventListener("click", function (e) {
@@ -107,7 +106,7 @@ var AT = {
         });
       });
     window.addEventListener("scroll", function () {
-      if (window.pageYOffset + window.innerHeight < footer.offsetTop) {
+      if (window.pageYOffset > window.innerHeight * 2) {
         btnToTop.classList.contains("show") && btnToTop.classList.remove("show");
       } else {
         !btnToTop.classList.contains("show") && btnToTop.classList.add("show");

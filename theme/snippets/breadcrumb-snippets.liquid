@@ -19,7 +19,7 @@
       {%- if collection.metafields.c_f.collection_parent != blank -%}
         {%- assign collection_parent = collections[collection.metafields.c_f.collection_parent] -%}
         <a href="{{collection_parent.url}}">{{collection_parent.title}}</a>
-        <span aria-hidden="true"> ></span>
+        {% comment %} <span aria-hidden="true"> ></span> {% endcomment %}
         <span>{{page_title}}</span>
       {%- else -%}
         <span>{{ page_title }}</span>
@@ -37,19 +37,19 @@
           %}
           {%- if collection_parent != blank -%}
             <a href="{{collection_parent.url}}">{{collection_parent.title}}</a>
-            <span aria-hidden="true"> ></span>
+            {% comment %} <span aria-hidden="true"> ></span> {% endcomment %}
           {%- endif -%}
 
           {%- if collection.url -%}
             <a href="{{collection.url}}">{{collection.title}}</a>
           {%- endif -%}
-          <span aria-hidden="true"> ></span>
+          {% comment %} <span aria-hidden="true"> ></span> {% endcomment %}
           <span>{{ page_title }}</span>  
         {% comment %} end {% endcomment %}
         {%- else -%}
           {%- if collection.url -%}
             <a href="{{collection.url}}">{{title}}</a>
-            <span aria-hidden="true"> ></span>
+            {% comment %} <span aria-hidden="true"> ></span> {% endcomment %}
           {%- endif -%}
           <span>{{ page_title }}</span>  
       {%- endcase -%}
@@ -57,7 +57,7 @@
     
     {% if template contains 'article' %}
       <a href="{{blog.url}}">{{blog.title}}</a>
-      <span aria-hidden="true"> ></span>
+      {% comment %} <span aria-hidden="true"> ></span> {% endcomment %}
       <span>{{ page_title }}</span>
     {% endif %}
 

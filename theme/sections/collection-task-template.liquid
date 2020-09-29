@@ -46,10 +46,12 @@
             <h1>{{banner_title}}</h1>
           </div>
           <div class="banner__search">
-            <div class="input-group">
-              <input type="text" placeholder="{{ 'collections.tasks.search_placeholder' | t}}">
-              {% render 'svg' type: 'search' %}
-            </div>
+            <form action="/search" method="get">
+              <div class="input-group">
+                <input type="text" name="q" placeholder="{{ 'collections.tasks.search_placeholder' | t}}">
+                {% render 'svg' type: 'search' %}
+              </div>
+            </form>
           </div>
           {%- if popular_list.size > 0 -%}
             <div class="banner__popular">
@@ -58,7 +60,6 @@
                 {%- for popular in popular_list -%}
                   {%- assign popularNew = popular | split: '|' -%}
                   {%- assign text = '1234' | split: '|' -%}
-                  <script>console.log({{popularNew | json}})</script>
                   {%- if popularNew.size == 2 -%}
                     {%- assign url = popularNew[1] -%} 
                   {%- endif -%}
@@ -116,7 +117,7 @@
           </div>
         </div>
         <div class ="icons-cart__list">
-          <div class="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.7,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4}}}'>
+          <div class="js-tns" data-config='tns-config-{{collection.id}}'>
             {{icon_list}}
           </div>
           <div class="js-tns-controls section-{{section.id}} d-none">
@@ -127,6 +128,39 @@
               {% render 'svg', type: 'angle-right'  %}
             </div>
           </div>
+          <script type="application/ld+json" id="tns-config-{{collection.id}}">
+            {
+              "loop": false,
+              "nav": false,
+              "mouseDrag" : true,
+              "swipeAngle" : false,
+              "preventActionWhenRunning": true,
+              "preventScrollOnTouch": "auto",
+              "slideBy": 1,
+              "responsive": {
+                "1": {
+                  "items": 1.7,
+                  "gutter": 25
+                },
+                "479": {
+                  "items": 2
+                },
+                "576": {
+                  "items": 2.5
+                },
+                "768": {
+                  "items": 3
+                },
+                "992": {
+                  "items": 3.5,
+                  "gutter": 30
+                },
+                "1052": {
+                  "items": 4
+                }
+              }
+            }
+          </script>
         </div>
       </div>
     </div>

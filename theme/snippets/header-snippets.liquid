@@ -6,12 +6,12 @@
           {% render 'svg' , type: 'search' %}
         </a>
         <div class="search-group">
-          <form id="search" method="get" action="/search">
+          <form method="get" action="/search">
             {% render 'svg' , type: 'search' %}
              <a href="javascript:void(0)" id="js-close-search" class="close-search">
               {% render 'svg' , type: 'close' %}
             </a>
-            <input type="text" name="q" class="js-input-search"/>
+            <input type="text"  class="js-input-search"/>
           </form>
           <div class="js-search-result search-result">
             <div class="no-result">
@@ -23,7 +23,9 @@
               </div>
             </div>
             <div class="has-results">
-              
+            </div>
+            <div class="is-loading">
+              {% render 'svg-2' type: 'load' %}
             </div>
           </div>
         </div>

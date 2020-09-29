@@ -13,10 +13,12 @@
             <h1>{{banner_title}}</h1>
           </div>
           <div class="banner__search">
-            <div class="input-group">
-              <input type="text" placeholder="{{ 'collections.apps.search_placeholder' | t}}">
-              {% render 'svg' type: 'search' %}
-            </div>
+            <form action="/search" method="get">
+              <div class="input-group">
+                <input type="text" name="q" placeholder="{{ 'collections.apps.search_placeholder' | t}}">
+                {% render 'svg' type: 'search' %}
+              </div>
+            </form>
           </div>
           {%- if popular_list.size > 0 -%}
             <div class="banner__popular">
