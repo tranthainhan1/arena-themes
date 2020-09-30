@@ -1,6 +1,6 @@
 {%- case template -%}
   {%- when 'index' -%}
-    {{ 'home.js' | asset_url | script_tag}}
+    <script src="{{ 'home.js' | asset_url }}"></script>
   {%- when 'collection.themes' -%}
     {{ 'collection-themes.js' | asset_url | script_tag}}
   {%- when 'collection.apps' -%}

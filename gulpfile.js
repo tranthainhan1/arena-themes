@@ -49,7 +49,7 @@ async function scripts(filePath) {
     mode: "production",
 
     output: {
-      filename: `${fileName}.liquid`,
+      filename: `${fileName}`,
       path: path.resolve(__dirname, "./", "theme/assets"),
     },
 
@@ -73,6 +73,7 @@ async function scripts(filePath) {
 
     plugins: _plugins,
     stats: "errors-only",
+    devtool: "source-map",
   };
 
   let babel_task = await new Promise((resolve, reject) => {
@@ -130,10 +131,7 @@ async function startAppServer() {
     },
   });
 
-  watch(["app/scripts/**/*.js", "!app/scripts/.common/_arn.js", "!app/scripts/.common/AT_section.js"]).on(
-    "change",
-    scripts
-  );
+  watch(["app/scripts/**/*.js", "!app/scripts/.common/_arn.js", "!app/scripts/.common/*.js"]).on("change", scripts);
   watch(["app/scripts/.common/arn.js"]).on("change", copy);
   watch(".tmp/theme.update").on("change", testReload);
 }

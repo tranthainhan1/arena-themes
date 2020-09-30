@@ -1,69 +1,69 @@
 <!doctype html>
 <html lang="{{ shop.locale }}">
-<head>
-  {%- if settings.favicon != nil -%}
-  <link rel="shortcut icon" type="image/x-icon" href="{{ settings.favicon | img_url: '32x32' }}">
-  {%- else -%}
-  <link rel="shortcut icon" type="image/x-icon" href="{{ 'favicon.png' | asset_url }}">
-  {%- endif -%}
-  <meta charset="utf-8">
-  <meta name="viewport" content="viewport-fit=cover, width=device-width,initial-scale=1, user-scalable=0"/>
-  <meta name="google" content="notranslate">
-  <meta name='HandheldFriendly' content='True'>
-  <meta name='MobileOptimized' content='360'>
-  <meta http-equiv="cleartype" content="on">
-  <meta name="theme-color" content="{{ settings.main_color }}">
-  <title>{%- include 'page-title' -%}</title>
-  {%- if page_description -%}
-  <meta name="description" content="{{ page_description | escape }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags | escape }}.{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}.{% endif %}" />
-  {%- endif -%}
-  <link rel="preconnect dns-prefetch" href="https://fonts.shopifycdn.com">
-  <link rel="preconnect dns-prefetch" href="https://cdn.shopify.com">
-  <link rel="preconnect dns-prefetch" href="https://v.shopify.com">
-  <link rel="preconnect dns-prefetch" href="https://cdn.shopifycloud.com">
-  <link rel="preconnect dns-prefetch" href="{{ shop.url }}">
-  {%- liquid
-    render 'google-font'
-    render 'fb-open-graph'
-  -%}
-  {%- include 'css-file' -%}
-  {%- capture arnAIFContent -%}{{ shop.metafields.arn_aif.script }}{%- endcapture -%}
-  {%- unless arnAIFContent == blank -%}
-      {%- comment -%} Call ARN-AIF metafield, css & js {%- endcomment-%}
-      {{- arnAIFContent -}}
-      {{- 'arn-aif.css' | asset_url | stylesheet_tag -}}
-      {{- 'arn-aif.js' | asset_url | script_tag -}}
-  {%- endunless -%} 
-  {{ content_for_header }}
-  <script type="application/javascript">
-    var theme = {
-      currency: {
-        money: {{shop.money_format | json}}
+  <head>
+    {%- if settings.favicon != nil -%}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ settings.favicon | img_url: '32x32' }}">
+    {%- else -%}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ 'favicon.png' | asset_url }}">
+    {%- endif -%}
+    <meta charset="utf-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width,initial-scale=1, user-scalable=0"/>
+    <meta name="google" content="notranslate">
+    <meta name='HandheldFriendly' content='True'>
+    <meta name='MobileOptimized' content='360'>
+    <meta http-equiv="cleartype" content="on">
+    <meta name="theme-color" content="{{ settings.main_color }}">
+    <title>{%- include 'page-title' -%}</title>
+    {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags | escape }}.{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}.{% endif %}" />
+    {%- endif -%}
+    <link rel="preconnect dns-prefetch" href="https://fonts.shopifycdn.com">
+    <link rel="preconnect dns-prefetch" href="https://cdn.shopify.com">
+    <link rel="preconnect dns-prefetch" href="https://v.shopify.com">
+    <link rel="preconnect dns-prefetch" href="https://cdn.shopifycloud.com">
+    <link rel="preconnect dns-prefetch" href="{{ shop.url }}">
+    {%- liquid
+      render 'google-font'
+      render 'fb-open-graph'
+    -%}
+    {%- include 'css-file' -%}
+    {%- capture arnAIFContent -%}{{ shop.metafields.arn_aif.script }}{%- endcapture -%}
+    {%- unless arnAIFContent == blank -%}
+        {%- comment -%} Call ARN-AIF metafield, css & js {%- endcomment-%}
+        {{- arnAIFContent -}}
+        {{- 'arn-aif.css' | asset_url | stylesheet_tag -}}
+        {{- 'arn-aif.js' | asset_url | script_tag -}}
+    {%- endunless -%} 
+    {{ content_for_header }}
+    <script type="application/javascript">
+      var theme = {
+        currency: {
+          money: {{shop.money_format | json}}
+        }
       }
-    }
-  </script>
-</head>
+    </script>
+  </head>
 
-{%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | first -}}{%- endcapture -%}
+  {%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | first -}}{%- endcapture -%}
 
-{%- assign arr = template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' -%}
+  {%- assign arr = template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' -%}
 
-{%- if arr.size > 1 -%}
-  {%- capture subThemeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | join: '-' -}}{%- endcapture -%}
-{%- endif -%}
+  {%- if arr.size > 1 -%}
+    {%- capture subThemeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | join: '-' -}}{%- endcapture -%}
+  {%- endif -%}
 
-<body class="{{themeClass}} {{subThemeClass}}" test="{{template}}">
-  {%- render 'snippet-theme', type: 'themeCSS' -%}
-  <div class="boxed-wapper">
-    {%- section 'header' -%}
-    <main id="main-content">
-        {{ content_for_layout }}
-    </main>
-    {% section 'footer' %}
-    {% section 'mobile-bar' %}
-    {% render 'back-to-top'  %}
-  </div>
-  <script src="{{ 'custom.js' | asset_url }}"></script> 
-  {%- include 'js-file' -%}
-</body>
+  <body class="{{themeClass}} {{subThemeClass}}" test="{{template}}">
+    {%- render 'snippet-theme', type: 'themeCSS' -%}
+    <div class="boxed-wapper">
+      {%- section 'header' -%}
+      <main id="main-content">
+          {{ content_for_layout }}
+      </main>
+      {% section 'footer' %}
+      {% section 'mobile-bar' %}
+      {% render 'back-to-top'  %}
+    </div>
+    <script src="{{ 'custom.js' | asset_url }}"></script> 
+    {%- include 'js-file' -%}
+  </body>
 </html>
