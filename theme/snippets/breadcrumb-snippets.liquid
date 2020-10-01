@@ -7,6 +7,8 @@
     {%- assign title = 'Company' -%}
   {%- when 'task' -%}
     {%- assign title = 'Shopify Services' -%}
+  {%- else -%}
+    {%- assign title = "Home" -%}
 {%- endcase -%}
 {%- if template contains 'product' and collection == blank -%}
   {%- assign collection  = product.collections[0] -%}
@@ -22,7 +24,7 @@
         {% comment %} <span aria-hidden="true"> ></span> {% endcomment %}
         <span>{{page_title}}</span>
       {%- else -%}
-        <span>{{ page_title }}</span>
+        <span>{{ page_title }}</span> 
       {%- endif -%}
     {% endif %}
 
@@ -57,10 +59,11 @@
     
     {% if template contains 'article' %}
       <a href="{{blog.url}}">{{blog.title}}</a>
-      {% comment %} <span aria-hidden="true"> ></span> {% endcomment %}
       <span>{{ page_title }}</span>
     {% endif %}
 
-    
+    {%- if template contains 'customer' -%}
+      
+    {%- endif -%}
   </nav>
 </div> 

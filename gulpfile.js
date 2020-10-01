@@ -2,11 +2,8 @@
 const { src, dest, watch, series, parallel, lastRun, task } = require("gulp");
 const gulpLoadPlugins = require("gulp-load-plugins");
 const browserSync = require("browser-sync");
-const notify = require("gulp-notify");
 const fs = require("fs");
 const { argv } = require("yargs");
-const rename = require("gulp-rename");
-const merge = require("merge-stream");
 
 const $ = gulpLoadPlugins();
 const server = browserSync.create();
@@ -19,16 +16,14 @@ const port = argv.port || 9000;
 const shopifyHost = "https://arena-commerce.myshopify.com";
 
 const path = require("path");
-const { throws } = require("assert");
 
 /**==============================================================================  SCRIPT FUNCTION */
 async function scripts(filePath) {
   // const MinifyPlugin = require("babel-minify-webpack-plugin");
   const webpack = require("webpack");
-  let dirName = path.dirname(filePath);
-  let fileName = fs.readdirSync(dirName).find((file) => file.match(/^[^_].*\.js$/g));
-  let newPath = path.resolve(__dirname, path.join(dirName, fileName));
-  let _plugins = [new webpack.ProgressPlugin()];
+  let fileName = path.basename(filePath);
+
+  let _plugins = [];
 
   // if (minify === true) {
   //   _plugins.push(
@@ -44,12 +39,12 @@ async function scripts(filePath) {
   // }
 
   const config = {
-    entry: newPath,
+    entry: path.resolve(__dirname, filePath),
 
     mode: "production",
 
     output: {
-      filename: `${fileName}`,
+      filename: fileName,
       path: path.resolve(__dirname, "./", "theme/assets"),
     },
 
@@ -73,7 +68,6 @@ async function scripts(filePath) {
 
     plugins: _plugins,
     stats: "errors-only",
-    devtool: "source-map",
   };
 
   let babel_task = await new Promise((resolve, reject) => {
@@ -81,35 +75,30 @@ async function scripts(filePath) {
       // Stats Object
       if (err || stats.hasErrors()) {
         // Handle errors here
+
         console.log(err);
         console.log(stats.compilation.errors);
+      } else {
+        // Done processing
+        console.log(`${fileName}: Finish`);
+        resolve("1");
       }
-      // Done processing
-      resolve(1);
     });
   });
 
   return babel_task;
 }
 
-function copy(filePath) {
-  let fileName = path.basename(filePath);
-  let dirList = fs.readdirSync("app/scripts").filter((dir) => {
-    let isDir = fs.lstatSync(path.resolve(__dirname, "app/scripts", dir)).isDirectory();
-    if (isDir && dir !== ".common") return true;
+function scriptsMutilpe(filaPath) {
+  let fileList = fs.readdirSync(path.join("app/scripts")).reduce((accu, currentValue) => {
+    let newPath = path.join("app/scripts", currentValue);
+    fs.lstatSync(path.resolve(__dirname, newPath)).isDirectory() ? accu : accu.push(newPath);
+    return accu;
+  }, []);
 
-    return false;
+  fileList.forEach((filePath) => {
+    scripts(filePath);
   });
-  let newDir = dirList.map((dir) => {
-    return path.join("app/scripts", dir);
-  });
-  let tasks = newDir.map((dir) => {
-    return src(filePath)
-      .pipe(rename(`_${fileName}`))
-      .pipe(dest(dir));
-  });
-
-  return merge(tasks);
 }
 
 /**
@@ -131,12 +120,11 @@ async function startAppServer() {
     },
   });
 
-  watch(["app/scripts/**/*.js", "!app/scripts/.common/_arn.js", "!app/scripts/.common/*.js"]).on("change", scripts);
-  watch(["app/scripts/.common/arn.js"]).on("change", copy);
+  watch(["app/scripts/**/*.js", "!app/scripts/common/**/*.js"]).on("change", scripts);
+  watch(["app/scripts/common/**/*.js"]).on("change", scriptsMutilpe);
   watch(".tmp/theme.update").on("change", testReload);
 }
 
-task("watch", () => {});
 function testReload() {
   setTimeout(() => {
     server.reload();

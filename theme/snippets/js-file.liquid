@@ -2,13 +2,19 @@
   {%- when 'index' -%}
     <script src="{{ 'home.js' | asset_url }}"></script>
   {%- when 'collection.themes' -%}
-    {{ 'collection-themes.js' | asset_url | script_tag}}
+    {{ 'collection-themes.js' | asset_url | script_tag }}
   {%- when 'collection.apps' -%}
-    {{ 'collection-apps.js' | asset_url | script_tag}}
+    {{ 'collection-apps.js' | asset_url | script_tag }}
  {%- when 'collection.task' -%}
-    {{ 'collection-task.js' | asset_url | script_tag}}
+    {{ 'collection-task.js' | asset_url | script_tag }}
  {%- when 'collection.sub-task-with-plan' -%}
-    {{ 'collection-task-plan.js' | asset_url | script_tag}}
+    {{ 'collection-task-plan.js' | asset_url | script_tag }}
   {%- when 'product.theme' -%}
-    {{ 'product-theme.js' | asset_url | script_tag}}
+    {{ 'product-theme.js' | asset_url | script_tag }}
+  {%- when 'collection.sub-task' -%}
+    {{ 'collection-subtask.js' | asset_url | script_tag }}
+  {%- when 'page.about' -%}
+    {{ 'about-us.js' | asset_url | script_tag }}
+  {%- else -%}
+    {{ 'other.js' | asset_url | script_tag }}
 {%- endcase -%}
