@@ -6,8 +6,7 @@ import "lazysizes/plugins/rias/ls.rias";
 import { register, load } from "@shopify/theme-sections";
 
 import AT from "./common/_arn";
-import Header from "./common/section/header";
-import Footer from "./common/section/footer";
+import { Header, Footer, CollectionThemes } from "./common/section";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
@@ -15,6 +14,7 @@ lazySizesConfig.loadMode = 1;
 window.addEventListener("DOMContentLoaded", () => {
   register("header", Header);
   register("footer", Footer);
+  register("collection-themes", CollectionThemes);
 
   load("*");
 

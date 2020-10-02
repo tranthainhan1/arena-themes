@@ -7,14 +7,18 @@
     },
     "min": "Min",
     "max": "Max",
-    "tags": "Tags:"
+    "tags": "Tags:",
+    "shopify_themes": "Shopify Themes",
+    "shopify_apps": "Shopify Apps",
+    "popular_articles": "Popular Article"
   },
   "search": {
     "search_placeholder": "What are you looking for ?",
     "no_result": {
       "title": "No results for",
       "subtitle": "Sorry, we couldn’t find any matches."
-    }
+    },
+    "view_all": "View All Results"
   },
   "products": {
     "product": {

@@ -10,8 +10,9 @@
     "form-serialize": "^0.7.2",
     "lazysizes": "^5.2.2",
     "modernizr": "^3.6.0",
+    "mustache": "^4.0.1",
     "popper.js": "^1.14.6",
-    "tiny-slider": "^2.9.2"
+    "tiny-slider": "^2.9.3"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

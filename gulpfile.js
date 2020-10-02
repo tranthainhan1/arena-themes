@@ -44,7 +44,7 @@ async function scripts(filePath) {
     mode: "production",
 
     output: {
-      filename: fileName,
+      filename: `${fileName}`,
       path: path.resolve(__dirname, "./", "theme/assets"),
     },
 
@@ -134,5 +134,4 @@ function testReload() {
 let serve;
 
 serve = series(startAppServer);
-
 exports.serve = serve;

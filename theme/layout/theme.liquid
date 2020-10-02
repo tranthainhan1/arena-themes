@@ -42,6 +42,36 @@
         }
       }
     </script>
+    <style>
+      .header .header-desktop .icon-list .search .search-result.no-result{
+        display: block;
+      }
+      .header .header-desktop .icon-list .search .search-result.is-loading{
+        display: block;
+      }
+      .header .header-desktop .icon-list .search .search-result.is-loading .is-loading{
+        display: block;
+      }
+      .header .header-desktop .icon-list .search .search-result.is-result{
+        display: block;
+      }
+      .header .header-desktop .icon-list .search .search-result.has-results .results{
+        display: block;
+      }
+      
+      .header .header-desktop .icon-list .search .search-result.no-result .no-result{
+        display: block;
+      }
+      .header .header-desktop .icon-list .search .search-result .no-result{
+        display: none;
+      }
+      .header .header-desktop .icon-list .search .search-result .is-loading{
+        display: none;
+      }
+      .header .header-desktop .icon-list .search .search-result .results{
+        display: none;
+      }
+    </style>
   </head>
 
   {%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | first -}}{%- endcapture -%}
@@ -64,5 +94,6 @@
       {% render 'back-to-top'  %}
     </div>
     {%- include 'js-file' -%}
+    {% render 'mustache-template'  %}
   </body>
 </html>

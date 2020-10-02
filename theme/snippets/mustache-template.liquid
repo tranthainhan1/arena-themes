@@ -1,0 +1,65 @@
+
+
+<script type="text/template" id="search_template">
+  {- #themes -}
+    <div class="result-themes">
+      <div class="title">
+        <p>{{ 'general.shopify_themes' | t}}</p>
+      </div>
+      <ul class="list">
+        <li class="item">
+          <a href="{- url -}">
+            <div class="image">
+              {- #featured_image -}
+                <img src="{- url -}" alt="{- title -}">
+              {- /featured_image -}
+            </div>
+            <div class="info">
+              <span>{- title -}</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  {- /themes -}
+
+  {- #apps -}
+    <div class="result-apps">
+      <div class="title">
+        <p>{{ 'general.shopify_apps' | t}}</p>
+      </div>
+      <ul class="list">
+        <li class="item">
+          <a href="{- url -}">
+            <div class="image">
+              {- #featured_image -}
+                <img src="{- url -}" alt="{- title -}">
+              {- /featured_image -}
+            </div>
+            <div class="info">
+              <span>{- title -}</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  {- /apps -}
+
+  {- #articles -}
+    <div class="result-article">
+      <div class="title">
+        <p>{{ 'general.popular_articles' | t}}</p>
+      </div>
+      <ul class="list">
+        <li class="item">
+          <a href="{- url -}">
+            <div class="info">
+              <span class="name">{- title -}</span>
+              <span class="published-at">{- published_at -}</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  {- /articles -}
+</script>

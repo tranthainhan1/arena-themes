@@ -44,11 +44,11 @@
     <div class="product__content">
       <div class="row">
 
-        <div class="col-12 col-lg-3 sidebar" id="js-sidebar-container">
+        <div class="col-12 col-lg-3 sidebar" id="sb_container">
           <div class="d-lg-none sidebar_header">
             <div class="title">
               <span>{{ 'collections.themes.filter' | t}}</span>
-              <a href="javascript:void(0)" class="js-close-sidebar">
+              <a href="javascript:void(0)" class="js-sb-toggle" data-target="sb_container" date-role="close">
                 {% render 'svg' type: 'close' %}
               </a>
             </div>
@@ -154,7 +154,7 @@
                   {%- endif -%}
                 </div>
 
-                <div class="d-none  d-lg-flex sort-by">
+                <div class="d-none d-lg-flex sort-by">
                   <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
                   <select name="sort_by" id="sort_by">
                     <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
@@ -162,7 +162,7 @@
                   {% render 'svg' type: 'angle-down' %}
                 </div>
                 <div class="d-lg-none">
-                  <a href="javascript:void(0)" id="js-open-sidebar">
+                  <a href="javascript:void(0)" id="js-sb-toggler" data-target="sb_container" data-role="open">
                     {% render 'svg' type: 'filter' %}
                   </a>
                 </div>

@@ -1,17 +1,19 @@
 {%- case type -%}
   {%- when 'icon-list' -%}
     <div class="icon-list">
-      <div class="js-search icon-list__item search">
-        <a href="javascript:void(0)" id="js-open-search">
+      <div class="js-search icon-list__item search" data-search-container data-config='{"resources[type]":"product,article,collection","resources[limit]":10}'>
+        <a href="javascript:void(0)" class="js-open-search">
           {% render 'svg' , type: 'search' %}
         </a>
         <div class="search-group">
-          <form method="get" action="/search">
+          <form method="get" action="/search" class="search-form">
+            <input type="hidden" name="type" value="product,article,page">
+            <input type="hidden" name="options[prefix]" value="last">
             {% render 'svg' , type: 'search' %}
-             <a href="javascript:void(0)" id="js-close-search" class="close-search">
+            <a href="javascript:void(0)" class="js-close-search close-search">
               {% render 'svg' , type: 'close' %}
             </a>
-            <input type="text"  class="js-input-search"/>
+            <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
           </form>
           <div class="js-search-result search-result">
             <div class="no-result">
@@ -22,7 +24,12 @@
                 <span>{{ 'search.no_result.subtitle' | t}}</span>
               </div>
             </div>
-            <div class="has-results">
+            <div class="results">
+              <div class="wrapper">
+              </div>
+              <div class="results__btn">
+                <button class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</button>
+              </div>
             </div>
             <div class="is-loading">
               {% render 'svg-2' type: 'load' %}

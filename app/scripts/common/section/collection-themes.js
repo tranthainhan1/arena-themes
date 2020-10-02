@@ -1,8 +1,12 @@
 let CollectionThemes = {
   onLoad: function () {
+    this.elm = {
+      sbToggleBtn: document.querySelectorAll(".js-sb-toggle"),
+    };
     this.handleSidebar();
   },
   handleSidebar: function () {
+    console.log(this);
     let btnOpen = document.getElementById("js-open-sidebar");
     let btnClose = document.getElementsByClassName("js-close-sidebar");
 
