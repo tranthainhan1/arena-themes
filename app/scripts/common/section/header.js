@@ -7,9 +7,11 @@ export let Header = {
       elmTriggerCollapse: $container.querySelectorAll(".js-trigger-collapse"),
       overlayMenuMobile: $container.querySelector(".header .overlay-menu-mobile"),
       headerDesktop: $container.getElementsByClassName("header-desktop")[0],
+      openSearch: $container.getElementsByClassName("js-open-search")[0],
     };
 
     this.handleMenuMobile();
+    this.toggleSearch();
   },
   handleMenuMobile: function () {
     let first = true,
@@ -39,6 +41,14 @@ export let Header = {
       btnMenu.classList.remove("show");
       menuMobileContainer.classList.remove("show");
       document.body.classList.remove("popup-is-showing");
+    });
+  },
+  toggleSearch: function () {
+    let { openSearch } = this.elements;
+
+    openSearch.addEventListener("click", (e) => {
+      let searchContainer = this.container.getElementsByClassName("search")[0];
+      searchContainer.classList.add("search-show");
     });
   },
 };

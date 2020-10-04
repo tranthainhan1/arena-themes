@@ -7,6 +7,7 @@ import { register, load } from "@shopify/theme-sections";
 
 import AT from "./common/_arn";
 import { Header, Footer, CollectionThemes } from "./common/section";
+import Search from "./common/search";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
@@ -18,10 +19,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   load("*");
 
+  Search.init();
   AT.initTNS();
-  AT.getCart();
   AT.initHandleCollapse();
   AT.initBackToTop();
-  AT.addToCart();
-  AT.removeItemCart();
 });

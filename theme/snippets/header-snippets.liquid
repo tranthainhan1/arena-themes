@@ -1,7 +1,7 @@
 {%- case type -%}
   {%- when 'icon-list' -%}
     <div class="icon-list">
-      <div class="js-search icon-list__item search" data-search-container data-config='{"resources[type]":"product,article,collection","resources[limit]":10}'>
+      <div class="js-search icon-list__item search" data-search-container data-config='search_config_header'>
         <a href="javascript:void(0)" class="js-open-search">
           {% render 'svg' , type: 'search' %}
         </a>
@@ -36,6 +36,15 @@
             </div>
           </div>
         </div>
+        <script type="application/ld+json" id="search_config_header">
+          {
+            "parameters": {
+              "resources[type]": "product,article"
+            },
+            "productType": "all",
+            "resourcesType" : ["products", "articles"]
+          }
+        </script>
       </div>
       <div class="d-none d-lg-block icon-list__item account">
         {%- capture account_url -%}
