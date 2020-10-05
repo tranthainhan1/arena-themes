@@ -1,0 +1,37 @@
+{% layout none %}
+{% paginate collection.products by 15 %}
+  {
+    "products" : [
+      {%- for product in collection.products -%}
+        {%- unless forloop.first -%},{%- endunless -%}
+        {
+          "title" : "{{product.title}}",
+          "featured_image" : {
+            "url" : "{{ product.featured_image.src | img_url: '1x1' | replace: '_1x1' '_{width}x'}}",
+            "padding" : "{{ 1 | divided_by: product.featured_image.aspect_ratio | times: 100 | append: '%' }}",
+            "alt" : "{{ product.title}}"
+          },
+          "price" : "{{product.price | money}}",
+          "url" : "{{product.url | within: collection}}"
+        }
+      {%- endfor -%}  
+    ]{%- if paginate.pages > 1 -%}
+      ,
+        "paginate": {
+          {%- if paginate.previous -%}
+            "previous": {{paginate.previous | json}},
+          {%- endif -%}
+          "parts": [
+            {% for part in paginate.parts %}
+              {{part | json}}
+              {% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ]
+          {%- if paginate.next -%}
+          ,
+          "next": {{paginate.next | json}}
+        {%- endif -%}
+        }
+    {%- endif -%}
+  }
+{% endpaginate %}

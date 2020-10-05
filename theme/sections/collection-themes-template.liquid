@@ -13,9 +13,6 @@
           </div>
           <div class="banner__search">
             <div class="js-search search" data-search-container data-config='search_config_{{collection.id}}'>
-              <a href="javascript:void(0)" class="js-open-search">
-                {% render 'svg' , type: 'search' %}
-              </a>
               <div class="search-group">
                 <form method="get" action="/search" class="search-form">
                   <input type="hidden" name="type" value="product,article,page">
@@ -87,7 +84,7 @@
           <div class="d-lg-none sidebar_header">
             <div class="title">
               <span>{{ 'collections.themes.filter' | t}}</span>
-              <a href="javascript:void(0)" class="js-sb-toggle" data-target="sb_container" date-role="close">
+              <a href="javascript:void(0)" class="js-sb-toggle" data-target="sb_container" data-role="close">
                 {% render 'svg' type: 'close' %}
               </a>
             </div>
@@ -108,14 +105,14 @@
                     assign prefix = block.settings.prefix  
                   %}
                   {%- assign tag_list = '' | split: '' -%}
-                  {%- for tag in collection.tags -%}
+                  {%- for tag in collection.all_tags  -%}
                     {%- assign size = prefix.size -%}
                     {%- assign tag_prefix = tag | slice: 0,size -%}
                     {%- if tag_prefix == prefix -%}
                       {%- capture tag_content -%}
-                        <div class="filter-item">
+                        <div class="js-filter-item filter-item">
                           <div class="d-flex checkbox">
-                            <input type="checkbox" id="filter_item_{{block.id}}_{{forloop.index}}"  value="{{tag | handle}}">
+                            <input type="checkbox" id="filter_item_{{block.id}}_{{forloop.index}}"  value="{{tag | handle}}" {% if current_tags contains tag %}checked{%- endif -%}>
                             <label for="filter_item_{{block.id}}_{{forloop.index}}">{{tag | split: prefix | join: ''}}</label>
                           </div>
                         </div>
@@ -172,6 +169,7 @@
               <button id="filter_clear" class="btn btn-2 clear">{{ 'collections.themes.btn.clear' | t}}</button>
               <button id="filter_apply" class="btn btn-2 apply">{{ 'collections.themes.btn.apply' | t}}</button>
             </div>
+            <input type="hidden" id="sb_filter" data-filter="[]" data-template="themes">
           </div>
         </div>
         <div class="col-12 col-lg-9 product-grid">
@@ -201,29 +199,76 @@
                   {% render 'svg' type: 'angle-down' %}
                 </div>
                 <div class="d-lg-none">
-                  <a href="javascript:void(0)" id="js-sb-toggler" data-target="sb_container" data-role="open">
+                  <a href="javascript:void(0)" class="js-sb-toggle" data-target="sb_container" data-role="open">
                     {% render 'svg' type: 'filter' %}
                   </a>
                 </div>
               </div>
             </div>
-            <div class="row">
-              {%- for product in collection.products -%}
-                <div class="col-6 col-md-4 col-lg-6 col-xl-4"> 
-                  {% render 'card-template' type: 'product', product: product  %}
-                </div>
-              {%- endfor -%}
-            </div>
+            <div class="wrapper">
+              <div class="row" id="product_grid">
+                {%- for product in collection.products -%}
+                  <div class="col-6 col-md-4 col-lg-6 col-xl-4"> 
+                    {% render 'card-template' type: 'product', product: product  %}
+                  </div>
+                {%- endfor -%}
+              </div>
 
-            {%- if paginate.pages > 1 -%}
-              {% render 'pagination-snippets' paginate: paginate %}
-            {%- endif -%}
+              {%- if paginate.pages > 1 -%}
+                {% render 'pagination' paginate: paginate, id: "collection_pagination" %}
+              {%- endif -%}
+            </div>
           {% endpaginate %}
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/template" id="product_cart_template">
+  {- #products -}
+    <div class="col-6 col-md-4 col-lg-6 col-xl-4"> 
+      <div class="card card-product">
+        <div class="card-img-top">
+          <a href="{-url-}">
+            {- #featured_image -}
+              <span class="image__style" style="display: block;position: relative;padding-top: {- padding -};" >
+                <img class="overlay-ui w-100 h-100 lazyload" 
+                  data-src="{- url -}"
+                  data-widths="[100,180,360]"
+                  data-aspectratio="{- ratio -}"
+                  data-sizes="auto"
+                  data-expand="30"
+                  data-parent-fit="cover"
+                  data-tproduct="true"
+                  alt="{- alt -}"/>
+              </span>
+            {- /featured_image -}
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="card-body__tile">
+            <a href="{- url -}" class="title">
+              <span >{- title -}</span>
+            </a>
+            <span class="price">{- price -}</span>
+          </div>
+          <div class="card-body__variants">
+            <div class="card-body__variants-label">
+              <span>20</span>
+              <span>{{ 'general.card.product.label_variants' | t }}</span>
+            </div>
+            <div class="card-body__variants-link">
+              <a href="{-url-}">
+                {% render 'svg', type: 'arrow-right'  %}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {- /products -}
+</script>
 
 {% schema %}
   {

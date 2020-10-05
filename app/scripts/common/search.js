@@ -1,7 +1,4 @@
 import AT from "./_arn";
-import Mustache from "Mustache";
-
-Mustache.tags = ["{-", "-}"];
 
 let Search = {
   init: function () {
@@ -22,8 +19,11 @@ let Search = {
       input.addEventListener(
         "keyup",
         AT.debounce(function (e) {
-          let value = e.target.value;
-          if (!value) return;
+          let value = e.target.value.trim();
+          if (!value) {
+            resultContainer.classList.remove("is-loading", "no-result", "has-results");
+            return;
+          }
 
           keywordCOntainer.innerHTML = value;
           config = Object.assign(parameters, { q: value });
@@ -37,7 +37,7 @@ let Search = {
               console.log(newResults);
               if (newResults.hasResults) {
                 let renderResults = Mustache.render(template, newResults);
-                resultContainer.getElementsByClassName("results")[0].innerHTML = renderResults;
+                resultContainer.querySelector(".results .wrapper").innerHTML = renderResults;
                 resultContainer.classList.remove("is-loading");
                 resultContainer.classList.add("has-results");
               } else {

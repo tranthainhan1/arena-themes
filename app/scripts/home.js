@@ -1,9 +1,6 @@
-import "lazysizes/plugins/parent-fit/ls.parent-fit";
-import "lazysizes/plugins/respimg/ls.respimg";
-import "lazysizes/plugins/object-fit/ls.object-fit";
-import "lazysizes";
-import "lazysizes/plugins/rias/ls.rias";
+// import Mustache from "Mustache";
 import { register, load } from "@shopify/theme-sections";
+
 import AT from "./common/_arn";
 import { HeroBanner, Footer, Header } from "./common/section";
 import Search from "./common/search";
@@ -11,7 +8,9 @@ import Search from "./common/search";
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 
-window.addEventListener("DOMContentLoaded", () => {
+(function(){
+  Mustache.tags = ["{-", "-}"];
+
   register("header", Header);
   register("footer", Footer);
   register("hero-banner", HeroBanner);
@@ -22,4 +21,4 @@ window.addEventListener("DOMContentLoaded", () => {
   AT.initTNS();
   AT.initHandleCollapse();
   AT.initBackToTop();
-});
+})()

@@ -13,12 +13,48 @@
             <h1>{{banner_title}}</h1>
           </div>
           <div class="banner__search">
-            <form action="/search" method="get">
-              <div class="input-group">
-                <input type="text" name="q" placeholder="{{ 'collections.apps.search_placeholder' | t}}">
-                {% render 'svg' type: 'search' %}
+            <div class="js-search search" data-search-container data-config='search_config_{{collection.id}}'>
+              <div class="search-group">
+                <form method="get" action="/search" class="search-form">
+                  <input type="hidden" name="type" value="product,article,page">
+                  <input type="hidden" name="options[prefix]" value="last">
+                  {% render 'svg' , type: 'search' %}
+                  <a href="javascript:void(0)" class="js-close-search close-search">
+                    {% render 'svg' , type: 'close' %}
+                  </a>
+                  <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
+                </form>
+                <div class="js-search-result search-result">
+                  <div class="no-result">
+                    <div class="title">
+                      <span>{{ 'search.no_result.title' | t}} "<span class="keyword"></span>"</span>
+                    </div>
+                    <div class="subtitle">
+                      <span>{{ 'search.no_result.subtitle' | t}}</span>
+                    </div>
+                  </div>
+                  <div class="results">
+                    <div class="wrapper">
+                    </div>
+                    <div class="results__btn">
+                      <button class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</button>
+                    </div>
+                  </div>
+                  <div class="is-loading">
+                    {% render 'svg-2' type: 'load' %}
+                  </div>
+                </div>
               </div>
-            </form>
+              <script type="application/ld+json" id="search_config_{{collection.id}}">
+                {
+                  "parameters": {
+                    "resources[type]": "product"
+                  },
+                  "productType": "themes",
+                  "resourcesType" : ["products"]
+                }
+              </script>
+            </div>
           </div>
           {%- if popular_list.size > 0 -%}
             <div class="banner__popular">
@@ -75,7 +111,7 @@
             </div>
 
             {%- if paginate.pages > 1 -%}
-              {% render 'pagination-snippets' paginate: paginate %}
+              {% render 'pagination' paginate: paginate %}
             {%- endif -%}
           {% endpaginate %}
         </div>

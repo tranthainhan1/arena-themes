@@ -6,6 +6,7 @@
   "dependencies": {
     "@shopify/theme-cart": "^4.0.0",
     "@shopify/theme-currency": "^4.0.0",
+    "@shopify/theme-images": "^4.0.2",
     "@shopify/theme-sections": "^4.0.0",
     "form-serialize": "^0.7.2",
     "lazysizes": "^5.2.2",

@@ -1,6 +1,6 @@
 let CollectionThemes = {
   onLoad: function () {
-    this.elm = {
+    this.elms = {
       sbToggleBtn: document.querySelectorAll(".js-sb-toggle"),
     };
     this.handleSidebar();
