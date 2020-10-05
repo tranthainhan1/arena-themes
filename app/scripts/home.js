@@ -1,4 +1,3 @@
-// import Mustache from "Mustache";
 import { register, load } from "@shopify/theme-sections";
 
 import AT from "./common/_arn";
@@ -8,7 +7,7 @@ import Search from "./common/search";
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 
-(function(){
+(function () {
   Mustache.tags = ["{-", "-}"];
 
   register("header", Header);
@@ -21,4 +20,4 @@ lazySizesConfig.loadMode = 1;
   AT.initTNS();
   AT.initHandleCollapse();
   AT.initBackToTop();
-})()
+})();

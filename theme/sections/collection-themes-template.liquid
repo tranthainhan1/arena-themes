@@ -23,7 +23,7 @@
                   </a>
                   <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
                 </form>
-                <div class="js-search-result search-result">
+                <div class="js-search-results search-result">
                   <div class="no-result">
                     <div class="title">
                       <span>{{ 'search.no_result.title' | t}} "<span class="keyword"></span>"</span>
@@ -270,6 +270,50 @@
   {- /products -}
 </script>
 
+<script type="text/template" id="pagination_template">
+  {- #paginate -}  
+  <ul class="d-flex">
+    {- #previous -}
+      <li>
+        <a href="{- url -}">{% render 'svg' type: 'angle-left' %}</a>
+      </li>
+    {- /previous -}
+    {- ^previous -}
+      <li class="disabled">
+        <a href="javascript:void(0);">{% render 'svg' type: 'angle-left' %}</a>
+      </li>
+    {- /previous -}
+
+    {- #parts -}
+      {- #is_link -}
+        <li>
+          <a href="{- url -}">{- title -}</a>
+        </li>
+      {- /is_link -}
+      {- ^is_link -}
+        
+          <li class="active">
+            <a href="javascript">{{ part.title }}</a>
+          </li>
+        {%- else -%}
+          <li>{{ part.title }}</li>
+        {%- endif -%}
+      {- /is_link -}
+    {- /parts -}
+
+    {- #next -}
+      <li>
+        <a href="{{paginate.next.url}}">{% render 'svg' type: 'angle-right' %}</a>
+      </li>
+    {- /next -}
+    {- ^next -}
+      <li class="disabled">
+        <a href="javascript:void(0);">{% render 'svg' type: 'angle-right' %}</a>
+      </li>
+   {- /next -}
+  </ul>
+  {- /paginate -}  
+</script>
 {% schema %}
   {
     "name" : "Collection Themes",

@@ -47,8 +47,14 @@ export let Header = {
     let { openSearch } = this.elements;
 
     openSearch.addEventListener("click", (e) => {
-      let searchContainer = this.container.getElementsByClassName("search")[0];
-      searchContainer.classList.add("search-show");
+      let desktopSearch = this.container.getElementsByClassName("search")[0];
+      let mobileSearch = document.getElementById("search_mobile");
+
+      if (window.innerWidth > 991.9) {
+        desktopSearch.classList.add("search-show");
+      } else {
+        mobileSearch.classList.add("show");
+      }
     });
   },
 };

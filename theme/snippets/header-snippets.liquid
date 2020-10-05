@@ -10,7 +10,7 @@
             <input type="hidden" name="type" value="product,article,page">
             <input type="hidden" name="options[prefix]" value="last">
             {% render 'svg' , type: 'search' %}
-            <a href="javascript:void(0)" class="js-close-search close-search">
+            <a href="javascript:void(0)" class="js-close-search close-search" data-toggle="search-show">
               {% render 'svg' , type: 'close' %}
             </a>
             <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-        <script type="application/ld+json" id="search_config_header">
+        <script type="application/json" id="search_config_header">
           {
             "parameters": {
               "resources[type]": "product,article"

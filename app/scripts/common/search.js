@@ -7,7 +7,7 @@ let Search = {
 
     [...searchInputs].forEach((input) => {
       let searchContainer = input.closest("[data-search-container]");
-      let resultContainer = searchContainer.getElementsByClassName("search-result")[0];
+      let resultContainer = searchContainer.getElementsByClassName("js-search-results")[0];
       let keywordCOntainer = searchContainer.getElementsByClassName("keyword")[0];
       let closeBtn = searchContainer.getElementsByClassName("js-close-search")[0];
       let searchForm = searchContainer.getElementsByClassName("search-form")[0];
@@ -16,6 +16,7 @@ let Search = {
 
       let config = JSON.parse(document.getElementById(configId).innerHTML);
       let { parameters, productType, resourcesType } = config;
+
       input.addEventListener(
         "keyup",
         AT.debounce(function (e) {
@@ -49,7 +50,8 @@ let Search = {
       );
 
       closeBtn.addEventListener("click", function (e) {
-        searchContainer.classList.remove("search-show");
+        let toggleClass = this.getAttribute("data-toggle");
+        searchContainer.classList.remove(toggleClass);
         resultContainer.classList.remove("is-loading", "no-result", "has-results");
       });
 

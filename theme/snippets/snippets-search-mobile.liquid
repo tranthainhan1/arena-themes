@@ -1,21 +1,44 @@
-<div class="d-lg-none search-mobile" id="search-mobile">
+<div class="d-lg-none search search-mobile" id="search_mobile" data-search-container data-config="search_mobile_config">
   <div class="form-search">
-    <form action="/search" id="mobile_search">
+    <form action="/search" id="mobile_search" method="get">
+      <input type="hidden" name="type" value="product,article,page">
+      <input type="hidden" name="options[prefix]" value="last">
       <div class="form-group">
-        <a href="javascript:void(0)" id="close_search_mobile">
+        <a href="javascript:void(0)" class="js-close-search" data-toggle="show">
           {% render 'svg' type: 'arrow-left' %}
         </a>
-        <input type="text" id="input_search_mobile" class="form-control" placeholder="{{ 'search.search_placeholder' | t}}">
+        <input type="text" name="q" class="js-search-input form-control" placeholder="{{ 'search.search_placeholder' | t}}" autocomplete="off">
         {% render 'svg' type: 'microphone' %}
       </div>
     </form>
   </div>
-  <div class="no-result">
-    <div class="title">
-      <span>{{'search.no_result.title' | t}}</span>
+  <div class="js-search-results search-result">
+    <div class="no-result">
+      <div class="title">
+        <span>{{'search.no_result.title' | t}} "<span class="keyword"></span>"</span>
+      </div>
+      <div class="subtitle">
+        <span>{{ 'search.no_result.subtitle' | t}}</span>
+      </div>
     </div>
-    <div class="subtitle">
-      <span>{{ 'search.no_result.subtitle' | t}}</span>
+    <div class="results">
+      <div class="wrapper">
+      </div>
+      <div class="results__btn">
+        <button class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</button>
+      </div>
+    </div>
+    <div class="is-loading">
+      {% render 'svg-2' type: 'load' %}
     </div>
   </div>
+  <script type="application/json" id="search_mobile_config">
+    {
+      "parameters": {
+        "resources[type]": "product,article"
+      },
+      "productType": "all",
+      "resourcesType" : ["products", "articles"]
+    }
+  </script>
 </div>

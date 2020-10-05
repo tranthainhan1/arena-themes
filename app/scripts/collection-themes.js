@@ -1,10 +1,4 @@
-import "lazysizes/plugins/parent-fit/ls.parent-fit";
-import "lazysizes/plugins/respimg/ls.respimg";
-import "lazysizes/plugins/object-fit/ls.object-fit";
-import "lazysizes";
-import "lazysizes/plugins/rias/ls.rias";
 import { register, load } from "@shopify/theme-sections";
-import Mustache from "Mustache";
 
 import AT from "./common/_arn";
 import { Header, Footer } from "./common/section";
@@ -21,8 +15,10 @@ let CollectionThemes = {
       sidebarContainer: document.getElementById("sb_container"),
       filterMasterInput: document.getElementById("sb_filter"),
       filterItemInputs: container.querySelectorAll(".js-filter-item input"),
-      productCardTemplate: document.getElementById("product_cart_template").innerHTML,
       productGridContainer: document.getElementById("product_grid"),
+      pagination: document.getElementById("collection_pagination"),
+      productCardTemplate: document.getElementById("product_cart_template").innerHTML,
+      paginationTemplate: document.getElementById("pagination_template").innerHTML,
     };
     this.handleSidebar();
     this.initFilter();
@@ -71,15 +67,16 @@ let CollectionThemes = {
   },
   handleFilterResults: function (res) {
     let { productCardTemplate, productGridContainer } = this.elms;
-    console.log(res.products);
     productGridContainer.innerHTML = Mustache.render(productCardTemplate, res);
   },
   handlePagination: function (res) {
     console.log(res.paginate);
+    let { pagination, paginationTemplate } = this.elms;
+    pagination.innerHTML = Mustache.render(paginationTemplate, res);
   },
 };
 
-window.addEventListener("DOMContentLoaded", () => {
+(function () {
   Mustache.tags = ["{-", "-}"];
 
   register("header", Header);
@@ -94,4 +91,4 @@ window.addEventListener("DOMContentLoaded", () => {
   AT.initTNS();
   AT.initHandleCollapse();
   AT.initBackToTop();
-});
+})();

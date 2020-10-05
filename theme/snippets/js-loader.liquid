@@ -3,11 +3,12 @@
     // Object define module name to path
     let modulesDefine = {
       scripts: {
-        'font': '{{ "font.js" | asset_url }}',
         'lazysizes': '{{ "lazysizes.min.js" | asset_url }}',
         'mustache': '{{ "mustache.min.js" | asset_url }}',
         'home': '{{ "home.js" | asset_url }}',
-      
+        'collection-themes': '{{ "collection-themes.js" | asset_url}}',
+        'collection-apps': '{{ "collection-apps.js" | asset_url}}',
+        'collection-subtask': '{{ "collection-subtask.js" | asset_url}}',
       },
       styles: {},
     }
@@ -16,7 +17,6 @@
     let depsDefine = {
       scripts: {},
       styles: {},
-      
     }
     let initials = {
       scripts: {},
