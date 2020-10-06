@@ -65,9 +65,25 @@
             </div>
           </div>
           <div class="product-image">
-            <div class="image">
-              {% render 'image-style' image: product.featured_image %}
+            <div class="js-tns image-list" data-config="images_config">
+              {%- for image in product.images -%}
+                <div class="image-item">
+                  {% render 'image-style' image: image %}
+                </div>
+              {%- endfor -%}
             </div>
+            <script type="application/json" id="images_config">
+              {
+                "loop": false,
+                "nav": false,
+                "mouseDrag" : false,
+                "swipeAngle" : false,
+                "preventActionWhenRunning": true,
+                "slideBy": 1,
+                "items": 1,
+                "controls" : false
+              }
+            </script>
           </div>
         </div>
       </div>
@@ -207,8 +223,8 @@
                     "mouseDrag" : true,
                     "swipeAngle" : false,
                     "preventActionWhenRunning": true,
-                    
                     "slideBy": 1,
+                    "controls" : false,
                     "responsive": {
                       "1": {
                         "items": 1.7,

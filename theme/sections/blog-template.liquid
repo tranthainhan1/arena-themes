@@ -27,7 +27,7 @@ assign banner_title = section.settings.banner_title
                   <div class="article article-large">
                     <div class="image">
                       <a href="{{article.url}}">
-                        {% render 'image-style' image: article.image %}
+                        {% render 'image-style' image: article.image, imagePadding: "55%" %}
                       </a>
                     </div>
                     <div class="article-info">
@@ -47,7 +47,7 @@ assign banner_title = section.settings.banner_title
                   <div class="article article-small">
                     <div class="image">
                       <a href="{{article.url}}">
-                        {% render 'image-style' image: article.image %}
+                        {% render 'image-style' image: article.image, imagePadding: "55%" %}
                       </a>
                     </div>
                     <div class="article-info">
@@ -147,7 +147,7 @@ assign banner_title = section.settings.banner_title
                             <div class="sb-blog-list__item">
                               <div class="article-image">
                                 <a href="{{article.url}}">
-                                  {% render 'image-style' image: article.image %}
+                                  {% render 'image-style' image: article.image, imagePadding: "100%" %}
                                 </a>
                               </div>
                               <div class="article-info">

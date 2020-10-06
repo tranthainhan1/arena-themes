@@ -3,7 +3,6 @@ import AT from "../_arn";
 export let Footer = {
   onLoad: function () {
     let $container = this.container;
-    var hehe = 1;
     this.elements = {
       blocks: $container.querySelectorAll(".footer-top__item.menu-item"),
       footerWrapper: $container.querySelector(".footer .footer__wrapper"),

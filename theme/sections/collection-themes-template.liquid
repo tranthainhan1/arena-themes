@@ -44,7 +44,7 @@
                   </div>
                 </div>
               </div>
-              <script type="application/ld+json" id="search_config_{{collection.id}}">
+              <script type="application/json" id="search_config_{{collection.id}}">
                 {
                   "parameters": {
                     "resources[type]": "product"
@@ -169,7 +169,16 @@
               <button id="filter_clear" class="btn btn-2 clear">{{ 'collections.themes.btn.clear' | t}}</button>
               <button id="filter_apply" class="btn btn-2 apply">{{ 'collections.themes.btn.apply' | t}}</button>
             </div>
-            <input type="hidden" id="sb_filter" data-filter="[]" data-template="themes">
+            {%- assign filterArr = '' -%}
+            {%- for tag in current_tags -%}
+              {%- assign tag_handle = tag | handle -%}
+              {%- if forloop.last -%}
+                {%- assign filterArr = filterArr | append: tag_handle -%}
+              {%- else -%}
+                {%- assign filterArr = filterArr | append: tag_handle | append: ',' -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <input type="hidden" id="sb_filter" data-filter='{{filterArr | split: "," | json}}' data-template="themes">
           </div>
         </div>
         <div class="col-12 col-lg-9 product-grid">
@@ -214,9 +223,7 @@
                 {%- endfor -%}
               </div>
 
-              {%- if paginate.pages > 1 -%}
-                {% render 'pagination' paginate: paginate, id: "collection_pagination" %}
-              {%- endif -%}
+              {% render 'pagination' paginate: paginate, id: "collection_pagination" %}
             </div>
           {% endpaginate %}
         </div>
@@ -291,19 +298,20 @@
         </li>
       {- /is_link -}
       {- ^is_link -}
-        
+        {- #is_active -}
           <li class="active">
-            <a href="javascript">{{ part.title }}</a>
+            <a href="javascript:void(0);">{- title -}</a>
           </li>
-        {%- else -%}
+        {- /is_active -}
+        {- ^is_active -}
           <li>{{ part.title }}</li>
-        {%- endif -%}
+        {- /is_active -}
       {- /is_link -}
     {- /parts -}
 
     {- #next -}
       <li>
-        <a href="{{paginate.next.url}}">{% render 'svg' type: 'angle-right' %}</a>
+        <a href="{- url -}">{% render 'svg' type: 'angle-right' %}</a>
       </li>
     {- /next -}
     {- ^next -}
@@ -313,6 +321,29 @@
    {- /next -}
   </ul>
   {- /paginate -}  
+</script>
+
+<script type="text/template" id="apps_search_template">
+{- #themes.length -}
+  <div class="result-themes">
+    <ul class="list">
+      {- #themes -}
+        <li class="item">
+          <a href="{- url -}">
+            <div class="image">
+              {- #featured_image -}
+                <img src="{- url -}" alt="{- alt -}">
+              {- /featured_image -}
+            </div>
+            <div class="info">
+              <span>{- title -}</span>
+            </div>
+          </a>
+        </li>
+      {- /themes -}
+    </ul>
+  </div>
+{- /themes.length -}
 </script>
 {% schema %}
   {

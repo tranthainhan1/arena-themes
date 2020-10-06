@@ -49,15 +49,16 @@
             <div class="js-search search" data-search-container data-config='search_config_{{collection.id}}'>
               <div class="search-group">
                 <form method="get" action="/search" class="search-form">
-                  <input type="hidden" name="type" value="product,article,page">
+                  <input type="hidden" name="type" value="product">
                   <input type="hidden" name="options[prefix]" value="last">
+                  <input type="hidden" name="fields" value="title,product_type,variants.title">
                   {% render 'svg' , type: 'search' %}
                   <a href="javascript:void(0)" class="js-close-search close-search">
                     {% render 'svg' , type: 'close' %}
                   </a>
                   <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
                 </form>
-                <div class="js-search-result search-result">
+                <div class="js-search-results search-result">
                   <div class="no-result">
                     <div class="title">
                       <span>{{ 'search.no_result.title' | t}} "<span class="keyword"></span>"</span>
@@ -78,13 +79,14 @@
                   </div>
                 </div>
               </div>
-              <script type="application/ld+json" id="search_config_{{collection.id}}">
+              <script type="application/json" id="search_config_{{collection.id}}">
                 {
                   "parameters": {
                     "resources[type]": "product"
                   },
-                  "productType": "themes",
-                  "resourcesType" : ["products"]
+                  "productType": "tasks",
+                  "resourcesType" : ["products"],
+                  "templateId" : "task_search_template"
                 }
               </script>
             </div>
@@ -204,103 +206,107 @@
   </div>
 </div>
 
+<script type="text/template" id="task_search_template">
+  
+</script>
+
 {% schema %}
-{
-  "name": "Collection Task Template",
-  "tag": "section",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Banner"
-    },
-    {
-      "type": "text",
-      "id": "banner_title",
-      "label": "Title"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_desktop",
-      "label": "Image on desktop"
-    },
-    {
-      "type": "html",
-      "id": "popular_list",
-      "label": "Popular list",
-      "info" : "Please separated by ','"
-    },
-    {
-      "type": "header",
-      "content": "Collection list"
-    },
-    {
-      "type": "text",
-      "id": "collection_title",
-      "label": "Title"
-    },
-    {
-      "type": "text",
-      "id": "collection_subtitle",
-      "label": "Subtitle"
-    },
-    {
-      "type": "paragraph",
-      "content": "Please use metafields to add item."
-    },
-    {
-      "type": "header",
-      "content": "Icons box"
-    },
-    {
-      "type": "text",
-      "id": "icons_box_title",
-      "label": "Title"
-    },
-    {
-      "type": "text",
-      "id": "icons_box_subtitle",
-      "label": "Subtitle"
-    },
-    {
-      "type": "paragraph",
-      "content": "To add a item, please add block 'Icon item'"
-    },
-    {
-      "type": "header",
-      "content": "Logo list"
-    },
-    {
-      "type": "text",
-      "id": "logo_list_title",
-      "label": "title"
-    },
-    {
-      "type": "text",
-      "id": "logo_list_subtitle",
-      "label": "Subtitle"
-    },
-    {
-      "type": "paragraph",
-      "content": "To add a item, please add block 'Logo item'"
-    }
-  ],
-  "blocks" : [
-    {
-      "type" : "icon_item",
-      "name" : "Icon item",
-      "settings" : [
-        {
-          "type": "html",
-          "id": "icon_svg",
-          "label": "SVG"
-        },
-        {
-          "type": "text",
-          "id": "icon_label",
-          "label": "Label"
-        }
-      ]
-    }
-  ]
-}
+  {
+    "name": "Collection Task Template",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Banner"
+      },
+      {
+        "type": "text",
+        "id": "banner_title",
+        "label": "Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_desktop",
+        "label": "Image on desktop"
+      },
+      {
+        "type": "html",
+        "id": "popular_list",
+        "label": "Popular list",
+        "info" : "Please separated by ','"
+      },
+      {
+        "type": "header",
+        "content": "Collection list"
+      },
+      {
+        "type": "text",
+        "id": "collection_title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "collection_subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "paragraph",
+        "content": "Please use metafields to add item."
+      },
+      {
+        "type": "header",
+        "content": "Icons box"
+      },
+      {
+        "type": "text",
+        "id": "icons_box_title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "icons_box_subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "paragraph",
+        "content": "To add a item, please add block 'Icon item'"
+      },
+      {
+        "type": "header",
+        "content": "Logo list"
+      },
+      {
+        "type": "text",
+        "id": "logo_list_title",
+        "label": "title"
+      },
+      {
+        "type": "text",
+        "id": "logo_list_subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "paragraph",
+        "content": "To add a item, please add block 'Logo item'"
+      }
+    ],
+    "blocks" : [
+      {
+        "type" : "icon_item",
+        "name" : "Icon item",
+        "settings" : [
+          {
+            "type": "html",
+            "id": "icon_svg",
+            "label": "SVG"
+          },
+          {
+            "type": "text",
+            "id": "icon_label",
+            "label": "Label"
+          }
+        ]
+      }
+    ]
+  }
 {% endschema %}

@@ -1,39 +1,41 @@
 <div class="pagination" id="{{id}}">
-  <ul class="d-flex">
-    {%- if paginate.previous -%}
-      <li>
-        <a href="{{paginate.previous.url}}">{% render 'svg' type: 'angle-left' %}</a>
-      </li>
-    {%- else -%}
-      <li class="disabled">
-        <a href="javascript:void(0);">{% render 'svg' type: 'angle-left' %}</a>
-      </li>
-    {%- endif -%}
-
-    {%- for part in paginate.parts -%}
-      {%- if part.is_link -%}
+  {%- if paginate.pages > 1 -%}
+    <ul class="d-flex">
+      {%- if paginate.previous -%}
         <li>
-          <a href="{{ part.url }}">{{part.title}}</a>
+          <a href="{{paginate.previous.url}}">{% render 'svg' type: 'angle-left' %}</a>
         </li>
       {%- else -%}
-        {%- if part.title == paginate.current_page -%}
-          <li class="active">
-            <a href="javascript">{{ part.title }}</a>
+        <li class="disabled">
+          <a href="javascript:void(0);">{% render 'svg' type: 'angle-left' %}</a>
+        </li>
+      {%- endif -%}
+
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <li>
+            <a href="{{ part.url }}">{{part.title}}</a>
           </li>
         {%- else -%}
-          <li>{{ part.title }}</li>
+          {%- if part.title == paginate.current_page -%}
+            <li class="active">
+              <a href="javascript:void(0);">{{ part.title }}</a>
+            </li>
+          {%- else -%}
+            <li>{{ part.title }}</li>
+          {%- endif -%}
         {%- endif -%}
-      {%- endif -%}
-    {%- endfor -%}
+      {%- endfor -%}
 
-    {%- if paginate.next -%}
-      <li>
-        <a href="{{paginate.next.url}}">{% render 'svg' type: 'angle-right' %}</a>
-      </li>
-    {%- else -%}
-      <li class="disabled">
-        <a href="{{paginate.next.url}}">{% render 'svg' type: 'angle-right' %}</a>
-      </li>
-    {%- endif -%}
-  </ul>
+      {%- if paginate.next -%}
+        <li>
+          <a href="{{paginate.next.url}}">{% render 'svg' type: 'angle-right' %}</a>
+        </li>
+      {%- else -%}
+        <li class="disabled">
+          <a href="{{paginate.next.url}}">{% render 'svg' type: 'angle-right' %}</a>
+        </li>
+      {%- endif -%}
+    </ul>
+  {%- endif -%}
 </div>

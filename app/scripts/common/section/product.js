@@ -1,7 +1,7 @@
-let Product = {
+export let Product = {
   onLoad: function () {
     let product = (this.product = JSON.parse(document.getElementById("product_json").innerHTML));
-
+    console.log(product);
     this.initVariants();
     this.container.addEventListener("variantChange", this.updateProduct.bind(this));
   },
@@ -65,5 +65,3 @@ let Variants = (function () {
   };
   return Variants;
 })();
-
-export default Product;

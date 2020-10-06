@@ -121,7 +121,7 @@ async function startAppServer() {
   });
 
   watch(["app/scripts/**/*.js", "!app/scripts/common/**/*.js"]).on("change", scripts);
-  watch(["app/scripts/common/**/*.js"]).on("change", scriptsMutilpe);
+  // watch(["app/scripts/common/**/*.js"]).on("change", scriptsMutilpe);
   watch(".tmp/theme.update").on("change", testReload);
 }
 
@@ -130,8 +130,11 @@ function testReload() {
     server.reload();
   }, 1500);
 }
+let build = parallel(scriptsMutilpe);
 
 let serve;
 
 serve = series(startAppServer);
+
 exports.serve = serve;
+exports.build = build;

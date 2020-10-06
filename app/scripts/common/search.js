@@ -58,46 +58,79 @@ let Search = {
       viewAllBtn.addEventListener("click", () => {
         searchForm.submit();
       });
+
+      let observe = new MutationObserver((records) => {
+        let arrClass = ["is-loading", "no-result", "has-results"];
+
+        for (let i = 0; i < arrClass.length; i++) {
+          if (resultContainer.classList.contains(arrClass[i])) {
+            searchContainer.classList.add("is-typing");
+            break;
+          } else {
+            searchContainer.classList.remove("is-typing");
+          }
+        }
+      });
+      observe.observe(resultContainer, { attributes: true });
     });
   },
   handleResult: (resourcesType, productType, results) => {
+    let newResults = resourcesType.reduce((accu, currentValue) => {
+      if (currentValue === "products") {
+        switch (productType) {
+          case "all":
+            accu = Object.assign(accu, {
+              products: {
+                themes: results.products.filter((item) =>
+                  item.type.match(/(themes|theme|Theme|Themes|THEME|THEMES)/gi)
+                ),
+                apps: results.products.filter((item) => item.type.match(/(app|apps|Apps|App|APP|APPS)/gi)),
+              },
+            });
+            break;
+          case "themes":
+            accu = Object.assign(accu, {
+              products: {
+                themes: results.products.filter((item) =>
+                  item.type.match(/(themes|theme|Theme|Themes|THEME|THEMES)/gi)
+                ),
+              },
+            });
+            break;
+          case "apps":
+            accu = Object.assign(accu, {
+              products: {
+                apps: results.products.filter((item) => item.type.match(/(app|apps|Apps|App|APP|APPS)/gi)),
+              },
+            });
+            break;
+          case "tasks":
+            accu = Object.assign(accu, {
+              products: {
+                tasks: results.products.filter((item) => item.type.match(/(task|tasks|Task|Tasks|TASK|TASKS)/gi)),
+              },
+            });
+            break;
+        }
+      } else {
+        accu[currentValue] = results[currentValue];
+      }
+      return accu;
+    }, {});
+
     let count = resourcesType.reduce((accu, currentValue) => {
-      accu += results[currentValue].length;
+      if (currentValue === "products") {
+        accu += Object.keys(newResults.products).reduce((a, v) => {
+          a += newResults.products[v].length;
+          return a;
+        }, 0);
+      } else {
+        accu += newResults[currentValue].length;
+      }
       return accu;
     }, 0);
 
-    return resourcesType.reduce(
-      (accu, currentValue) => {
-        if (currentValue === "products") {
-          switch (productType) {
-            case "all":
-              accu = Object.assign(accu, {
-                themes: results.products.filter((item) =>
-                  item.type.match(/(themes|theme|Theme|Themes|THEME|THEMES)/gi)
-                ),
-                apps: results.products.filter((item) => item.type.match(/(app|apps|Apps|App|APP|APPS)/gi)),
-              });
-              break;
-            case "themes":
-              accu = Object.assign(accu, {
-                themes: results.products.filter((item) =>
-                  item.type.match(/(themes|theme|Theme|Themes|THEME|THEMES)/gi)
-                ),
-              });
-              break;
-            case "apps":
-              accu = Object.assign(accu, {
-                apps: results.products.filter((item) => item.type.match(/(app|apps|Apps|App|APP|APPS)/gi)),
-              });
-              break;
-          }
-        } else {
-          accu[currentValue] = results[currentValue];
-        }
-        return accu;
-      },
-      { hasResults: !!count }
-    );
+    return { ...newResults, hasResults: !!count };
   },
 };
 

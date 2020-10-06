@@ -24,7 +24,7 @@
                   </a>
                   <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
                 </form>
-                <div class="js-search-result search-result">
+                <div class="js-search-results search-result">
                   <div class="no-result">
                     <div class="title">
                       <span>{{ 'search.no_result.title' | t}} "<span class="keyword"></span>"</span>
@@ -45,12 +45,12 @@
                   </div>
                 </div>
               </div>
-              <script type="application/ld+json" id="search_config_{{collection.id}}">
+              <script type="application/json" id="search_config_{{collection.id}}">
                 {
                   "parameters": {
                     "resources[type]": "product"
                   },
-                  "productType": "themes",
+                  "productType": "apps",
                   "resourcesType" : ["products"]
                 }
               </script>
@@ -63,7 +63,6 @@
                 {%- for popular in popular_list -%}
                   {%- assign popularNew = popular | split: '|' -%}
                   {%- assign text = '1234' | split: '|' -%}
-                  <script>console.log({{popularNew | json}})</script>
                   {%- if popularNew.size == 2 -%}
                     {%- assign url = popularNew[1] -%} 
                   {%- endif -%}

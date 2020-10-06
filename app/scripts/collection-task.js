@@ -1,8 +1,3 @@
-import "lazysizes/plugins/parent-fit/ls.parent-fit";
-import "lazysizes/plugins/respimg/ls.respimg";
-import "lazysizes/plugins/object-fit/ls.object-fit";
-import "lazysizes";
-import "lazysizes/plugins/rias/ls.rias";
 import { register, load } from "@shopify/theme-sections";
 
 import AT from "./common/_arn";
@@ -11,8 +6,9 @@ import Search from "./common/search";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
+Mustache.tags = ["{-", "-}"];
 
-window.addEventListener("DOMContentLoaded", () => {
+(function () {
   register("header", Header);
   register("footer", Footer);
 
@@ -22,4 +18,4 @@ window.addEventListener("DOMContentLoaded", () => {
   AT.initTNS();
   AT.initHandleCollapse();
   AT.initBackToTop();
-});
+})();

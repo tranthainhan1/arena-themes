@@ -57,30 +57,28 @@ var AT = {
     [...document.getElementsByClassName("js-tns")].forEach(function (item) {
       let id = item.getAttribute("data-config");
       let config = JSON.parse(document.getElementById(id).innerHTML);
-      let controlsContainer = item.nextElementSibling;
-      config = Object.assign(config, {
-        container: item,
-        controlsContainer,
-      });
+      config = Object.assign(config, { container: item });
       let tnsSlider = tns(config);
 
-      tnsSlider.events.on("dragMove", (info) => {
-        [...info.slideItems].forEach((item) => {
-          let aTags = item.getElementsByTagName("a");
-          [...aTags].forEach((a) => {
-            a.addEventListener("click", preventDefault);
+      if (config.mouseDrag) {
+        tnsSlider.events.on("dragMove", (info) => {
+          [...info.slideItems].forEach((item) => {
+            let aTags = item.getElementsByTagName("a");
+            [...aTags].forEach((a) => {
+              a.addEventListener("click", preventDefault);
+            });
           });
         });
-      });
 
-      tnsSlider.events.on("dragEnd", (info) => {
-        [...info.slideItems].forEach((item) => {
-          let aTags = item.getElementsByTagName("a");
-          [...aTags].forEach((a) => {
-            a.removeEventListener("click", preventDefault);
+        tnsSlider.events.on("dragEnd", (info) => {
+          [...info.slideItems].forEach((item) => {
+            let aTags = item.getElementsByTagName("a");
+            [...aTags].forEach((a) => {
+              a.removeEventListener("click", preventDefault);
+            });
           });
         });
-      });
+      }
     });
     function preventDefault(e) {
       e.preventDefault();

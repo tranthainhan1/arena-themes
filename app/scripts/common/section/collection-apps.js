@@ -1,4 +1,4 @@
-let CollectionApps = {
+export let CollectionApps = {
   onLoad: function () {
     this.handleSidebar();
   },
@@ -23,4 +23,3 @@ let CollectionApps = {
     });
   },
 };
-export default CollectionApps;

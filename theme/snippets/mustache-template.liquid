@@ -1,52 +1,53 @@
 <script type="text/template" id="search_template">
-  {- #themes.length -}
-    <div class="result-themes">
-      <div class="title">
-        <span>{{ 'general.shopify_themes' | t}}</span>
+  {- #products-}
+    {- #themes.length -}
+      <div class="result-themes">
+        <div class="title">
+          <span>{{ 'general.shopify_themes' | t}}</span>
+        </div>
+        <ul class="list">
+          {- #themes -}
+            <li class="item">
+              <a href="{- url -}">
+                <div class="image">
+                  {- #featured_image -}
+                    <img src="{- url -}" alt="{- alt -}">
+                  {- /featured_image -}
+                </div>
+                <div class="info">
+                  <span>{- title -}</span>
+                </div>
+              </a>
+            </li>
+          {- /themes -}
+        </ul>
       </div>
-      <ul class="list">
-        {- #themes -}
-          <li class="item">
-            <a href="{- url -}">
-              <div class="image">
-                {- #featured_image -}
-                  <img src="{- url -}" alt="{- alt -}">
-                {- /featured_image -}
-              </div>
-              <div class="info">
-                <span>{- title -}</span>
-              </div>
-            </a>
-          </li>
-        {- /themes -}
-      </ul>
-    </div>
-  {- /themes.length -}
+    {- /themes.length -}
 
-  {- #apps.length -}
-    <div class="result-apps">
-      <div class="title">
-        <span>{{ 'general.shopify_apps' | t}}</span>
+    {- #apps.length -}
+      <div class="result-apps">
+        <div class="title">
+          <span>{{ 'general.shopify_apps' | t}}</span>
+        </div>
+        <ul class="list">
+          {- #apps -}
+            <li class="item">
+              <a href="{- url -}">
+                <div class="image">
+                  {- #featured_image -}
+                    <img src="{- url -}" alt="{- title -}">
+                  {- /featured_image -}
+                </div>
+                <div class="info">
+                  <span>{- title -}</span>
+                </div>
+              </a>
+            </li>
+          {- /apps -}
+        </ul>
       </div>
-      <ul class="list">
-        {- #apps -}
-          <li class="item">
-            <a href="{- url -}">
-              <div class="image">
-                {- #featured_image -}
-                  <img src="{- url -}" alt="{- title -}">
-                {- /featured_image -}
-              </div>
-              <div class="info">
-                <span>{- title -}</span>
-              </div>
-            </a>
-          </li>
-        {- /apps -}
-      </ul>
-    </div>
-  {- /apps.length -}
-
+    {- /apps.length -}
+  {- /products-}
   {- #articles.length -}
     <div class="result-article">
       <div class="title">
