@@ -13,6 +13,7 @@ export let CollectionThemes = {
     };
     this.handleSidebar();
     this.initFilter();
+    this.initSortby();
   },
   handleSidebar: function () {
     let { toggleSbButtons, sidebarContainer } = this.elms;
@@ -67,14 +68,14 @@ export let CollectionThemes = {
       fetch(newUrl + `?view=${template}.json`)
         .then((res) => res.json())
         .then((results) => {
-          this.handleFilterResults(results);
+          this.handleResults(results);
           this.handlePagination(results);
         });
     });
 
     observe.observe(filterMasterInput, { attributes: true, attributeOldValue: true });
   },
-  handleFilterResults: function (res) {
+  handleResults: function (res) {
     let { productCardTemplate, productGridContainer } = this.elms;
     productGridContainer.innerHTML = Mustache.render(productCardTemplate, res);
   },

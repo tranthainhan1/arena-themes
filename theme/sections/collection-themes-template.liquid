@@ -80,7 +80,7 @@
     <div class="product__content">
       <div class="row">
 
-        <div class="col-12 col-lg-3 sidebar" id="sb_container">
+        <div class="col-12 col-lg-4 col-xl-3 sidebar" id="sb_container">
           <div class="d-lg-none sidebar_header">
             <div class="title">
               <span>{{ 'collections.themes.filter' | t}}</span>
@@ -90,9 +90,16 @@
             </div>
             <div class="sort-by">
               <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
-              <select name="sort_by" id="sort_by">
-                <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
-              </select>
+              <select id="sort_by" class="select-sort">
+                <option value="manual">Featured</option>
+                <option value="price-ascending">Price: Low to High</option>
+                <option value="price-descending">Price: High to Low</option>
+                <option value="title-ascending">A-Z</option>
+                <option value="title-descending">Z-A</option>
+                <option value="created-ascending">Oldest to Newest</option>
+                <option value="created-descending">Newest to Oldest</option>
+                <option value="best-selling">Best Selling</option>
+              </select> 
               {% render 'svg' type: 'angle-down' %}
             </div>
           </div>
@@ -181,7 +188,7 @@
             <input type="hidden" id="sb_filter" data-filter='{{filterArr | split: "," | json}}' data-template="themes">
           </div>
         </div>
-        <div class="col-12 col-lg-9 product-grid">
+        <div class="col-12 col-lg-8 col-xl-9 product-grid">
           {% paginate collection.products by 15 %}
             <div class="toolbar">
               <div class="toolbar_right">
