@@ -18,7 +18,12 @@
       "title": "No results for",
       "subtitle": "Sorry, we couldn’t find any matches."
     },
-    "view_all": "View All Results"
+    "all_results": "View All Results",
+    "title": "Results for \"{{ terms }}\" ({{ results_count }})",
+    "themes": "THEMES",
+    "apps": "APPS",
+    "posts": "POSTS",
+    "view_all": "View All"
   },
   "products": {
     "product": {

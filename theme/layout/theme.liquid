@@ -75,6 +75,12 @@
           Loader.require('collection-task', 'scripts')
         {%- when 'product.theme' -%}
           Loader.require('product-theme', 'scripts')
+        {%- when 'page.help_center' -%}
+          Loader.require('help-center', 'scripts')
+        {%- when 'page.about' -%}
+          Loader.require('help-center', 'scripts')
+        {%- when 'page.contact' -%}
+          Loader.require('contact-us', 'scripts')
       {%- endcase -%}
     </script>
     <div class="boxed-wapper">

@@ -71,7 +71,7 @@
                     <div class="wrapper">
                     </div>
                     <div class="results__btn">
-                      <button class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</button>
+                      <button class="btn btn-2 btn-view-all">{{ 'search.all_results' | t}}</button>
                     </div>
                   </div>
                   <div class="is-loading">
@@ -157,14 +157,6 @@
         <div class ="icons-cart__list">
           <div class="js-tns" data-config='tns-config-{{collection.id}}'>
             {{icon_list}}
-          </div>
-          <div class="js-tns-controls section-{{section.id}} d-none">
-            <div class="btn-prev">
-              {% render 'svg', type: 'angle-left'  %}
-            </div>
-            <div class="btn-next">
-              {% render 'svg', type: 'angle-right'  %}
-            </div>
           </div>
           <script type="application/ld+json" id="tns-config-{{collection.id}}">
             {

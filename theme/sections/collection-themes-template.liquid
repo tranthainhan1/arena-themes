@@ -2,6 +2,7 @@
   assign banner_title = section.settings.banner_title 
   assign popular_list = section.settings.popular_list | strip | split: ','
   assign banner_image = section.settings.banner_image 
+  assign sort_by = collection.sort_by | default: collection.default_sort_by 
 %}
 <div class="collection collection-{{collection.handle}}" data-section-id="{{section.id}}" data-section-type="collection-themes">
   <div class="container">
@@ -36,7 +37,7 @@
                     <div class="wrapper">
                     </div>
                     <div class="results__btn">
-                      <button class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</button>
+                      <button class="btn btn-2 btn-view-all">{{ 'search.all_results' | t}}</button>
                     </div>
                   </div>
                   <div class="is-loading">
@@ -89,16 +90,16 @@
               </a>
             </div>
             <div class="sort-by">
-              <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
-              <select id="sort_by" class="select-sort">
-                <option value="manual">Featured</option>
-                <option value="price-ascending">Price: Low to High</option>
-                <option value="price-descending">Price: High to Low</option>
-                <option value="title-ascending">A-Z</option>
-                <option value="title-descending">Z-A</option>
-                <option value="created-ascending">Oldest to Newest</option>
-                <option value="created-descending">Newest to Oldest</option>
-                <option value="best-selling">Best Selling</option>
+              <label for="sort_by_desktop">{{ 'collections.themes.sort_by' | t}}</label>
+              <select id="sort_by_desktop" class="select-sort">
+                <option value="manual" {% if sort_by == "manual" %}selected{%- endif -%}>Featured</option>
+                  <option value="best-selling" {% if sort_by == "best-selling" %}selected{%- endif -%}>Best Selling</option>
+                  <option value="title-ascending" {% if sort_by == "title-ascending" %}selected{%- endif -%}>A-Z</option>
+                  <option value="title-descending" {% if sort_by == "title-descending" %}selected{%- endif -%}>Z-A</option>
+                  <option value="price-ascending" {% if sort_by == "price-ascending" %}selected{%- endif -%}>Price: Low to High</option>
+                  <option value="price-descending" {% if sort_by == "price-descending" %}selected{%- endif -%}>Price: High to Low</option>
+                  <option value="created-ascending" {% if sort_by == "created-ascending" %}selected{%- endif -%}>Oldest to Newest</option>
+                  <option value="created-descending" {% if sort_by == "created-descending" %}selected{%- endif -%}>Newest to Oldest</option>
               </select> 
               {% render 'svg' type: 'angle-down' %}
             </div>
@@ -208,10 +209,17 @@
                 </div>
 
                 <div class="d-none d-lg-flex sort-by">
-                  <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
-                  <select name="sort_by" id="sort_by">
-                    <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
-                  </select>
+                  <label for="sort_by_mobile">{{ 'collections.themes.sort_by' | t}}</label>
+                  <select id="sort_by_mobile" class="select-sort">
+                    <option value="manual" {% if sort_by == "manual" %}selected{%- endif -%}>Featured</option>
+                    <option value="best-selling" {% if sort_by == "best-selling" %}selected{%- endif -%}>Best Selling</option>
+                    <option value="title-ascending" {% if sort_by == "title-ascending" %}selected{%- endif -%}>A-Z</option>
+                    <option value="title-descending" {% if sort_by == "title-descending" %}selected{%- endif -%}>Z-A</option>
+                    <option value="price-ascending" {% if sort_by == "price-ascending" %}selected{%- endif -%}>Price: Low to High</option>
+                    <option value="price-descending" {% if sort_by == "price-descending" %}selected{%- endif -%}>Price: High to Low</option>
+                    <option value="created-ascending" {% if sort_by == "created-ascending" %}selected{%- endif -%}>Oldest to Newest</option>
+                    <option value="created-descending" {% if sort_by == "created-descending" %}selected{%- endif -%}>Newest to Oldest</option>
+                  </select> 
                   {% render 'svg' type: 'angle-down' %}
                 </div>
                 <div class="d-lg-none">
@@ -351,6 +359,14 @@
     </ul>
   </div>
 {- /themes.length -}
+</script>
+
+<script type="application/json" id="page_info">
+  {
+    "sortBy" : "{{sort_by}}",
+    "page" : "collection",
+    "template" : "{{template.suffix}}"
+  }
 </script>
 {% schema %}
   {

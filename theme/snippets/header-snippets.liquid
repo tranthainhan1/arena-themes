@@ -7,8 +7,9 @@
         </a>
         <div class="search-group">
           <form method="get" action="/search" class="search-form">
-            <input type="hidden" name="type" value="product,article,page">
+            <input type="hidden" name="type" value="product,article">
             <input type="hidden" name="options[prefix]" value="last">
+            <input type="hidden" name="options[unavailable_products]" value="show">
             {% render 'svg' , type: 'search' %}
             <a href="javascript:void(0)" class="js-close-search close-search" data-toggle="search-show">
               {% render 'svg' , type: 'close' %}
@@ -28,7 +29,7 @@
               <div class="wrapper">
               </div>
               <div class="results__btn">
-                <button class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</button>
+                <button class="btn btn-2 btn-view-all">{{ 'search.all_results' | t}}</button>
               </div>
             </div>
             <div class="is-loading">

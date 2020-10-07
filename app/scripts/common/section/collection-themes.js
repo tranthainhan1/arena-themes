@@ -10,7 +10,13 @@ export let CollectionThemes = {
       pagination: document.getElementById("collection_pagination"),
       productCardTemplate: document.getElementById("product_cart_template").innerHTML,
       paginationTemplate: document.getElementById("pagination_template").innerHTML,
+      sortBySelects: container.getElementsByClassName("select-sort"),
     };
+
+    this.config = Object.assign(JSON.parse(document.getElementById("page_info").innerHTML), {
+      URL: new URL(window.location.href),
+    });
+    console.log("Page Info: ", this.config);
     this.handleSidebar();
     this.initFilter();
     this.initSortby();
@@ -25,7 +31,8 @@ export let CollectionThemes = {
     });
   },
   initFilter: function () {
-    let { filterMasterInput, filterItemInputs } = this.elms;
+    let { filterMasterInput, filterItemInputs, sortBySelects } = this.elms;
+    let { sortBy, URL } = this.config;
 
     [...filterItemInputs].forEach((input) => {
       input.addEventListener("change", (e) => {
@@ -46,8 +53,9 @@ export let CollectionThemes = {
       let target = records[0].target;
       let oldAttribute = JSON.parse(records[0].oldValue);
       let filterData = JSON.parse(target.getAttribute("data-filter"));
-      let template = target.getAttribute("data-template");
-      let rootUrl = window.location.href.replace(window.location.search, "");
+      let rootUrl = URL.href.replace(URL.search, "");
+      let sortValue = sortBySelects[0].value;
+
       let newUrl = rootUrl.split("/").filter((item, index) => {
         if (index > 1 && !item) {
           return false;
@@ -64,13 +72,16 @@ export let CollectionThemes = {
         newUrl = newUrl.join("/");
       }
 
-      window.history.replaceState({ path: newUrl }, "", newUrl);
-      fetch(newUrl + `?view=${template}.json`)
-        .then((res) => res.json())
-        .then((results) => {
-          this.handleResults(results);
-          this.handlePagination(results);
-        });
+      URL.href = newUrl;
+
+      if (sortValue !== sortBy) {
+        URL.searchParams.set("sort_by", sortValue);
+      }
+
+      window.history.replaceState({ path: URL.href }, "", URL.href);
+      URL.searchParams.set("view", "themes.json");
+
+      this.fetch(URL);
     });
 
     observe.observe(filterMasterInput, { attributes: true, attributeOldValue: true });
@@ -82,5 +93,34 @@ export let CollectionThemes = {
   handlePagination: function (res) {
     let { pagination, paginationTemplate } = this.elms;
     pagination.innerHTML = Mustache.render(paginationTemplate, res);
+  },
+  initSortby: function () {
+    let { sortBySelects } = this.elms;
+    let { URL } = this.config;
+
+    [...sortBySelects].forEach((select) => {
+      select.addEventListener("change", (e) => {
+        let value = e.target.value;
+
+        [...sortBySelects].forEach((select) => (select.value = value));
+
+        URL.searchParams.set("sort_by", value);
+        URL.searchParams.set("view", "themes.json");
+
+        this.fetch(URL);
+
+        URL.searchParams.delete("view");
+
+        window.history.replaceState({ path: URL.href }, "", URL.href);
+      });
+    });
+  },
+  fetch: function (URL) {
+    fetch(URL)
+      .then((res) => res.json())
+      .then((results) => {
+        this.handleResults(results);
+        this.handlePagination(results);
+      });
   },
 };

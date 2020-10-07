@@ -13,7 +13,6 @@ let Search = {
       let searchForm = searchContainer.getElementsByClassName("search-form")[0];
       let viewAllBtn = searchContainer.getElementsByClassName("btn-view-all")[0];
       let configId = searchContainer.getAttribute("data-config");
-
       let config = JSON.parse(document.getElementById(configId).innerHTML);
       let { parameters, productType, resourcesType } = config;
 
@@ -35,9 +34,10 @@ let Search = {
             .then((res) => res.json())
             .then((res) => {
               let newResults = Search.handleResult(resourcesType, productType, res.resources.results);
-              console.log(newResults);
+
               if (newResults.hasResults) {
                 let renderResults = Mustache.render(template, newResults);
+
                 resultContainer.querySelector(".results .wrapper").innerHTML = renderResults;
                 resultContainer.classList.remove("is-loading");
                 resultContainer.classList.add("has-results");
@@ -51,6 +51,7 @@ let Search = {
 
       closeBtn.addEventListener("click", function (e) {
         let toggleClass = this.getAttribute("data-toggle");
+
         searchContainer.classList.remove(toggleClass);
         resultContainer.classList.remove("is-loading", "no-result", "has-results");
       });

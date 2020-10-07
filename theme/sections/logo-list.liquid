@@ -40,20 +40,12 @@
               </div>
             {%- endfor -%}
           </div>
-          <div class="js-tns-controls section-{{section.id}} d-none">
-            <div class="btn-prev">
-              {% render 'svg', type: 'angle-left'  %}
-            </div>
-            <div class="btn-next">
-              {% render 'svg', type: 'angle-right'  %}
-            </div>
-          </div>
           <script type="application/ld+json" id="tns_config_{{section.id}}">
             {
               "loop": false,
               "nav": false,
               "preventActionWhenRunning": true,
-              
+              "controls" : false,
               "slideBy": 1,
               "responsive": {
                 "1": {

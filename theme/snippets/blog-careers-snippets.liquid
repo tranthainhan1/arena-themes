@@ -102,7 +102,7 @@
             </div>
           </div>
           <div class ="icons-cart__list">
-            <div class ="js-tns" data-config='{"loop":false,"nav":false,"preventActionWhenRunning":true,"preventScrollOnTouch":"auto","slideBy":1,"responsive":{"1":{"items":1.5,"gutter":25},"479":{"items":2},"576":{"items":2.5},"768":{"items":3},"992":{"items":3.5,"gutter":30},"1052":{"items":4},"1440":{"disable":true}}}'>
+            <div class ="js-tns" data-config='tns_config_{{blog.id}}'>
               {%- for i in (1..6) -%}
                 {% liquid 
                   assign block_url = 'block_url_' | append: i
@@ -127,14 +127,42 @@
                 </div>
               {%- endfor -%}
             </div>
-            <div class="js-tns-controls section-{{section.id}} d-none">
-              <div class="btn-prev">
-                {% render 'svg', type: 'angle-left'  %}
-              </div>
-              <div class="btn-next">
-                {% render 'svg', type: 'angle-right'  %}
-              </div>
-            </div>
+            <script type="application/json" id="tns_config_{{blog.id}}">
+            {
+              "loop": false,
+              "nav": false,
+              "preventActionWhenRunning": true,
+              "mouseDrag" : true,
+              "swipeAngle" : false,
+              "controls" : false,
+              "slideBy": 1,
+              "responsive": {
+                "1": {
+                  "items": 1.5,
+                  "gutter": 25
+                },
+                "479": {
+                  "items": 2
+                },
+                "576": {
+                  "items": 2.5
+                },
+                "768": {
+                  "items": 3
+                },
+                "992": {
+                  "items": 3.5,
+                  "gutter": 30
+                },
+                "1052": {
+                  "items": 4
+                },
+                "1440": {
+                  "disable": true
+                }
+              }
+            }
+            </script>
           </div>
           {%- if btn_title != blank -%}
             <div class="icons-cart__button">

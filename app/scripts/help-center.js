@@ -1,18 +1,20 @@
 import { register, load } from "@shopify/theme-sections";
 
 import AT from "./common/_arn";
-import Header from "./common/section/header";
-import Footer from "./common/section/footer";
+import { Header, Footer } from "./common/section";
+import Search from "./common/search";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 
-window.addEventListener("DOMContentLoaded", () => {
+(function () {
+  Mustache.tags = ["{-", "-}"];
+
   register("header", Header);
   register("footer", Footer);
 
   load("*");
-
+  Search.init();
   AT.initHandleCollapse();
   AT.initBackToTop();
-});
+})();
