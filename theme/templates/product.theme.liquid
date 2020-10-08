@@ -5,6 +5,16 @@
     assign collection = product.collections.first
   endunless
 %}
+{%- liquid
+  assign productSelect     = product.selected_or_first_available_variant
+  assign compare_price     = productSelect.compare_at_price
+  assign price             = productSelect.price
+  if productSelect.available and compare_price > price
+    assign showComparePrice = true
+  else
+    assign showComparePrice = false
+  endif
+-%}
 <div class="product product-page" data-section-id="product" data-section-type="product-theme">
   <div class="container">
     <div class="product__wrapper">
@@ -17,8 +27,13 @@
             <div class="title">
               <h2>{{product.title}}</h2>
             </div>
-            <div class="price">
-              <span>{{product.price | money}}</span>
+            <div class="product-price">
+              <div class="price price-sale">
+                <span>{{price | money}}</span>
+              </div>
+              <div class="price price-compare">
+                <span>{{compare_price | money}}</span>
+              </div>
             </div>
             <div class="description">
               {{product.description}}
@@ -65,7 +80,7 @@
             </div>
           </div>
           <div class="product-image">
-            <div class="js-tns image-list" data-config="images_config">
+            <div class="js-tns-images image-list" data-config="images_config">
               {%- for image in product.images -%}
                 <div class="image-item">
                   {% render 'image-style' image: image %}
@@ -76,7 +91,6 @@
               {
                 "loop": false,
                 "nav": false,
-                "mouseDrag" : false,
                 "swipeAngle" : false,
                 "preventActionWhenRunning": true,
                 "slideBy": 1,
@@ -364,7 +378,7 @@
               "priceValidUntil": "{{ 'now' | date: '%s' | plus: 31536000 | date: '%Y-%m-%d' | uri_encode | replace:'+','%20' }}"
           }
           {%- if fa_count < fa_variant_count -%}
-         	{%- unless forloop.last -%},{%- endunless -%}
+           {%- unless forloop.last -%},{%- endunless -%}
           {%- endif -%}
           {%- endif -%}
       {%- endfor -%}

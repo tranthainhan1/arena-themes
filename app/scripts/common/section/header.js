@@ -1,22 +1,30 @@
+import AT from "../_arn";
+
 export let Header = {
   onLoad: function () {
     let $container = this.container;
-    this.elements = {
+    this.elms = {
       btnMenu: $container.querySelector(".js-handle-nav-mobile"),
       menuMobileContainer: $container.querySelector(".js-nav-mobile"),
       elmTriggerCollapse: $container.querySelectorAll(".js-trigger-collapse"),
       overlayMenuMobile: $container.querySelector(".header .overlay-menu-mobile"),
       headerDesktop: $container.getElementsByClassName("header-desktop")[0],
       openSearch: $container.getElementsByClassName("js-open-search")[0],
+      totalItemCart: document.getElementById("total_item_of_cart"),
     };
 
     this.handleMenuMobile();
     this.toggleSearch();
+    AT.registerEvents("cartChange", this.elms.totalItemCart);
+
+    this.elms.totalItemCart.addEventListener("cartChange", function ({ detail: cart }) {
+      this.innerHTML = cart.item_count;
+    });
   },
   handleMenuMobile: function () {
     let first = true,
       isComplete = false,
-      { btnMenu, overlayMenuMobile, menuMobileContainer } = this.elements;
+      { btnMenu, overlayMenuMobile, menuMobileContainer } = this.elms;
     btnMenu.addEventListener("click", (e) => {
       if (first || isComplete) {
         first = false;
@@ -44,7 +52,7 @@ export let Header = {
     });
   },
   toggleSearch: function () {
-    let { openSearch } = this.elements;
+    let { openSearch } = this.elms;
 
     openSearch.addEventListener("click", (e) => {
       let desktopSearch = this.container.getElementsByClassName("search")[0];

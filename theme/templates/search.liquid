@@ -38,6 +38,7 @@
 
 </div> {% endcomment %}
 
+<div class="page page-search-results">
 
 {%- capture themes_content -%}{%- endcapture -%} 
 {%- capture apps_content -%}{%- endcapture-%}
@@ -52,72 +53,80 @@
 {% paginate search.results by limit %}
 
   {%- for item in search.results -%}
-    {%- if item.author != blank -%}
-      {%- capture content -%}
-        <div class="col-12 col-lg-5th">
-          <div class="article">
-            <div class="image">
-              <a href="{{item.url}}">
-                {% render 'image-style' image: item.image, imagePadding: "55%" %}
-              </a>
-            </div>
-            <div class="article-info">
-              <div class="post-day">
-                <span>{{item.published_at | date: '%b %d, %Y'}}</span>
-              </div>
-              <div class="title">
-                <a href="{{item.url}}">
-                  <span>{{item.title}}</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      {%- endcapture -%}
-      {%- assign posts_count = posts_count | plus: 1 -%}
 
-      {%- if posts_count <= 10 -%}
-        {%- assign posts_content = posts_content | append: content -%}
-      {%- endif -%}
-      {%- continue -%}
-    {%- endif -%}
-
-    {%- assign type = item.type -%}
-
-    {%- if type contains 'theme' or type contains 'themes' or type contains 'Theme' or type contains 'Themes' or type contains 'THEME' or type contains 'THEMES'-%}
-      {%- assign product_type = 'themes' -%}
-    {%- endif -%}
-
-    {%- if type contains 'app' or type contains 'apps' or type contains 'App' or type contains 'Apps' or type contains 'APP' or type contains 'APPS'-%}
-      {%- assign product_type = 'apps' -%}
-    {%- endif -%}
-    {%- case product_type -%}
-      {%- when 'themes' -%}
+    {%- case item.object_type -%}
+      {%- when 'article' -%}
         {%- capture content -%}
           <div class="col-12 col-lg-5th">
-            {% render 'card-template' type: 'product', product: item %}
+            <div class="article">
+              <div class="image">
+                <a href="{{item.url}}">
+                  {% render 'image-style' image: item.image, imagePadding: "55%" %}
+                </a>
+              </div>
+              <div class="article-info">
+                <div class="post-day">
+                  <span>{{item.published_at | date: '%b %d, %Y'}}</span>
+                </div>
+                <div class="title">
+                  <a href="{{item.url}}">
+                    <span>{{item.title}}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         {%- endcapture -%}
-        {%- assign themes_count = themes_count | plus: 1 -%}
-        {%- if themes_count <= 10 -%}
-          {%- assign themes_content = themes_content | append: content -%}
+        {%- assign posts_count = posts_count | plus: 1 -%}
+
+        {%- if posts_count <= 10 -%}
+          {%- assign posts_content = posts_content | append: content -%}
         {%- endif -%}
-      {%- when 'apps' -%}
-        {%- capture content -%}
-          .col-lg-5th       
-          {% render 'card-template' type: 'app', product: item %}
-        {%- endcapture -%}
-        {%- assign apps_count = apps_count | plus: 1 -%}
-        {%- if apps_count <= 10 -%}
-          {%- assign apps_content = apps_content | append: content -%}
+      {% comment %} end {% endcomment %}
+      {%- when 'product' -%}
+        {%- assign type = item.type -%}
+        {%- if type contains 'theme' or type contains 'themes' or type contains 'Theme' or type contains 'Themes' or type contains 'THEME' or type contains 'THEMES'-%}
+          {%- assign product_type = 'themes' -%}
         {%- endif -%}
+
+        {%- if type contains 'app' or type contains 'apps' or type contains 'App' or type contains 'Apps' or type contains 'APP' or type contains 'APPS'-%}
+          {%- assign product_type = 'apps' -%}
+        {%- endif -%}
+        {%- case product_type -%}
+          {%- when 'themes' -%}
+            {%- capture content -%}
+              <div class="col-12 col-lg-5th">
+                {% render 'card-template' type: 'product', product: item %}
+              </div>
+            {%- endcapture -%}
+            {%- assign themes_count = themes_count | plus: 1 -%}
+            {%- if themes_count <= 10 -%}
+              {%- assign themes_content = themes_content | append: content -%}
+            {%- endif -%}
+            {%- assign product_type = '' -%}
+          {% comment %} end {% endcomment %}
+          {%- when 'apps' -%}
+            {%- capture content -%}
+              <div class="col-12 col-md-6 col-lg-5th">
+                {% render 'card-template' type: 'app', product: item %}
+              </div>
+            {%- endcapture -%}
+            {%- assign apps_count = apps_count | plus: 1 -%}
+            {%- if apps_count <= 10 -%}
+              {%- assign apps_content = apps_content | append: content -%}
+            {%- endif -%}
+            {%- assign product_type = '' -%}
+          {% comment %} end {% endcomment %}
+        {%- endcase -%}
+
     {%- endcase -%}
+
+
   {%- endfor -%}
 
 {% endpaginate %}
-
-<div class="page page-search-results">
   <div class="container">
+
     <div class="page__wrapper">
       <div class="page-block">
         <div class="page-title">

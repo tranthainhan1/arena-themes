@@ -18,6 +18,7 @@ lazySizesConfig.loadMode = 1;
 
   Search.init();
   AT.initTNS();
+  AT.addToCart();
   AT.initHandleCollapse();
   AT.initBackToTop();
 })();

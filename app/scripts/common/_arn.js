@@ -1,5 +1,5 @@
 import { tns } from "tiny-slider/src/tiny-slider";
-import serialize from "form-serialize";
+// import serialize from "form-serialize";
 import { removeItem } from "@shopify/theme-cart";
 import * as Currency from "@shopify/theme-currency";
 
@@ -122,17 +122,16 @@ var AT = {
         fetch("/cart/add.js", {
           method: "post",
           headers: new Headers(),
-          body: new URLSearchParams(serialize(form)),
-        }).then((res) => {
-          fetch("/cart.js", {
-            method: "get",
-            headers: new Headers(),
+          body: {},
+        })
+          .then((res) => {
+            fetch("/cart.js")
+              .then((res) => res.json())
+              .then((cart) => {
+                AT.dispatchEvent("cartChange", cart);
+              });
           })
-            .then((res) => res.json())
-            .then((res) => {
-              AT.onCartChange(res);
-            });
-        });
+          .catch((err) => console.log(err.message));
       });
     });
   },
@@ -176,8 +175,55 @@ var AT = {
       });
     });
   },
-  initSearch: function () {
-    let searchContainer = document.getElementsByClassName("js-search");
+  registerEvents: function (eventName, container) {
+    if (typeof container !== "undefined") {
+      this.eventContainers[eventName] = this.eventContainers[eventName] || [];
+      this.eventContainers[eventName] = [...this.eventContainers[eventName], container];
+    } else {
+      console.error("container is not defined");
+    }
+  },
+  eventContainers: {},
+  dispatchEvent: function (eventName, data) {
+    let containers = AT.eventContainers[eventName];
+    containers.forEach((container) => {
+      !!container && container.dispatchEvent(new CustomEvent(eventName, { detail: data }));
+    });
+  },
+  serialize: function (form) {
+    // Setup our serialized data
+    var serialized = [];
+
+    // Loop through each field in the form
+    for (var i = 0; i < form.elements.length; i++) {
+      var field = form.elements[i];
+
+      // Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
+      if (
+        !field.name ||
+        field.disabled ||
+        field.type === "file" ||
+        field.type === "reset" ||
+        field.type === "submit" ||
+        field.type === "button"
+      )
+        continue;
+
+      // If a multi-select, get all selections
+      if (field.type === "select-multiple") {
+        for (var n = 0; n < field.options.length; n++) {
+          if (!field.options[n].selected) continue;
+          serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.options[n].value));
+        }
+      }
+
+      // Convert field data to a query string
+      else if ((field.type !== "checkbox" && field.type !== "radio") || field.checked) {
+        serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value));
+      }
+    }
+
+    return serialized.join("&");
   },
 };
 

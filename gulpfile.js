@@ -19,19 +19,19 @@ const path = require("path");
 
 /**==============================================================================  SCRIPT FUNCTION */
 async function scripts(filePath) {
-  // const MinifyPlugin = require("babel-minify-webpack-plugin");
+  const MinifyPlugin = require("babel-minify-webpack-plugin");
   const webpack = require("webpack");
   let fileName = path.basename(filePath);
 
   let _plugins = [];
 
-  // if (minify === true) {
+  // if (true) {
   //   _plugins.push(
   //     new MinifyPlugin(
   //       {},
   //       {
   //         comments: false,
-  //         test: /\.(js)\.liquid$/,
+  //         test: /\.(js)$/,
   //         exclude: /(node_modules)/,
   //       }
   //     )
