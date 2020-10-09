@@ -1,71 +1,73 @@
+
+{% raw %}
 <script type="text/template" id="search_template">
-  {- #products-}
-    {- #themes.length -}
+  {{ #products}}
+    {{ #themes.length }}
       <div class="result-themes">
         <div class="title">
-          <span>{{ 'general.shopify_themes' | t}}</span>
+          <span>{{ themes_title }}</span>
         </div>
         <ul class="list">
-          {- #themes -}
+          {{ #themes }}
             <li class="item">
-              <a href="{- url -}">
+              <a href="{{ url }}">
                 <div class="image">
-                  {- #featured_image -}
-                    <img src="{- url -}" alt="{- alt -}">
-                  {- /featured_image -}
+                  {{ #featured_image }}
+                    <img src="{{ url }}" alt="{{ alt }}">
+                  {{ /featured_image }}
                 </div>
                 <div class="info">
-                  <span>{- title -}</span>
+                  <span>{{ title }}</span>
                 </div>
               </a>
             </li>
-          {- /themes -}
+          {{ /themes }}
         </ul>
       </div>
-    {- /themes.length -}
+    {{ /themes.length }}
 
-    {- #apps.length -}
+    {{ #apps.length }}
       <div class="result-apps">
         <div class="title">
-          <span>{{ 'general.shopify_apps' | t}}</span>
+          <span>{{ apps_title }}</span>
         </div>
         <ul class="list">
-          {- #apps -}
+          {{ #apps }}
             <li class="item">
-              <a href="{- url -}">
+              <a href="{{ url }}">
                 <div class="image">
-                  {- #featured_image -}
-                    <img src="{- url -}" alt="{- title -}">
-                  {- /featured_image -}
+                  {{ #featured_image }}
+                    <img src="{{ url }}" alt="{{ title }}">
+                  {{ /featured_image }}
                 </div>
                 <div class="info">
-                  <span>{- title -}</span>
+                  <span>{{ title }}</span>
                 </div>
               </a>
             </li>
-          {- /apps -}
+          {{ /apps }}
         </ul>
       </div>
-    {- /apps.length -}
-  {- /products-}
-  {- #articles.length -}
+    {{ /apps.length }}
+  {{ /products}}
+  {{ #articles.length }}
     <div class="result-article">
       <div class="title">
-        <span>{{ 'general.popular_articles' | t}}</span>
+        <span>{{ article_title }}</span>
       </div>
       <ul class="list">
-        {- #articles -}
+        {{ #articles }}
           <li class="item">
-            <a href="{- url -}">
+            <a href="{{ url }}">
               <div class="info">
-                <span class="name">{- title -}</span>
-                <span class="published-at">{- published_at -}</span>
+                <span class="name">{{ title }}</span>
+                <span class="published-at">{{ published_at }}</span>
               </div>
             </a>
           </li>
-        {- /articles -}
+        {{ /articles }}
       </ul>
     </div>
-  {- /articles.length -}
+  {{ /articles.length }}
 </script>
-
+{% endraw %}

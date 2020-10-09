@@ -18,8 +18,7 @@
         </div>
         <div class="card-body__variants">
           <div class="card-body__variants-label">
-            <span>{{product.metafields.c_f.total_variant | default: 0}}</span>
-            <span>{{ 'general.card.product.label_variants' | t }}</span>
+            <span>{{ 'card.themes.total_variant' | t: total: product.variants.size }}</span>
           </div>
           <div class="card-body__variants-link">
             <a href="{{product.url | within: collection}}">

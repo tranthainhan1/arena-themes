@@ -131,7 +131,13 @@ let Search = {
       return accu;
     }, 0);
 
-    return { ...newResults, hasResults: !!count };
+    return {
+      ...newResults,
+      hasResults: !!count,
+      themes_title: theme.themes_title,
+      apps_title: theme.apps_title,
+      article_title: theme.popular_articles,
+    };
   },
 };
 
