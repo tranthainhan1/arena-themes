@@ -1,3 +1,7 @@
+{% liquid 
+  assign sort_by = collection.sort_by | default: collection.default_sort_by 
+%}
+
 <div class="collection collection-sub-task" data-section-id="{{section.id}}" data-section-type="collection-sub-task">
   <div class="container">
     <div class="d-none d-lg-block">
@@ -14,7 +18,7 @@
             <span>{{collection.description}}</span>
           </div>
         </div>
-        <div class="row related-collection__list">
+        <div class="js-tns related-collection__list" data-config="tns_config_{{collection.id}}">
           {% liquid 
             assign collection_parent =  collection.metafields.c_f.collection_parent
             if collection_parent != blank
@@ -25,7 +29,7 @@
           %}
           
           {%- for handle in realted_collection -%}
-            <div class="col-6 col-md-4 col-lg-4 col-xl-2 d-flex related-collection__item">
+            <div class="related-collection__item">
               <a href="{{collections[handle].url}}">
                 {{collections[handle].metafields.c_f.collection_svg}}
                 <span>{{collections[handle].title}}</span>
@@ -34,6 +38,41 @@
           {%- endfor -%}
         </div>
       </div>
+      <script type="application/json" id="tns_config_{{collection.id}}">
+        {
+          "loop": false,
+          "nav": false,
+          "mouseDrag" : true,
+          "swipeAngle" : false,
+          "preventActionWhenRunning": true,
+          "controls" : false,
+          "slideBy": 1,
+          "controls" : false,
+          "responsive": {
+            "1": {
+              "items": 1.7,
+              "gutter": 25
+            },
+            "479": {
+              "items": 2.5
+            },
+            "768": {
+              "items": 3
+            },
+            "992": {
+              "items": 3.5,
+              "gutter": 35
+            },
+            "1052": {
+              "items": 4,
+              "gutter": 30
+            },
+            "1440": {
+              "items": 5
+            }
+          }
+        }
+      </script>
     </div>
     <div class="collection__wrapper">
       <div class="row">
@@ -46,10 +85,17 @@
               </a> 
             </div>
             <div class="sort-by">
-              <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
-              <select name="sort_by" id="sort_by">
-                <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
-              </select>
+              <label for="sort_by_desktop">{{ 'collections.themes.sort_by' | t}}</label>
+              <select id="sort_by_desktop" class="select-sort">
+                <option value="manual" {% if sort_by == "manual" %}selected{%- endif -%}>Featured</option>
+                <option value="best-selling" {% if sort_by == "best-selling" %}selected{%- endif -%}>Best Selling</option>
+                <option value="title-ascending" {% if sort_by == "title-ascending" %}selected{%- endif -%}>A-Z</option>
+                <option value="title-descending" {% if sort_by == "title-descending" %}selected{%- endif -%}>Z-A</option>
+                <option value="price-ascending" {% if sort_by == "price-ascending" %}selected{%- endif -%}>Price: Low to High</option>
+                <option value="price-descending" {% if sort_by == "price-descending" %}selected{%- endif -%}>Price: High to Low</option>
+                <option value="created-ascending" {% if sort_by == "created-ascending" %}selected{%- endif -%}>Oldest to Newest</option>
+                <option value="created-descending" {% if sort_by == "created-descending" %}selected{%- endif -%}>Newest to Oldest</option>
+              </select> 
               {% render 'svg' type: 'angle-down' %}
             </div>
           </div>
@@ -166,7 +212,6 @@
           </div>
           <div class="product-grid__wrapper">
             {% paginate collection.products by 10 %} 
-            <script>console.log({{collection.products | json}})</script>
               <div class="row">
                   {%- for product in collection.products -%}
                     <div class="col-12">

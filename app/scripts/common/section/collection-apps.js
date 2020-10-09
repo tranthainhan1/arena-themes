@@ -1,25 +1,28 @@
 export let CollectionApps = {
   onLoad: function () {
-    this.handleSidebar();
+    this.elms = {
+      sortByDesktop: document.getElementById("sort_by_desktop"),
+      productGridContainer: document.getElementById("product_grid"),
+      productCardTemplate: document.getElementById("product_cart_template").innerHTML,
+    };
+    this.initSortBy();
   },
-  handleSidebar: function () {
-    let btnOpen = document.getElementById("js-open-sidebar");
-    let btnClose = document.getElementsByClassName("js-close-sidebar");
+  initSortBy: function () {
+    let { sortByDesktop } = this.elms;
 
-    let sidebarContainer = document.getElementById("js-sidebar-container");
+    sortByDesktop.addEventListener("change", (e) => {
+      let value = e.target.value;
+      let Url = new URL(window.location.href);
+      Url.searchParams.set("sort_by", value);
+      Url.searchParams.set("view", "apps.json");
 
-    btnOpen.addEventListener("click", function () {
-      sidebarContainer.classList.add("show");
-      document.body.style.overflow = "hidden";
-      document.body.classList.add("popup-is-showing");
+      fetch(Url)
+        .then((res) => res.json())
+        .then((res) => this.handleResults(res));
     });
-
-    [...btnClose].forEach((btn) => {
-      btn.addEventListener("click", function () {
-        sidebarContainer.classList.remove("show");
-        document.body.classList.remove("popup-is-showing");
-        document.body.style.overflow = "";
-      });
-    });
+  },
+  handleResults: function (results) {
+    let { productCardTemplate, productGridContainer } = this.elms;
+    productGridContainer.innerHTML = Mustache.render(productCardTemplate, results);
   },
 };

@@ -1,4 +1,5 @@
 {% layout none %}
+
 {% paginate collection.products by 15 %}
   {
     "products" : [
@@ -12,10 +13,12 @@
             "alt" : "{{ product.title}}"
           },
           "price" : "{{product.price | money}}",
-          "url" : "{{product.url | within: collection}}"
+          "url" : "{{product.url | within: collection}}",
+          "total_variant" : "{{ 'card.themes.total_variant' | t: total: product.variants.size}}"
         }
       {%- endfor -%}  
-    ]{%- if paginate.pages > 1 -%}
+    ]
+    {%- if paginate.pages > 1 -%}
       ,
         "paginate": {
           {%- if paginate.previous -%}
@@ -37,14 +40,25 @@
             {% endfor %}
           ]
           {%- if paginate.next -%}
+            {%- assign to = paginate.current_offset | plus: paginate.page_size -%}
           ,
           "next": {
             "url" : "{{paginate.next.url | replace: '&view=' | replace: template.suffix}}",
             "is_link" : {{paginate.next.is_link}},
             "title" : "{{paginate.next.title}}"
           }
+          {%- else -%}
+            {%- assign to = paginate.items -%}
           {%- endif -%}
+
+          {%- assign from = paginate.current_offset | plus : 1 -%}
+          {%- assign count = paginate.items -%}
         }
+          ,
+          "pagination_showing" : "{{ 'collections.themes.pagination.showing' | t: count: count, from: from, to: to }}"
+    {%- else -%}
+      ,
+      "pagination_showing" : "{{ 'collections.themes.pagination.showing_all' | t: count: paginate.items}}" 
     {%- endif -%}
   }
 {% endpaginate %}

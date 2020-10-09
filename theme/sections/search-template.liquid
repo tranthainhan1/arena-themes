@@ -1,0 +1,241 @@
+<div class="page page-search-results">
+
+{%- capture themes_content -%}{%- endcapture -%} 
+{%- capture apps_content -%}{%- endcapture-%}
+{%- capture tasks_content -%}{%- endcapture-%}
+{%- capture posts_content -%}{%- endcapture-%}
+{% liquid 
+  assign limit = search.results_count
+  assign themes_count =  0
+  assign apps_count = 0
+  assign posts_count = 0  
+  assign themes_collection  = section.settings.themes_collection 
+  assign apps_collection  = section.settings.apps_collection 
+  assign blog_posts  = section.settings.blog_posts 
+%}
+
+{% paginate search.results by limit %}
+
+  {%- for item in search.results -%}
+
+    {%- case item.object_type -%}
+      {%- when 'article' -%}
+        {%- capture content -%}
+          <div class="col-12 col-sm-6 col-lg-5th">
+            <div class="article">
+              <div class="image">
+                <a href="{{item.url}}">
+                  {% render 'image-style' image: item.image, imagePadding: "55%" %}
+                </a>
+              </div>
+              <div class="article-info">
+                <div class="post-day">
+                  <span>{{item.published_at | date: '%b %d, %Y'}}</span>
+                </div>
+                <div class="title">
+                  <a href="{{item.url}}">
+                    <span>{{item.title}}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endcapture -%}
+        {%- assign posts_count = posts_count | plus: 1 -%}
+
+        {%- if posts_count <= 10 -%}
+          {%- assign posts_content = posts_content | append: content -%}
+        {%- endif -%}
+      {% comment %} end {% endcomment %}
+      {%- when 'product' -%}
+        {%- assign type = item.type -%}
+        {%- if type contains 'theme' or type contains 'themes' or type contains 'Theme' or type contains 'Themes' or type contains 'THEME' or type contains 'THEMES'-%}
+          {%- assign product_type = 'themes' -%}
+        {%- endif -%}
+
+        {%- if type contains 'app' or type contains 'apps' or type contains 'App' or type contains 'Apps' or type contains 'APP' or type contains 'APPS'-%}
+          {%- assign product_type = 'apps' -%}
+        {%- endif -%}
+
+        {%- if type contains 'task' or type contains 'tasks' or type contains 'Task' or type contains 'Tasks' or type contains 'TASK' or type contains 'TASKS'-%}
+          {%- assign product_type = 'tasks' -%}
+        {%- endif -%}
+
+        {%- case product_type -%}
+          {%- when 'themes' -%}
+            {%- capture content -%}
+              <div class="col-12 col-sm-6 col-lg-5th">
+                {% render 'card-template' type: 'product', product: item %}
+              </div>
+            {%- endcapture -%}
+            {%- assign themes_count = themes_count | plus: 1 -%}
+            {%- if themes_count <= 10 -%}
+              {%- assign themes_content = themes_content | append: content -%}
+            {%- endif -%}
+            {%- assign product_type = '' -%}
+          {% comment %} end {% endcomment %}
+          {%- when 'apps' -%}
+            {%- capture content -%}
+              <div class="col-12 col-sm-6 col-lg-5th">
+                {% render 'card-template' type: 'app', product: item %}
+              </div>
+            {%- endcapture -%}
+            {%- assign apps_count = apps_count | plus: 1 -%}
+            {%- if apps_count <= 10 -%}
+              {%- assign apps_content = apps_content | append: content -%}
+            {%- endif -%}
+            {%- assign product_type = '' -%}
+          {% comment %} end {% endcomment %}
+          {%- when 'tasks' -%}
+            {%- capture content -%}
+              <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                {% render 'card-template' type: 'plan', product: item %}
+              </div>
+            {%- endcapture -%}
+            {%- assign tasks_count = tasks_count | plus: 1 -%}
+            {%- if tasks_count <= 10 -%}
+              {%- assign tasks_content = tasks_content | append: content -%}
+            {%- endif -%}
+            {%- assign product_type = '' -%}
+        {%- endcase -%}
+
+    {%- endcase -%}
+
+  {%- endfor -%}
+
+{% endpaginate %}
+  <div class="container">
+
+    <div class="page__wrapper">
+      <div class="page-block">
+        <div class="page-title">
+           <div class="title">
+            <span>{{ 'search.title' | t: terms: search.terms , results_count: search.results_count }}</span>
+           </div>
+        </div>
+      </div>
+      
+      {%- if themes_content != blank -%}
+        <div class="page-block">
+          <div class="theme-results">
+            <div class="title">
+              <span>{{ 'search.themes' | t}}</span>
+            </div>
+            <div class="theme-results__content">
+              <div class="row">
+                {{themes_content}}
+              </div>
+            </div>
+            <a href="{{collections[themes_collection].url | default: 'javascript:void(0);'}}" class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</a>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if apps_content != blank -%}
+        <div class="page-block">
+          <div class="apps-results">
+            <div class="title">
+              <span>{{ 'search.apps' | t}}</span>
+            </div>
+            <div class="apps-results__content">
+              <div class="row">
+                {{apps_content}}
+              </div>
+            </div>
+            <a href="{{collections[apps_collection].url | default: 'javascript:void(0);'}}" class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</a>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if posts_content != blank -%}
+        <div class="page-block">
+          <div class="post-results">
+            <div class="title">
+              <span>{{ 'search.posts' | t}}</span>
+            </div>
+            <div class="post-results__content">
+              <div class="row">
+                {{posts_content}}
+              </div>
+            </div>
+            <a href="{{ blogs[blog_posts].url | default: 'javascript:void(0);'}}" class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</a>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if tasks_content != blank -%}
+        <div class="page-block">
+          <div class="task-results">
+            <div class="title">
+              <span>{{ 'search.tasks' | t}}</span>
+            </div>
+            <div class="task-results__content">
+              <div class="row">
+                {{tasks_content}}
+              </div>
+            </div>
+            <a href="{{collections[tasks_collection].url | default: 'javascript:void(0);'}}" class="btn btn-2 btn-view-all">{{ 'search.view_all' | t}}</a>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if themes_content == blank and apps_content == blank and posts_content == blank and tasks_content == blank -%}
+        <div class="page-block">
+          <div class="not-results">
+            <div class="title">
+              <span>{{ 'search.no_result.title_with_terms' | t: terms: search.terms}}</span>
+            </div>
+            <div class="subtitle">
+              <span>Sorry, we couldn’t find any matches.</span>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name" : "Search Page",
+    "tag" : "section",
+    "settings" : [
+      {
+        "type": "header",
+        "content": "Themes"
+      },
+      {
+        "type": "collection",
+        "id": "themes_collection",
+        "label": "Collection"
+      },
+      {
+        "type": "header",
+        "content": "Apps"
+      },
+      {
+        "type": "collection",
+        "id": "apps_collection",
+        "label": "Collection"
+      },
+      {
+        "type": "header",
+        "content": "Tasks"
+      },
+      {
+        "type": "collection",
+        "id": "tasks_collection",
+        "label": "Collection"
+      },
+      {
+        "type": "header",
+        "content": "Posts"
+      },
+      {
+        "type" : "blog",
+        "id" : "blog_posts",
+        "label" : "Blog posts"
+      }
+    ]
+  }
+{% endschema %}

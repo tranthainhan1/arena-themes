@@ -8,7 +8,6 @@ window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 
 (function () {
-  Mustache.tags = ["{-", "-}"];
   register("header", Header);
   register("footer", Footer);
 

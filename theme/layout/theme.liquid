@@ -62,37 +62,43 @@
 
   <body class="{{themeClass}} {{subThemeClass}}" test="{{template}}">
     <script>
-      Loader.require('lazysizes', 'scripts')
-      Loader.require('mustache', 'scripts')
+      Loader.require("lazysizes", "scripts")
+      Loader.require("mustache", "scripts")
       {% case template %}
-        {%- when 'index' -%}
-          Loader.require('home', 'scripts')
-        {%- when 'collection.themes' -%}
-          Loader.require('collection-themes', 'scripts')
-        {%- when 'collection.apps' -%}
-          Loader.require('collection-apps', 'scripts')
-        {%- when 'collection.task' -%}
-          Loader.require('collection-task', 'scripts')
-        {%- when 'product.theme' -%}
-          Loader.require('product-theme', 'scripts')
-        {%- when 'page.help_center' -%}
-          Loader.require('help-center', 'scripts')
-        {%- when 'page.about' -%}
-          Loader.require('help-center', 'scripts')
-        {%- when 'page.contact' -%}
-          Loader.require('contact-us', 'scripts')
+        {%- when "index" -%}
+          Loader.require("home", "scripts")
+        {%- when "collection.themes" -%}
+          Loader.require("collection-themes", "scripts")
+        {%- when "collection.apps" -%}
+          Loader.require("collection-apps", "scripts")
+        {%- when "collection.task" -%}
+          Loader.require("collection-task", "scripts")
+        {%- when "product.theme" -%}
+          Loader.require("product-theme", "scripts")
+        {%- when "page.help_center" -%}
+          Loader.require("help-center", "scripts")
+        {%- when "page.about" -%}
+          Loader.require("help-center", "scripts")
+        {%- when "page.contact" -%}
+          Loader.require("contact-us", "scripts")
+        {%- when "collection.sub-task-with-plan" -%}
+          Loader.require("collection-plan", "scripts")
+        {%- when "product.task" -%}
+          Loader.require("product-task", "scripts")
+        {%- when "collection.sub-task" -%}
+          Loader.require("collection-subtask", "scripts")
       {%- endcase -%}
     </script>
     <div class="boxed-wapper">
-      {%- section 'header' -%}
+      {%- section "header" -%}
       <main id="main-content">
           {{ content_for_layout }}
       </main>
-      {% section 'footer' %}
-      {% section 'mobile-bar' %}
-      {% render 'back-to-top'  %}
+      {% section "footer" %}
+      {% section "mobile-bar" %}
+      {% render "back-to-top"  %}
     </div>
-    {% render 'mustache-template'  %}
+    {% render "mustache-template"  %}
     <script>
       Loader.load()
     </script>

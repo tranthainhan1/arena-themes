@@ -34,7 +34,7 @@
   {%- when 'app' -%}
     {% liquid 
       assign image       = product.featured_image
-      assign description = product.description | split: '<card-description>' | last | split: '</card-description>' | first
+      assign description = product.description | split: '<!--short-desc-->' | last | split: '<!--/short-desc-->' | first
       assign price       = product.price | money
       assign url         = product.url | within: collection
       assign day_trial = product.metafields.c_f.day_trial 
@@ -306,8 +306,8 @@
       assign name = product.title
       assign price = product.price | money | replace: '.00' , ''
       assign hours_work =   product.metafields.c_f.hours_work | plus: 0
-      if product.description contains '<!--short-desc-plan-->'
-        assign shortDesc = product.description | split: '<!--short-desc-plan-->' | last | split: '<!--/short-desc-plan-->' | first
+      if product.description contains '<!--short-desc-->'
+        assign shortDesc = product.description | split: '<!--short-desc-->' | last | split: '<!--/short-desc-->' | first
       endif
       assign url = product.url | within: collection 
 

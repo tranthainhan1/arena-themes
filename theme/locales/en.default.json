@@ -16,6 +16,7 @@
     "search_placeholder": "What are you looking for ?",
     "no_result": {
       "title": "No results for",
+      "title_with_terms": "No results for \"{{terms}}\"",
       "subtitle": "Sorry, we couldn’t find any matches."
     },
     "all_results": "View All Results",
@@ -23,7 +24,8 @@
     "themes": "THEMES",
     "apps": "APPS",
     "posts": "POSTS",
-    "view_all": "View All"
+    "view_all": "View All",
+    "tasks": "Services"
   },
   "products": {
     "product": {
@@ -240,6 +242,9 @@
       "free": "Free",
       "price": "From {{price}}/month, {{day}}-day free trial.",
       "install": "Install App"
+    },
+    "themes": {
+      "total_variant": "{{total}} styles"
     },
     "career": {
       "days_post_ago": "Post {{days}} days ago",

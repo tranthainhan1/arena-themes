@@ -56,7 +56,7 @@
                   <a href="javascript:void(0)" class="js-close-search close-search">
                     {% render 'svg' , type: 'close' %}
                   </a>
-                  <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
+                  <input type="text" name="q"  autocomplete="off"/>
                 </form>
                 <div class="js-search-results search-result">
                   <div class="no-result">
@@ -93,15 +93,15 @@
           </div>
           {%- if popular_list.size > 0 -%}
             <div class="banner__popular">
-              <div class="popular-list">
+              <div class="popular-list d-flex">
                 <span>{{ 'collections.apps.popular' | t}}</span>
                 {%- for popular in popular_list -%}
-                  {%- assign popularNew = popular | split: '|' -%}
-                  {%- assign text = '1234' | split: '|' -%}
-                  {%- if popularNew.size == 2 -%}
-                    {%- assign url = popularNew[1] -%} 
-                  {%- endif -%}
-                  <a href="{{ url | default: 'javascript:void(0)' | strip }}" class="popular-item">{{ popularNew[0] | strip }}</a>
+                  <form action="/search">
+                    <input type="hidden" name="q" value="{{popular}}">
+                    <input type="hidden" value="product,article" name="type">
+                    <input type="hidden" name="options[prefix ]" value="last">
+                    <button class="popular-item" type="submit">{{ popular }}</button>
+                  </form>
                 {%- endfor -%}
               </div>
             </div>
@@ -158,14 +158,14 @@
           <div class="js-tns" data-config='tns-config-{{collection.id}}'>
             {{icon_list}}
           </div>
-          <script type="application/ld+json" id="tns-config-{{collection.id}}">
+          <script type="application/json" id="tns-config-{{collection.id}}">
             {
               "loop": false,
               "nav": false,
               "mouseDrag" : true,
               "swipeAngle" : false,
               "preventActionWhenRunning": true,
-              
+              "controls" : false,
               "slideBy": 1,
               "responsive": {
                 "1": {

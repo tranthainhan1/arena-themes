@@ -7,7 +7,6 @@ import Search from "./common/search";
 (function () {
   window.lazySizesConfig = window.lazySizesConfig || {};
   lazySizesConfig.loadMode = 1;
-  Mustache.tags = ["{-", "-}"];
 
   register("header", Header);
   register("footer", Footer);

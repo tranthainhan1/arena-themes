@@ -11,6 +11,7 @@ export let CollectionThemes = {
       productCardTemplate: document.getElementById("product_cart_template").innerHTML,
       paginationTemplate: document.getElementById("pagination_template").innerHTML,
       sortBySelects: container.getElementsByClassName("select-sort"),
+      showingContainer: container.getElementsByClassName("pagination-showing")[0],
     };
 
     this.config = Object.assign(JSON.parse(document.getElementById("page_info").innerHTML), {
@@ -86,13 +87,17 @@ export let CollectionThemes = {
 
     observe.observe(filterMasterInput, { attributes: true, attributeOldValue: true });
   },
-  handleResults: function (res) {
+  handleResults: function (results) {
     let { productCardTemplate, productGridContainer } = this.elms;
-    productGridContainer.innerHTML = Mustache.render(productCardTemplate, res);
+    productGridContainer.innerHTML = Mustache.render(productCardTemplate, results);
   },
-  handlePagination: function (res) {
-    let { pagination, paginationTemplate } = this.elms;
-    pagination.innerHTML = Mustache.render(paginationTemplate, res);
+  handlePagination: function (results) {
+    let { pagination, paginationTemplate, showingContainer } = this.elms;
+    !!pagination && (pagination.innerHTML = Mustache.render(paginationTemplate, results));
+
+    let showingTemplate = "<span>{{ pagination_showing }}</span>";
+
+    !!showingContainer && (showingContainer.innerHTML = Mustache.render(showingTemplate, results));
   },
   initSortby: function () {
     let { sortBySelects } = this.elms;

@@ -22,7 +22,7 @@
                   <a href="javascript:void(0)" class="js-close-search close-search">
                     {% render 'svg' , type: 'close' %}
                   </a>
-                  <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
+                  <input type="text" name="q" autocomplete="off"/>
                 </form>
                 <div class="js-search-results search-result">
                   <div class="no-result">
@@ -58,15 +58,15 @@
           </div>
           {%- if popular_list.size > 0 -%}
             <div class="banner__popular">
-              <div class="popular-list">
+              <div class="popular-list d-flex">
                 <span>{{ 'collections.apps.popular' | t}}</span>
                 {%- for popular in popular_list -%}
-                  {%- assign popularNew = popular | split: '|' -%}
-                  {%- assign text = '1234' | split: '|' -%}
-                  {%- if popularNew.size == 2 -%}
-                    {%- assign url = popularNew[1] -%} 
-                  {%- endif -%}
-                  <a href="{{ url | default: 'javascript:void(0)' | strip }}" class="popular-item">{{ popularNew[0] | strip }}</a>
+                  <form action="/search">
+                    <input type="hidden" name="q" value="{{popular}}">
+                    <input type="hidden" name="type" value="product,article">
+                    <input type="hidden" name="options[prefix]" value="last">
+                    <button class="popular-item" type="submit">{{ popular }}</button>
+                  </form>
                 {%- endfor -%}
               </div>
             </div>
@@ -93,13 +93,13 @@
               <label for="sort_by_desktop">{{ 'collections.themes.sort_by' | t}}</label>
               <select id="sort_by_desktop" class="select-sort">
                 <option value="manual" {% if sort_by == "manual" %}selected{%- endif -%}>Featured</option>
-                  <option value="best-selling" {% if sort_by == "best-selling" %}selected{%- endif -%}>Best Selling</option>
-                  <option value="title-ascending" {% if sort_by == "title-ascending" %}selected{%- endif -%}>A-Z</option>
-                  <option value="title-descending" {% if sort_by == "title-descending" %}selected{%- endif -%}>Z-A</option>
-                  <option value="price-ascending" {% if sort_by == "price-ascending" %}selected{%- endif -%}>Price: Low to High</option>
-                  <option value="price-descending" {% if sort_by == "price-descending" %}selected{%- endif -%}>Price: High to Low</option>
-                  <option value="created-ascending" {% if sort_by == "created-ascending" %}selected{%- endif -%}>Oldest to Newest</option>
-                  <option value="created-descending" {% if sort_by == "created-descending" %}selected{%- endif -%}>Newest to Oldest</option>
+                <option value="best-selling" {% if sort_by == "best-selling" %}selected{%- endif -%}>Best Selling</option>
+                <option value="title-ascending" {% if sort_by == "title-ascending" %}selected{%- endif -%}>A-Z</option>
+                <option value="title-descending" {% if sort_by == "title-descending" %}selected{%- endif -%}>Z-A</option>
+                <option value="price-ascending" {% if sort_by == "price-ascending" %}selected{%- endif -%}>Price: Low to High</option>
+                <option value="price-descending" {% if sort_by == "price-descending" %}selected{%- endif -%}>Price: High to Low</option>
+                <option value="created-ascending" {% if sort_by == "created-ascending" %}selected{%- endif -%}>Oldest to Newest</option>
+                <option value="created-descending" {% if sort_by == "created-descending" %}selected{%- endif -%}>Newest to Oldest</option>
               </select> 
               {% render 'svg' type: 'angle-down' %}
             </div>
@@ -194,7 +194,7 @@
             <div class="toolbar">
               <div class="toolbar_right">
                 <div class="pagination-showing">
-                  {%- if paginate.page_size > 1  -%}
+                  {%- if paginate.pages > 1  -%}
                     {%- assign from = paginate.current_offset | plus : 1 -%}
                     {%- if paginate.next -%}
                       {%- assign to = paginate.current_offset | plus: paginate.page_size -%}
@@ -204,7 +204,7 @@
                     {%- assign count = paginate.items -%}
                     <span>{{ 'collections.themes.pagination.showing' | t: count: count, from: from, to: to }}</span>
                   {%- else -%}
-                    <span>{{ 'collections.themes.pagination.showing_all' | t: count: collection.all_products_count}}</span>
+                    <span>{{ 'collections.themes.pagination.showing_all' | t: count: paginate.items }}</span>
                   {%- endif -%}
                 </div>
 
@@ -246,120 +246,116 @@
     </div>
   </div>
 </div>
-
+{% raw %}
 <script type="text/template" id="product_cart_template">
-  {- #products -}
+  {{ #products }}
     <div class="col-6 col-md-4 col-lg-6 col-xl-4"> 
       <div class="card card-product">
         <div class="card-img-top">
-          <a href="{-url-}">
-            {- #featured_image -}
-              <span class="image__style" style="display: block;position: relative;padding-top: {- padding -};" >
+          <a href="{{url}}">
+            {{ #featured_image }}
+              <span class="image__style" style="display: block;position: relative;padding-top: {{ padding }};" >
                 <img class="overlay-ui w-100 h-100 lazyload" 
-                  data-src="{- url -}"
+                  data-src="{{ url }}"
                   data-widths="[100,180,360]"
-                  data-aspectratio="{- ratio -}"
+                  data-aspectratio="{{ ratio }}"
                   data-sizes="auto"
                   data-expand="30"
                   data-parent-fit="cover"
                   data-tproduct="true"
-                  alt="{- alt -}"/>
+                  alt="{{ alt }}"/>
               </span>
-            {- /featured_image -}
+            {{ /featured_image }}
           </a>
         </div>
         <div class="card-body">
           <div class="card-body__tile">
-            <a href="{- url -}" class="title">
-              <span >{- title -}</span>
+            <a href="{{ url }}" class="title">
+              <span >{{ title }}</span>
             </a>
-            <span class="price">{- price -}</span>
+            <span class="price">{{ price }}</span>
           </div>
           <div class="card-body__variants">
             <div class="card-body__variants-label">
-              <span>20</span>
-              <span>{{ 'general.card.product.label_variants' | t }}</span>
+              <span>{{ total_variant }}</span>
             </div>
             <div class="card-body__variants-link">
-              <a href="{-url-}">
-                {% render 'svg', type: 'arrow-right'  %}
+              <a href="{{url}}">
+                <svg width="24" height="24" class="svg-arrow-right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15.5 7.5L20 12M20 12L15.5 16.5M20 12H4" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  {- /products -}
+  {{ /products }}
 </script>
 
 <script type="text/template" id="pagination_template">
-  {- #paginate -}  
+  {{ #paginate }}  
   <ul class="d-flex">
-    {- #previous -}
+    {{ #previous }}
       <li>
-        <a href="{- url -}">{% render 'svg' type: 'angle-left' %}</a>
+        <a href="{{ url }}">
+          <svg width="24" height="24" class="svg-angle-left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L8 12L15 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </li>
-    {- /previous -}
-    {- ^previous -}
+    {{ /previous }}
+    {{ ^previous }}
       <li class="disabled">
-        <a href="javascript:void(0);">{% render 'svg' type: 'angle-left' %}</a>
+        <a href="javascript:void(0);">
+          <svg width="24" height="24" class="svg-angle-left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L8 12L15 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </li>
-    {- /previous -}
+    {{ /previous }}
 
-    {- #parts -}
-      {- #is_link -}
+    {{ #parts }}
+      {{ #is_link }}
         <li>
-          <a href="{- url -}">{- title -}</a>
+          <a href="{{ url }}">{{ title }}</a>
         </li>
-      {- /is_link -}
-      {- ^is_link -}
-        {- #is_active -}
+      {{ /is_link }}
+      {{ ^is_link }}
+        {{ #is_active }}
           <li class="active">
-            <a href="javascript:void(0);">{- title -}</a>
+            <a href="javascript:void(0);">{{ title }}</a>
           </li>
-        {- /is_active -}
-        {- ^is_active -}
+        {{ /is_active }}
+        {{ ^is_active }}
           <li>{{ part.title }}</li>
-        {- /is_active -}
-      {- /is_link -}
-    {- /parts -}
+        {{ /is_active }}
+      {{ /is_link }}
+    {{ /parts }}
 
-    {- #next -}
+    {{ #next }}
       <li>
-        <a href="{- url -}">{% render 'svg' type: 'angle-right' %}</a>
+        <a href="{{ url }}">
+          <svg width="24" height="24" class="svg-angle-right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.00008 5L16.0001 12L9.00008 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </li>
-    {- /next -}
-    {- ^next -}
+    {{ /next }}
+    {{ ^next }}
       <li class="disabled">
-        <a href="javascript:void(0);">{% render 'svg' type: 'angle-right' %}</a>
+        <a href="javascript:void(0);">
+          <svg width="24" height="24" class="svg-angle-right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.00008 5L16.0001 12L9.00008 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </li>
-   {- /next -}
+   {{ /next }}
   </ul>
-  {- /paginate -}  
+  {{ /paginate }}  
 </script>
+{% endraw %}
 
-<script type="text/template" id="apps_search_template">
-{- #themes.length -}
-  <div class="result-themes">
-    <ul class="list">
-      {- #themes -}
-        <li class="item">
-          <a href="{- url -}">
-            <div class="image">
-              {- #featured_image -}
-                <img src="{- url -}" alt="{- alt -}">
-              {- /featured_image -}
-            </div>
-            <div class="info">
-              <span>{- title -}</span>
-            </div>
-          </a>
-        </li>
-      {- /themes -}
-    </ul>
-  </div>
-{- /themes.length -}
-</script>
 
 <script type="application/json" id="page_info">
   {

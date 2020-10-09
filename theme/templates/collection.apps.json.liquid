@@ -1,5 +1,5 @@
 {% layout none %}
-{% paginate collection.products by 15 %}
+{% paginate collection.products by 16 %}
   {
     "products" : [
       {%- for product in collection.products -%}
@@ -11,8 +11,18 @@
             "padding" : "{{ 1 | divided_by: product.featured_image.aspect_ratio | times: 100 | append: '%' }}",
             "alt" : "{{ product.title}}"
           },
-          "price" : "{{product.price | money}}",
-          "url" : "{{product.url | within: collection}}"
+          {%- if product.first_available_variant.price != 0 -%}
+            {%- assign price = product.first_available_variant.price | money -%}
+            {%- assign day_trial = product.metafields.c_f.day_trial -%}
+            "price" : "{{ 'card.app.price' | t: price: price, day: day_trial }}",
+          {%- else -%}
+            "price" : "{{ 'card.app.free' | t}}",
+          {%- endif -%}
+          
+          "url" : "{{product.url | within: collection}}",
+          {% assign description = product.description | split: '<!--short-desc-->' | last | split: '<!--/short-desc-->' | first %}
+          "description" : {{description | json}},
+          "btn" : "{{ 'card.app.install' | t}}"
         }
       {%- endfor -%}  
     ]{%- if paginate.pages > 1 -%}

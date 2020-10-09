@@ -2,6 +2,7 @@
   assign banner_title = section.settings.banner_title 
   assign banner_image = section.settings.banner_image 
   assign popular_list = section.settings.popular_list | strip | split: ','
+  assign sort_by = collection.sort_by | default: collection.default_sort_by 
 %}
 
 <div class="collection collection-{{collection.handle}}" data-section-id="{{section.id}}" data-section-type="collection-apps">
@@ -22,7 +23,7 @@
                   <a href="javascript:void(0)" class="js-close-search close-search">
                     {% render 'svg' , type: 'close' %}
                   </a>
-                  <input type="text" name="q"  class="js-search-input" autocomplete="off"/>
+                  <input type="text" name="q" autocomplete="off"/>
                 </form>
                 <div class="js-search-results search-result">
                   <div class="no-result">
@@ -58,15 +59,15 @@
           </div>
           {%- if popular_list.size > 0 -%}
             <div class="banner__popular">
-              <div class="popular-list">
+              <div class="popular-list d-flex">
                 <span>{{ 'collections.apps.popular' | t}}</span>
                 {%- for popular in popular_list -%}
-                  {%- assign popularNew = popular | split: '|' -%}
-                  {%- assign text = '1234' | split: '|' -%}
-                  {%- if popularNew.size == 2 -%}
-                    {%- assign url = popularNew[1] -%} 
-                  {%- endif -%}
-                  <a href="{{ url | default: 'javascript:void(0)' | strip }}" class="popular-item">{{ popularNew[0] | strip }}</a>
+                  <form action="/search">
+                    <input type="hidden" name="q" value="{{popular}}">
+                    <input type="hidden" name="type" value="product,article">
+                    <input type="hidden" name="options[prefix]" value="last">
+                    <button class="popular-item" type="submit">{{ popular }}</button>
+                  </form>
                 {%- endfor -%}
               </div>
             </div>
@@ -92,16 +93,23 @@
 
             <div class="d-none  d-lg-flex sort-by">
               <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
-              <select name="sort_by" id="sort_by">
-                <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
-              </select>
+              <select id="sort_by_desktop" class="select-sort">
+                <option value="manual" {% if sort_by == "manual" %}selected{%- endif -%}>Featured</option>
+                <option value="best-selling" {% if sort_by == "best-selling" %}selected{%- endif -%}>Best Selling</option>
+                <option value="title-ascending" {% if sort_by == "title-ascending" %}selected{%- endif -%}>A-Z</option>
+                <option value="title-descending" {% if sort_by == "title-descending" %}selected{%- endif -%}>Z-A</option>
+                <option value="price-ascending" {% if sort_by == "price-ascending" %}selected{%- endif -%}>Price: Low to High</option>
+                <option value="price-descending" {% if sort_by == "price-descending" %}selected{%- endif -%}>Price: High to Low</option>
+                <option value="created-ascending" {% if sort_by == "created-ascending" %}selected{%- endif -%}>Oldest to Newest</option>
+                <option value="created-descending" {% if sort_by == "created-descending" %}selected{%- endif -%}>Newest to Oldest</option>
+              </select> 
               {% render 'svg' type: 'angle-down' %}
             </div>
           </div>
         </div>
         <div class="product-grid__wrapper">
           {% paginate collection.products by 15 %}
-            <div class="row">
+            <div class="row" id="product_grid">
                 {%- for product in collection.products -%}
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
                     {% render 'card-template' type: 'app', product: product  %}
@@ -118,6 +126,51 @@
     </div>
   </div>
 </div>
+{% raw %}
+<script type="text/template" id="product_cart_template">
+  {{ #products }}
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+      <div class="card card-app">
+        <div class="card__warpper">
+          <div class="card__header">
+            <a href="{{url}}">
+              <div class="image">
+                {{ #featured_image }}
+                <span class="image__style" style="display: block;position: relative;padding-top:{{ padding }};">
+                  <img class="overlay-ui w-100 h-100 lazyload" 
+                  data-widths="[160]" 
+                  data-aspectratio="1.0" 
+                  data-sizes="auto" 
+                  data-expand="30" 
+                  data-parent-fit="cover" 
+                  data-tproduct="true" 
+                  alt="{{alt}}" 
+                  data-srcset="{{url}}">
+				        </span>
+                {{ /featured_image }}
+              </div>
+              <div class="card__name">
+                <span>{{title}}</span>
+              </div>
+            </a>
+          </div>
+          <div class="card__description">
+            <span>{{{description}}}</span>
+          </div>
+          <div class="card__price">
+            {{ #price }}
+              <span>{{ price }}</span>
+            {{ /price }}
+          </div>
+        </div>
+        <div class="card__button">
+          <a href="{{url}}" class="w-100 text-center btn btn-2">{{ btn }}</a>
+        </div>
+      </div>
+    </div>
+  {{ /products }}
+</script>
+{% endraw %}
 
 {% schema %}
   {
