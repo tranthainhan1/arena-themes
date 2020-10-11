@@ -33,7 +33,7 @@ export let CollectionThemes = {
   },
   initFilter: function () {
     let { filterMasterInput, filterItemInputs, sortBySelects } = this.elms;
-    let { sortBy, URL } = this.config;
+    let { sortBy, URL, templateSuffix } = this.config;
 
     [...filterItemInputs].forEach((input) => {
       input.addEventListener("change", (e) => {
@@ -80,7 +80,7 @@ export let CollectionThemes = {
       }
 
       window.history.replaceState({ path: URL.href }, "", URL.href);
-      URL.searchParams.set("view", "themes.json");
+      URL.searchParams.set("view", templateSuffix + ".json");
 
       this.fetch(URL);
     });
@@ -101,7 +101,7 @@ export let CollectionThemes = {
   },
   initSortby: function () {
     let { sortBySelects } = this.elms;
-    let { URL } = this.config;
+    let { URL, templateSuffix } = this.config;
 
     [...sortBySelects].forEach((select) => {
       select.addEventListener("change", (e) => {
@@ -110,7 +110,7 @@ export let CollectionThemes = {
         [...sortBySelects].forEach((select) => (select.value = value));
 
         URL.searchParams.set("sort_by", value);
-        URL.searchParams.set("view", "themes.json");
+        URL.searchParams.set("view", templateSuffix + ".json");
 
         this.fetch(URL);
 

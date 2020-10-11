@@ -1,6 +1,5 @@
-import { tns } from "tiny-slider/src/tiny-slider";
 // import serialize from "form-serialize";
-import { removeItem } from "@shopify/theme-cart";
+// import { removeItem } from "@shopify/theme-cart";
 import * as Currency from "@shopify/theme-currency";
 
 var AT = {
@@ -168,10 +167,10 @@ var AT = {
       btn.addEventListener("click", function () {
         let cartItem = this.closest(".cart-item");
         let key = this.getAttribute("data-key");
-        removeItem(key).then((res) => {
-          AT.onCartChange(res, "remove");
-          cartItem.remove();
-        });
+        // removeItem(key).then((res) => {
+        //   AT.onCartChange(res, "remove");
+        //   cartItem.remove();
+        // });
       });
     });
   },

@@ -1,0 +1,54 @@
+{% layout none %}
+{% paginate collection.products by 10 %}
+  {
+    "products" : [
+      {%- for product in collection.products -%}
+        {%- unless forloop.first -%},{%- endunless -%}
+        {
+          "title" : "{{product.title}}",
+          "featured_image" : {
+            "url" : "{% liquid echo product.featured_image.src | img_url: '1x1' | replace: '_1x1' , '_{width}x' %}",
+            "padding" : "{{ 1 | divided_by: product.featured_image.aspect_ratio | times: 100 | append: '%' }}",
+            "alt" : "{{ product.title}}"
+          },
+          "price" : "{{ product.first_available_variant.price | money}}",
+          
+          "url" : "{{product.url | within: collection}}",
+          {% assign description = product.description | split: '<!--short-desc-->' | last | split: '<!--/short-desc-->' | first %}
+          "description" : {{description | json}},
+          "btn" : "{{ 'card.task.btn' | t}}"
+        }
+      {%- endfor -%}  
+    ]{%- if paginate.pages > 1 -%}
+      ,
+        "paginate": {
+          {%- if paginate.previous -%}
+            "previous": {
+              "url" : "{{paginate.previous.url | replace: '&view=' | replace: template.suffix}}",
+              "is_link" : {{paginate.previous.is_link}},
+              "title" : "{{paginate.previous.title}}"
+            },
+          {%- endif -%}
+          "parts": [
+            {% for part in paginate.parts %}
+              {
+                "is_link" : {{part.is_link}},
+                "url" : "{{part.url | replace: '&view=' | replace: template.suffix}}",
+                "title" : "{{part.title}}",
+                "is_active" : {% if part.title == paginate.current_page %}true{%- else -%}false{%- endif -%}
+              }
+              {% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ]
+          {%- if paginate.next -%}
+          ,
+          "next": {
+            "url" : "{{paginate.next.url | replace: '&view=' | replace: template.suffix}}",
+            "is_link" : {{paginate.next.is_link}},
+            "title" : "{{paginate.next.title}}"
+          }
+          {%- endif -%}
+        }
+    {%- endif -%}
+  }
+{% endpaginate %}

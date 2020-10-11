@@ -21,7 +21,7 @@
     {%- case item.object_type -%}
       {%- when 'article' -%}
         {%- capture content -%}
-          <div class="col-12 col-sm-6 col-lg-5th">
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-5th">
             <div class="article">
               <div class="image">
                 <a href="{{item.url}}">
@@ -32,7 +32,7 @@
                 <div class="post-day">
                   <span>{{item.published_at | date: '%b %d, %Y'}}</span>
                 </div>
-                <div class="title">
+                <div class="title"> 
                   <a href="{{item.url}}">
                     <span>{{item.title}}</span>
                   </a>
@@ -64,7 +64,7 @@
         {%- case product_type -%}
           {%- when 'themes' -%}
             {%- capture content -%}
-              <div class="col-12 col-sm-6 col-lg-5th">
+              <div class="col-12 col-sm-6 col-lg-4 col-xl-5th">
                 {% render 'card-template' type: 'product', product: item %}
               </div>
             {%- endcapture -%}
@@ -76,7 +76,7 @@
           {% comment %} end {% endcomment %}
           {%- when 'apps' -%}
             {%- capture content -%}
-              <div class="col-12 col-sm-6 col-lg-5th">
+              <div class="col-12 col-sm-6 col-lg-4 col-xl-5th">
                 {% render 'card-template' type: 'app', product: item %}
               </div>
             {%- endcapture -%}
@@ -163,7 +163,7 @@
         </div>
       {%- endif -%}
 
-      {%- if tasks_content != blank -%}
+      {%- if tasks_content != blank -%} 
         <div class="page-block">
           <div class="task-results">
             <div class="title">

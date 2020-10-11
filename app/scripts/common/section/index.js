@@ -4,3 +4,4 @@ export * from "./footer";
 export * from "./collection-themes";
 export * from "./collection-apps";
 export * from "./product";
+export * from "./collections-subtask";

@@ -47,7 +47,6 @@
           "preventActionWhenRunning": true,
           "controls" : false,
           "slideBy": 1,
-          "controls" : false,
           "responsive": {
             "1": {
               "items": 1.7,
@@ -61,14 +60,14 @@
             },
             "992": {
               "items": 3.5,
-              "gutter": 35
+              "gutter": 25
             },
             "1052": {
               "items": 4,
               "gutter": 30
             },
             "1440": {
-              "items": 5
+              "items": 6
             }
           }
         }
@@ -76,17 +75,17 @@
     </div>
     <div class="collection__wrapper">
       <div class="row">
-        <div class="col-12 col-lg-3 sidebar" id="js-sidebar-container">
+        <div class="col-12 col-lg-3 sidebar" id="sb_container">
           <div class="d-lg-none sidebar_header">
             <div class="title">
               <span>{{ 'collections.themes.filter' | t}}</span>
-              <a href="javascript:void(0)" class="js-close-sidebar">
+              <a href="javascript:void(0)" class="js-sb-toggle">
                 {% render 'svg' type: 'close' %}
               </a> 
             </div>
             <div class="sort-by">
-              <label for="sort_by_desktop">{{ 'collections.themes.sort_by' | t}}</label>
-              <select id="sort_by_desktop" class="select-sort">
+              <label for="sort_by_mobile">{{ 'collections.themes.sort_by' | t}}</label>
+              <select id="sort_by_mobile" class="select-sort">
                 <option value="manual" {% if sort_by == "manual" %}selected{%- endif -%}>Featured</option>
                 <option value="best-selling" {% if sort_by == "best-selling" %}selected{%- endif -%}>Best Selling</option>
                 <option value="title-ascending" {% if sort_by == "title-ascending" %}selected{%- endif -%}>A-Z</option>
@@ -105,22 +104,35 @@
                 {%- when 'filter_group' -%}
                   {% liquid 
                     assign title = block.settings.title  
+                    assign prefix = block.settings.prefix
+                    assign tag_list = '' | split: ''
                   %}
-                  <div class="filter-group">
-                    <div class="header">
-                      <p>{{title}}</p>
-                    </div>
-                    <div class="filter-group__body">
-                      {%- for i in (1..5) -%}
-                        <div class="filter-item">
+                  {%- for tag in collection.all_tags  -%}
+                    {%- assign size = prefix.size -%}
+                    {%- assign tag_prefix = tag | slice: 0,size -%}
+                    {%- if tag_prefix == prefix -%}
+                      {%- capture tag_content -%}
+                        <div class="js-filter-item filter-item">
                           <div class="d-flex checkbox">
-                            <input type="checkbox" id="filter_item_{{block.id}}_{{i}}">
-                            <label for="filter_item_{{block.id}}_{{forloop.index}}">Text</label>
+                            <input type="checkbox" id="filter_item_{{block.id}}_{{forloop.index}}"  value="{{tag | handle}}" {% if current_tags contains tag %}checked{%- endif -%}>
+                            <label for="filter_item_{{block.id}}_{{forloop.index}}">{{tag | split: prefix | join: ''}}</label>
                           </div>
                         </div>
-                      {%- endfor -%}
+                      {%- endcapture -%}
+                      {%- assign tag_content = tag_content | split: '' -%}
+                      {%- assign tag_list  = tag_list | concat: tag_content -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if tag_list.size > 0 -%}
+                    <div class="filter-group">
+                      <div class="header">
+                        <p>{{title}}</p>
+                      </div>
+                      <div class="filter-group__body">
+                        {{tag_list | join: ''}}
+                      </div>
                     </div>
-                  </div>
+                  {%- endif -%}
                 {% comment %} end {% endcomment %}
                 {%- when 'filter_price' -%}
                     {% liquid 
@@ -183,6 +195,16 @@
               <button id="filter_clear" class="btn btn-2 clear">{{ 'collections.themes.btn.clear' | t}}</button>
               <button id="filter_apply" class="btn btn-2 apply">{{ 'collections.themes.btn.apply' | t}}</button>
             </div>
+            {%- assign filterArr = '' -%}
+            {%- for tag in current_tags -%}
+              {%- assign tag_handle = tag | handle -%}
+              {%- if forloop.last -%}
+                {%- assign filterArr = filterArr | append: tag_handle -%}
+              {%- else -%}
+                {%- assign filterArr = filterArr | append: tag_handle | append: ',' -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <input type="hidden" id="sb_filter" data-filter='{{filterArr | split: "," | json}}'>
           </div>
         </div>
         <div class="col-12 col-lg-9 product-grid">
@@ -196,15 +218,22 @@
                 {%- endif -%}
               </div>
 
-              <div class="d-none  d-lg-flex sort-by">
-                <label for="sort_by">{{ 'collections.themes.sort_by' | t}}</label>
-                <select name="sort_by" id="sort_by">
-                  <option value="Most Recent">{{ 'collections.themes.select.option_1' | t}}</option>
-                </select>
+              <div class="d-none d-lg-flex sort-by">
+                <label for="sort_by_desktop">{{ 'collections.themes.sort_by' | t}}</label>
+                <select id="sort_by_desktop" class="select-sort">
+                  <option value="manual" {% if sort_by == "manual" %}selected{%- endif -%}>Featured</option>
+                  <option value="best-selling" {% if sort_by == "best-selling" %}selected{%- endif -%}>Best Selling</option>
+                  <option value="title-ascending" {% if sort_by == "title-ascending" %}selected{%- endif -%}>A-Z</option>
+                  <option value="title-descending" {% if sort_by == "title-descending" %}selected{%- endif -%}>Z-A</option>
+                  <option value="price-ascending" {% if sort_by == "price-ascending" %}selected{%- endif -%}>Price: Low to High</option>
+                  <option value="price-descending" {% if sort_by == "price-descending" %}selected{%- endif -%}>Price: High to Low</option>
+                  <option value="created-ascending" {% if sort_by == "created-ascending" %}selected{%- endif -%}>Oldest to Newest</option>
+                  <option value="created-descending" {% if sort_by == "created-descending" %}selected{%- endif -%}>Newest to Oldest</option>
+                </select> 
                 {% render 'svg' type: 'angle-down' %}
               </div>
               <div class="d-lg-none">
-                <a href="javascript:void(0)" id="js-open-sidebar">
+                <a href="javascript:void(0)" class="js-sb-toggle">
                   {% render 'svg' type: 'filter' %}
                 </a>
               </div>
@@ -212,7 +241,7 @@
           </div>
           <div class="product-grid__wrapper">
             {% paginate collection.products by 10 %} 
-              <div class="row">
+              <div class="row" id="product_grid">
                   {%- for product in collection.products -%}
                     <div class="col-12">
                       {% render 'card-template' type: 'sub-task', product: product  %}
@@ -231,7 +260,126 @@
     {% render 'FAQs', section: section %}
   </div>
 </div>
- 
+
+{% raw %}
+<script type="text/template" id="pagination_template">
+  {{ #paginate }}  
+  <ul class="d-flex">
+    {{ #previous }}
+      <li>
+        <a href="{{ url }}">
+          <svg width="24" height="24" class="svg-angle-left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L8 12L15 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </li>
+    {{ /previous }}
+    {{ ^previous }}
+      <li class="disabled">
+        <a href="javascript:void(0);">
+          <svg width="24" height="24" class="svg-angle-left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L8 12L15 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </li>
+    {{ /previous }}
+
+    {{ #parts }}
+      {{ #is_link }}
+        <li>
+          <a href="{{ url }}">{{ title }}</a>
+        </li>
+      {{ /is_link }}
+      {{ ^is_link }}
+        {{ #is_active }}
+          <li class="active">
+            <a href="javascript:void(0);">{{ title }}</a>
+          </li>
+        {{ /is_active }}
+        {{ ^is_active }}
+          <li>{{ part.title }}</li>
+        {{ /is_active }}
+      {{ /is_link }}
+    {{ /parts }}
+
+    {{ #next }}
+      <li>
+        <a href="{{ url }}">
+          <svg width="24" height="24" class="svg-angle-right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.00008 5L16.0001 12L9.00008 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </li>
+    {{ /next }}
+    {{ ^next }}
+      <li class="disabled">
+        <a href="javascript:void(0);">
+          <svg width="24" height="24" class="svg-angle-right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.00008 5L16.0001 12L9.00008 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </li>
+   {{ /next }}
+  </ul>
+  {{ /paginate }}  
+</script>
+<script type="text/template" id="product_cart_template">
+  {{ #products }}
+    <div class="col-12">
+      <div class="card card-task">
+        <div class="card__wrapper">
+          <div class="card__body">
+            <div class="card__body__left">
+              <div class="card-group">
+                <div class="card-group__left">
+                  <div class="card-name">
+                    <a href="{{url}}">
+                      <span>{{title}}</span>
+                    </a>
+                  </div>
+                </div>
+                <div class="d-lg-none card-group__right">
+                  <div class="price">
+                    <h2>{{price}}</h2>
+                  </div> 
+                </div>
+              </div>
+              <div class="card__description">
+                {{{description}}}
+              </div>
+            </div>
+            <div class="d-none d-lg-block card__body__right">
+              <div class="price">
+                <h2>{{price}}</h2>
+              </div>
+            </div>
+          </div>
+          
+          <div class="d-flex card__footer">
+            <div class="card__button">
+              <a href="{{url}}" class="btn btn-3">
+                <span>{{ btn }}</span>
+                <svg width="24" height="24" class="svg-angle-right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.00008 5L16.0001 12L9.00008 19" stroke="#1D1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  {{ /products }}
+</script>
+{% endraw %}
+
+<script type="application/json" id="page_info">
+  {
+    "sortBy" : "{{sort_by}}",
+    "page" : "collection",
+    "templateSuffix" : "{{template.suffix}}"
+  }
+</script>
+
 {% schema %}
   {
     "name" : "Collection Sub-Task",
@@ -279,8 +427,12 @@
             "type": "text",
             "id": "title",
             "label": "Filter Title"
+          },
+          {
+            "type": "text",
+            "id": "prefix",
+            "label": "Tag Prefix"
           }
-
         ]
       },
       {
@@ -291,6 +443,11 @@
             "type": "text",
             "id": "title",
             "label": "Filter Title"
+          },
+          {
+            "type": "text",
+            "id": "prefix",
+            "label": "Tag Prefix"
           }
         ]
       },

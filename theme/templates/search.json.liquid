@@ -1,0 +1,18 @@
+{%- layout none -%}
+{%- capture contentForQuerystring  -%}
+  {{content_for_header}}
+{%- endcapture -%}
+{%- assign productType = contentForQuerystring | split:'"pageurl":"' | last | split:'"' | first | split: '\u0026' | last | split: "=" | last -%}
+{%- assign first = true -%}
+{%- paginate search.results by search.results_count -%}
+[
+  {%- for result in search.results -%}
+    {%- assign type = result.type | url_param_escape -%}
+    {%- if type == productType -%}
+      {%- unless first -%} , {%- endunless -%}
+      {{result | json}}
+      {% if first %}{%- assign first = false-%}{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+]
+{%- endpaginate -%}

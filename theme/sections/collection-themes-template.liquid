@@ -111,8 +111,8 @@
                   {% liquid 
                     assign title = block.settings.title  
                     assign prefix = block.settings.prefix  
+                    assign tag_list = '' | split: ''
                   %}
-                  {%- assign tag_list = '' | split: '' -%}
                   {%- for tag in collection.all_tags  -%}
                     {%- assign size = prefix.size -%}
                     {%- assign tag_prefix = tag | slice: 0,size -%}
@@ -125,7 +125,7 @@
                           </div>
                         </div>
                       {%- endcapture -%}
-                      {%- assign tag_content = tag_content | split: '<split>' -%}
+                      {%- assign tag_content = tag_content | split: '' -%}
                       {%- assign tag_list  = tag_list | concat: tag_content -%}
                     {%- endif -%}
                   {%- endfor -%}
@@ -140,6 +140,7 @@
                       </div>
                     </div>
                   {%- endif -%}
+                {% comment %} end {% endcomment %}
                 {%- when 'filter_price' -%}
                     {% liquid 
                       assign title = block.settings.title  
@@ -361,7 +362,7 @@
   {
     "sortBy" : "{{sort_by}}",
     "page" : "collection",
-    "template" : "{{template.suffix}}"
+    "templateSuffix" : "{{template.suffix}}"
   }
 </script>
 {% schema %}

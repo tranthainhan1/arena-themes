@@ -28,21 +28,19 @@
               <h2>{{product.title}}</h2>
             </div>
             <div class="product-price">
-              <div class="price price-sale">
+              <div class="price price-sale" id="price_sale">
                 <span>{{price | money}}</span>
               </div>
-              <div class="price price-compare">
+              <div class="price price-compare" id="price_compare">
                 <span>{{compare_price | money}}</span>
               </div>
             </div>
             <div class="description">
               {{product.description}}
             </div>
-            {%- if product.metafields.c_f.total_variant != blank -%}
-              <div class="total-variant">
-                <span>{{ 'product_template.themes.total_variant' | t: count: product.metafields.c_f.total_variant}}</span>
-              </div>
-            {%- endif -%}
+            <div class="total-variant">
+              <span>{{ 'product_template.themes.total_variant' | t: count: product.variants.size}}</span>
+            </div>
             <div class="form">
               {%- form 'product', product -%}
                 <div class="swatch">

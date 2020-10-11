@@ -7,7 +7,7 @@ import Search from "./common/search";
 window.lazySizesConfig = window.lazySizesConfig || {};
 lazySizesConfig.loadMode = 1;
 
-(function () {
+(function () { 
   register("header", Header);
   register("footer", Footer);
   register("hero-banner", HeroBanner);

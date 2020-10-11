@@ -24,12 +24,13 @@
     <link rel="preconnect dns-prefetch" href="{{ shop.url }}">
     <link rel="preload" href="{{ 'main_style.css' | asset_url}}" as="style">
     {% if template contains index %}<link rel="preload" href="{{ 'section-home.css' | asset_url}}" as="style">{%- endif -%}
+    {{ content_for_header }}
     {% render 'google-font'  %}
 	  {% include 'css_variables' %} 
 
     {{ 'main_style.css' | asset_url | stylesheet_tag }}
-    {{ 'header-footer.css' | asset_url | stylesheet_tag }}
-    {%- if template contains 'index'-%}
+    {% comment %} {{ 'header-footer.css' | asset_url | stylesheet_tag }} {% endcomment %}
+    {% comment %} {%- if template contains 'index'-%}
       {{ 'section-home.css' | asset_url | stylesheet_tag }}
     {%- elsif template contains 'product'-%}
       {{ 'product-page.css' | asset_url | stylesheet_tag }}
@@ -37,22 +38,9 @@
       {{ 'categories-page.css' | asset_url | stylesheet_tag }}
     {%- else -%}
       {{ 'other-page.css' | asset_url | stylesheet_tag }}
-    {%- endif -%}     
-
-   
-    <script type="application/javascript">
-      var theme = {
-        currency: {
-          money: {{shop.money_format | json}}
-        },
-        themes_title: "{{ 'general.shopify_themes' | t}}",
-        apps_title: "{{ 'general.shopify_apps' | t}}",
-        popular_articles: "{{ 'general.popular_articles' | t}}",
-      }
-    </script>
-       
-    {%- include 'js-loader' -%}
-    {{ content_for_header }}
+    {%- endif -%}      {% endcomment %}
+    
+    
   </head>
 
   {%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | first -}}{%- endcapture -%}
@@ -64,34 +52,7 @@
   {%- endif -%}
 
   <body class="{{themeClass}} {{subThemeClass}}" test="{{template}}">
-    <script>
-      Loader.require("lazysizes", "scripts")
-      Loader.require("mustache", "scripts")
-      {% case template %}
-        {%- when "index" -%}
-          Loader.require("home", "scripts")
-        {%- when "collection.themes" -%}
-          Loader.require("collection-themes", "scripts")
-        {%- when "collection.apps" -%}
-          Loader.require("collection-apps", "scripts")
-        {%- when "collection.task" -%}
-          Loader.require("collection-task", "scripts")
-        {%- when "product.theme" -%}
-          Loader.require("product-theme", "scripts")
-        {%- when "page.help_center" -%}
-          Loader.require("help-center", "scripts")
-        {%- when "page.about" -%}
-          Loader.require("help-center", "scripts")
-        {%- when "page.contact" -%}
-          Loader.require("contact-us", "scripts")
-        {%- when "collection.sub-task-with-plan" -%}
-          Loader.require("collection-plan", "scripts")
-        {%- when "product.task" -%}
-          Loader.require("product-task", "scripts")
-        {%- when "collection.sub-task" -%}
-          Loader.require("collection-subtask", "scripts")
-      {%- endcase -%}
-    </script>
+    
     <div class="boxed-wapper">
       {%- section "header" -%}
       <main id="main-content">
@@ -102,8 +63,44 @@
       {% render "back-to-top"  %}
     </div>
     {% render "mustache-template"  %}
+    {%- include 'js-loader' -%}
     <script>
-      Loader.load()
-    </script>
+      Loader.require("lazysizes", "scripts");
+      Loader.require("lazysizes.plugin", "scripts");
+      Loader.require("mustache", "scripts");
+      Loader.require("tiny", "scripts");
+      {% case template %}
+        {%- when "index" -%}
+          Loader.require("home", "scripts");
+        {%- when "collection.themes" -%}
+          Loader.require("collection-themes", "scripts");
+        {%- when "collection.apps" -%}
+          Loader.require("collection-apps", "scripts");
+        {%- when "collection.task" -%}
+          Loader.require("collection-task", "scripts");
+        {%- when "product.theme" -%}
+          Loader.require("product-theme", "scripts");
+        {%- when "collection.sub-task-with-plan" -%}
+          Loader.require("collection-plan", "scripts");
+        {%- when "product.task" -%}
+          Loader.require("product-task", "scripts");
+        {%- when "collection.sub-task" -%}
+          Loader.require("collection-subtask", "scripts");
+        {%- else -%}
+          Loader.require('other', 'scripts');
+      {%- endcase %}
+      
+      var theme = {
+        currency: {
+          money: {{shop.money_format | json}}
+        },
+        themes_title: "{{ 'general.shopify_themes' | t}}",
+        apps_title: "{{ 'general.shopify_apps' | t}}",
+        popular_articles: "{{ 'general.popular_articles' | t}}",
+      }
+      window.addEventListener('load', function(){
+        Loader.load()
+      })
+    </script> 
   </body>
 </html>

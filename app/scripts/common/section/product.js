@@ -4,15 +4,18 @@ export let Product = {
   onLoad: function () {
     let container = this.container;
     this.product = JSON.parse(document.getElementById("product_json").innerHTML);
-    console.log(this.product);
+
     this.elms = {
       swatchImages: container.getElementsByClassName("js-tns-images")[0],
+      priceSale: document.getElementById("price_sale"),
+      priceCompare: document.getElementById("price_compare"),
       // addToCart: ,
     };
 
     this.initVariants();
     // this.initAddToCart();
     this.container.addEventListener("variantChange", this.updateProduct.bind(this));
+    this.container.addEventListener("updateImage", this.updateImage.bind(this));
     !!this.elms.swatchImages && this.initSwatchImages(this.elms.swatchImages);
   },
   initVariants: function () {
@@ -22,14 +25,15 @@ export let Product = {
     };
     this.variants = new Variants(options);
   },
-  updateProduct: function ({ detail: variant }) {
-    console.log(variant);
-  },
+  updateProduct: function ({ detail: variant }) {},
   initSwatchImages: function (container) {
     let configId = container.getAttribute("data-config");
     let config = JSON.parse(document.getElementById(configId).innerHTML);
 
     this.tns = tns({ container, ...config });
+  },
+  updateImage: function ({ detail: position }) {
+    this.tns.goTo(position);
   },
 };
 
@@ -104,7 +108,7 @@ let Variants = (function () {
         return;
       }
 
-      this.container.dispatchEvent(new CustomEvent({ detail: variant }));
+      this.container.dispatchEvent(new CustomEvent("updateImage", { detail: variantImage.position - 1 }));
     },
     _updatePrice: function (variant) {
       if (
