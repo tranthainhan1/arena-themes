@@ -17,7 +17,6 @@ export let CollectionThemes = {
     this.config = Object.assign(JSON.parse(document.getElementById("page_info").innerHTML), {
       URL: new URL(window.location.href),
     });
-    console.log("Page Info: ", this.config);
     this.handleSidebar();
     this.initFilter();
     this.initSortby();

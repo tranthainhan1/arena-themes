@@ -1,6 +1,5 @@
 // import serialize from "form-serialize";
 // import { removeItem } from "@shopify/theme-cart";
-import * as Currency from "@shopify/theme-currency";
 
 var AT = {
   debounce: (func, wait) => {
@@ -121,7 +120,7 @@ var AT = {
         fetch("/cart/add.js", {
           method: "post",
           headers: new Headers(),
-          body: {},
+          body: new URLSearchParams(AT.serialize(form)),
         })
           .then((res) => {
             fetch("/cart.js")
@@ -146,20 +145,6 @@ var AT = {
         }
       });
   },
-  onCartChange: function (cart, action) {
-    //cart icon
-    let cartIcon = document.getElementById("total_item_of_cart");
-    let cartTotal = document.getElementById("cart_total");
-    let cartContainer = document.getElementById("cart_container");
-
-    switch (action) {
-      case "remove":
-        !!cartContainer && cart.item_count === 0 && cartContainer.classList.add("empty");
-        cartTotal.innerHTML = Currency.formatMoney(cart.total_price, theme.currency.money);
-        break;
-    }
-    !!cartIcon && (cartIcon.innerHTML = cart.item_count);
-  },
   removeItemCart: function () {
     let removeButtons = document.getElementsByClassName("btn-remove");
 
@@ -167,10 +152,10 @@ var AT = {
       btn.addEventListener("click", function () {
         let cartItem = this.closest(".cart-item");
         let key = this.getAttribute("data-key");
-        // removeItem(key).then((res) => {
-        //   AT.onCartChange(res, "remove");
-        //   cartItem.remove();
-        // });
+
+        fetch("/cart/change.js", { method: "post", body: new URLSearchParams({ id: key, quantity: 0 }) })
+          .then((res) => res.json())
+          .then((cart) => (AT.dispatchEvent("cartChange", cart), cartItem.remove()));
       });
     });
   },
@@ -224,6 +209,62 @@ var AT = {
 
     return serialized.join("&");
   },
+  currency: (function () {
+    var moneyFormat = "${{amount}}";
+
+    function formatMoney(cents, format) {
+      if (typeof cents === "string") {
+        cents = cents.replace(".", "");
+      }
+      var value = "";
+      var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+      var formatString = format || moneyFormat;
+
+      function formatWithDelimiters(number, precision, thousands, decimal) {
+        thousands = thousands || ",";
+        decimal = decimal || ".";
+
+        if (isNaN(number) || number === null) {
+          return 0;
+        }
+
+        number = (number / 100.0).toFixed(precision);
+
+        var parts = number.split(".");
+        var dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + thousands);
+        var centsAmount = parts[1] ? decimal + parts[1] : "";
+
+        return dollarsAmount + centsAmount;
+      }
+
+      switch (formatString.match(placeholderRegex)[1]) {
+        case "amount":
+          value = formatWithDelimiters(cents, 2);
+          break;
+        case "amount_no_decimals":
+          value = formatWithDelimiters(cents, 0);
+          break;
+        case "amount_with_comma_separator":
+          value = formatWithDelimiters(cents, 2, ".", ",");
+          break;
+        case "amount_no_decimals_with_comma_separator":
+          value = formatWithDelimiters(cents, 0, ".", ",");
+          break;
+        case "amount_no_decimals_with_space_separator":
+          value = formatWithDelimiters(cents, 0, " ");
+          break;
+        case "amount_with_apostrophe_separator":
+          value = formatWithDelimiters(cents, 2, "'");
+          break;
+      }
+
+      return formatString.replace(placeholderRegex, value);
+    }
+
+    return {
+      formatMoney: formatMoney,
+    };
+  })(),
 };
 
 export default AT;

@@ -220,8 +220,8 @@
   {%- when 'sub-task' -%}
     {% liquid 
       assign title = product.title
-      if product.description contains '<short-desc>'
-        assign shortDesc = product.description | split: '<short-desc>' | last | split: '</short-desc>' | first | append: '...'
+      if product.description contains '<!--short-desc-->'
+        assign shortDesc = product.description | split: '<!--short-desc-->' | last | split: '<!--/short-desc-->' | first 
       endif
       assign price      = product.price | money | replace: '.00', ''
       assign url        = product.url | within : collection

@@ -86,6 +86,8 @@
           Loader.require("product-task", "scripts");
         {%- when "collection.sub-task" -%}
           Loader.require("collection-subtask", "scripts");
+        {%- when 'cart' -%}
+          Loader.require("cart","scripts");
         {%- else -%}
           Loader.require('other', 'scripts');
       {%- endcase %}

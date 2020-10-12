@@ -5,3 +5,4 @@ export * from "./collection-themes";
 export * from "./collection-apps";
 export * from "./product";
 export * from "./collections-subtask";
+export * from "./cart";

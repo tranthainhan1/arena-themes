@@ -9,11 +9,9 @@ export let Product = {
       swatchImages: container.getElementsByClassName("js-tns-images")[0],
       priceSale: document.getElementById("price_sale"),
       priceCompare: document.getElementById("price_compare"),
-      // addToCart: ,
     };
 
     this.initVariants();
-    // this.initAddToCart();
     this.container.addEventListener("variantChange", this.updateProduct.bind(this));
     this.container.addEventListener("updateImage", this.updateImage.bind(this));
     !!this.elms.swatchImages && this.initSwatchImages(this.elms.swatchImages);

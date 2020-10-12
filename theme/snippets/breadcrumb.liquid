@@ -15,7 +15,13 @@
 {%- endif -%}
 <div class="wrapper_breadcrumb">
   <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
-    <a href="{{collection.url}}" class="title">{{title}}</a>
+    {%- if type == 'task' -%}
+      {%- assign handle = shop.metafields.c_f.root_collection_task -%}
+      {%- assign root_collection  = collections[handle] -%}
+      <a href="{{root_collection.url}}" class="title">{{title}}</a>
+    {%- else -%}
+      <a href="{{collection.url}}" class="title">{{title}}</a>
+    {%- endif -%}
 
     {% if template contains 'collection' %}
       {%- if collection.metafields.c_f.collection_parent != blank -%}

@@ -1,4 +1,4 @@
-<div class="cart-template {% if cart.item_count == 0 %}empty{%- endif -%}" id="cart_container">
+<div class="cart-template {% if cart.item_count == 0 %}empty{%- endif -%}" id="cart_container" data-section-id="cart-template" data-section-type="cart-template">
   <div class="container">
     <div class="cart-template__wrapper">
       {%- render 'cart-template-empty' section: section -%}
