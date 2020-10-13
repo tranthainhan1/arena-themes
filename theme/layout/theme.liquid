@@ -18,6 +18,7 @@
     {%- endif -%}
     {% render 'fb-open-graph'  %}
     <title>{%- include 'page-title' -%}</title>
+
     <link rel="preconnect dns-prefetch" href="https://cdn.shopify.com">
     <link rel="preconnect dns-prefetch" href="https://v.shopify.com">
     <link rel="preconnect dns-prefetch" href="https://cdn.shopifycloud.com">
@@ -29,8 +30,8 @@
 	  {% include 'css_variables' %} 
 
     {{ 'main_style.css' | asset_url | stylesheet_tag }}
-    {% comment %} {{ 'header-footer.css' | asset_url | stylesheet_tag }} {% endcomment %}
-    {% comment %} {%- if template contains 'index'-%}
+    {{ 'header-footer.css' | asset_url | stylesheet_tag }} 
+    {%- if template contains 'index'-%}
       {{ 'section-home.css' | asset_url | stylesheet_tag }}
     {%- elsif template contains 'product'-%}
       {{ 'product-page.css' | asset_url | stylesheet_tag }}
@@ -38,7 +39,7 @@
       {{ 'categories-page.css' | asset_url | stylesheet_tag }}
     {%- else -%}
       {{ 'other-page.css' | asset_url | stylesheet_tag }}
-    {%- endif -%}      {% endcomment %}
+    {%- endif -%}      
     
     
   </head>
