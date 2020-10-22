@@ -15,6 +15,7 @@ export let Header = {
 
     this.handleMenuMobile();
     this.toggleSearch();
+    this.initSticky();
     AT.registerEvents("cartChange", this.elms.totalItemCart);
 
     this.elms.totalItemCart.addEventListener("cartChange", function ({ detail: cart }) {
@@ -63,6 +64,15 @@ export let Header = {
       } else {
         mobileSearch.classList.add("show");
       }
+    });
+  },
+  initSticky: function () {
+    let container = this.container;
+
+    window.pageYOffset > 0 && container.classList.add("is-sticking");
+
+    window.addEventListener("scroll", function () {
+      window.pageYOffset > 0 ? container.classList.add("is-sticking") : container.classList.remove("is-sticking");
     });
   },
 };
