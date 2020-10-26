@@ -27,17 +27,7 @@
               assign icon_html = product.metafields.c_f.svg
               assign block_url = product.url | within: collection
             %}
-            <div class="icons-cart__item">
-              <a href="{{block_url}}">
-                <div class="wrapper">
-                  <div class="icon_box">
-                    {{icon_html}}
-                  </div>
-                  <div class="title">
-                    <span class="content">{{title}}</span> 
-                  </div>
-                </div>
-              </a>
+            <div class="icons-cart__item lazyload" data-include="{{routes.root_url}}{{product.url}}?view=card_icon">
             </div>
           {%- endfor -%}
         </div>

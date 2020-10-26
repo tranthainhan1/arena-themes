@@ -26,8 +26,8 @@
       <div class="featured-collection__content">
         <div class="js-tns" data-config='tns_config_{{section.id}}'>
           {%- for product in collection.products -%}
-              <div class="featured-collection__item">
-                {%- render 'card-template', type: 'product', product: product, collection: collection -%}
+              <div class="featured-collection__item lazyload" data-include="{{product.url}}?view=card">
+                {% comment %} {%- render 'card-template', type: 'product', product: product, collection: collection -%} {% endcomment %}
               </div>
           {%- endfor -%}
         </div>

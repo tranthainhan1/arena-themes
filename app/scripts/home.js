@@ -18,4 +18,8 @@ lazySizesConfig.loadMode = 1;
   AT.initTNS();
   AT.initHandleCollapse();
   AT.initBackToTop();
+  document.addEventListener('lazyincluded', function(e){
+    // e.target has new content
+    console.log(e.target)
+  });
 })();

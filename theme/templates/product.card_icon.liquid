@@ -1,0 +1,19 @@
+{%layout none%}
+
+{% liquid 
+  assign title     = product.title
+  assign icon_html = product.metafields.c_f.svg
+  assign collection  = product.collections | first 
+  assign block_url = product.url | within: collection
+%}
+
+<a href="{{block_url}}">
+  <div class="wrapper">
+    <div class="icon_box">
+      {{icon_html}}
+    </div>
+    <div class="title">
+      <span class="content">{{title}}</span> 
+    </div>
+  </div>
+</a>

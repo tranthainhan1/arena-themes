@@ -53,14 +53,16 @@
   {%- endif -%}
 
   <body class="{{themeClass}} {{subThemeClass}}" test="{{template}}">
-    
+    <div class="lazyload" data-include="{{routes.root_url}}?section_id=mobile-bar (max-width: 992px), {{routes.root_url}}?section_id=none"></div>
     <div class="boxed-wapper">
       {%- section "header" -%}
       <main id="main-content">
-          {{ content_for_layout }}
+        {{ content_for_layout }}
       </main>
-      {% section "footer" %}
-      {% section "mobile-bar" %}
+      {% comment %} {% section "footer" %} {% endcomment %}
+      <div class="lazyload" data-include="{{routes.root_url}}?section_id=footer"></div>
+      <div class="lazyload" data-include="{{routes.root_url}}?section_id=1597290781483"></div>
+      
       {% render "back-to-top"  %}
     </div>
     {% render "mustache-template"  %}
