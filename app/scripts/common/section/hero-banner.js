@@ -3,6 +3,8 @@ export let HeroBanner = {
     let $container = this.container;
     let dataSetting = $container.getAttribute("data-setting");
 
+    console.log(123)
+
     if (dataSetting) {
       let collapseWrapper = document.createElement("li");
       let btnTrigger = $container.getElementsByClassName("js-btn-collapse")[0];

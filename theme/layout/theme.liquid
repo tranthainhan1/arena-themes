@@ -40,8 +40,21 @@
     {%- else -%}
       {{ 'other-page.css' | asset_url | stylesheet_tag }}
     {%- endif -%}      
-    
-    
+    <style>
+      .mobile-bar-lazy{
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: block;
+        z-index: 6;
+      }
+      @media screen and (min-width: 992px){
+        .mobile-bar-lazy{
+          display: none;
+        }
+      }
+    </style>
   </head>
 
   {%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | first -}}{%- endcapture -%}
@@ -53,14 +66,29 @@
   {%- endif -%}
 
   <body class="{{themeClass}} {{subThemeClass}}" test="{{template}}">
-    <div class="lazyload" data-include="{{routes.root_url}}?section_id=mobile-bar (max-width: 992px), {{routes.root_url}}?section_id=none"></div>
+    {%- liquid
+      capture checkAdmin
+        style
+          echo settings.main_color
+        endstyle
+      endcapture
+      assign isAdmin = false
+      if checkAdmin contains 'setting'
+        assign isAdmin = true
+      endif
+    -%}
+    <div class="mobile-bar-lazy mobile-bar-lazy-1 lazyload" data-include="{{routes.root_url}}?section_id=mobile-bar"></div>
     <div class="boxed-wapper">
       {%- section "header" -%}
       <main id="main-content">
         {{ content_for_layout }}
       </main>
-      {% comment %} {% section "footer" %} {% endcomment %}
-      <div class="lazyload" data-include="{{routes.root_url}}?section_id=footer"></div>
+
+      {%- if isAdmin -%}  
+        {% section 'footer' %}
+      {%- else -%}
+        <div class="lazyload" data-include="{{routes.root_url}}?section_id=footer" data-type="footer"></div>
+      {%- endif -%}
       
       {% render "back-to-top"  %}
     </div>

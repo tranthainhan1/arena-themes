@@ -1,1 +1,17 @@
 {{ content_for_index }} 
+{% liquid 
+  capture checkAdmin
+    style 
+      echo settings.main_color
+    endstyle
+  endcapture
+%}
+
+{%- if checkAdmin contains 'setting' -%}
+  {% section 'hero-banner' %}
+  {% section 'logo-list' %}
+{%- else -%}
+  <div class="lazyload" data-include="{{routes.root_url}}?section_id=hero-banner" data-type="hero-banner"></div>
+  <div class="lazyload" data-include="{{routes.root_url}}?section_id=logo-list" data-type="logo-list"></div>
+{%- endif -%}
+

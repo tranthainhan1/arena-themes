@@ -5,21 +5,39 @@ import { HeroBanner, Footer, Header } from "./common/section";
 import Search from "./common/search";
 
 window.lazySizesConfig = window.lazySizesConfig || {};
-lazySizesConfig.loadMode = 1;
+window.lazySizesConfig.loadMode = 1;
+window.lazySizesConfig.loadHidden = false;
 
 (function () {
   register("header", Header);
-  register("footer", Footer);
-  register("hero-banner", HeroBanner);
 
-  load("*");
+  load("header");
 
   Search.init();
   AT.initTNS();
   AT.initHandleCollapse();
   AT.initBackToTop();
-  document.addEventListener('lazyincluded', function(e){
-    // e.target has new content
-    console.log(e.target)
-  });
 })();
+document.addEventListener("lazyincluded", function (e) {
+  let sectionType = e.target.getAttribute("data-type");
+  if (sectionType != null) {
+    switch (sectionType) {
+      case "hero-banner":
+        register("hero-banner", HeroBanner);
+        load("hero-banner");
+        AT.initHandleCollapse();
+        break;
+      case "logo-list":
+        register("logo-list", { onLoad: function () {} });
+        load("logo-list");
+        AT.initTNS();
+        break;
+      case "footer":
+        register("footer", Footer);
+        load("footer");
+        AT.initHandleCollapse();
+      default:
+        break;
+    }
+  }
+});
