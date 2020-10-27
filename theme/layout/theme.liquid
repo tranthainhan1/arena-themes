@@ -40,9 +40,22 @@
     {%- else -%}
       {{ 'other-page.css' | asset_url | stylesheet_tag }}
     {%- endif -%}      
-    
-        {{ content_for_header }}
-
+    {{ content_for_header }} 
+  <style>
+    .mobile-bar-lazy{
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 6;
+    }
+    @media screen and (min-width: 992px){
+      .mobile-bar-lazy{
+        display: none;
+      }
+    }
+  </style>
   </head>
 
   {%- capture themeClass -%}template-{{ template | replace: '.', ' ' | replace: '/', ' ' | split: ' ' | first -}}{%- endcapture -%}
@@ -54,7 +67,7 @@
   {%- endif -%}
 
   <body class="{{themeClass}} {{subThemeClass}}" test="{{template}}">
-    <div class="lazyload" data-include="{{routes.root_url}}?section_id=mobile-bar (max-width: 992px), {{routes.root_url}}?section_id=none"></div>
+    <div class="mobile-bar-lazy lazyload" data-include="{{routes.root_url}}?section_id=mobile-bar"></div>
     <div class="boxed-wapper">
       {%- section "header" -%}
       <main id="main-content">
