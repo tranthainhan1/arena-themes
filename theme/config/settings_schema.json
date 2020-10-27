@@ -8,6 +8,23 @@
     "theme_support_url": "https:\/\/support.arenathemes.com\/"
   },
   {
+    "name": "Auth0 Config",
+    "settings": [
+      {
+        "type": "text",
+        "id": "auth0_login_url",
+        "label": "Auth0 Login Url",
+        "info": "The full Auth0 URL to redirect the customer to for login."
+      },
+      {
+        "type": "text",
+        "id": "auth0_logout_url",
+        "label": "Auth0 Logout Url",
+        "info": "The full Auth0 URL to redirect the customer to for logout."
+      }
+    ]
+  },
+  {
     "name": "Typography",
     "settings": [
       {

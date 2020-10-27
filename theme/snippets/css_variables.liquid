@@ -1,43 +1,126 @@
-{%- liquid
-  assign font_body_base_size = settings.body_font_size | times: 0.625
--%}
+<style> 
+  {%- liquid
+    assign font_body_base_size = settings.body_font_size
 
-<style>
-    :root {
+    assign header_font_type 	= settings.header_shopify_font
+    assign body_font_type 		= settings.body_shopify_font
+
+    assign header_font_thin = header_font_type | font_modify: 'weight', '100'
+    assign header_font_extra_light = header_font_type | font_modify: 'weight', '200'
+    assign header_font_light = header_font_type | font_modify: 'weight', '300'
+    assign header_font_regular = header_font_type | font_modify: 'weight', '400'
+    assign header_font_medium = header_font_type | font_modify: 'weight', '500'
+    assign header_font_semi_bold = header_font_type | font_modify: 'weight', '600'
+    assign header_font_bold = header_font_type | font_modify: 'weight', '700'
+
+    assign body_font_thin = body_font_type | font_modify: 'weight', '100'
+    assign body_font_extra_light = body_font_type | font_modify: 'weight', '200'
+    assign body_font_light = body_font_type | font_modify: 'weight', '300'
+    assign body_font_regular = body_font_type | font_modify: 'weight', '400'
+    assign body_font_medium = body_font_type | font_modify: 'weight', '500'
+    assign body_font_semi_bold = body_font_type | font_modify: 'weight', '600'
+    assign body_font_bold = body_font_type | font_modify: 'weight', '700'
+
+  -%}
+  {% if settings.header_font_type == "shopify" %}
+    {{ header_font_thin | font_face: font_display: 'swap' }}
+    {{ header_font_extra_light | font_face: font_display: 'swap' }}
+    {{ header_font_light | font_face: font_display: 'swap' }}
+    {{ header_font_regular | font_face: font_display: 'swap' }}
+    {{ header_font_medium | font_face: font_display: 'swap' }}
+    {{ header_font_semi_bold | font_face: font_display: 'swap' }}
+    {{ header_font_bold | font_face: font_display: 'swap' }}
+
+    {{ body_font_thin | font_face: font_display: 'swap' }}
+    {{ body_font_extra_light | font_face: font_display: 'swap' }}
+    {{ body_font_light | font_face: font_display: 'swap' }}
+    {{ body_font_regular | font_face: font_display: 'swap' }}
+    {{ body_font_medium | font_face: font_display: 'swap' }}
+    {{ body_font_semi_bold | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+  {% endif %}
+
+  :root {    
+    --font-heading: 'Inter', sans-serif;
+    --heading-size-h1: {{ settings.heading_size_1 }};
+    --heading-size-h2: {{ settings.heading_size_2 }};
+    --heading-size-h3: {{ settings.heading_size_3 }};
+    --heading-size-h4: {{ settings.heading_size_4 }};
+    --heading-size-h5: {{ settings.heading_size_5 }};
+    --heading-size-h6: {{ settings.heading_size_6 }};
+    --heading-1-weight: {{ settings.heading_weight_1 }};
+    --heading-2-weight: {{ settings.heading_weight_2 }};
+    --heading-3-weight: {{ settings.heading_weight_3 }};
+    --heading-4-weight: {{ settings.heading_weight_4 }};
+    --heading-5-weight: {{ settings.heading_weight_5 }};
+    --heading-6-weight: {{ settings.heading_weight_6 }};
+
+    --header-bg-desk: {{ settings.desk_bg_color }};
+    --header-text-color-desk: {{ settings.desk_text_color }};
+    --bg-cart-number: {{ settings.desk_bg_cart_number }};
+    --icon-number-color: {{ settings.desk_text_cart_number }};
+    --header-bg-mobile: {{ settings.mobi_bg_color }};
+    --header-text-color-mobile: {{ settings.mobi_text_color }};
+    
+    --body-font-family: 'Inter', sans-serif;
+    --body-font-size:  {{ font_body_base_size }};
+    --body-font-weight: {{ settings.body_font_weight }};
+    --main-color: {{ settings.main_color }};
+    --main-text-color: #ffffff;   
+    --main-color-rgba: {{ settings.main_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    --body-border-color: {{ settings.main_border_color }};
+    --body-bg-color: {{ settings.main_bg_color }};
+    --body-color: {{ settings.body_text_color }};
+    --body-link: {{ settings.body_link_color }};
+    --border-radius-default: {{ settings.border_radius }};
+
+    --section-heading-cl: {{ settings.sectionHeading_1_cl }};        
+    --section-heading-fw {{ settings.sectionHeading_1_fw }};        
+    --section-subheading-cl: {{ settings.sectionHeading_2_cl }};        
+    --section-subheading-fw: {{ settings.sectionHeading_2_fw }};   
+
+    --btn1-fw: {{ settings.btn1_fw }};
+    --btn1-cl: {{ settings.btn1_cl }};
+    --btn1-bg-cl: {{ settings.btn1_bg_cl }};
+    --btn1-hover-cl: {{ settings.btn1_hover_cl }};
+    --btn1-hover-bg-cl: {{ settings.btn1_hover_bg_cl }};
+    --btn1-border-width: {{ settings.btn1_border_width }};
+    --btn1-border-cl: {{ settings.btn1_border_cl }};
+    --btn1-hover-border-cl: {{ settings.btn1_hover_border_cl }};
+
+    --btn2-fw: {{ settings.btn2_fw }};
+    --btn2-cl: {{ settings.btn2_cl }};
+    --btn2-bg-cl: {{ settings.btn2_bg_cl }};
+    --btn2-hover-cl: {{ settings.btn2_hover_cl }};
+    --btn2-hover-bg-cl: {{ settings.btn2_hover_bg_cl }};
+    --btn2-border-width: {{ settings.btn2_border_width }};
+    --btn2-border-cl: {{ settings.btn2_border_cl }};
+    --btn2-hover-border-cl: {{ settings.btn2_hover_border_cl }};
+
+    --btn3-fw: {{ settings.btn3_fw }};
+    --btn3-cl: {{ settings.btn3_cl }};
+    --btn3-bg-cl: {{ settings.btn3_bg_cl }};
+    --btn3-hover-cl: {{ settings.btn3_hover_cl }};
+    --btn3-hover-bg-cl: {{ settings.btn3_hover_bg_cl }};
+    --btn3-border-width: {{ settings.btn3_border_width }};
+    --btn3-border-cl: {{ settings.btn3_border_cl }};
+    --btn3-hover-border-cl: {{ settings.btn3_hover_border_cl }};
+
+    --price-color: {{ settings.price_color }};
+    --rating-star-color: {{ settings.rating_star_color }};
+    --rating-star-empty-color: {{ settings.rating_star_empty_color }};
+
+    --footer-bg: {{ settings.footer_background_color }};
+    --footer-text-cl: {{ settings.footer_text_color }};
  
-        --font-heading: 'Jost', sans-serif;
-        --heading-size-h1: {{ settings.heading_size_1  }};
-        --heading-size-h2: {{ settings.heading_size_2  }};
-        --heading-size-h3: {{ settings.heading_size_3  }};
-        --heading-size-h4: {{ settings.heading_size_4  }};
-        --heading-size-h5: {{ settings.heading_size_5  }};
-        --heading-size-h6: {{ settings.heading_size_6  }};
-        --heading-1-weight: {{ settings.heading_weight_1 }};
-        --heading-2-weight: {{ settings.heading_weight_2 }};
-        --heading-3-weight: {{ settings.heading_weight_3 }};
-        --heading-4-weight: {{ settings.heading_weight_4 }};
-        --heading-5-weight: {{ settings.heading_weight_5 }};
-        --heading-6-weight: {{ settings.heading_weight_6 }};
+    --bg-white: #ffffff;
+    --gutter-xlg: 40px;
+    --gutter-lg: 30px;
+    --gutter-md: 25px;
+    --gutter-sm: 20px;
+    --gutter-xs: 15px;
+    --gutter-xxs: 10px;
 
-        --topbar-bg-color: {{ settings.announbar_bg_color }};
-        --topbar-color: {{ settings.announbar_text_color }};
-
-        --header-bg-desk: {{ settings.desk_bg_color }};
-        --header-text-color-desk: {{ settings.desk_text_color }};
-        --header-icons-color-desk: {{ settings.desk_icon_color }};
-        --header-bg-cart-number-desk: {{ settings.desk_bg_cart_number }};
-        --header-text-cart-number-desk: {{ settings.desk_text_cart_number }};
-
-        --header-bg-mobile: {{ settings.mobi_bg_color }};
-        --header-text-color-mobile: {{ settings.mobi_text_color }};
-        --header-icons-color-mobile: {{ settings.mobi_icon_color }};
-        --header-bg-cart-number-mobile: {{ settings.mobi_bg_cart_number }};
-        --header-text-cart-number-mobile: {{ settings.mobi_text_cart_number }};
-  
-        --body-font-family: 'Open Sans', sans-serif;
-        --body-font-size:  {{ font_body_base_size | times: 6.25 }}%;
-        --body-font-weight: {{ settings.body_font_weight }};
-        --main-color: {{ settings.main_color }};
-    }
+  }
 
 </style>

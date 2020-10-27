@@ -2,9 +2,6 @@
   {%- when 'product' -%}
     {% liquid 
       assign image = product.featured_image
-      if collection == blank 
-        collection = product.collections | first
-      endif
     %}
     <div class="card card-product">
       <div class="card-img-top">
