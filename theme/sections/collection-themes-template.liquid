@@ -233,8 +233,8 @@
             <div class="wrapper">
               <div class="row" id="product_grid">
                 {%- for product in collection.products -%}
-                  <div class="col-6 col-md-4 col-lg-6 col-xl-4"> 
-                    {% render 'card-template' type: 'product', product: product  %}
+                  <div class="col-6 col-md-4 col-lg-6 col-xl-4 lazyload" data-include="{{routes.root_url}}{{product.url | replace_first: '/'}}?view=card_product"> 
+                    {% comment %} {% render 'card-template' type: 'product', product: product  %} {% endcomment %}
                   </div>
                 {%- endfor -%}
               </div>
