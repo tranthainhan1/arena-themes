@@ -67,14 +67,26 @@
   {%- endif -%}
 
   <body class="{{themeClass}} {{subThemeClass}}" test="{{template}}">
+    {%- liquid 
+      capture checkAdmin
+        style 
+          echo settings.main_color
+        endstyle
+      endcapture
+    -%}
+
     <div class="mobile-bar-lazy lazyload" data-include="{{routes.root_url}}?section_id=mobile-bar"></div>
     <div class="boxed-wapper">
       {%- section "header" -%}
       <main id="main-content">
         {{ content_for_layout }}
       </main>
-      {% comment %} {% section "footer" %} {% endcomment %}
-      <div class="lazyload" data-include="{{routes.root_url}}?section_id=footer"></div>
+
+      {%- if checkAdmin contains 'setting' -%}
+        {%- section 'footer' -%}
+      {%- else -%}
+        <div class="lazyload" data-include="{{routes.root_url}}?section_id=footer"></div>
+      {%- endif -%}
       
       {% render "back-to-top"  %}
     </div>

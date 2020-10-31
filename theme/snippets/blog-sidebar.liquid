@@ -14,6 +14,9 @@
         </div>
       {% comment %} end {% endcomment %}
       {%- when 'categories' -%}
+        {%- liquid 
+          assign blog_list =  block.settings.blog_list | split: ','
+        -%}
         <div class="sb-widget">
           <div class="sb-wrapper">
             <div class="sb-categories">
@@ -21,46 +24,23 @@
                 <span>{{block.settings.title}}</span>
               </div>
               <div class="sb-categories__list">
-                <div class="sb-categories__item">
-                  <div class="label">
-                    <span>Announcements</span>
-                  </div>
-                  <div class="number">
-                    <span>(21)</span>
-                  </div>
-                </div>
-                <div class="sb-categories__item">
-                  <div class="label">
-                    <span>Product Updates</span>
-                  </div>
-                  <div class="number">
-                    <span>(16)</span>
-                  </div>
-                </div>
-                <div class="sb-categories__item">
-                  <div class="label">
-                    <span>Grow your Shopify Store</span>
-                  </div>
-                  <div class="number">
-                    <span>(09)</span>
-                  </div>
-                </div>
-                <div class="sb-categories__item">
-                  <div class="label">
-                    <span>App Guides</span>
-                  </div>
-                  <div class="number">
-                    <span>(46)</span>
-                  </div>
-                </div>
-                <div class="sb-categories__item">
-                  <div class="label">
-                    <span>Shopify Plus</span>
-                  </div>
-                  <div class="number">
-                    <span>(22)</span>
-                  </div>
-                </div>
+                {%- for blog_hanlde in blog_list -%}
+                  {%- liquid 
+                    assign blog_handle_new =  blog_hanlde | strip | strip_newlines
+                    assign blog_selected =  blogs[blog_handle_new]
+                  -%}
+                  {%- if blog_selected != blank -%}
+                    <div class="sb-categories__item">
+                      <div class="label">
+                        <a href="{{blog_selected.url}}">{{blog_selected.title}}</a>
+                      </div>
+                      <div class="number">
+                        <span>({{blog_selected.articles_count}})</span>
+                      </div>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+                
               </div>
             </div>
           </div>
